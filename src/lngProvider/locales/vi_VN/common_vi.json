@@ -1,0 +1,11 @@
+{
+  "common.createSuccess": "Tạo mới thành công",
+  "common.updateSuccess": "Cập nhật thành công",
+  "common.deleteeSuccess": "Xóa thành công",
+  "common.deleteConfirm": "Bạn có chắc chắn muốn xóa ?",
+  "common.yes": "Có",
+  "common.no": "Không",
+  "common.required": "Bắt buộc nhập",
+  "common.setting.darkMode": "Dark Mode",
+  "common.setting.lightMode": "Light Mode"
+}

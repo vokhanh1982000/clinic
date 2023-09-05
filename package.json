@@ -1,0 +1,67 @@
+{
+  "name": "base-react-antd",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "format": "npx prettier --write .",
+    "generate:apis": "dotenv -- cross-var openapi-generator-cli generate -i %REACT_APP_API_URL%/api-json --skip-validate-spec -g typescript-axios -o src/apis/client-axios",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "@tanstack/react-query": "^4.29.12",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.35",
+    "@types/react": "^18.2.9",
+    "@types/react-dom": "^18.2.4",
+    "antd": "^5.6.1",
+    "axios": "^1.4.0",
+    "bootstrap": "^5.3.0",
+    "cross-var": "^1.1.0",
+    "dotenv-cli": "^7.2.1",
+    "lodash": "^4.17.21",
+    "node-sass": "^9.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-intl": "^6.4.3",
+    "react-redux": "^8.0.7",
+    "react-router-dom": "^6.12.1",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.6.0",
+    "@types/lodash": "^4.14.195",
+    "husky": "^8.0.3",
+    "prettier": "2.8.0",
+    "pretty-quick": "^3.1.3",
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0"
+  }
+}

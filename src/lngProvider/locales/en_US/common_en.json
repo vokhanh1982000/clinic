@@ -1,0 +1,11 @@
+{
+  "common.createSuccess": "Create new successfully",
+  "common.updateSuccess": "Update successfully",
+  "common.deleteeSuccess": "Delete successfully",
+  "common.deleteConfirm": "Are you sure to delete this?",
+  "common.yes": "Yes",
+  "common.no": "No",
+  "common.required": "Required",
+  "common.setting.darkMode": "Dark Mode",
+  "common.setting.lightMode": "Light Mode"
+}
