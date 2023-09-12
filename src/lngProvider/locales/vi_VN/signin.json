@@ -1,6 +1,7 @@
 {
-  "sigin.email": "Email",
+  "sigin.email": "Số điện thoại",
   "sigin.password": "Mật khẩu",
   "sigin.submit": "Đăng nhập",
-  "sigin.emailOrPasswordWrong": "Email hoặc mật khẩu không đúng"
+  "sigin.emailOrPasswordWrong": "Email hoặc mật khẩu không đúng",
+  "sigin.forgot": "Quên mật khẩu ?"
 }

@@ -1,6 +1,7 @@
 {
-  "sigin.email": "Email",
+  "sigin.email": "Phone",
   "sigin.password": "Password",
   "sigin.submit": "Sign In",
-  "sigin.emailOrPasswordWrong": "Email or password is wrong"
+  "sigin.emailOrPasswordWrong": "Phone number or password is wrong",
+  "sigin.forgot": "Forgot your password ?"
 }

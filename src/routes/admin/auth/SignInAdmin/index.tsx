@@ -41,39 +41,47 @@ const SignInAdmin = () => {
 
   return (
     <div className="vh-100 row justify-content-center align-items-center">
-      <Form
-        name="basic"
-        layout="vertical"
-        style={{ maxWidth: 400 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-        requiredMark={false}
-      >
-        <Form.Item
-          label={intl.formatMessage({ id: 'sigin.email' })}
-          name={n('username')}
-          className="mb-3"
-          rules={[{ required: true }]}
+      <div id="login-form" className="row justify-content-center align-items-center">
+        <div className="logo">
+          <img src="/assets/images/logo.png" />
+        </div>
+        <Form
+          name="basic"
+          layout="vertical"
+          style={{ maxWidth: 374 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          requiredMark={false}
         >
-          <Input />
-        </Form.Item>
+          <Form.Item
+            label={intl.formatMessage({ id: 'sigin.email' })}
+            name={n('username')}
+            className="mb-3"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item
-          label={intl.formatMessage({ id: 'sigin.password' })}
-          name={n('password')}
-          rules={[{ required: true }]}
-        >
-          <Input.Password />
-        </Form.Item>
+          <Form.Item
+            className="form-item-password"
+            label={intl.formatMessage({ id: 'sigin.password' })}
+            name={n('password')}
+            rules={[{ required: true }]}
+          >
+            <Input.Password />
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="w-100" loading={loginMutation.isLoading}>
-            {intl.formatMessage({ id: 'sigin.submit' })}
-          </Button>
-        </Form.Item>
-      </Form>
+          <div className="d-flex justify-content-end txt-forgot">{intl.formatMessage({ id: 'sigin.forgot' })}</div>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" shape="round" className="w-100" loading={loginMutation.isLoading}>
+              {intl.formatMessage({ id: 'sigin.submit' })}
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };

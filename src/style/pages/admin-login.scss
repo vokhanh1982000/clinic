@@ -1,0 +1,47 @@
+#login-form {
+  box-shadow: 2px 4px 40px 0px rgba(0, 0, 0, 0.1);
+  width: 678px;
+  height: 640px;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+
+  button {
+    height: 48px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 32px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .logo {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ant-input-password,
+  #basic_username {
+    height: 48px;
+    border-radius: 32px;
+  }
+
+  .form-item-password {
+    margin-bottom: 12px !important;
+  }
+
+  .txt-forgot {
+    font-size: 16px;
+    color: #702a14;
+    font-weight: 400;
+  }
+}
