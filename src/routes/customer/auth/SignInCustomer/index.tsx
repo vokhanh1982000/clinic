@@ -26,6 +26,7 @@ const SignInCustomer = () => {
   });
 
   const onFinish = (values: any) => {
+    console.log('value: ', values);
     loginMutation.mutate({
       ...values,
     });
