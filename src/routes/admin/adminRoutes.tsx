@@ -12,7 +12,7 @@ const SignInAdmin = React.lazy(() => import('./auth/SignInAdmin'));
 export const AdminRoutes = () => (
   <Routes>
     <Route path={ADMIN_ROUTE_NAME.SIGNIN} element={<SignInAdmin />} />
-    <Route path="" element={<Admin />}>
+    <Route path={ADMIN_ROUTE_NAME.DASHBOARD} element={<Admin />}>
       <Route path="customers" element={<ListCustomer />} />
       <Route path="roles">
         <Route path="" element={<SuspenseWrapper component={<ListRole />} />} />
