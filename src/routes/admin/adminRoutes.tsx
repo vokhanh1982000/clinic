@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
+import { ADMIN_ROUTE_NAME } from '../../constants/route';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));
@@ -10,7 +11,7 @@ const SignInAdmin = React.lazy(() => import('./auth/SignInAdmin'));
 
 export const AdminRoutes = () => (
   <Routes>
-    <Route path="signin" element={<SignInAdmin />} />
+    <Route path={ADMIN_ROUTE_NAME.SIGNIN} element={<SignInAdmin />} />
     <Route path="" element={<Admin />}>
       <Route path="customers" element={<ListCustomer />} />
       <Route path="roles">

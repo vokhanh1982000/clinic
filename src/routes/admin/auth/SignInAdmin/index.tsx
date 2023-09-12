@@ -39,6 +39,10 @@ const SignInAdmin = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const navigateToForgotPassword = () => {
+    navigate('/admin/customers');
+  };
+
   return (
     <div className="vh-100 row justify-content-center align-items-center">
       <div id="login-form" className=" justify-content-center align-items-center">
@@ -76,7 +80,9 @@ const SignInAdmin = () => {
             <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />
           </Form.Item>
 
-          <div className="d-flex justify-content-end txt-forgot">{intl.formatMessage({ id: 'sigin.forgot' })}</div>
+          <div className="d-flex justify-content-end txt-forgot" onClick={navigateToForgotPassword}>
+            {intl.formatMessage({ id: 'sigin.forgot' })}
+          </div>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" shape="round" className="w-100" loading={loginMutation.isLoading}>
