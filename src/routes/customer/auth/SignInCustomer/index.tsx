@@ -48,7 +48,7 @@ const SignInCustomer = () => {
         requiredMark={false}
       >
         <Form.Item
-          label={intl.formatMessage({ id: 'sigin.email' })}
+          label={intl.formatMessage({ id: 'sigin.username' })}
           name="username"
           className="mb-3"
           rules={[{ required: true }]}

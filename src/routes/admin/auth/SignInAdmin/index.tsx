@@ -41,14 +41,17 @@ const SignInAdmin = () => {
 
   return (
     <div className="vh-100 row justify-content-center align-items-center">
-      <div id="login-form" className="row justify-content-center align-items-center">
+      <div id="login-form" className=" justify-content-center align-items-center">
         <div className="logo">
           <img src="/assets/images/logo.png" />
+        </div>
+        <div className="d-flex title">
+          <div>{intl.formatMessage({ id: 'sigin.title' })}</div>
         </div>
         <Form
           name="basic"
           layout="vertical"
-          style={{ maxWidth: 374 }}
+          style={{ maxWidth: 350 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -56,21 +59,21 @@ const SignInAdmin = () => {
           requiredMark={false}
         >
           <Form.Item
-            label={intl.formatMessage({ id: 'sigin.email' })}
+            label={intl.formatMessage({ id: 'sigin.username' })}
             name={n('username')}
             className="mb-3"
-            rules={[{ required: true }]}
+            rules={[{ required: true, min: 10, max: 10 }]}
           >
-            <Input />
+            <Input placeholder={intl.formatMessage({ id: 'sigin.username.placeholder' })} />
           </Form.Item>
 
           <Form.Item
             className="form-item-password"
             label={intl.formatMessage({ id: 'sigin.password' })}
             name={n('password')}
-            rules={[{ required: true }]}
+            rules={[{ required: true, min: 8, max: 16 }]}
           >
-            <Input.Password />
+            <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />
           </Form.Item>
 
           <div className="d-flex justify-content-end txt-forgot">{intl.formatMessage({ id: 'sigin.forgot' })}</div>
