@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { login } from '../../../../store/authSlice';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const SignInAdmin = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +38,10 @@ const SignInAdmin = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const navigateToForgotPassword = () => {
+    navigate(ADMIN_ROUTE_PATH.FORGOT_PASSWORD);
   };
 
   return (
@@ -76,7 +81,9 @@ const SignInAdmin = () => {
             <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />
           </Form.Item>
 
-          <div className="d-flex justify-content-end txt-forgot">{intl.formatMessage({ id: 'sigin.forgot' })}</div>
+          <div className="d-flex justify-content-end txt-forgot" onClick={navigateToForgotPassword}>
+            {intl.formatMessage({ id: 'sigin.forgot' })}
+          </div>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" shape="round" className="w-100" loading={loginMutation.isLoading}>

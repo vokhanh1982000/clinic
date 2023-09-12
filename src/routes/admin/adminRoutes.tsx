@@ -1,9 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
-import ConfirmCode from './auth/ForgotPassAdmin/confirmCode';
-import ConfirmPassword from './auth/ForgotPassAdmin/confirmPassword';
-import ForgotSuccess from './auth/ForgotPassAdmin/forgotSuccess';
+import { ADMIN_ROUTE_NAME } from '../../constants/route';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));
@@ -14,12 +12,9 @@ const ForgotPassAdmin = React.lazy(() => import('./auth/ForgotPassAdmin'));
 
 export const AdminRoutes = () => (
   <Routes>
-    <Route path="signin" element={<SignInAdmin />} />
-    <Route path="forgot-password" element={<ForgotPassAdmin />} />
-    {/* <Route path="confirm-code" element={<ConfirmCode />} />
-    <Route path="confirm-password" element={<ConfirmPassword />} />
-    <Route path="forgot-success" element={<ForgotSuccess />} /> */}
-    <Route path="" element={<Admin />}>
+    <Route path={ADMIN_ROUTE_NAME.SIGNIN} element={<SignInAdmin />} />
+    <Route path={ADMIN_ROUTE_NAME.FORGOT_PASSWORD} element={<ForgotPassAdmin />} />
+    <Route path={ADMIN_ROUTE_NAME.DASHBOARD} element={<Admin />}>
       <Route path="customers" element={<ListCustomer />} />
       <Route path="roles">
         <Route path="" element={<SuspenseWrapper component={<ListRole />} />} />
