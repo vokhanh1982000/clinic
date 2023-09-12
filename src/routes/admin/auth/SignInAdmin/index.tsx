@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { login } from '../../../../store/authSlice';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const SignInAdmin = () => {
   const dispatch = useAppDispatch();
@@ -40,7 +41,7 @@ const SignInAdmin = () => {
   };
 
   const navigateToForgotPassword = () => {
-    navigate('/admin/customers');
+    navigate(ADMIN_ROUTE_PATH.FORGOT_PASSWORD);
   };
 
   return (
