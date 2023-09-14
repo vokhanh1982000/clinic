@@ -1,10 +1,17 @@
 import { Button, Form, Input, Result } from 'antd';
 import { useIntl } from 'react-intl';
-
+import { CheckCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 const ForgotSuccess = () => {
   const intl = useIntl();
+  const navigate = useNavigate();
 
-  const onFinish = () => {};
+  const onFinish = () => {
+    navigate(ADMIN_ROUTE_PATH.SIGNIN);
+  };
 
   const onFinishFailed = () => {};
 
@@ -16,6 +23,7 @@ const ForgotSuccess = () => {
           title={intl.formatMessage({ id: 'forgot.success.title' })}
           subTitle={intl.formatMessage({ id: 'forgot.success.messenger' })}
         />
+        <div></div>
         <Form
           name="basic"
           layout="vertical"

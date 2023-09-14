@@ -301,6 +301,7 @@ export const AssetTypeEnum = {
     Image: 'IMAGE',
     Video: 'VIDEO',
     Binary: 'BINARY',
+    Folder: 'FOLDER',
     Folder: 'FOLDER'
 } as const;
 
@@ -373,6 +374,25 @@ export interface AuthenticationMethod {
      * @memberof AuthenticationMethod
      */
     'deletedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateFolderDto
+ */
+export interface CreateFolderDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateFolderDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateFolderDto
+     */
+    'assetFolderId'?: string;
 }
 /**
  * 
@@ -1000,6 +1020,12 @@ export interface User {
     'type': string;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    'type': string;
+    /**
+     * 
      * @type {Array<AuthenticationMethod>}
      * @memberof User
      */
@@ -1200,12 +1226,126 @@ export const AssetsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {CreateFolderDto} createFolderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        assetControllerCreateFolder: async (createFolderDto: CreateFolderDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createFolderDto' is not null or undefined
+            assertParamExists('assetControllerCreateFolder', 'createFolderDto', createFolderDto)
+            const localVarPath = `/assets/create-folder`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createFolderDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        assetControllerDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('assetControllerDelete', 'id', id)
+            const localVarPath = `/assets/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} folderId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        assetControllerDiscover: async (folderId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'folderId' is not null or undefined
+            assertParamExists('assetControllerDiscover', 'folderId', folderId)
+            const localVarPath = `/assets/{folderId}/discover`
+                .replace(`{${"folderId"}}`, encodeURIComponent(String(folderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {File} file 
+         * @param {string} [assetFolderId] 
          * @param {string} [assetFolderId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        assetControllerUploadFile: async (file: File, assetFolderId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        assetControllerUploadFile: async (file: File, assetFolderId?: string, assetFolderId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'file' is not null or undefined
             assertParamExists('assetControllerUploadFile', 'file', file)
             const localVarPath = `/assets/upload`;
@@ -1228,6 +1368,10 @@ export const AssetsApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (file !== undefined) { 
                 localVarFormParams.append('file', file as any);
+            }
+    
+            if (assetFolderId !== undefined) { 
+                localVarFormParams.append('assetFolderId', assetFolderId as any);
             }
     
             if (assetFolderId !== undefined) { 
@@ -1289,13 +1433,44 @@ export const AssetsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {CreateFolderDto} createFolderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async assetControllerCreateFolder(createFolderDto: CreateFolderDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.assetControllerCreateFolder(createFolderDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async assetControllerDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.assetControllerDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} folderId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async assetControllerDiscover(folderId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Asset>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.assetControllerDiscover(folderId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {File} file 
+         * @param {string} [assetFolderId] 
          * @param {string} [assetFolderId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async assetControllerUploadFile(file: File, assetFolderId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.assetControllerUploadFile(file, assetFolderId, options);
+        async assetControllerUploadFile(file: File, assetFolderId?: string, assetFolderId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.assetControllerUploadFile(file, assetFolderId, assetFolderId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1337,13 +1512,41 @@ export const AssetsApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {CreateFolderDto} createFolderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        assetControllerCreateFolder(createFolderDto: CreateFolderDto, options?: any): AxiosPromise<object> {
+            return localVarFp.assetControllerCreateFolder(createFolderDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        assetControllerDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.assetControllerDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} folderId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        assetControllerDiscover(folderId: string, options?: any): AxiosPromise<Array<Asset>> {
+            return localVarFp.assetControllerDiscover(folderId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {File} file 
+         * @param {string} [assetFolderId] 
          * @param {string} [assetFolderId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        assetControllerUploadFile(file: File, assetFolderId?: string, options?: any): AxiosPromise<object> {
-            return localVarFp.assetControllerUploadFile(file, assetFolderId, options).then((request) => request(axios, basePath));
+        assetControllerUploadFile(file: File, assetFolderId?: string, assetFolderId?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.assetControllerUploadFile(file, assetFolderId, assetFolderId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1390,14 +1593,48 @@ export class AssetsApi extends BaseAPI {
 
     /**
      * 
+     * @param {CreateFolderDto} createFolderDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssetsApi
+     */
+    public assetControllerCreateFolder(createFolderDto: CreateFolderDto, options?: AxiosRequestConfig) {
+        return AssetsApiFp(this.configuration).assetControllerCreateFolder(createFolderDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssetsApi
+     */
+    public assetControllerDelete(id: string, options?: AxiosRequestConfig) {
+        return AssetsApiFp(this.configuration).assetControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} folderId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssetsApi
+     */
+    public assetControllerDiscover(folderId: string, options?: AxiosRequestConfig) {
+        return AssetsApiFp(this.configuration).assetControllerDiscover(folderId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {File} file 
+     * @param {string} [assetFolderId] 
      * @param {string} [assetFolderId] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AssetsApi
      */
-    public assetControllerUploadFile(file: File, assetFolderId?: string, options?: AxiosRequestConfig) {
-        return AssetsApiFp(this.configuration).assetControllerUploadFile(file, assetFolderId, options).then((request) => request(this.axios, this.basePath));
+    public assetControllerUploadFile(file: File, assetFolderId?: string, assetFolderId?: string, options?: AxiosRequestConfig) {
+        return AssetsApiFp(this.configuration).assetControllerUploadFile(file, assetFolderId, assetFolderId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2310,6 +2547,31 @@ export class AuthApi extends BaseAPI {
 
     /**
      * 
+     * @param {LoginDto} loginDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public authControllerAdminClinicLogin(loginDto: LoginDto, options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authControllerAdminClinicLogin(loginDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+<<<<<<< HEAD
+     * @summary Login
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public authControllerAdminClinicMe(options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authControllerAdminClinicMe(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+=======
+>>>>>>> 29badba453fa0f4919dd76e2d08003a5ba9e5549
      * @summary Login
      * @param {LoginDto} loginDto 
      * @param {*} [options] Override http request option.
@@ -2582,6 +2844,100 @@ export class CustomersApi extends BaseAPI {
      */
     public customerControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
         return CustomersApiFp(this.configuration).customerControllerGet(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * MailsApi - axios parameter creator
+ * @export
+ */
+export const MailsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        mailControllerTest: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/mails/test`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MailsApi - functional programming interface
+ * @export
+ */
+export const MailsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MailsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async mailControllerTest(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.mailControllerTest(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * MailsApi - factory interface
+ * @export
+ */
+export const MailsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MailsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        mailControllerTest(options?: any): AxiosPromise<void> {
+            return localVarFp.mailControllerTest(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * MailsApi - object-oriented interface
+ * @export
+ * @class MailsApi
+ * @extends {BaseAPI}
+ */
+export class MailsApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MailsApi
+     */
+    public mailControllerTest(options?: AxiosRequestConfig) {
+        return MailsApiFp(this.configuration).mailControllerTest(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
