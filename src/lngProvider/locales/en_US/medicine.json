@@ -1,0 +1,19 @@
+{
+  "medicine.modal.create.title": "Create New Medicine",
+  "medicine.modal.create.name": "Medicine",
+  "medicine.modal.create.quantity": "Quantity",
+  "medicine.modal.create.usage": "Usage",
+  "medicine.modal.create.feature": "Feature",
+  "medicine.modal.create.unit": "Unit",
+  "medicine.modal.create.status": "Status",
+  "medicine.modal.create.button.save": "Save",
+  "medicine.modal.create.button.delete": "Delete",
+  "medicine.modal.create.button.create": "Create",
+  "medicine.modal.create.button.cancel": "Cancel",
+  "medicine.order.modal.create.title": "Add Medicine",
+  "medicine.order.modal.create.name": "Medicine",
+  "medicine.order.modal.create.quantity": "Quantity",
+  "medicine.order.modal.create.feature": "Feature",
+  "medicine.order.modal.create.button.create": "Add",
+  "medicine.order.modal.create.button.cancel": "Cancel"
+}

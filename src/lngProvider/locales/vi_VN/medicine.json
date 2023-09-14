@@ -1,0 +1,19 @@
+{
+  "medicine.modal.create.title": "Tạo Thuốc Mới",
+  "medicine.modal.create.name": "Thuốc",
+  "medicine.modal.create.quantity": "Số lượng",
+  "medicine.modal.create.usage": "Công dụng",
+  "medicine.modal.create.feature": "Đặc tính",
+  "medicine.modal.create.unit": "Đơn vị",
+  "medicine.modal.create.status": "Trạng thái",
+  "medicine.modal.create.button.save": "Lưu thay đổi",
+  "medicine.modal.create.button.delete": "Xóa thuốc",
+  "medicine.modal.create.button.create": "Tạo thuốc",
+  "medicine.modal.create.button.cancel": "Hủy",
+  "medicine.order.modal.create.title": "Thêm Thuốc",
+  "medicine.order.modal.create.name": "Thuốc",
+  "medicine.order.modal.create.quantity": "Số lượng",
+  "medicine.order.modal.create.feature": "Đặc tính",
+  "medicine.order.modal.create.button.create": "Thêm thuốc",
+  "medicine.order.modal.create.button.cancel": "Hủy"
+}
