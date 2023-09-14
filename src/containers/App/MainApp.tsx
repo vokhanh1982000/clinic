@@ -21,7 +21,7 @@ const MainApp = (props: IMainAppProp) => {
 
   return (
     <Layout style={{ minHeight: '100vh' }} hasSider={true}>
-      <Sider className="shadow" trigger={null} collapsible collapsed={width < TAB_SIZE ? false : collapsed}>
+      <Sider className="shadow sider" trigger={null} collapsible collapsed={width < TAB_SIZE ? false : collapsed}>
         {width < TAB_SIZE ? (
           <Drawer open={collapsed} placement="left" closable={false} onClose={() => setCollapsed(!collapsed)}>
             <SidebarContent menuItems={props.menuItems} />

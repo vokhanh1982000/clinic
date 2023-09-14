@@ -6,16 +6,14 @@ const SidebarLogo = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const { isDarkMode } = useSelector((state: RootState) => state.setting);
+  // const { isDarkMode } = useSelector((state: RootState) => state.setting);
 
   return (
-    <div style={{ background: colorBgContainer }} className="sidebar-logo-container d-flex justify-content-center">
-      <img
-        width={32}
-        height={32}
-        className="my-auto"
-        src={isDarkMode ? '/assets/icons/logo-white.png' : '/assets/icons/logo.png'}
-      />
+    <div style={{ background: colorBgContainer }} className="sidebar-logo-container justify-content-center">
+      <div>
+        <img width={251} height={80} className="my-auto" src={'/assets/images/logo.png'} />
+      </div>
+      <div className="line-under-logo" />
     </div>
   );
 };

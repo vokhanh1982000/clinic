@@ -19,7 +19,7 @@ const Topbar = (props: {
   return (
     <Header style={{ padding: 0, background: colorBgContainer }} className="d-flex justify-content-between">
       <Row>
-        <Button
+        {/* <Button
           type="text"
           icon={props.collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={() => props.onCollapsed && props.onCollapsed()}
@@ -28,7 +28,7 @@ const Topbar = (props: {
             width: 64,
             height: 64,
           }}
-        />
+        /> */}
         {props.children}
       </Row>
       <Row>
