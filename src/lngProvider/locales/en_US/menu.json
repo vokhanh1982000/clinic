@@ -3,11 +3,13 @@
   "menu.adminManagement": "Admin Management",
   "menu.clinicManagement": "Clinic Management",
   "menu.doctorManagement": "Doctor Management",
+  "menu.doctorSupportManagement": "Doctor Management",
   "menu.userManagement": "User management",
   "menu.medicalSpecialtyManagement": "Medical Specialty Management",
   "menu.bookingManagement": "Booking Management",
   "menu.newsManagement": "News and Articles Management",
   "menu.statisticsManagement": "Statistics Management",
+  "menu.medicineManagement": "Medicine Management",
   "menu.home": "Home",
   "menu.createRole": "Create new role",
   "menu.detailRole": "Role Details"

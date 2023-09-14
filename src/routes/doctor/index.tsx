@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 import { getItem } from '../../containers/SideBar/SidebarContent';
 import useIntlHook from '../../util/useIntl';
+import { getMenuActiveIconName } from '../../util/menu';
 
 const Doctor = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,23 @@ const Doctor = () => {
       dispatch(updateMe(data.data));
     }
   }, [data]);
+
+  useEffect(() => {
+    handleChangeIconMenu();
+  }, [location.pathname, locale]);
+
+  const handleChangeIconMenu = () => {
+    const newMenu = defaultMenu.map((item: any) => {
+      if (location.pathname.includes(`${item.key}`)) {
+        return {
+          ...item,
+          icon: <img src={`/assets/icons/admin/${getMenuActiveIconName(item.key, 'Doctor')}.svg`} />,
+        };
+      }
+      return item;
+    });
+    setMenu(newMenu);
+  };
 
   return <MainApp menuItems={menu}></MainApp>;
 };

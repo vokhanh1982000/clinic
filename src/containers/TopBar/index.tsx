@@ -4,12 +4,18 @@ import LanguageDropdown from './LanguageDropdown';
 import AccountInfo from './AccountInfo';
 import DarkModeSwitch from './DarkModeSwitch';
 import { ReactNode, useEffect, useState } from 'react';
-import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../constants/route';
+import {
+  ADMIN_CLINIC_ROUTE_PATH,
+  ADMIN_ROUTE_NAME,
+  ADMIN_ROUTE_PATH,
+  DOCTOR_CLINIC_ROUTE_PATH,
+} from '../../constants/route';
 import { useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { getLabelBreadcrum } from '../../util/menu';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import { getRootPath } from '../../util/logout';
 const { Header } = Layout;
 
 const Topbar = (props: {
@@ -24,10 +30,10 @@ const Topbar = (props: {
   const location = useLocation();
   const intl = useIntl();
   const { locale } = useSelector((state: RootState) => state.setting);
-
+  const rootPath = getRootPath();
   const DEFAULT_BREADCRUMB: any = [
     {
-      href: '/admin',
+      href: `/${rootPath}`,
       title: (
         <div className="d-flex align-items-center icon-home">
           <img src="/assets/icons/admin/icn_home.svg" />
@@ -42,11 +48,17 @@ const Topbar = (props: {
   useEffect(() => {
     if (location.pathname) {
       let arr = [...DEFAULT_BREADCRUMB];
-      Object.values(ADMIN_ROUTE_PATH).forEach((route: any) => {
-        if (route != '' && location.pathname.includes(`${route}`) && getLabelBreadcrum(route) != '') {
+      const src =
+        rootPath == 'admin'
+          ? ADMIN_ROUTE_PATH
+          : rootPath == 'admin-clinic'
+          ? ADMIN_CLINIC_ROUTE_PATH
+          : DOCTOR_CLINIC_ROUTE_PATH;
+      Object.values(src).forEach((route: any) => {
+        if (route != '' && location.pathname.includes(`${route}`) && getLabelBreadcrum(route, rootPath) != '') {
           arr.push({
             href: route,
-            title: intl.formatMessage({ id: getLabelBreadcrum(route) }),
+            title: intl.formatMessage({ id: getLabelBreadcrum(route, rootPath) }),
           });
         }
       });

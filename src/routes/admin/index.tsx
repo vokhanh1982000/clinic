@@ -34,7 +34,7 @@ const Admin = () => {
       <img src="/assets/icons/admin/clinicManagementIconInactive.svg" />
     ),
     getItem(
-      intl.formatMessage({ id: 'menu.doctorManagement' }),
+      intl.formatMessage({ id: 'menu.doctorSupportManagement' }),
       ADMIN_ROUTE_PATH.DOCTOR_MANAGEMENT,
       <img src="/assets/icons/admin/doctorManagementIconInactive.svg" />
     ),
@@ -86,7 +86,7 @@ const Admin = () => {
       if (location.pathname.includes(`${item.key}`)) {
         return {
           ...item,
-          icon: <img src={`/assets/icons/admin/${getMenuActiveIconName(item.key)}.svg`} />,
+          icon: <img src={`/assets/icons/admin/${getMenuActiveIconName(item.key, 'Admin')}.svg`} />,
         };
       }
       return item;
