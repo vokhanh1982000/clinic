@@ -4,18 +4,21 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { memo } from 'react';
 import { TAB_SIZE } from '../../constants/ThemeSetting';
+import { logOut } from '../../util/logout';
 
 const AccountInfo = (props: { infoDropdownItems?: MenuProps['items'] }) => {
   const { authUser } = useSelector((state: RootState) => state.auth);
   const { width } = useSelector((state: RootState) => state.setting);
   const getFullName = () => {
-    return (authUser?.firstName || '') + ' ' + (authUser?.lastName || '');
+    return authUser?.fullName || '';
   };
   const sampleItems: MenuProps['items'] = [
     {
       key: '3',
       label: 'Đăng xuất',
-      onClick: () => {},
+      onClick: () => {
+        logOut();
+      },
     },
   ];
   return (

@@ -7,5 +7,8 @@
   "menu.medicalSpecialtyManagement": "Quản lý Chuyên Khoa",
   "menu.bookingManagement": "Quản lý Lịch Khám",
   "menu.newsManagement": "Quản lý Tin tức, Bài viết",
-  "menu.statisticsManagement": "Quản lý Thống Kê"
+  "menu.statisticsManagement": "Quản lý Thống Kê",
+  "menu.home": "Trang chủ",
+  "menu.createRole": "Tạo role mới",
+  "menu.detailRole": "Chi Tiết Role"
 }

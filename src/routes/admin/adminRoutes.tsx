@@ -32,8 +32,8 @@ export const AdminRoutes = () => (
       <Route path={ADMIN_ROUTE_NAME.USER_MANAGEMENT} element={<ListCustomer />} />
       <Route path={ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListRole />} />} />
-        <Route path="create" element={<SuspenseWrapper component={<CreateRole />} />} />
-        <Route path="detail/:id" element={<SuspenseWrapper component={<CreateRole />} />} />
+        <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateRole />} />} />
+        <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateRole />} />} />
       </Route>
     </Route>
   </Routes>
