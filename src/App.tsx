@@ -8,6 +8,7 @@ import { RootState, useAppDispatch } from './store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RoutesApp from './routes';
 import { updateWindowWidth } from './store/settingSlice';
+import { PRIMARY_COLOR } from './constants/ThemeSetting';
 
 const App: React.FC = () => {
   const { locale, isDarkMode } = useSelector((state: RootState) => state.setting);
@@ -32,6 +33,11 @@ const App: React.FC = () => {
       <ConfigProvider
         theme={{
           algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+          components: {
+            Button: {
+              colorPrimary: PRIMARY_COLOR,
+            },
+          },
         }}
         locale={currentAppLocale.antd}
       >

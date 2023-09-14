@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { login } from '../../../../store/authSlice';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const SignInAdmin = () => {
   const dispatch = useAppDispatch();
@@ -39,41 +40,58 @@ const SignInAdmin = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const navigateToForgotPassword = () => {
+    navigate(ADMIN_ROUTE_PATH.FORGOT_PASSWORD);
+  };
+
   return (
     <div className="vh-100 row justify-content-center align-items-center">
-      <Form
-        name="basic"
-        layout="vertical"
-        style={{ maxWidth: 400 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-        requiredMark={false}
-      >
-        <Form.Item
-          label={intl.formatMessage({ id: 'sigin.email' })}
-          name={n('username')}
-          className="mb-3"
-          rules={[{ required: true }]}
+      <div id="login-form" className=" justify-content-center align-items-center">
+        <div className="logo">
+          <img src="/assets/images/logo.png" />
+        </div>
+        <div className="d-flex title">
+          <div>{intl.formatMessage({ id: 'sigin.title' })}</div>
+        </div>
+        <Form
+          name="basic"
+          layout="vertical"
+          style={{ maxWidth: 350 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          requiredMark={false}
         >
-          <Input />
-        </Form.Item>
+          <Form.Item
+            label={intl.formatMessage({ id: 'sigin.username' })}
+            name={n('username')}
+            className="mb-3"
+            rules={[{ required: true, min: 10, max: 10 }]}
+          >
+            <Input placeholder={intl.formatMessage({ id: 'sigin.username.placeholder' })} />
+          </Form.Item>
 
-        <Form.Item
-          label={intl.formatMessage({ id: 'sigin.password' })}
-          name={n('password')}
-          rules={[{ required: true }]}
-        >
-          <Input.Password />
-        </Form.Item>
+          <Form.Item
+            className="form-item-password"
+            label={intl.formatMessage({ id: 'sigin.password' })}
+            name={n('password')}
+            rules={[{ required: true, min: 8, max: 16 }]}
+          >
+            <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="w-100" loading={loginMutation.isLoading}>
-            {intl.formatMessage({ id: 'sigin.submit' })}
-          </Button>
-        </Form.Item>
-      </Form>
+          <div className="d-flex justify-content-end txt-forgot" onClick={navigateToForgotPassword}>
+            {intl.formatMessage({ id: 'sigin.forgot' })}
+          </div>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" shape="round" className="w-100" loading={loginMutation.isLoading}>
+              {intl.formatMessage({ id: 'sigin.submit' })}
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };

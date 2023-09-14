@@ -1,6 +1,10 @@
 {
-  "sigin.email": "Email",
+  "sigin.username": "Phone",
+  "sigin.username.placeholder": "Phone number",
   "sigin.password": "Password",
+  "sigin.password.placeholder": "Password",
   "sigin.submit": "Sign In",
-  "sigin.emailOrPasswordWrong": "Email or password is wrong"
+  "sigin.emailOrPasswordWrong": "Phone number or password is wrong",
+  "sigin.forgot": "Forgot your password ?",
+  "sigin.title": "Login"
 }

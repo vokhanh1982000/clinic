@@ -4,6 +4,7 @@ import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SidebarLogo from './SidebarLogo';
+import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../constants/route';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -64,11 +65,21 @@ const SidebarContent = (props: ISideBarContentProp) => {
     navigate(e.key);
   };
 
+  useEffect(() => {
+    if (location.pathname) {
+      Object.values(ADMIN_ROUTE_PATH).forEach((route) => {
+        if (current.includes(`${route}`)) {
+          setCurrent(route);
+        }
+      });
+    }
+  }, [location.pathname]);
+
   return (
     <>
       <SidebarLogo />
       <Menu
-        style={{ height: 'calc(100% - 64px)' }}
+        style={{ height: 'calc(100% - 64px)', width: 355 }}
         onClick={onClick}
         // theme="dark"
         selectedKeys={[current || '']}

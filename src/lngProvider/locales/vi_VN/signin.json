@@ -1,6 +1,10 @@
 {
-  "sigin.email": "Email",
+  "sigin.username": "Số điện thoại",
+  "sigin.username.placeholder": "Nhập số điện thoại",
   "sigin.password": "Mật khẩu",
+  "sigin.password.placeholder": "Nhập mật khẩu",
   "sigin.submit": "Đăng nhập",
-  "sigin.emailOrPasswordWrong": "Email hoặc mật khẩu không đúng"
+  "sigin.emailOrPasswordWrong": "Email hoặc mật khẩu không đúng",
+  "sigin.forgot": "Quên mật khẩu ?",
+  "sigin.title": "Login"
 }

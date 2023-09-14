@@ -27,6 +27,7 @@ const LanguageItem = ({ language, onClick }: LanguageItemProps) => {
 
 const LanguageDropdown = () => {
   const { locale } = useSelector((state: RootState) => state.setting);
+  console.log('locale: ', locale);
   const dispatch = useAppDispatch();
 
   const languageMenu = () => (
