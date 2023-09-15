@@ -25,6 +25,7 @@ const ListUser = () => {
         total={data?.data.total}
         setSize={setSize}
         setPage={setPage}
+        showPagination={true}
       >
         <Column title="ID" dataIndex="id" />
         <Column<Customer>

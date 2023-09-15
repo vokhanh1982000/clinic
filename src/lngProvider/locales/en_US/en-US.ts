@@ -4,6 +4,7 @@ import signin from './signin.json';
 import forgotpassword from './forgot.password.json';
 import menu from './menu.json';
 import medicine from './medicine.json';
+import role from './role.json';
 
 const EnLang = {
   messages: {
@@ -12,6 +13,7 @@ const EnLang = {
     ...forgotpassword,
     ...menu,
     ...medicine,
+    ...role,
   },
   antd: antdEN,
   locale: 'en-US',

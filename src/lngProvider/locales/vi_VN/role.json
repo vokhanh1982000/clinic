@@ -1,0 +1,19 @@
+{
+  "role.list.title": "Quản lý Phân Quyền Hệ thống",
+  "role.list.button.add": "Tạo Role mới",
+  "role.list.search": "Tìm kiếm Role",
+  "role.list.table.code": "Mã",
+  "role.list.table.role": "Vai trò",
+  "role.list.table.action": "Thao tác",
+  "role.create.title": "Tạo Vai Trò Mới",
+  "role.create.code": "Mã",
+  "role.create.role": "Vai trò",
+  "role.create.read": "Xem",
+  "role.create.create": "Tạo",
+  "role.create.edit": "Chỉnh sửa",
+  "role.create.delete": "Xóa",
+  "role.create.button.create": "Tạo mới",
+  "role.edit.title": "Chi Tiết Vai Trò",
+  "role.edit.button.save": "Lưu thông tin",
+  "role.edit.button.delete": "Xóa Role"
+}
