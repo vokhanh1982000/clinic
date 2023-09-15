@@ -4,6 +4,7 @@ import signin from './signin.json';
 import forgot from './forgot.password.json';
 import menu from './menu.json';
 import medicine from './medicine.json';
+import role from './role.json';
 
 const viLang = {
   messages: {
@@ -12,6 +13,7 @@ const viLang = {
     ...forgot,
     ...menu,
     ...medicine,
+    ...role,
   },
   antd: antdVI,
   locale: 'vi-VN',

@@ -1,8 +1,7 @@
 @import './variables.scss';
-@import './pages/admin-login.scss';
-@import './pages/admin-forgot-password.scss';
+@import './pages/index.scss';
 @import './components/components.scss';
-@import './components/topbar.scss';
+@import './global.scss';
 
 body {
   font-family: 'Open-Sans' !important;

@@ -35,7 +35,7 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
               id: 'medicine.order.modal.create.name',
             })}
           >
-            <CustomInput prefix={<IconSVG type="search" />} />
+            <CustomInput className="flex-reverse" prefix={<IconSVG type="search" />} />
           </Form.Item>
           <Form.Item
             name="quantity"

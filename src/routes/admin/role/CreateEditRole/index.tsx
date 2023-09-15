@@ -8,9 +8,12 @@ import { useCallback, useEffect, useState } from 'react';
 import SaveButton from '../../../../components/buttons/SaveButton';
 import FormWrap from '../../../../components/FormWrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { log } from 'console';
+import CustomInput from '../../../../components/input/CustomInput';
+import { useIntl } from 'react-intl';
+import CustomButton from '../../../../components/buttons/CustomButton';
 
 const CreateRole = () => {
+  const intl = useIntl();
   const { id } = useParams();
   const [form] = Form.useForm<CreateRoleDto>();
   const navigate = useNavigate();
@@ -93,9 +96,7 @@ const CreateRole = () => {
           onChange={(e) => {
             onPermissionChecked(permissionName, e.target.checked);
           }}
-        >
-          {permissionName}
-        </Checkbox>
+        ></Checkbox>
       );
     } else {
       return <></>;
@@ -117,26 +118,101 @@ const CreateRole = () => {
     }
   };
 
-  return (
-    <Card>
-      <SaveButton className="float-end" onClick={form.submit} />
+  const getAction = (col: number) => {
+    switch (col) {
+      case 0:
+        return intl.formatMessage({
+          id: 'role.create.read',
+        });
+      case 1:
+        return intl.formatMessage({
+          id: 'role.create.create',
+        });
+      case 2:
+        return intl.formatMessage({
+          id: 'role.create.edit',
+        });
+      case 3:
+        return intl.formatMessage({
+          id: 'role.create.delete',
+        });
+      default:
+        return '';
+    }
+  };
 
-      <FormWrap form={form} onFinish={onFinish}>
-        <Form.Item label="Tên quyền" name={n('name')} rules={[{ required: true }]}>
-          <Input />
+  return (
+    <Card id="create-role-management">
+      {/* <SaveButton className="float-end" onClick={form.submit} /> */}
+      <div className="create-role-title">
+        {id
+          ? intl.formatMessage({
+              id: 'role.edit.title',
+            })
+          : intl.formatMessage({
+              id: 'role.create.title',
+            })}
+      </div>
+      <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-role">
+        <Form.Item
+          className="code"
+          label={intl.formatMessage({
+            id: 'role.create.code',
+          })}
+          name={n('code')}
+          rules={[{ required: true }]}
+        >
+          <CustomInput disabled={!!id} />
         </Form.Item>
-        <Form.Item label="Mã quyền" name={n('code')} rules={[{ required: true }]}>
-          <Input />
+        <Form.Item
+          className="role"
+          label={intl.formatMessage({
+            id: 'role.create.role',
+          })}
+          name={n('name')}
+          rules={[{ required: true }]}
+        >
+          <CustomInput />
         </Form.Item>
       </FormWrap>
 
-      <Table pagination={false} dataSource={dataPermissions?.data}>
-        <Column title="Tên" dataIndex={'label'}></Column>
-        <Column title="Mô tả" dataIndex={'description'}></Column>
+      <TableWrap className="custom-table" data={dataPermissions?.data} showPagination={false}>
+        <Column
+          title={intl.formatMessage({
+            id: 'role.create.role',
+          })}
+          dataIndex={'label'}
+        ></Column>
         {[...Array(numOfCol)].map((x, i) => (
-          <Column<PermissionGroupDto> render={(value, record) => renderColumn(i, record)}></Column>
+          <Column<PermissionGroupDto>
+            title={getAction(i)}
+            align="center"
+            render={(value, record) => renderColumn(i, record)}
+          ></Column>
         ))}
-      </Table>
+      </TableWrap>
+      <div className="button-action">
+        {id ? (
+          <div className="more-action">
+            <CustomButton className="button-save">
+              {intl.formatMessage({
+                id: 'role.edit.button.save',
+              })}
+            </CustomButton>
+            <CustomButton className="button-delete">
+              {intl.formatMessage({
+                id: 'role.edit.button.delete',
+              })}
+            </CustomButton>
+          </div>
+        ) : (
+          <CustomButton className="button-create">
+            {intl.formatMessage({
+              id: 'role.create.button.create',
+            })}
+          </CustomButton>
+        )}
+      </div>
     </Card>
   );
 };

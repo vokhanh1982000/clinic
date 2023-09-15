@@ -8,9 +8,9 @@ interface CustomInputProps extends InputProps {
 
 const CustomInput = (props: CustomInputProps) => {
   const intl = useIntl();
-  const { placeholder, className } = props;
+  const { placeholder, className, ...restProps } = props;
 
-  return <Input placeholder={placeholder || undefined} className={`ant-custom-input ${className}`} {...props} />;
+  return <Input placeholder={placeholder || undefined} className={`ant-custom-input ${className}`} {...restProps} />;
 };
 
 export default CustomInput;
