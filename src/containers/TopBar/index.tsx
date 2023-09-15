@@ -70,30 +70,7 @@ const Topbar = (props: {
   return (
     <Header style={{ padding: 0, background: colorBgContainer }} className="d-flex justify-content-between">
       <Row>
-        <Breadcrumb
-          className="d-flex align-items-center breadcrumb-container"
-          items={
-            breadcrumb || [
-              {
-                title: (
-                  <div className="d-flex align-items-center icon-home">
-                    <img src="/assets/icons/admin/icn_home.svg" />
-                    <a href="">Application Center</a>
-                  </div>
-                ),
-              },
-              {
-                title: <a href="">Application Center</a>,
-              },
-              {
-                title: <a href="">Application List</a>,
-              },
-              {
-                title: 'An Application',
-              },
-            ]
-          }
-        />
+        <Breadcrumb className="d-flex align-items-center breadcrumb-container" items={breadcrumb} />
         {/* <Button
           type="text"
           icon={props.collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -107,7 +84,7 @@ const Topbar = (props: {
         {props.children}
       </Row>
       <Row>
-        <DarkModeSwitch />
+        {/* <DarkModeSwitch /> */}
         <LanguageDropdown />
         <AccountInfo infoDropdownItems={props.infoDropdownItems} />
       </Row>

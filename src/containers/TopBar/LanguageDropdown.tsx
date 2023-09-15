@@ -20,7 +20,7 @@ const LanguageItem = ({ language, onClick }: LanguageItemProps) => {
   return (
     <div className="d-flex cursor-pointer" key={JSON.stringify(language)} onClick={() => onClick && onClick(language)}>
       <i className={`my-auto flag flag-24 flag-${language.icon}`} />
-      <span className="ms-1">{width < TAB_SIZE ? '' : language.name}</span>
+      <span className="ms-1 font-base">{width < TAB_SIZE ? '' : language.name}</span>
     </div>
   );
 };
