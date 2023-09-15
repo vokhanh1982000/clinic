@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logOut } from '../util/logout';
 import { AuthApi, CustomersApi, Configuration, RolesApi, PermissionsApi } from './client-axios';
 
 const config = new Configuration({
@@ -12,11 +13,8 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const path = window.location.pathname.split('/');
     if (error?.response?.status === 401) {
-      localStorage.removeItem('token');
-      if (path[1] == 'admin') window.location.href = '/admin/signin';
-      else window.location.href = '/signin';
+      logOut();
     }
     return Promise.reject(error);
   }

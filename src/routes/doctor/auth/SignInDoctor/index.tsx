@@ -1,8 +1,8 @@
 import { UpdatePasswordDtoTypeEnum } from '../../../../apis/client-axios';
 import SignInCommon from '../../../../components/auth/login';
 
-const SignInAdmin = () => {
-  return <SignInCommon userType={UpdatePasswordDtoTypeEnum.Administrator} />;
+const SignInCustomer = () => {
+  return <SignInCommon userType={UpdatePasswordDtoTypeEnum.DoctorClinic} />;
 };
 
-export default SignInAdmin;
+export default SignInCustomer;

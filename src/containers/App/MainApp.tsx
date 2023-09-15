@@ -41,7 +41,7 @@ const MainApp = (props: IMainAppProp) => {
           </Topbar>
           <Content
             style={{
-              padding: 24,
+              padding: '16px 30px',
               margin: 0,
               height: '1vh',
               overflow: 'auto',

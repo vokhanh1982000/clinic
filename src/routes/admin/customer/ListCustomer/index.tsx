@@ -31,7 +31,7 @@ const ListUser = () => {
           title="Họ và tên"
           dataIndex="firstName"
           render={(value, record) => {
-            return record.lastName + ' ' + record.firstName;
+            return record?.fullName;
           }}
         />
         <Column title="Email" dataIndex="emailAddress" />

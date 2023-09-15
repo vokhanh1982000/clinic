@@ -2,10 +2,15 @@
   "menu.roleManagement": "Quản lý Phân Quyền",
   "menu.adminManagement": "Quản lý Admin",
   "menu.clinicManagement": "Quản lý Phòng Khám",
-  "menu.doctorManagement": "Quản lý Bác Sĩ Tư Vấn",
+  "menu.doctorManagement": "Quản lý Bác Sĩ",
+  "menu.doctorSupportManagement": "Quản lý Bác Sĩ Tư Vấn",
   "menu.userManagement": "Quản lý Người Dùng",
   "menu.medicalSpecialtyManagement": "Quản lý Chuyên Khoa",
   "menu.bookingManagement": "Quản lý Lịch Khám",
   "menu.newsManagement": "Quản lý Tin tức, Bài viết",
-  "menu.statisticsManagement": "Quản lý Thống Kê"
+  "menu.statisticsManagement": "Quản lý Thống Kê",
+  "menu.medicineManagement": "Quản lý Thuốc",
+  "menu.home": "Trang chủ",
+  "menu.createRole": "Tạo role mới",
+  "menu.detailRole": "Chi Tiết Role"
 }

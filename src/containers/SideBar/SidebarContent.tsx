@@ -4,7 +4,7 @@ import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SidebarLogo from './SidebarLogo';
-import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../constants/route';
+import { ADMIN_ROUTE_PATH } from '../../constants/route';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -67,9 +67,13 @@ const SidebarContent = (props: ISideBarContentProp) => {
 
   useEffect(() => {
     if (location.pathname) {
-      Object.values(ADMIN_ROUTE_PATH).forEach((route) => {
+      let step = 1;
+      Object.values(ADMIN_ROUTE_PATH).forEach((route: any) => {
         if (current.includes(`${route}`)) {
-          setCurrent(route);
+          if (step == 2) {
+            setCurrent(route);
+          }
+          step++;
         }
       });
     }
