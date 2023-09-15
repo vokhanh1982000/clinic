@@ -31,7 +31,7 @@ const AccountInfo = (props: { infoDropdownItems?: MenuProps['items'] }) => {
       >
         <div>
           <Avatar className="my-auto" icon={<UserOutlined />} />
-          <span className="ms-1">{width < TAB_SIZE ? '' : getFullName()}</span>
+          <span className="ms-1 font-base">{width < TAB_SIZE ? '' : getFullName()}</span>
         </div>
       </Dropdown>
     </div>
