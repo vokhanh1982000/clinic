@@ -3,6 +3,7 @@ import common from './common_en.json';
 import signin from './signin.json';
 import forgotpassword from './forgot.password.json';
 import menu from './menu.json';
+import medicine from './medicine.json';
 
 const EnLang = {
   messages: {
@@ -10,6 +11,7 @@ const EnLang = {
     ...signin,
     ...forgotpassword,
     ...menu,
+    ...medicine,
   },
   antd: antdEN,
   locale: 'en-US',
