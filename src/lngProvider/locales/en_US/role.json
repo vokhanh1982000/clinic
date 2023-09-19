@@ -15,5 +15,7 @@
   "role.create.button.create": "Create",
   "role.edit.title": "Role Detail",
   "role.edit.button.save": "Save",
-  "role.edit.button.delete": "Delete"
+  "role.edit.button.delete": "Delete",
+  "role.create.error": "Create new is Fail. Code or role name is Using!",
+  "role.update.error": "Update is Fail!"
 }

@@ -37,6 +37,9 @@ const App: React.FC = () => {
             Button: {
               colorPrimary: PRIMARY_COLOR,
             },
+            Checkbox: {
+              colorPrimary: PRIMARY_COLOR,
+            },
           },
         }}
         locale={currentAppLocale.antd}
