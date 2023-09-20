@@ -22,20 +22,9 @@ const ListRole = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
-  const [fullTextSearch, setFullTextSearch] = useState<string>('');
+  const [fullTextSearch, setFullTextSearch] = useState<any>(null);
 
   const queryClient = useQueryClient();
-
-  const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
-    onSuccess: ({ data }) => {
-      console.log(data);
-      queryClient.invalidateQueries(['getUsers']);
-      navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
-    },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
-    },
-  });
 
   const { data, isLoading } = useQuery({
     queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
@@ -54,8 +43,24 @@ const ListRole = () => {
       onCancel() {
         console.log('cancel');
       },
-      centered: true, // Hiển thị Modal ở giữa trang
+      centered: true,
     });
+  };
+
+  const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
+    onSuccess: ({ data }) => {
+      console.log(data);
+      queryClient.invalidateQueries(['getUsers']);
+      navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
+    },
+    onError: (error) => {
+      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
+    },
+  });
+
+  const handleSearch = (e: any) => {
+    if (e.target.value === ' ') return setFullTextSearch(null);
+    setFullTextSearch(e.target.value);
   };
 
   console.log(data);
@@ -80,6 +85,8 @@ const ListRole = () => {
         </CustomButton>
       </div>
       <CustomInput
+        value={fullTextSearch}
+        onChange={(e) => handleSearch(e)}
         placeholder={intl.formatMessage({
           id: 'role.list.search',
         })}
