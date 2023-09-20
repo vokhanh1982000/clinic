@@ -96,6 +96,7 @@ const CreateRole = () => {
           onChange={(e) => {
             onPermissionChecked(permissionName, e.target.checked);
           }}
+          key={permissionName + index}
         ></Checkbox>
       );
     } else {
@@ -181,12 +182,14 @@ const CreateRole = () => {
           title={intl.formatMessage({
             id: 'role.create.role',
           })}
+          key={'label'}
           dataIndex={'label'}
         ></Column>
         {[...Array(numOfCol)].map((x, i) => (
           <Column<PermissionGroupDto>
             title={getAction(i)}
             align="center"
+            key={`col-${i}`}
             render={(value, record) => renderColumn(i, record)}
           ></Column>
         ))}
