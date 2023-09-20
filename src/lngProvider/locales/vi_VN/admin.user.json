@@ -1,0 +1,17 @@
+{
+  "admin.user.title": "Quản lý quản trị viên",
+  "admin.user.create": "Tạo quản trị viên mới",
+  "admin.user.search": "Tìm kiếm quản trị viên",
+  "admin.user.fullName": "Quản trị viên",
+  "admin.user.phone": "Số điện thoại",
+  "admin.user.specialized": "Bộ phận",
+  "admin.user.type": "Vai trò quản lý",
+  "admin.user.action": "Thao tác",
+  "admin.user.info": "Thông tin quản trị viên",
+  "admin.user.online": "Đang hoạt động",
+  "admin.user.offline": "Tắt hoạt động",
+  "admin.user.delete": "Xóa tài khoản",
+  "admin.user.gender": "Giới tính",
+  "admin.user.dateOfBirth": "Ngày sinh",
+  "admin.user.change.pass": "Đổi mật khẩu"
+}

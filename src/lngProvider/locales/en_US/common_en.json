@@ -7,5 +7,8 @@
   "common.no": "No",
   "common.required": "Required",
   "common.setting.darkMode": "Dark Mode",
-  "common.setting.lightMode": "Light Mode"
+  "common.setting.lightMode": "Light Mode",
+  "common.action.save": "Save",
+  "common.action.update": "Update",
+  "common.action.delete": "Delete"
 }
