@@ -149,18 +149,15 @@ const CreateRole = () => {
   };
 
   const onFinish = (values: any) => {
-    const permissions = form.getFieldValue(n('permissions'));
-    if (!id) {
-      createRole.mutate({
-        ...values,
-        permissions,
-      });
-    } else {
-      updateRole.mutate({
-        ...values,
-        permissions,
-      });
-    }
+    const permissions = Array.from(new Set(form.getFieldValue(n('permissions')))) as string[];
+
+    const data: CreateRoleDto = {
+      code: values.code,
+      name: values.name,
+      permissions: permissions,
+    };
+
+    id ? updateRole.mutate(data) : createRole.mutate(data);
   };
 
   const getAction = (col: number) => {
