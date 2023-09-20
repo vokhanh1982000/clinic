@@ -1,7 +1,7 @@
-import { Button, Card, Checkbox, Col, Form, Input, Row, Table } from 'antd';
+import { Button, Card, Checkbox, Col, Form, Input, Modal, Row, Table, message } from 'antd';
 import Column from 'antd/es/table/Column';
 import TableWrap from '../../../../components/TableWrap';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { permissionApi, roleApi } from '../../../../apis';
 import { CreateRoleDto, PermissionGroupDto, UpdateRoleDto } from '../../../../apis/client-axios';
 import { useCallback, useEffect, useState } from 'react';
@@ -11,29 +11,33 @@ import { useNavigate, useParams } from 'react-router-dom';
 import CustomInput from '../../../../components/input/CustomInput';
 import { useIntl } from 'react-intl';
 import CustomButton from '../../../../components/buttons/CustomButton';
+import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 
 const CreateRole = () => {
   const intl = useIntl();
   const { id } = useParams();
   const [form] = Form.useForm<CreateRoleDto>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const { data: dataPermissions } = useQuery({
     queryKey: ['getPermissions'],
     queryFn: () => permissionApi.permissionControllerGet(),
   });
 
   const { data: dataRole } = useQuery({
-    queryKey: ['getRoleDetail'],
+    queryKey: ['getRoleDetail', id],
     queryFn: () => roleApi.roleControllerGetById(id as string),
     enabled: !!id,
   });
 
   const createRole = useMutation((createRole: CreateRoleDto) => roleApi.roleControllerCreate(createRole), {
     onSuccess: ({ data }) => {
-      // navigate();
+      queryClient.invalidateQueries(['getUsers']);
+      navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
     onError: (error) => {
-      // message.error(intl.formatMessage({ id: "sigin.emailOrPasswordWrong" }));
+      message.error(intl.formatMessage({ id: 'role.create.error' }));
     },
   });
 
@@ -41,13 +45,25 @@ const CreateRole = () => {
     (updateRole: UpdateRoleDto) => roleApi.roleControllerUpdate(id as string, updateRole),
     {
       onSuccess: ({ data }) => {
-        // navigate();
+        queryClient.invalidateQueries(['getRoleDetail', id]);
+        navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
       },
       onError: (error) => {
-        // message.error(intl.formatMessage({ id: "sigin.emailOrPasswordWrong" }));
+        message.error(intl.formatMessage({ id: 'role.update.error' }));
       },
     }
   );
+
+  const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
+    onSuccess: ({ data }) => {
+      queryClient.invalidateQueries(['getPermissions']);
+      queryClient.invalidateQueries(['getRoleDetail', id]);
+      navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
+    },
+    onError: (error) => {
+      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
+    },
+  });
 
   const [numOfCol, setNumOfCol] = useState<number>(0);
   const n = (key: keyof CreateRoleDto) => {
@@ -87,21 +103,49 @@ const CreateRole = () => {
   };
 
   const renderColumn = (index: number, record: PermissionGroupDto) => {
-    if (record.permissions[index]) {
+    if (record.permissions[index].name) {
       const permissionName = record.permissions[index].name;
-      const checked = form.getFieldValue(n('permissions'))?.includes(permissionName);
-      return (
-        <Checkbox
-          defaultChecked={checked}
-          onChange={(e) => {
-            onPermissionChecked(permissionName, e.target.checked);
-          }}
-          key={permissionName + index}
-        ></Checkbox>
-      );
+      if (id) {
+        if (dataRole?.data?.permissions) {
+          const checked = dataRole?.data?.permissions.includes(permissionName);
+          return (
+            <Checkbox
+              defaultChecked={checked}
+              onChange={(e) => {
+                onPermissionChecked(permissionName, e.target.checked);
+              }}
+            ></Checkbox>
+          );
+        }
+      } else {
+        return (
+          <Checkbox
+            onChange={(e) => {
+              onPermissionChecked(permissionName, e.target.checked);
+            }}
+          ></Checkbox>
+        );
+      }
     } else {
       return <></>;
     }
+  };
+
+  const handleDeleteRole = () => {
+    Modal.confirm({
+      title: 'Confirm',
+      content: 'Are You Sure?',
+      icon: null,
+      okText: 'Confirm',
+      cancelText: 'Cancel',
+      onOk() {
+        if (id) deleteRole.mutate(id);
+      },
+      onCancel() {
+        console.log('cancel');
+      },
+      centered: true,
+    });
   };
 
   const onFinish = (values: any) => {
@@ -197,19 +241,19 @@ const CreateRole = () => {
       <div className="button-action">
         {id ? (
           <div className="more-action">
-            <CustomButton className="button-save">
+            <CustomButton className="button-save" onClick={() => form.submit()}>
               {intl.formatMessage({
                 id: 'role.edit.button.save',
               })}
             </CustomButton>
-            <CustomButton className="button-delete">
+            <CustomButton className="button-delete" onClick={() => handleDeleteRole()}>
               {intl.formatMessage({
                 id: 'role.edit.button.delete',
               })}
             </CustomButton>
           </div>
         ) : (
-          <CustomButton className="button-create">
+          <CustomButton className="button-create" onClick={() => form.submit()}>
             {intl.formatMessage({
               id: 'role.create.button.create',
             })}

@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { Card } from 'antd';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Card, Input, Button, message, Modal } from 'antd';
+
 import Column from 'antd/es/table/Column';
 import { useState } from 'react';
 import { roleApi } from '../../../../apis';
@@ -12,6 +13,9 @@ import CustomInput from '../../../../components/input/CustomInput';
 import { useNavigate } from 'react-router-dom';
 import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
+import { EditOutlined, DeleteOutlined, SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
+
 const ListRole = () => {
   const intl = useIntl();
   const navigate = useNavigate();
@@ -19,10 +23,42 @@ const ListRole = () => {
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
+
+  const queryClient = useQueryClient();
+
+  const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
+    onSuccess: ({ data }) => {
+      console.log(data);
+      queryClient.invalidateQueries(['getUsers']);
+      navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
+    },
+    onError: (error) => {
+      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
+    },
+  });
+
   const { data, isLoading } = useQuery({
     queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
     queryFn: () => roleApi.roleControllerGet(page, size, sort, fullTextSearch),
   });
+  const handleDeleteRole = (text: any) => {
+    Modal.confirm({
+      title: 'Confirm',
+      content: 'Are You Sure?',
+      icon: null,
+      okText: 'Confirm',
+      cancelText: 'Cancel',
+      onOk() {
+        if (text) deleteRole.mutate(text);
+      },
+      onCancel() {
+        console.log('cancel');
+      },
+      centered: true, // Hiển thị Modal ở giữa trang
+    });
+  };
+
+  console.log(data);
   return (
     <Card id="role-management">
       <div className="role-management__header">
@@ -82,9 +118,13 @@ const ListRole = () => {
           width={'15%'}
           render={(_, record: any) => (
             <div className="action-role">
-              <IconSVG type="edit" />
+              <div onClick={() => navigate(`detail/${record.id}`)}>
+                <IconSVG type="edit" />
+              </div>
               <span className="divider"></span>
-              <IconSVG type="delete" />
+              <div onClick={() => handleDeleteRole(record.id)}>
+                <IconSVG type="delete" />
+              </div>
             </div>
           )}
           align="center"
