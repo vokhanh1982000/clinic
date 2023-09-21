@@ -133,8 +133,10 @@ const CreateRole = () => {
 
   const handleDeleteRole = () => {
     Modal.confirm({
-      title: 'Confirm',
-      content: 'Are You Sure?',
+      content:
+        intl.formatMessage({ id: 'role.remove.confirm.prefix' }) +
+        dataRole?.data.name +
+        intl.formatMessage({ id: 'role.remove.confirm.suffixes' }),
       icon: null,
       okText: 'Confirm',
       cancelText: 'Cancel',

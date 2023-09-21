@@ -30,15 +30,17 @@ const ListRole = () => {
     queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
     queryFn: () => roleApi.roleControllerGet(page, size, sort, fullTextSearch),
   });
-  const handleDeleteRole = (text: any) => {
+  const handleDeleteRole = (id: string, name: string) => {
     Modal.confirm({
-      title: 'Confirm',
-      content: 'Are You Sure?',
+      content:
+        intl.formatMessage({ id: 'role.remove.confirm.prefix' }) +
+        name +
+        intl.formatMessage({ id: 'role.remove.confirm.suffixes' }),
       icon: null,
       okText: 'Confirm',
       cancelText: 'Cancel',
       onOk() {
-        if (text) deleteRole.mutate(text);
+        if (id) deleteRole.mutate(id);
       },
       onCancel() {
         console.log('cancel');
@@ -122,7 +124,7 @@ const ListRole = () => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => handleDeleteRole(record.id)}>
+              <div onClick={() => handleDeleteRole(record.id, record.name)}>
                 <IconSVG type="delete" />
               </div>
             </div>
