@@ -105,6 +105,19 @@
   }
 }
 
-.ant-btn-primary {
-  background-color: $primary_color !important;
+.ant-modal-content {
+  width: 352px;
+  .ant-modal-confirm-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    button {
+      height: 48px;
+      width: 146px;
+      border-radius: 32px;
+    }
+    .ant-btn-primary {
+      background-color: $primary_color !important;
+    }
+  }
 }

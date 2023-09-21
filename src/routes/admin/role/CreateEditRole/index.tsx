@@ -86,7 +86,7 @@ const CreateRole = () => {
       const role = dataRole.data;
       form.setFieldsValue({
         name: role.name,
-        code: role.code,
+        // code: role.code,
         permissions: role.permissions,
       });
     }
@@ -133,8 +133,10 @@ const CreateRole = () => {
 
   const handleDeleteRole = () => {
     Modal.confirm({
-      title: 'Confirm',
-      content: 'Are You Sure?',
+      content:
+        intl.formatMessage({ id: 'role.remove.confirm.prefix' }) +
+        dataRole?.data.name +
+        intl.formatMessage({ id: 'role.remove.confirm.suffixes' }),
       icon: null,
       okText: 'Confirm',
       cancelText: 'Cancel',
@@ -151,13 +153,18 @@ const CreateRole = () => {
   const onFinish = (values: any) => {
     const permissions = Array.from(new Set(form.getFieldValue(n('permissions')))) as string[];
 
-    const data: CreateRoleDto = {
-      code: values.code,
-      name: values.name,
-      permissions: permissions,
-    };
-
-    id ? updateRole.mutate(data) : createRole.mutate(data);
+    id
+      ? updateRole.mutate({
+          // code: values.code,
+          name: values.name,
+          permissions: permissions,
+          id: id,
+        })
+      : createRole.mutate({
+          // code: values.code,
+          name: values.name,
+          permissions: permissions,
+        });
   };
 
   const getAction = (col: number) => {
@@ -196,16 +203,6 @@ const CreateRole = () => {
             })}
       </div>
       <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-role">
-        <Form.Item
-          className="code"
-          label={intl.formatMessage({
-            id: 'role.create.code',
-          })}
-          name={n('code')}
-          rules={[{ required: true }]}
-        >
-          <CustomInput disabled={!!id} />
-        </Form.Item>
         <Form.Item
           className="role"
           label={intl.formatMessage({

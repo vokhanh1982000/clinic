@@ -17,5 +17,9 @@
   "role.edit.button.save": "Lưu thông tin",
   "role.edit.button.delete": "Xóa Role",
   "role.create.error": "Thêm mới thất bại. Mã hoặc vai trò đã được sử dụng!",
-  "role.update.error": "Cập nhật thất bại!"
+  "role.update.error": "Cập nhật thất bại!",
+  "role.remove.confirm": "Xác nhận",
+  "role.remove.cancel": "Hủy bỏ",
+  "role.remove.confirm.prefix": "Bạn có chắc chắn muốn xóa phân quyền '",
+  "role.remove.confirm.suffixes": "' ra khỏi hệ thống ?"
 }
