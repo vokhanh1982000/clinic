@@ -106,13 +106,6 @@ const ListRole = () => {
       >
         <Column
           title={intl.formatMessage({
-            id: 'role.list.table.code',
-          })}
-          dataIndex="code"
-          width={'15%'}
-        />
-        <Column
-          title={intl.formatMessage({
             id: 'role.list.table.role',
           })}
           dataIndex="name"

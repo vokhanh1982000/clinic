@@ -8,7 +8,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "npx prettier --write .",
-    "generate:apis": "dotenv -- cross-var openapi-generator-cli generate -i %REACT_APP_API_URL%/api-json --skip-validate-spec -g typescript-axios -o src/apis/client-axios",
+    "generate:apis": "dotenv -- cross-var openapi-generator-cli generate -i %REACT_APP_API_URL%/apidoc-json --skip-validate-spec -g typescript-axios -o src/apis/client-axios",
     "prepare": "husky install"
   },
   "dependencies": {
