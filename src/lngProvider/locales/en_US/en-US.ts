@@ -7,6 +7,7 @@ import medicine from './medicine.json';
 import role from './role.json';
 import clinic from './clinic.json';
 import manager from './manager.json';
+import adminuser from './admin.user.json';
 
 const EnLang = {
   messages: {
@@ -18,6 +19,7 @@ const EnLang = {
     ...role,
     ...clinic,
     ...manager,
+    ...adminuser,
   },
   antd: antdEN,
   locale: 'en-US',

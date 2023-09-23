@@ -12,5 +12,8 @@
   "common.delete": "Delete",
   "common.active": "Active",
   "common.inactive": "Inactive",
-  "common.confirm-delete": "Are you sure you want to delete"
+  "common.confirm-delete": "Are you sure you want to delete",
+  "common.action.save": "Save",
+  "common.action.update": "Update",
+  "common.action.delete": "Delete"
 }

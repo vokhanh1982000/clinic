@@ -22,9 +22,32 @@ const ListRole = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
-  const [fullTextSearch, setFullTextSearch] = useState<string>('');
+  const [fullTextSearch, setFullTextSearch] = useState<any>(null);
 
   const queryClient = useQueryClient();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
+    queryFn: () => roleApi.roleControllerGet(page, size, sort, fullTextSearch),
+  });
+  const handleDeleteRole = (id: string, name: string) => {
+    Modal.confirm({
+      content:
+        intl.formatMessage({ id: 'role.remove.confirm.prefix' }) +
+        name +
+        intl.formatMessage({ id: 'role.remove.confirm.suffixes' }),
+      icon: null,
+      okText: intl.formatMessage({ id: 'role.remove.confirm' }),
+      cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
+      onOk() {
+        if (id) deleteRole.mutate(id);
+      },
+      onCancel() {
+        console.log('cancel');
+      },
+      centered: true,
+    });
+  };
 
   const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
     onSuccess: ({ data }) => {
@@ -37,25 +60,9 @@ const ListRole = () => {
     },
   });
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
-    queryFn: () => roleApi.roleControllerGet(page, size, sort, fullTextSearch),
-  });
-  const handleDeleteRole = (text: any) => {
-    Modal.confirm({
-      title: 'Confirm',
-      content: 'Are You Sure?',
-      icon: null,
-      okText: 'Confirm',
-      cancelText: 'Cancel',
-      onOk() {
-        if (text) deleteRole.mutate(text);
-      },
-      onCancel() {
-        console.log('cancel');
-      },
-      centered: true, // Hiển thị Modal ở giữa trang
-    });
+  const handleSearch = (e: any) => {
+    if (e.target.value === ' ') return setFullTextSearch(null);
+    setFullTextSearch(e.target.value);
   };
 
   console.log(data);
@@ -80,6 +87,8 @@ const ListRole = () => {
         </CustomButton>
       </div>
       <CustomInput
+        value={fullTextSearch}
+        onChange={(e) => handleSearch(e)}
         placeholder={intl.formatMessage({
           id: 'role.list.search',
         })}
@@ -99,13 +108,6 @@ const ListRole = () => {
       >
         <Column
           title={intl.formatMessage({
-            id: 'role.list.table.code',
-          })}
-          dataIndex="code"
-          width={'15%'}
-        />
-        <Column
-          title={intl.formatMessage({
             id: 'role.list.table.role',
           })}
           dataIndex="name"
@@ -122,7 +124,7 @@ const ListRole = () => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => handleDeleteRole(record.id)}>
+              <div onClick={() => handleDeleteRole(record.id, record.name)}>
                 <IconSVG type="delete" />
               </div>
             </div>
