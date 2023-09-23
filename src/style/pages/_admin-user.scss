@@ -1,0 +1,125 @@
+#admin-management {
+  .admin-management__header {
+    header {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 36px;
+      color: $text_black_light;
+      font-family: 'Open-sans';
+    }
+  }
+  .admin-management__body {
+    margin-top: 20px;
+    justify-content: space-between;
+    .admin-management__body-info {
+      .admin-management__info-header {
+        justify-content: space-between;
+        header {
+          font-family: 'Open-sans';
+          font-size: 20px;
+          font-weight: 700;
+          color: $secondary_color;
+          font-family: 'Open-sans';
+        }
+        span {
+          margin-right: 4px;
+          font-weight: 600;
+          font-size: 16px;
+          color: $secondary_color;
+          font-family: 'Open-sans';
+        }
+      }
+      .admin-management__body-data {
+        margin-top: 20px;
+        .admin-management__info-item {
+          justify-content: space-between;
+          .date-select {
+            height: 48px;
+            border-radius: 32px;
+            width: 100%;
+          }
+          .admin-management__info-change {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+            text-decoration: underline;
+            justify-content: center;
+            color: $primary_color;
+          }
+          .admin-management__item-select {
+            width: 100%;
+            .ant-select-selector {
+              height: 48px;
+              border-radius: 32px;
+              width: 100%;
+            }
+            .ant-select-selection-item {
+              display: flex;
+              align-items: center;
+            }
+          }
+          .ant-form-item {
+            width: 100%;
+          }
+        }
+        .ant-custom-avatar {
+          position: relative;
+          .ant-avatar {
+            background-color: $table_header_color;
+            border-color: $primary_color;
+          }
+          .camera {
+            position: absolute;
+            right: 110px;
+            bottom: 0;
+            padding: 8px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 32px;
+            font-size: 20px;
+            color: $secondary_color;
+          }
+        }
+      }
+    }
+    .admin-management__body-role {
+      display: flex;
+      flex-direction: column;
+      justify-content: inherit;
+      .admin-management__role-checkox {
+        flex: 1;
+        .admin-management__role-header {
+          font-family: 'Open-sans';
+          font-size: 20px;
+          font-weight: 700;
+          color: $secondary_color;
+        }
+      }
+      .admin-management__role-submit {
+        margin-top: 20px;
+        height: 120px;
+        align-items: center;
+        button {
+          border-radius: 32px;
+          height: 48px;
+          font-size: 16px;
+          font-family: 'Open-sans';
+        }
+        .admin-submit-remove {
+          color: $primary_color;
+        }
+      }
+      .ant-checkbox-wrapper {
+        width: 48%;
+        margin-top: 15px;
+        font-size: 16px;
+        font-family: 'Open-Sans' !important;
+      }
+    }
+  }
+}
+.line-element {
+  width: 94px;
+  height: 2px;
+  margin-top: 2px;
+  background-color: $primary_color;
+}

@@ -1,0 +1,19 @@
+{
+  "admin.user.title": "Admin Manager",
+  "admin.user.create": "Create New Admin",
+  "admin.user.search": "Search..",
+  "admin.user.fullName": "Admin",
+  "admin.user.phone": "Phone",
+  "admin.user.specialized": "Recialized",
+  "admin.user.action": "Action",
+  "admin.user.type": "Role",
+  "admin.user.info": "Admin informaiton",
+  "admin.user.online": "Online",
+  "admin.user.offline": "Offline",
+  "admin.user.delete": "Delete account",
+  "admin.user.gender": "Gender",
+  "admin.user.dateOfBirth": "Date Of Birth",
+  "admin.user.change.pass": "Đổi mật khẩu",
+  "admin.user.delete.confirm": "Are you sure delete: ",
+  "admin.user.code": "Code"
+}

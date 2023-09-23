@@ -184,6 +184,94 @@ export interface AdministratorClinic {
 /**
  * 
  * @export
+ * @interface AdministratorClinicControllerGet200Response
+ */
+export interface AdministratorClinicControllerGet200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorClinicControllerGet200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorClinicControllerGet200Response
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorClinicControllerGet200Response
+     */
+    'size': number;
+    /**
+     * 
+     * @type {Array<AdministratorClinic>}
+     * @memberof AdministratorClinicControllerGet200Response
+     */
+    'content'?: Array<AdministratorClinic>;
+}
+/**
+ * 
+ * @export
+ * @interface AdministratorClinicControllerGet200ResponseAllOf
+ */
+export interface AdministratorClinicControllerGet200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<AdministratorClinic>}
+     * @memberof AdministratorClinicControllerGet200ResponseAllOf
+     */
+    'content'?: Array<AdministratorClinic>;
+}
+/**
+ * 
+ * @export
+ * @interface AdministratorControllerGet200Response
+ */
+export interface AdministratorControllerGet200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorControllerGet200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorControllerGet200Response
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorControllerGet200Response
+     */
+    'size': number;
+    /**
+     * 
+     * @type {Array<Administrator>}
+     * @memberof AdministratorControllerGet200Response
+     */
+    'content'?: Array<Administrator>;
+}
+/**
+ * 
+ * @export
+ * @interface AdministratorControllerGet200ResponseAllOf
+ */
+export interface AdministratorControllerGet200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<Administrator>}
+     * @memberof AdministratorControllerGet200ResponseAllOf
+     */
+    'content'?: Array<Administrator>;
+}
+/**
+ * 
+ * @export
  * @interface Asset
  */
 export interface Asset {
@@ -466,6 +554,43 @@ export interface CategoryControllerFindCategory200ResponseAllOf {
      * @memberof CategoryControllerFindCategory200ResponseAllOf
      */
     'content'?: Array<Category>;
+}
+/**
+ * 
+ * @export
+ * @interface CreateAdminDto
+ */
+export interface CreateAdminDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAdminDto
+     */
+    'fullName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAdminDto
+     */
+    'avatarId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAdminDto
+     */
+    'emailAddress': string;
+    /**
+     * 
+     * @type {object}
+     * @memberof CreateAdminDto
+     */
+    'file'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAdminDto
+     */
+    'phoneNumber': string;
 }
 /**
  * 
@@ -1380,6 +1505,43 @@ export interface SuccessResponseDto {
 /**
  * 
  * @export
+ * @interface UpdateAdminDto
+ */
+export interface UpdateAdminDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateAdminDto
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateAdminDto
+     */
+    'fullName'?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof UpdateAdminDto
+     */
+    'file'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateAdminDto
+     */
+    'emailAddress'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateAdminDto
+     */
+    'phoneNumber'?: string;
+}
+/**
+ * 
+ * @export
  * @interface UpdateCategoryDto
  */
 export interface UpdateCategoryDto {
@@ -1629,6 +1791,12 @@ export interface User {
     'lastLogin': string | null;
     /**
      * 
+     * @type {Administrator}
+     * @memberof User
+     */
+    'administrator': Administrator;
+    /**
+     * 
      * @type {Array<Role>}
      * @memberof User
      */
@@ -1683,6 +1851,814 @@ export interface VerifyTokenDto {
      */
     'token': string;
 }
+
+/**
+ * AdminApi - axios parameter creator
+ * @export
+ */
+export const AdminApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateAdminDto} createAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerCreate: async (createAdminDto: CreateAdminDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createAdminDto' is not null or undefined
+            assertParamExists('administratorControllerCreate', 'createAdminDto', createAdminDto)
+            const localVarPath = `/admin/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createAdminDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('administratorControllerDelete', 'id', id)
+            const localVarPath = `/admin/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerGet: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('administratorControllerGet', 'page', page)
+            const localVarPath = `/admin`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerGetById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('administratorControllerGetById', 'id', id)
+            const localVarPath = `/admin/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {UpdateAdminDto} updateAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerUpdate: async (updateAdminDto: UpdateAdminDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateAdminDto' is not null or undefined
+            assertParamExists('administratorControllerUpdate', 'updateAdminDto', updateAdminDto)
+            const localVarPath = `/admin/{id}`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateAdminDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AdminApi - functional programming interface
+ * @export
+ */
+export const AdminApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AdminApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateAdminDto} createAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorControllerCreate(createAdminDto: CreateAdminDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorControllerCreate(createAdminDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorControllerDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorControllerDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdministratorControllerGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorControllerGet(page, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorControllerGetById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Administrator>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorControllerGetById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {UpdateAdminDto} updateAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorControllerUpdate(updateAdminDto: UpdateAdminDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorControllerUpdate(updateAdminDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * AdminApi - factory interface
+ * @export
+ */
+export const AdminApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AdminApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateAdminDto} createAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerCreate(createAdminDto: CreateAdminDto, options?: any): AxiosPromise<object> {
+            return localVarFp.administratorControllerCreate(createAdminDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerDelete(id: string, options?: any): AxiosPromise<object> {
+            return localVarFp.administratorControllerDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<AdministratorControllerGet200Response> {
+            return localVarFp.administratorControllerGet(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerGetById(id: string, options?: any): AxiosPromise<Administrator> {
+            return localVarFp.administratorControllerGetById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UpdateAdminDto} updateAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorControllerUpdate(updateAdminDto: UpdateAdminDto, options?: any): AxiosPromise<object> {
+            return localVarFp.administratorControllerUpdate(updateAdminDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AdminApi - object-oriented interface
+ * @export
+ * @class AdminApi
+ * @extends {BaseAPI}
+ */
+export class AdminApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateAdminDto} createAdminDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public administratorControllerCreate(createAdminDto: CreateAdminDto, options?: AxiosRequestConfig) {
+        return AdminApiFp(this.configuration).administratorControllerCreate(createAdminDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public administratorControllerDelete(id: string, options?: AxiosRequestConfig) {
+        return AdminApiFp(this.configuration).administratorControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public administratorControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return AdminApiFp(this.configuration).administratorControllerGet(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public administratorControllerGetById(id: string, options?: AxiosRequestConfig) {
+        return AdminApiFp(this.configuration).administratorControllerGetById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UpdateAdminDto} updateAdminDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public administratorControllerUpdate(updateAdminDto: UpdateAdminDto, options?: AxiosRequestConfig) {
+        return AdminApiFp(this.configuration).administratorControllerUpdate(updateAdminDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * AdministratorClinicApi - axios parameter creator
+ * @export
+ */
+export const AdministratorClinicApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateAdminDto} createAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerCreate: async (createAdminDto: CreateAdminDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createAdminDto' is not null or undefined
+            assertParamExists('administratorClinicControllerCreate', 'createAdminDto', createAdminDto)
+            const localVarPath = `/administrator-clinic/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createAdminDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('administratorClinicControllerDelete', 'id', id)
+            const localVarPath = `/administrator-clinic/id`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGet: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('administratorClinicControllerGet', 'page', page)
+            const localVarPath = `/administrator-clinic`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetById: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/administrator-clinic/{id}`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateAdminDto} updateAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerUpdate: async (id: string, updateAdminDto: UpdateAdminDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('administratorClinicControllerUpdate', 'id', id)
+            // verify required parameter 'updateAdminDto' is not null or undefined
+            assertParamExists('administratorClinicControllerUpdate', 'updateAdminDto', updateAdminDto)
+            const localVarPath = `/administrator-clinic/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateAdminDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AdministratorClinicApi - functional programming interface
+ * @export
+ */
+export const AdministratorClinicApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AdministratorClinicApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateAdminDto} createAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerCreate(createAdminDto: CreateAdminDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerCreate(createAdminDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdministratorClinicControllerGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerGet(page, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerGetById(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdministratorClinic>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerGetById(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateAdminDto} updateAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerUpdate(id: string, updateAdminDto: UpdateAdminDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerUpdate(id, updateAdminDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * AdministratorClinicApi - factory interface
+ * @export
+ */
+export const AdministratorClinicApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AdministratorClinicApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateAdminDto} createAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerCreate(createAdminDto: CreateAdminDto, options?: any): AxiosPromise<void> {
+            return localVarFp.administratorClinicControllerCreate(createAdminDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.administratorClinicControllerDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<AdministratorClinicControllerGet200Response> {
+            return localVarFp.administratorClinicControllerGet(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetById(options?: any): AxiosPromise<AdministratorClinic> {
+            return localVarFp.administratorClinicControllerGetById(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateAdminDto} updateAdminDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerUpdate(id: string, updateAdminDto: UpdateAdminDto, options?: any): AxiosPromise<void> {
+            return localVarFp.administratorClinicControllerUpdate(id, updateAdminDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AdministratorClinicApi - object-oriented interface
+ * @export
+ * @class AdministratorClinicApi
+ * @extends {BaseAPI}
+ */
+export class AdministratorClinicApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateAdminDto} createAdminDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdministratorClinicApi
+     */
+    public administratorClinicControllerCreate(createAdminDto: CreateAdminDto, options?: AxiosRequestConfig) {
+        return AdministratorClinicApiFp(this.configuration).administratorClinicControllerCreate(createAdminDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdministratorClinicApi
+     */
+    public administratorClinicControllerDelete(id: string, options?: AxiosRequestConfig) {
+        return AdministratorClinicApiFp(this.configuration).administratorClinicControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdministratorClinicApi
+     */
+    public administratorClinicControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return AdministratorClinicApiFp(this.configuration).administratorClinicControllerGet(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdministratorClinicApi
+     */
+    public administratorClinicControllerGetById(options?: AxiosRequestConfig) {
+        return AdministratorClinicApiFp(this.configuration).administratorClinicControllerGetById(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {UpdateAdminDto} updateAdminDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdministratorClinicApi
+     */
+    public administratorClinicControllerUpdate(id: string, updateAdminDto: UpdateAdminDto, options?: AxiosRequestConfig) {
+        return AdministratorClinicApiFp(this.configuration).administratorClinicControllerUpdate(id, updateAdminDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * AssetsApi - axios parameter creator
@@ -2519,7 +3495,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -4840,7 +5816,7 @@ export const RolesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async roleControllerDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async roleControllerDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.roleControllerDelete(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4903,7 +5879,7 @@ export const RolesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        roleControllerDelete(id: string, options?: any): AxiosPromise<void> {
+        roleControllerDelete(id: string, options?: any): AxiosPromise<object> {
             return localVarFp.roleControllerDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
