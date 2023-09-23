@@ -39,11 +39,10 @@ const ListRole = () => {
   });
   const handleDeleteRole = (text: any) => {
     Modal.confirm({
-      title: 'Confirm',
-      content: 'Are You Sure?',
       icon: null,
-      okText: 'Confirm',
-      cancelText: 'Cancel',
+      content: intl.formatMessage({ id: 'admin.user.delete.confirm' }),
+      okText: intl.formatMessage({ id: 'role.remove.confirm' }),
+      cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
       onOk() {
         if (text) deleteRole.mutate(text);
       },

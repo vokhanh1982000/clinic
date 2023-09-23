@@ -13,5 +13,7 @@
   "admin.user.delete": "Xóa tài khoản",
   "admin.user.gender": "Giới tính",
   "admin.user.dateOfBirth": "Ngày sinh",
-  "admin.user.change.pass": "Đổi mật khẩu"
+  "admin.user.change.pass": "Đổi mật khẩu",
+  "admin.user.delete.confirm": "Bạn có chắc muốn xóa: ",
+  "admin.user.code": "Mã"
 }

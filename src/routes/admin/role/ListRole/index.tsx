@@ -37,8 +37,8 @@ const ListRole = () => {
         name +
         intl.formatMessage({ id: 'role.remove.confirm.suffixes' }),
       icon: null,
-      okText: 'Confirm',
-      cancelText: 'Cancel',
+      okText: intl.formatMessage({ id: 'role.remove.confirm' }),
+      cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
       onOk() {
         if (id) deleteRole.mutate(id);
       },

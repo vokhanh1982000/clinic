@@ -13,5 +13,7 @@
   "admin.user.delete": "Delete account",
   "admin.user.gender": "Gender",
   "admin.user.dateOfBirth": "Date Of Birth",
-  "admin.user.change.pass": "Đổi mật khẩu"
+  "admin.user.change.pass": "Đổi mật khẩu",
+  "admin.user.delete.confirm": "Are you sure delete: ",
+  "admin.user.code": "Code"
 }
