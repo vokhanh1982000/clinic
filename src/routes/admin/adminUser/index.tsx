@@ -69,6 +69,7 @@ const ListRole = () => {
     setFullTextSearch(e.target.value);
   };
 
+  console.log('-------data-------');
   console.log(data);
   return (
     <Card id="role-management">
@@ -130,38 +131,38 @@ const ListRole = () => {
           title={intl.formatMessage({
             id: 'role.list.table.code',
           })}
-          dataIndex="roles_code"
+          dataIndex="id"
           width={'15%'}
         />
         <Column
           title={intl.formatMessage({
             id: 'admin.user.fullName',
           })}
-          dataIndex="administrator_fullName"
+          dataIndex="fullName"
         />
         <Column
           title={intl.formatMessage({
             id: 'Email',
           })}
-          dataIndex="administrator_emailAddress"
+          dataIndex="email"
         />
         <Column
           title={intl.formatMessage({
             id: 'admin.user.phone',
           })}
-          dataIndex="administrator_phoneNumber"
+          dataIndex="phoneNumber"
         />{' '}
         <Column
           title={intl.formatMessage({
             id: 'admin.user.specialized',
           })}
-          dataIndex="administrator_phoneNumber"
+          dataIndex="role"
         />
         <Column
           title={intl.formatMessage({
             id: 'admin.user.specialized',
           })}
-          dataIndex="users_type"
+          dataIndex="role"
         />
         <Column
           title={intl.formatMessage({
