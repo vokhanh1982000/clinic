@@ -8,6 +8,11 @@
   "common.required": "Bắt buộc nhập",
   "common.setting.darkMode": "Dark Mode",
   "common.setting.lightMode": "Light Mode",
+  "common.cancel": "Hủy",
+  "common.delete": "Xóa",
+  "common.active": "Đang hoạt động",
+  "common.inactive": "Ngừng hoạt động",
+  "common.confirm-delete": "Bạn có chắc chắn muốn xóa",
   "common.action.save": "Lưu",
   "common.action.update": "Cập nhật",
   "common.action.delete": "Xóa"

@@ -5,6 +5,8 @@ import forgot from './forgot.password.json';
 import menu from './menu.json';
 import medicine from './medicine.json';
 import role from './role.json';
+import clinic from './clinic.json';
+import manager from './manager.json';
 import adminuser from './admin.user.json';
 
 const viLang = {
@@ -15,6 +17,8 @@ const viLang = {
     ...menu,
     ...medicine,
     ...role,
+    ...clinic,
+    ...manager,
     ...adminuser,
   },
   antd: antdVI,

@@ -1,0 +1,14 @@
+{
+  "manager.modal.create.title.create": "Tạo Quản Lý Mới",
+  "manager.modal.create.title.edit": "Chi Tiết Quản Lý",
+  "manager.modal.create.fullName": "Họ tên",
+  "manager.modal.create.code": "Mã nhân sự",
+  "manager.modal.create.email": "Email",
+  "manager.modal.create.phone": "Số điện thoại",
+  "manager.modal.create.dob": "Ngày sinh",
+  "manager.modal.create.gender": "Giới tính",
+  "manager.modal.create.button.create": "Tạo Mới",
+  "manager.modal.create.button.cancel": "Hủy",
+  "manager.modal.create.button.edit": "Lưu thông tin",
+  "manager.modal.create.button.delete": "Xóa quyền"
+}

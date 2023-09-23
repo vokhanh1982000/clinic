@@ -1,0 +1,280 @@
+#clinic-management {
+  .clinic-management__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    &__title {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 36px;
+      color: $text_black_light;
+    }
+
+    .button-add {
+      width: 244px;
+      border: unset;
+      display: flex;
+      align-items: center;
+      background-color: $primary_color;
+      color: $text_white;
+    }
+  }
+
+  .clinic-management__filter {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+
+    .input-search {
+      width: 350px;
+    }
+
+    .dropdown-location {
+      width: 184px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .anticon-down {
+        position: absolute;
+        right: 15px;
+      }
+    }
+
+    .dropdown-location:hover {
+      color: inherit;
+      /* Sử dụng màu văn bản mặc định */
+      background-color: inherit;
+      /* Sử dụng màu nền mặc định */
+    }
+  }
+
+  .manager-clinic {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .status-clinic {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .action-clinic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+}
+
+#create-clinic-management {
+  .create-clinic-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+    color: $text_black_light;
+    margin-bottom: 10px;
+  }
+
+  .form-create-clinic {
+    margin-top: 20px;
+    display: flex;
+    // align-items: center;
+    gap: 15px;
+    max-width: 100% !important;
+
+    .clinic-info {
+      padding: 20px 15px;
+      width: 70%;
+      border: 1px solid $border_input_color;
+      border-radius: 24px;
+      display: flex;
+      justify-content: space-between;
+
+      &__title {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 32px;
+        color: $secondary_color;
+        width: 30%;
+      }
+
+      &__content {
+        width: 70%;
+
+        &__rows {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          width: 100%;
+        }
+
+        .name {
+          width: 70%;
+        }
+
+        .code {
+          width: 30%;
+        }
+
+        .workTime {
+          width: 50%;
+
+          .ant-picker {
+            height: 48px;
+            border-radius: 24px;
+          }
+        }
+
+        .status {
+          width: 50%;
+        }
+      }
+    }
+
+    .manager-info {
+      padding: 20px 15px;
+      width: 30%;
+      height: auto;
+      border: 1px solid $border_input_color;
+      border-radius: 24px;
+
+      &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &__title {
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 32px;
+          color: $secondary_color;
+          width: 30%;
+        }
+
+        .button-add {
+          width: 116px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: $primary_color;
+          border: 1px solid $primary_color;
+
+          span {
+            font-weight: 600;
+          }
+        }
+      }
+
+      &__list {
+        margin-top: 15px;
+        border: 1px solid $border_input_color;
+        border-radius: 8px;
+
+        &__item {
+          padding: 10px 20px 10px 30px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+
+          &__delete {
+            z-index: 10;
+          }
+        }
+
+        .border-manager {
+          border-bottom: 1px solid $border_input_color;
+        }
+      }
+    }
+
+    .code {
+      width: 194px;
+    }
+
+    .clinic {
+      width: 397px;
+    }
+
+    .ant-form-item {
+      margin-bottom: 10px;
+
+      .ant-form-item-label {
+        padding: unset;
+
+        label {
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 22px;
+          color: $text_black_light;
+        }
+      }
+    }
+  }
+
+  .list-doctor {
+    margin-top: 15px;
+
+    &__title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 32px;
+      color: $secondary_color;
+      margin-bottom: 15px;
+    }
+
+    .status-doctor {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  .button-action {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .more-action {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .button-create,
+    .button-save {
+      width: 436px;
+      background-color: $primary_color;
+      color: $text_white;
+      border: unset;
+    }
+
+    .button-delete {
+      width: 436px;
+      border: unset;
+      box-shadow: unset;
+      color: $text_warning;
+    }
+
+    .button-cancel {
+      width: 436px;
+      border: unset;
+      box-shadow: unset;
+      color: unset;
+    }
+  }
+}
+
+.ant-btn-primary {
+  background-color: $primary_color !important;
+}

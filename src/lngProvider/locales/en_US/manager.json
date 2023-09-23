@@ -1,0 +1,14 @@
+{
+  "manager.modal.create.title.create": "Create manager",
+  "manager.modal.create.title.edit": "Manager detail",
+  "manager.modal.create.fullName": "Fullname",
+  "manager.modal.create.code": "Code",
+  "manager.modal.create.email": "Email",
+  "manager.modal.create.phone": "Phone number",
+  "manager.modal.create.dob": "Day of birth",
+  "manager.modal.create.gender": "Gender",
+  "manager.modal.create.button.create": "Create",
+  "manager.modal.create.button.cancel": "Cancel",
+  "manager.modal.create.button.edit": "Save",
+  "manager.modal.create.button.delete": "Delete"
+}
