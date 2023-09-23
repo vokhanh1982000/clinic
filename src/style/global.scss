@@ -8,6 +8,12 @@
   background-color: $border_input_color;
 }
 
+.line-title {
+  width: 94px;
+  height: 2px;
+  background-color: $primary_color;
+}
+
 .custom-table {
   .ant-table {
     border-radius: 12px;

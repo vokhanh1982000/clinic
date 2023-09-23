@@ -7,5 +7,10 @@
   "common.no": "No",
   "common.required": "Required",
   "common.setting.darkMode": "Dark Mode",
-  "common.setting.lightMode": "Light Mode"
+  "common.setting.lightMode": "Light Mode",
+  "common.cancel": "Cancel",
+  "common.delete": "Delete",
+  "common.active": "Active",
+  "common.inactive": "Inactive",
+  "common.confirm-delete": "Are you sure you want to delete"
 }

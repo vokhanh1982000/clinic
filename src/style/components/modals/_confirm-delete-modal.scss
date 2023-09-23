@@ -1,0 +1,40 @@
+.confirm-delete-modal {
+  width: 352px !important;
+
+  .title {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+
+    .name {
+      font-weight: 700;
+    }
+  }
+
+  .action {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .button-cancel {
+      width: 146px;
+    }
+
+    .button-cancel:hover {
+      border-color: $border_button_color;
+      color: inherit;
+    }
+
+    .button-delete {
+      width: 146px;
+      background-color: $primary_color;
+      color: $text_white;
+    }
+
+    .button-delete:hover {
+      border-color: inherit;
+    }
+  }
+}

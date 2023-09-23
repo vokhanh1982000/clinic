@@ -11,7 +11,8 @@ const SignInAdmin = React.lazy(() => import('./auth/SignInAdmin'));
 const ForgotPassAdmin = React.lazy(() => import('./auth/ForgotPassAdmin'));
 const ListAdmin = React.lazy(() => import('./adminUser/index'));
 const ListBooking = React.lazy(() => import('./booking/index'));
-const ListClinic = React.lazy(() => import('./clinic/index'));
+const ListClinic = React.lazy(() => import('./clinic/ListClinic'));
+const CreateClinic = React.lazy(() => import('./clinic/CreateEditClinic'));
 const ListDoctor = React.lazy(() => import('./doctor/index'));
 const ListMedicalSpecialty = React.lazy(() => import('./medicalSpecialty/index'));
 const ListNews = React.lazy(() => import('./news/index'));
@@ -24,7 +25,11 @@ export const AdminRoutes = () => (
     <Route path={ADMIN_ROUTE_NAME.DASHBOARD} element={<Admin />}>
       <Route path={ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT} element={<ListAdmin />} />
       <Route path={ADMIN_ROUTE_NAME.BOOKING_MANAGEMENT} element={<ListBooking />} />
-      <Route path={ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT} element={<ListClinic />} />
+      <Route path={ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}>
+        <Route path="" element={<SuspenseWrapper component={<ListClinic />} />} />
+        <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateClinic />} />} />
+        <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateClinic />} />} />
+      </Route>
       <Route path={ADMIN_ROUTE_NAME.DOCTOR_MANAGEMENT} element={<ListDoctor />} />
       <Route path={ADMIN_ROUTE_NAME.MEDICAL_SPECIALTY_MANAGEMENT} element={<ListMedicalSpecialty />} />
       <Route path={ADMIN_ROUTE_NAME.NEWS_MANAGEMENT} element={<ListNews />} />
