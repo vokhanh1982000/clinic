@@ -15,5 +15,7 @@
   "common.confirm-delete": "Bạn có chắc chắn muốn xóa",
   "common.action.save": "Lưu",
   "common.action.update": "Cập nhật",
-  "common.action.delete": "Xóa"
+  "common.action.delete": "Xóa",
+  "common.gender.male": "Nam",
+  "common.gender.female": "Nữ"
 }
