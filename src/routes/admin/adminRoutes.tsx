@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
 import { ADMIN_ROUTE_NAME } from '../../constants/route';
+import CreateDoctor from './doctor/CreateEditDoctor';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));
@@ -13,7 +14,7 @@ const ListAdmin = React.lazy(() => import('./adminUser/index'));
 const ListBooking = React.lazy(() => import('./booking/index'));
 const ListClinic = React.lazy(() => import('./clinic/ListClinic'));
 const CreateClinic = React.lazy(() => import('./clinic/CreateEditClinic'));
-const ListDoctor = React.lazy(() => import('./doctor/index'));
+const ListDoctor = React.lazy(() => import('./doctor/ListDoctor'));
 const ListMedicalSpecialty = React.lazy(() => import('./medicalSpecialty/index'));
 const ListNews = React.lazy(() => import('./news/index'));
 const Statistic = React.lazy(() => import('./statistic/index'));
@@ -36,7 +37,11 @@ export const AdminRoutes = () => (
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateClinic />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateClinic />} />} />
       </Route>
-      <Route path={ADMIN_ROUTE_NAME.DOCTOR_MANAGEMENT} element={<ListDoctor />} />
+      <Route path={ADMIN_ROUTE_NAME.DOCTOR_MANAGEMENT}>
+        <Route path="" element={<SuspenseWrapper component={<ListDoctor />} />} />
+        <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateDoctor />} />} />
+        <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateDoctor />} />} />
+      </Route>
       <Route path={ADMIN_ROUTE_NAME.MEDICAL_SPECIALTY_MANAGEMENT} element={<ListMedicalSpecialty />} />
       <Route path={ADMIN_ROUTE_NAME.NEWS_MANAGEMENT} element={<ListNews />} />
       <Route path={ADMIN_ROUTE_NAME.STATISTIC} element={<Statistic />} />

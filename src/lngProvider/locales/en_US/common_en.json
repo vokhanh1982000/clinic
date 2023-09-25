@@ -15,5 +15,7 @@
   "common.confirm-delete": "Are you sure you want to delete",
   "common.action.save": "Save",
   "common.action.update": "Update",
-  "common.action.delete": "Delete"
+  "common.action.delete": "Delete",
+  "common.gender.male": "Male",
+  "common.gender.female": "Female"
 }

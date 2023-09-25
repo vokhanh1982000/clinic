@@ -8,6 +8,7 @@ import role from './role.json';
 import clinic from './clinic.json';
 import manager from './manager.json';
 import adminuser from './admin.user.json';
+import doctor from './doctor.json';
 
 const viLang = {
   messages: {
@@ -20,6 +21,7 @@ const viLang = {
     ...clinic,
     ...manager,
     ...adminuser,
+    ...doctor,
   },
   antd: antdVI,
   locale: 'vi-VN',
