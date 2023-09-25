@@ -4,7 +4,6 @@
   "admin.user.search": "Search..",
   "admin.user.fullName": "Admin",
   "admin.user.phone": "Phone",
-  "admin.user.specialized": "Recialized",
   "admin.user.action": "Action",
   "admin.user.type": "Role",
   "admin.user.info": "Admin informaiton",
@@ -15,5 +14,10 @@
   "admin.user.dateOfBirth": "Date Of Birth",
   "admin.user.change.pass": "Đổi mật khẩu",
   "admin.user.delete.confirm": "Are you sure delete: ",
-  "admin.user.code": "Code"
+  "admin.user.code": "Code",
+  "admin.user.position": "Position",
+  "admin.user.all": "All",
+  "admin.user.role.message": "Please select role!",
+  "admin.user.phone.message": "Please input phone number!",
+  "admin.user.email.message": "Please input email address!"
 }

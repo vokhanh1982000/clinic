@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, Input, Button, message, Modal, Dropdown, Space, Row } from 'antd';
 
 import Column from 'antd/es/table/Column';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { adminApi, roleApi } from '../../../apis';
@@ -12,6 +12,7 @@ import IconSVG from '../../../components/icons/icons';
 import CustomInput from '../../../components/input/CustomInput';
 import TableWrap from '../../../components/TableWrap';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import DropdownCustom from '../../../components/dropdown/CustomDropdow';
 const ListRole = () => {
   const intl = useIntl();
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ListRole = () => {
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<any>(null);
+  const [positions, setPositions] = useState<string[]>(['']);
 
   const queryClient = useQueryClient();
 
@@ -37,6 +39,7 @@ const ListRole = () => {
     queryKey: ['getAdminUser', { page, size, sort, fullTextSearch }],
     queryFn: () => adminApi.administratorControllerGet(page, size, sort, fullTextSearch),
   });
+
   const handleDeleteRole = (text: any) => {
     Modal.confirm({
       icon: null,
@@ -53,23 +56,11 @@ const ListRole = () => {
     });
   };
 
-  const items: any = [
-    {
-      key: '1',
-      label: (
-        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-          1st menu item
-        </a>
-      ),
-    },
-  ];
-
   const handleSearch = (e: any) => {
     if (e.target.value.trim() === '') return setFullTextSearch(null);
     setFullTextSearch(e.target.value);
   };
 
-  console.log('-------data-------');
   console.log(data);
   return (
     <Card id="role-management">
@@ -87,7 +78,7 @@ const ListRole = () => {
           }}
         >
           {intl.formatMessage({
-            id: 'role.list.button.add',
+            id: 'admin.user.create',
           })}
         </CustomButton>
       </div>
@@ -100,21 +91,7 @@ const ListRole = () => {
           prefix={<IconSVG type="search" />}
           className="input-search"
         />
-        <Dropdown className="cart-role-dropdown" menu={{ items }} placement="bottomLeft">
-          <Button style={{ height: '48px', textAlign: 'left', marginLeft: '15px', borderRadius: '32px' }}>
-            <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Space>
-                <IconSVG type="specialized"></IconSVG>
-                <div className="front-base" style={{ paddingRight: '15px' }}>
-                  {intl.formatMessage({
-                    id: 'admin.user.specialized',
-                  })}
-                </div>
-              </Space>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
+        <DropdownCustom data={data?.data.position} iconType="specialized" setFilterSearch={setFullTextSearch} />
       </Row>
       <TableWrap
         className="custom-table"
@@ -131,8 +108,7 @@ const ListRole = () => {
           title={intl.formatMessage({
             id: 'role.list.table.code',
           })}
-          dataIndex="id"
-          width={'15%'}
+          dataIndex="code"
         />
         <Column
           title={intl.formatMessage({
@@ -154,15 +130,15 @@ const ListRole = () => {
         />{' '}
         <Column
           title={intl.formatMessage({
-            id: 'admin.user.specialized',
+            id: 'admin.user.code',
           })}
           dataIndex="role"
         />
         <Column
           title={intl.formatMessage({
-            id: 'admin.user.specialized',
+            id: 'admin.user.position',
           })}
-          dataIndex="role"
+          dataIndex="position"
         />
         <Column
           title={intl.formatMessage({
@@ -172,7 +148,7 @@ const ListRole = () => {
           width={'15%'}
           render={(_, record: any) => (
             <div className="action-role">
-              <div onClick={() => navigate(`detail/${record.id}`)}>
+              <div onClick={() => navigate(`detail/${record.userId}`)}>
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>

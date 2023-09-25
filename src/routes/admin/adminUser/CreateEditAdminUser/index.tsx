@@ -1,13 +1,17 @@
-import { Avatar, Button, Card, Checkbox, Col, DatePicker, Form, Modal, Row, Select, Switch } from 'antd';
+import { Avatar, Button, Card, Checkbox, Col, DatePicker, Form, Modal, Row, Select, Switch, message } from 'antd';
 import CustomInput from '../../../../components/input/CustomInput';
 import { useIntl } from 'react-intl';
 import DatePickerCustom from '../../../../components/date/datePicker';
 import CustomAvatar from '../../../../components/avatar/avatarCustom';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { roleApi } from '../../../../apis';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRef, useState } from 'react';
+import { adminApi, roleApi } from '../../../../apis';
 import CheckboxGroupCustom from '../../../../components/checkboxGroup/customCheckbox';
-import { CreateAdminDto } from '../../../../apis/client-axios';
+import { CreateAdminDto, UpdateAdminDto } from '../../../../apis/client-axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
+import moment from 'moment';
+import dayjs from 'dayjs';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -15,8 +19,13 @@ const CreateAdmin = () => {
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<any>('null');
-  const [form] = Form.useForm<CreateAdminDto>();
+  const [form] = Form.useForm();
+  const regexPhone = useRef(/^(0[1-9][0-9]{8}|0[1-9][0-9]{9}|84[1-9][0-9]{8}|84[1-9][0-9]{9})$/);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
+  console.log('id: ', id);
   const n = (key: keyof CreateAdminDto) => {
     return key;
   };
@@ -25,6 +34,51 @@ const CreateAdmin = () => {
     queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
     queryFn: () => roleApi.roleControllerGet(page, size, sort),
   });
+
+  const { data: detailAdmin } = useQuery(
+    ['getDetailAdmin', id],
+    () => adminApi.administratorControllerGetById(id as string),
+    {
+      onError: (error) => {},
+      onSuccess: (response) => {
+        console.log('res');
+        console.log(response);
+
+        form.setFieldsValue({
+          ...response.data,
+          gender: response.data.gender ? 1 : 0,
+          dateOfBirth: moment(response.data.dateOfBirth),
+        });
+      },
+    }
+  );
+
+  const createAdmin = useMutation(
+    (createAdmin: CreateAdminDto) => adminApi.administratorControllerCreate(createAdmin),
+    {
+      onSuccess: ({ data }) => {
+        navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
+      },
+      onError: (error) => {
+        console.log('error: ', error);
+        message.error(intl.formatMessage({ id: 'role.create.error' }));
+      },
+    }
+  );
+
+  const updateAdmin = useMutation(
+    (updateAdmin: UpdateAdminDto) => adminApi.administratorControllerUpdate(updateAdmin),
+    {
+      onSuccess: ({ data }) => {
+        navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
+      },
+      onError: (error) => {
+        console.log('err: ');
+        // message.error(intl.formatMessage({ id: error }));
+        console.log(error);
+      },
+    }
+  );
 
   const handleDelete = (text: any) => {
     Modal.confirm({
@@ -43,8 +97,30 @@ const CreateAdmin = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log(values);
+    const roleIds = form.getFieldValue(n('roleIds'));
+    if (!roleIds || (roleIds && roleIds.length < 1))
+      return message.error(intl.formatMessage({ id: 'admin.user.role.message' }));
+
+    if (id) {
+      updateAdmin.mutate({
+        ...values,
+        dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
+        roleIds,
+        userId: id,
+      });
+    } else {
+      const data: CreateAdminDto = {
+        ...values,
+        gender: 0 ? true : false,
+        dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
+        roleIds,
+      };
+      console.log('data, ----', data);
+      createAdmin.mutate(data);
+    }
   };
+  console.log('detailAdmin: ', detailAdmin?.data);
+
   return (
     <Card id="admin-management">
       <Form form={form} onFinish={onFinish}>
@@ -78,39 +154,63 @@ const CreateAdmin = () => {
                     </Col>
                     <Col span={11}>
                       <header>{intl.formatMessage({ id: 'admin.user.code' })}</header>
-                      <Form.Item rules={[{ required: true }]} name="code">
+                      <Form.Item rules={[{ required: true }]} name={n('code')}>
                         <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.code' })} />
                       </Form.Item>
                     </Col>
                   </Row>
                   <Row className="admin-management__info-item">
-                    <Form.Item rules={[{ required: true }]} name="email">
-                      <header>Email</header>
-                      <CustomInput placeholder={intl.formatMessage({ id: 'Email' })} />
+                    <header>Email</header>
+                    <Form.Item
+                      rules={[
+                        { required: true },
+                        { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
+                      ]}
+                      name={n('emailAddress')}
+                    >
+                      <CustomInput
+                        name={n('emailAddress')}
+                        placeholder={intl.formatMessage({ id: 'admin.user.email.message' })}
+                      />
                     </Form.Item>
                   </Row>
                   <Row className="admin-management__info-item">
-                    <Form.Item rules={[{ required: true }]} name={n('phoneNumber')}>
-                      <header>{intl.formatMessage({ id: 'admin.user.phone' })}</header>
+                    <header>{intl.formatMessage({ id: 'admin.user.phone' })}</header>
+                    <Form.Item
+                      rules={[
+                        { required: true },
+                        {
+                          pattern: regexPhone.current,
+                          message: intl.formatMessage({ id: 'admin.user.phone.message' }),
+                        },
+                      ]}
+                      name={n('phoneNumber')}
+                    >
                       <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.phone' })} />
+                    </Form.Item>
+                  </Row>
+                  <Row className="admin-management__info-item">
+                    <header>{intl.formatMessage({ id: 'admin.user.position' })}</header>
+                    <Form.Item rules={[{ required: true }]} name={n('position')}>
+                      <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.position' })} />
                     </Form.Item>
                   </Row>
                   <Row className="admin-management__info-item">
                     <Col span={14}>
                       <header>{intl.formatMessage({ id: 'admin.user.dateOfBirth' })}</header>
-                      <Form.Item rules={[{ required: true }]} name="">
+                      <Form.Item rules={[{ required: true }]} name={n('dateOfBirth')}>
                         <DatePickerCustom dateFormat="DD/MM/YYYY" className="date-select"></DatePickerCustom>
                       </Form.Item>
                     </Col>
                     <Col span={9}>
                       <header>{intl.formatMessage({ id: 'admin.user.gender' })}</header>
-                      <Form.Item rules={[{ required: true }]} name={intl.formatMessage({ id: 'admin.user.gender' })}>
+                      <Form.Item rules={[{ required: true }]} name={n('gender')}>
                         <Select
                           className="admin-management__item-select"
                           defaultValue="Gender"
                           options={[
-                            { value: 'Male', label: 'Male' },
-                            { value: 'Female', label: 'Female' },
+                            { value: 0, label: 'Male' },
+                            { value: 1, label: 'Female' },
                           ]}
                         />
                       </Form.Item>
@@ -122,7 +222,7 @@ const CreateAdmin = () => {
                         id: 'sigin.password',
                       })}
                     </header>
-                    <Form.Item rules={[{ required: true }]} name={intl.formatMessage({ id: 'sigin.password' })}>
+                    <Form.Item rules={[{ required: true }]} name={n('password')}>
                       <CustomInput
                         isPassword={true}
                         placeholder={intl.formatMessage({
@@ -143,9 +243,15 @@ const CreateAdmin = () => {
                   <div className="line-element"></div>
                 </div>
               </Row>
-              <Row>
-                <Form.Item rules={[{ required: true }]} name={intl.formatMessage({ id: 'sigin.password' })}>
-                  <CheckboxGroupCustom array={data?.data.content}></CheckboxGroupCustom>
+              <Row className="admin-management__role-checkboxGroup">
+                <Form.Item>
+                  <CheckboxGroupCustom
+                    listChecked={detailAdmin?.data.user.roles}
+                    form={form}
+                    formFieldValueName={n('roleIds')}
+                    className="checkbox"
+                    array={data?.data.content}
+                  ></CheckboxGroupCustom>
                 </Form.Item>
               </Row>
             </Card>
