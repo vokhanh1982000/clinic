@@ -67,6 +67,12 @@ export interface Administrator {
     'code': string;
     /**
      * 
+     * @type {boolean}
+     * @memberof Administrator
+     */
+    'gender': boolean;
+    /**
+     * 
      * @type {string}
      * @memberof Administrator
      */

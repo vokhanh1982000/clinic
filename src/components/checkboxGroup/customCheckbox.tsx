@@ -1,20 +1,45 @@
-import dayjs from 'dayjs';
-import { Checkbox, CheckboxProps } from 'antd';
+import { Checkbox, CheckboxProps, FormInstance } from 'antd';
 
-interface CustomCheckbox {
+interface CustomCheckbox extends CheckboxProps {
   array?: any[];
-  className?: string;
+  form: FormInstance<any>;
+  formFieldValueName: string;
+  listChecked: any[] | undefined;
 }
 
 const CheckboxGroupCustom = (props: CustomCheckbox) => {
-  const { array, className } = props;
+  let { array, form, formFieldValueName, listChecked } = props;
+  listChecked = listChecked?.map((item) => item.id);
+  const handeArrayCheckbox = (e: any) => {
+    const item = new Set((form.getFieldValue(formFieldValueName) || []) as string[]);
+    e.target.checked ? item.add(e.target.value) : item.delete(e.target.value);
+    form.setFieldValue(formFieldValueName, Array.from(item));
+  };
+
   return (
     <>
-      {array?.map((item) => (
-        <Checkbox value={item.id} className={`ant-custom-checkboxGroup ${className}`} {...props}>
-          {item.name}
-        </Checkbox>
-      ))}
+      {array?.map((item) =>
+        listChecked?.includes(item) ? (
+          <Checkbox
+            value={item.id}
+            checked
+            onChange={(e) => handeArrayCheckbox(e)}
+            className={`ant-custom-checkboxGroup-${item.id}`}
+            {...props}
+          >
+            {item.name}
+          </Checkbox>
+        ) : (
+          <Checkbox
+            value={item.id}
+            onChange={(e) => handeArrayCheckbox(e)}
+            className={`ant-custom-checkboxGroup-${item.id}`}
+            {...props}
+          >
+            {item.name}
+          </Checkbox>
+        )
+      )}
     </>
   );
 };
