@@ -109,7 +109,7 @@
         }
       }
       .ant-checkbox-wrapper {
-        width: 48%;
+        width: 185px;
         margin-top: 15px;
         font-size: 16px;
         font-family: 'Open-Sans' !important;
@@ -122,4 +122,9 @@
   height: 2px;
   margin-top: 2px;
   background-color: $primary_color;
+}
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
+.ant-btn-default:not(:disabled):hover {
+  border-color: unset;
+  color: unset;
 }
