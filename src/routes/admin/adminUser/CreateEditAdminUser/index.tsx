@@ -7,11 +7,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { adminApi, roleApi } from '../../../../apis';
 import CheckboxGroupCustom from '../../../../components/checkboxGroup/customCheckbox';
-import { CreateAdminDto, UpdateAdminDto } from '../../../../apis/client-axios';
+import { CreateAdminDto, Role, UpdateAdminDto } from '../../../../apis/client-axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import moment from 'moment';
-import dayjs from 'dayjs';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -25,14 +24,13 @@ const CreateAdmin = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  console.log('id: ', id);
   const n = (key: keyof CreateAdminDto) => {
     return key;
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
-    queryFn: () => roleApi.roleControllerGet(page, size, sort),
+  const { data: roleData } = useQuery({
+    queryKey: ['getRoles'],
+    queryFn: () => roleApi.roleControllerGet(1, 10, sort),
   });
 
   const { data: detailAdmin } = useQuery(
@@ -41,13 +39,14 @@ const CreateAdmin = () => {
     {
       onError: (error) => {},
       onSuccess: (response) => {
-        console.log('res');
-        console.log(response);
-
+        form.setFieldValue(n('roleIds'), Array.from(response.data.user.roles.map((item) => item.id)));
         form.setFieldsValue({
           ...response.data,
+          roleIds: response.data.user.roles,
           gender: response.data.gender ? 1 : 0,
-          dateOfBirth: moment(response.data.dateOfBirth),
+          dateOfBirth: response.data.dateOfBirth
+            ? moment(response.data.dateOfBirth, 'DD/MM/YYYY')
+            : moment('', 'DD/MM/YYYY'),
         });
       },
     }
@@ -57,10 +56,11 @@ const CreateAdmin = () => {
     (createAdmin: CreateAdminDto) => adminApi.administratorControllerCreate(createAdmin),
     {
       onSuccess: ({ data }) => {
+        queryClient.invalidateQueries(['getAdminUser']);
+        queryClient.invalidateQueries(['getDetailAdmin', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error) => {
-        console.log('error: ', error);
         message.error(intl.formatMessage({ id: 'role.create.error' }));
       },
     }
@@ -70,15 +70,23 @@ const CreateAdmin = () => {
     (updateAdmin: UpdateAdminDto) => adminApi.administratorControllerUpdate(updateAdmin),
     {
       onSuccess: ({ data }) => {
-        navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
+        queryClient.invalidateQueries(['getDetailAdmin', id]);
+        navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error) => {
-        console.log('err: ');
         // message.error(intl.formatMessage({ id: error }));
         console.log(error);
       },
     }
   );
+  const deleteAdmin = useMutation((id: string) => roleApi.roleControllerDelete(id), {
+    onSuccess: ({ data }) => {
+      navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
+    },
+    onError: (error) => {
+      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
+    },
+  });
 
   const handleDelete = (text: any) => {
     Modal.confirm({
@@ -87,7 +95,7 @@ const CreateAdmin = () => {
       okText: intl.formatMessage({ id: 'role.remove.confirm' }),
       cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
       onOk() {
-        // if (text) deleteRole.mutate(text);
+        if (text) deleteAdmin.mutate(text);
       },
       onCancel() {
         console.log('cancel');
@@ -105,6 +113,7 @@ const CreateAdmin = () => {
       updateAdmin.mutate({
         ...values,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
+        gender: 0 ? true : false,
         roleIds,
         userId: id,
       });
@@ -115,11 +124,31 @@ const CreateAdmin = () => {
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
         roleIds,
       };
-      console.log('data, ----', data);
       createAdmin.mutate(data);
     }
   };
-  console.log('detailAdmin: ', detailAdmin?.data);
+
+  const handeArrayCheckbox = (e: any) => {
+    const item = new Set((form.getFieldValue(n('roleIds')) || []) as string[]);
+    e.target.checked ? item.add(e.target.value) : item.delete(e.target.value);
+    form.setFieldValue(n('roleIds'), Array.from(item));
+  };
+
+  const renderCheckbox = (item: any, role: Role[] | undefined) => {
+    if (item && role) {
+      const checked = role?.some((val) => val.id === item.id);
+      return id ? (
+        <Checkbox value={item.id} defaultChecked={checked} onChange={(e) => handeArrayCheckbox(e)}>
+          {item.name}
+        </Checkbox>
+      ) : (
+        <Checkbox value={item.id} onChange={(e) => handeArrayCheckbox(e)}>
+          {item.name}
+        </Checkbox>
+      );
+    }
+    <></>;
+  };
 
   return (
     <Card id="admin-management">
@@ -222,7 +251,7 @@ const CreateAdmin = () => {
                         id: 'sigin.password',
                       })}
                     </header>
-                    <Form.Item rules={[{ required: true }]} name={n('password')}>
+                    <Form.Item name={n('password')}>
                       <CustomInput
                         isPassword={true}
                         placeholder={intl.formatMessage({
@@ -245,13 +274,7 @@ const CreateAdmin = () => {
               </Row>
               <Row className="admin-management__role-checkboxGroup">
                 <Form.Item>
-                  <CheckboxGroupCustom
-                    listChecked={detailAdmin?.data.user.roles}
-                    form={form}
-                    formFieldValueName={n('roleIds')}
-                    className="checkbox"
-                    array={data?.data.content}
-                  ></CheckboxGroupCustom>
+                  {roleData?.data.content?.map((item) => renderCheckbox(item, detailAdmin?.data.user.roles))}
                 </Form.Item>
               </Row>
             </Card>
@@ -259,9 +282,11 @@ const CreateAdmin = () => {
               <Button type="primary" block onClick={() => form.submit()}>
                 {intl.formatMessage({ id: 'common.action.save' })}
               </Button>
-              <Button type="text" block className="admin-submit-remove" onClick={handleDelete}>
-                {intl.formatMessage({ id: 'admin.user.delete' })}
-              </Button>
+              {id && (
+                <Button type="text" block className="admin-submit-remove" onClick={handleDelete}>
+                  {intl.formatMessage({ id: 'admin.user.delete' })}
+                </Button>
+              )}
             </Row>
           </Col>
         </Row>

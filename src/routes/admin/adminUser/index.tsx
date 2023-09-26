@@ -20,18 +20,16 @@ const ListRole = () => {
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<any>(null);
-  const [positions, setPositions] = useState<string[]>(['']);
-
   const queryClient = useQueryClient();
 
-  const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
+  const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
       console.log(data);
-      queryClient.invalidateQueries(['getUsers']);
-      navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
+      queryClient.invalidateQueries(['getAdminUser']);
+      navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
     },
     onError: (error) => {
-      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
+      message.error(intl.formatMessage({ id: `${error}` }));
     },
   });
 
@@ -40,14 +38,15 @@ const ListRole = () => {
     queryFn: () => adminApi.administratorControllerGet(page, size, sort, fullTextSearch),
   });
 
-  const handleDeleteRole = (text: any) => {
+  const handleDeleteAdmin = (text: any) => {
+    console.log('tex: ', text);
     Modal.confirm({
       icon: null,
       content: intl.formatMessage({ id: 'admin.user.delete.confirm' }),
       okText: intl.formatMessage({ id: 'role.remove.confirm' }),
       cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
       onOk() {
-        if (text) deleteRole.mutate(text);
+        if (text) deleteAdmin.mutate(text);
       },
       onCancel() {
         console.log('cancel');
@@ -152,7 +151,7 @@ const ListRole = () => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => handleDeleteRole(record.id)}>
+              <div onClick={() => handleDeleteAdmin(record.userId)}>
                 <IconSVG type="delete" />
               </div>
             </div>
