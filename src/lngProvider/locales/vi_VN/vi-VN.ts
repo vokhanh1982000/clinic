@@ -9,6 +9,7 @@ import clinic from './clinic.json';
 import manager from './manager.json';
 import adminuser from './admin.user.json';
 import doctor from './doctor.json';
+import category from './category.json';
 
 const viLang = {
   messages: {
@@ -22,6 +23,7 @@ const viLang = {
     ...manager,
     ...adminuser,
     ...doctor,
+    ...category,
   },
   antd: antdVI,
   locale: 'vi-VN',

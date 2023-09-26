@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { logOut } from '../util/logout';
-import { AuthApi, CustomersApi, Configuration, RolesApi, PermissionsApi, AdminApi } from './client-axios';
+import { AuthApi, CustomersApi, Configuration, RolesApi, PermissionsApi, AdminApi, CategoryApi } from './client-axios';
 
 const config = new Configuration({
   basePath: process.env.REACT_APP_API_URL,
@@ -25,5 +25,6 @@ const customerApi = new CustomersApi(config, undefined, axiosInstance);
 const roleApi = new RolesApi(config, undefined, axiosInstance);
 const permissionApi = new PermissionsApi(config, undefined, axiosInstance);
 const adminApi = new AdminApi(config, undefined, axiosInstance);
+const categoryApi = new CategoryApi(config, undefined, axiosInstance);
 
-export { authApi, customerApi, roleApi, permissionApi, adminApi };
+export { authApi, customerApi, roleApi, permissionApi, adminApi, categoryApi };

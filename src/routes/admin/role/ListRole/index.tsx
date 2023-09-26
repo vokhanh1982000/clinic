@@ -15,6 +15,7 @@ import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 import { EditOutlined, DeleteOutlined, SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -23,6 +24,7 @@ const ListRole = () => {
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<any>(null);
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
 
   const queryClient = useQueryClient();
 
@@ -30,23 +32,11 @@ const ListRole = () => {
     queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
     queryFn: () => roleApi.roleControllerGet(page, size, sort, fullTextSearch),
   });
-  const handleDeleteRole = (id: string, name: string) => {
-    Modal.confirm({
-      content:
-        intl.formatMessage({ id: 'role.remove.confirm.prefix' }) +
-        name +
-        intl.formatMessage({ id: 'role.remove.confirm.suffixes' }),
-      icon: null,
-      okText: intl.formatMessage({ id: 'role.remove.confirm' }),
-      cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
-      onOk() {
-        if (id) deleteRole.mutate(id);
-      },
-      onCancel() {
-        console.log('cancel');
-      },
-      centered: true,
-    });
+  const handleDeleteRole = () => {
+    if (isShowModalDelete && isShowModalDelete.id) {
+      deleteRole.mutate(isShowModalDelete.id);
+      setIsShowModalDelete(undefined);
+    }
   };
 
   const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
@@ -124,7 +114,7 @@ const ListRole = () => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => handleDeleteRole(record.id, record.name)}>
+              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
                 <IconSVG type="delete" />
               </div>
             </div>
@@ -132,6 +122,14 @@ const ListRole = () => {
           align="center"
         />
       </TableWrap>
+      <ConfirmDeleteModal
+        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDeleteRole}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
     </Card>
   );
 };

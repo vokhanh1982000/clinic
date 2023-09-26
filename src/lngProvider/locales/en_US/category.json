@@ -1,0 +1,14 @@
+{
+  "category.list.title": "Medical Specialty Management",
+  "category.list.button.add": "Medical Specialty Create",
+  "category.list.search": "Medical Specialty Search",
+  "category.list.table.name": "Medical Specialty",
+  "category.list.table.action": "Action",
+  "category.modal.create.title.create": "Medical Specialty Create",
+  "category.modal.create.title.edit": "Medical Specialty Detail",
+  "category.modal.create.name": "Medical Specialty",
+  "category.modal.create.button.create": "Create",
+  "category.modal.create.button.cancel": "Cancel",
+  "category.modal.create.button.edit": "Save",
+  "category.modal.create.button.delete": "Delete"
+}

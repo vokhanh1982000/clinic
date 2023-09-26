@@ -1,0 +1,14 @@
+{
+  "category.list.title": "Quản Lý Chuyên Khoa",
+  "category.list.button.add": "Tạo Chuyên Khoa Mới",
+  "category.list.search": "Tìm kiếm chuyên khoa",
+  "category.list.table.name": "Chuyên Khoa",
+  "category.list.table.action": "Thao tác",
+  "category.modal.create.title.create": "Tạo Chuyên Khoa Mới",
+  "category.modal.create.title.edit": "Chi Tiết Chuyên Khoa",
+  "category.modal.create.name": "Chuyên khoa",
+  "category.modal.create.button.create": "Tạo Mới",
+  "category.modal.create.button.cancel": "Hủy",
+  "category.modal.create.button.edit": "Lưu thông tin",
+  "category.modal.create.button.delete": "Xóa chuyên khoa"
+}
