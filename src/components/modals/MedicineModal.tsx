@@ -1,4 +1,4 @@
-import { Button, Form, FormInstance, Modal } from 'antd';
+import { Form, FormInstance, Modal } from 'antd';
 import { useIntl } from 'react-intl';
 import CustomInput from '../input/CustomInput';
 import { ActionUser } from '../../constants/enum';
@@ -12,10 +12,11 @@ interface MedicineModalProps {
   action: ActionUser;
   onSubmit: Function;
   onClose: () => void;
+  onDelete?: Function;
 }
 
 export const MedicineModal = (props: MedicineModalProps) => {
-  const { form, visible, title, action, onSubmit, onClose } = props;
+  const { form, visible, title, action, onSubmit, onClose, onDelete } = props;
   const intl = useIntl();
 
   return (
@@ -32,18 +33,9 @@ export const MedicineModal = (props: MedicineModalProps) => {
           >
             <CustomInput />
           </Form.Item>
-          <Form.Item
-            name="quantity"
-            className="quantity"
-            label={intl.formatMessage({
-              id: 'medicine.modal.create.quantity',
-            })}
-          >
-            <CustomInput />
-          </Form.Item>
         </div>
         <Form.Item
-          name="effect"
+          name="usage"
           label={intl.formatMessage({
             id: 'medicine.modal.create.usage',
           })}
@@ -99,11 +91,13 @@ export const MedicineModal = (props: MedicineModalProps) => {
                   id: 'medicine.modal.create.button.save',
                 })}
               </CustomButton>
-              <CustomButton className="button-delete" onClick={onClose}>
-                {intl.formatMessage({
-                  id: 'medicine.modal.create.button.delete',
-                })}
-              </CustomButton>
+              {onDelete && (
+                <CustomButton className="button-delete" onClick={() => onDelete()}>
+                  {intl.formatMessage({
+                    id: 'medicine.modal.create.button.delete',
+                  })}
+                </CustomButton>
+              )}
             </>
           )}
         </div>
