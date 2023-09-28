@@ -2,5 +2,10 @@
   .ant-select-selector {
     height: 48px !important;
     border-radius: 36px;
+
+    .ant-select-selection-item {
+      display: flex;
+      align-items: center;
+    }
   }
 }

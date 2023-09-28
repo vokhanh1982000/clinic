@@ -12,6 +12,8 @@ import IconSVG from '../../../../components/icons/icons';
 import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomSelect from '../../../../components/select/CustomSelect';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import { Status } from '../../../../constants/enum';
 
 const ListUser = () => {
   const intl = useIntl();
@@ -28,6 +30,11 @@ const ListUser = () => {
         ? customerApi.customerControllerGet(page, size, sort, fullTextSearch)
         : customerApi.customerControllerGet(page, size, sort),
   });
+
+  const handleDelete = () => {
+    console.log('123');
+  };
+
   return (
     <Card id="customer-management">
       <div className="customer-management__header">
@@ -61,11 +68,26 @@ const ListUser = () => {
           placeholder={intl.formatMessage({
             id: 'customer.list.select.status.place-holder',
           })}
+          options={[
+            {
+              value: 'active',
+              label: intl.formatMessage({
+                id: 'common.active',
+              }),
+            },
+            {
+              value: 'inactive',
+              label: intl.formatMessage({
+                id: 'common.inactive',
+              }),
+            },
+          ]}
         />
       </div>
       <TableWrap
+        className="custom-table"
         data={data?.data.content}
-        isLoading={isLoading}
+        // isLoading={isLoading}
         page={page}
         size={size}
         total={data?.data.total}
@@ -75,36 +97,37 @@ const ListUser = () => {
       >
         <Column
           title={intl.formatMessage({
+            id: 'customer.list.table.code',
+          })}
+          dataIndex="code"
+          width={'10%'}
+        />
+        <Column
+          title={intl.formatMessage({
             id: 'customer.list.table.name',
           })}
-          dataIndex="name"
+          dataIndex="fullName"
           width={'15%'}
         />
         <Column
           title={intl.formatMessage({
-            id: 'customer.list.table.manager',
+            id: 'customer.list.table.email',
           })}
-          dataIndex="manager"
+          dataIndex="emailAddress"
           width={'15%'}
-          render={(_, record: any) => (
-            <div className="manager-customer">
-              <div>{record.manager}</div>
-              <IconSVG type="more" />
-            </div>
-          )}
         />
         <Column
           title={intl.formatMessage({
-            id: 'customer.list.table.address',
+            id: 'customer.list.table.phone',
           })}
-          dataIndex="address"
-          width={'25%'}
+          dataIndex="phoneNumber"
+          width={'15%'}
         />
         <Column
           title={intl.formatMessage({
-            id: 'customer.list.table.workTime',
+            id: 'customer.list.table.package',
           })}
-          dataIndex="workTime"
+          dataIndex="package"
           width={'15%'}
         />
         <Column
@@ -113,16 +136,25 @@ const ListUser = () => {
           })}
           dataIndex="status"
           width={'15%'}
-          render={(_, record: any) => (
-            <div className="status-customer">
-              <IconSVG type={record.status} />
-              <div>
-                {intl.formatMessage({
-                  id: `common.${record.status}`,
-                })}
+          render={(_, record: any) => {
+            let status = record.user ? (record.user.isActive ? Status.ACTIVE : Status.INACTIVE) : undefined;
+            return (
+              <div className="status-customer">
+                {status ? (
+                  <>
+                    <IconSVG type={status} />
+                    <div>
+                      {intl.formatMessage({
+                        id: `common.${status}`,
+                      })}
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
-            </div>
-          )}
+            );
+          }}
         />
         <Column
           title={intl.formatMessage({
@@ -144,6 +176,14 @@ const ListUser = () => {
           align="center"
         />
       </TableWrap>
+      <ConfirmDeleteModal
+        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDelete}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
     </Card>
   );
 };

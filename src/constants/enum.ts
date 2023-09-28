@@ -7,3 +7,8 @@ export enum DoctorType {
   DOCTOR = 'doctor',
   DOCTOR_SUPPORT = 'doctor-support',
 }
+
+export enum Status {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
