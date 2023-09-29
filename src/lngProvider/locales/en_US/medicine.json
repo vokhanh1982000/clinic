@@ -28,5 +28,9 @@
   "medicine.list.table.status": "Status",
   "medicine.list.table.action": "Action",
   "medicine.list.modal.create": "Create",
-  "medicine.list.modal.update": "Detail"
+  "medicine.list.modal.update": "Detail",
+  "medicine.unit.pellet": "Pellet",
+  "medicine.unit.jar": "Jar",
+  "medicine.status.still": "Still",
+  "medicine.status.none-left": "None-left"
 }
