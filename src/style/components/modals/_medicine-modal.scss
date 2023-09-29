@@ -10,6 +10,12 @@
       line-height: 36px;
       color: $text_black;
       margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+
+      &__button-close:hover {
+        cursor: pointer;
+      }
     }
 
     &__rows {
@@ -30,7 +36,7 @@
         width: 50%;
       }
     }
-    .ant-select-selection-item{
+    .ant-select-selection-item {
       display: flex;
       align-items: center;
     }

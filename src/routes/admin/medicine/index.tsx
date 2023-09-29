@@ -8,7 +8,7 @@ import { Card, Dropdown, Form, message } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import TableWrap from '../../../components/TableWrap';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { categoryApi, medicineApi } from '../../../apis';
+import { categoryApi, adminMedicineApi } from '../../../apis';
 import Column from 'antd/es/table/Column';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import { MedicineModal } from '../../../components/modals/MedicineModal';
@@ -48,18 +48,18 @@ const ListMedicine = () => {
   const [form] = useForm();
 
   const { data, isLoading } = useQuery({
-    queryKey: ['medicineList', { page, size, sort, fullTextSearch, status, unit }],
+    queryKey: ['adminMedicineList', { page, size, sort, fullTextSearch, status, unit }],
     queryFn: () =>
       fullTextSearch
-        ? medicineApi.medicineControllerFindAll(page, size, sort, fullTextSearch, status, unit)
-        : medicineApi.medicineControllerFindAll(page, size, sort, undefined, status, unit),
+        ? adminMedicineApi.medicineAdminControllerFindAll(page, size, sort, fullTextSearch, status, unit)
+        : adminMedicineApi.medicineAdminControllerFindAll(page, size, sort, undefined, status, unit),
   });
 
   const { mutate: CreateMedicine, status: statusCreateMedicine } = useMutation(
-    (createMedicine: CreateMedicineDto) => medicineApi.medicineControllerCreate(createMedicine),
+    (createMedicine: CreateMedicineDto) => adminMedicineApi.medicineAdminControllerCreate(createMedicine),
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(['medicineList']);
+        queryClient.invalidateQueries(['adminMedicineList']);
       },
       onError: (error: any): void => {
         message.error(error.message);
@@ -68,12 +68,13 @@ const ListMedicine = () => {
   );
 
   const { mutate: UpdateMedicine, status: statusUpdateMedicine } = useMutation(
-    (updateMedicine: UpdateMedicineDto) => medicineApi.medicineControllerUpdate(isShowModalUpdate!.id, updateMedicine),
+    (updateMedicine: UpdateMedicineDto) =>
+      adminMedicineApi.medicineAdminControllerUpdate(isShowModalUpdate!.id, updateMedicine),
     {
       onSuccess: (data) => {
         setIsShowModalUpdate(undefined);
         setIsShowModalDelete(undefined);
-        queryClient.invalidateQueries(['medicineList']);
+        queryClient.invalidateQueries(['adminMedicineList']);
       },
       onError: (error: any): void => {
         message.error(error.message);
@@ -82,12 +83,12 @@ const ListMedicine = () => {
   );
 
   const { mutate: DeleteMedicine, status: statusDeleteMedicine } = useMutation(
-    () => medicineApi.medicineControllerRemove(isShowModalDelete!.id),
+    () => adminMedicineApi.medicineAdminControllerRemove(isShowModalDelete!.id),
     {
       onSuccess: (data) => {
         setIsShowModalDelete(undefined);
         setIsShowModalUpdate(undefined);
-        queryClient.invalidateQueries(['medicineList']);
+        queryClient.invalidateQueries(['adminMedicineList']);
       },
       onError: (error: any): void => {
         message.error(error.message);
@@ -112,96 +113,6 @@ const ListMedicine = () => {
     UpdateMedicine(data);
     form.resetFields();
   };
-
-  const dropDownUnits: any = [
-    {
-      key: '1',
-      label: (
-        <div
-          onClick={(): void => {
-            setUnit(undefined);
-          }}
-        >
-          {intl.formatMessage({
-            id: 'medicine.list.dropdown.unit',
-          })}
-        </div>
-      ),
-    },
-    {
-      key: '2',
-      label: (
-        <div
-          onClick={(): void => {
-            setUnit(MedicineUnit.JAR);
-          }}
-        >
-          {intl.formatMessage({
-            id: 'medicine.unit.jar',
-          })}
-        </div>
-      ),
-    },
-    {
-      key: '3',
-      label: (
-        <div
-          onClick={(): void => {
-            setUnit(MedicineUnit.PELLET);
-          }}
-        >
-          {intl.formatMessage({
-            id: 'medicine.unit.pellet',
-          })}
-        </div>
-      ),
-    },
-  ];
-
-  const dropDownStatus: any = [
-    {
-      key: '1',
-      label: (
-        <div
-          onClick={(): void => {
-            setStatus(undefined);
-          }}
-        >
-          {intl.formatMessage({
-            id: 'medicine.list.dropdown.status',
-          })}
-        </div>
-      ),
-    },
-    {
-      key: '2',
-      label: (
-        <div
-          onClick={(): void => {
-            setStatus(MedicineStatus.NONE_LEFT);
-          }}
-        >
-          {intl.formatMessage({
-            id: 'medicine.status.none-left',
-          })}
-        </div>
-      ),
-    },
-    {
-      key: '3',
-      label: (
-        <div
-          onClick={(): void => {
-            setStatus(MedicineStatus.STILL);
-          }}
-        >
-          {intl.formatMessage({
-            id: 'medicine.status.still',
-          })}
-        </div>
-      ),
-    },
-  ];
 
   return (
     <Card id="medicine-management">
@@ -235,35 +146,6 @@ const ListMedicine = () => {
               setFullTextSearch(e.target.value);
             }}
           />
-          <Dropdown className={'dropdown-unit'} menu={{ items: dropDownUnits }}>
-            <CustomButton className="button-unit">
-              <div>
-                {unit
-                  ? intl.formatMessage({
-                      id: `medicine.unit.${unit}`,
-                    })
-                  : intl.formatMessage({
-                      id: 'medicine.list.dropdown.unit',
-                    })}
-              </div>
-              <DownOutlined />
-            </CustomButton>
-          </Dropdown>
-
-          <Dropdown className={'dropdown-status'} menu={{ items: dropDownStatus }}>
-            <CustomButton className="button-status">
-              <div>
-                {status
-                  ? intl.formatMessage({
-                      id: `medicine.status.${status}`,
-                    })
-                  : intl.formatMessage({
-                      id: 'medicine.list.dropdown.status',
-                    })}
-              </div>
-              <DownOutlined />
-            </CustomButton>
-          </Dropdown>
         </div>
         <TableWrap
           className={'custom-table'}
@@ -374,7 +256,7 @@ const ListMedicine = () => {
             title={intl.formatMessage({
               id: 'medicine.list.modal.create',
             })}
-            isSuperAdmin={false}
+            isSuperAdmin={true}
           />
         )}
         {isShowModalUpdate && (
@@ -388,7 +270,7 @@ const ListMedicine = () => {
             onSubmit={handleUpdate}
             onClose={() => setIsShowModalUpdate(undefined)}
             onDelete={handleDelete}
-            isSuperAdmin={false}
+            isSuperAdmin={true}
           />
         )}
       </Form>

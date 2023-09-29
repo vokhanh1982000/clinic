@@ -28,5 +28,9 @@
   "medicine.list.table.status": "Trạng thái",
   "medicine.list.table.action": "Thao tác",
   "medicine.list.modal.create": "Tạo thuốc mới",
-  "medicine.list.modal.update": "Chi tiết thuốc"
+  "medicine.list.modal.update": "Chi tiết thuốc",
+  "medicine.unit.pellet": "Viên",
+  "medicine.unit.jar": "Lọ",
+  "medicine.status.still": "Còn",
+  "medicine.status.none-left": "Đã hết"
 }
