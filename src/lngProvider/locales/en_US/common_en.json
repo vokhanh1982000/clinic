@@ -17,5 +17,6 @@
   "common.action.update": "Update",
   "common.action.delete": "Delete",
   "common.gender.male": "Male",
-  "common.gender.female": "Female"
+  "common.gender.female": "Female",
+  "common.option.all": "All"
 }

@@ -1121,10 +1121,10 @@ export interface CreateCustomerDto {
     'gender': boolean;
     /**
      * 
-     * @type {string}
+     * @type {boolean}
      * @memberof CreateCustomerDto
      */
-    'status': string;
+    'status': boolean;
 }
 /**
  * 
@@ -6600,10 +6600,11 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {boolean} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customerControllerGet: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        customerControllerGet: async (page: number, size?: number, sort?: string, fullTextSearch?: string, status?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('customerControllerGet', 'page', page)
             const localVarPath = `/customers`;
@@ -6636,6 +6637,10 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
 
             if (fullTextSearch !== undefined) {
                 localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
             }
 
 
@@ -6846,11 +6851,12 @@ export const CustomersApiFp = function(configuration?: Configuration) {
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {boolean} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customerControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerControllerGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.customerControllerGet(page, size, sort, fullTextSearch, options);
+        async customerControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerControllerGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.customerControllerGet(page, size, sort, fullTextSearch, status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6935,11 +6941,12 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {boolean} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customerControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<CustomerControllerGet200Response> {
-            return localVarFp.customerControllerGet(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        customerControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: boolean, options?: any): AxiosPromise<CustomerControllerGet200Response> {
+            return localVarFp.customerControllerGet(page, size, sort, fullTextSearch, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7025,12 +7032,13 @@ export class CustomersApi extends BaseAPI {
      * @param {number} [size] 
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
+     * @param {boolean} [status] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApi
      */
-    public customerControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
-        return CustomersApiFp(this.configuration).customerControllerGet(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    public customerControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: boolean, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).customerControllerGet(page, size, sort, fullTextSearch, status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

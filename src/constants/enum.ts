@@ -8,6 +8,11 @@ export enum DoctorType {
   DOCTOR_SUPPORT = 'doctor-support',
 }
 
+export enum Status {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
+
 export enum MedicineStatus {
   STILL = 'still',
   NONE_LEFT = 'none-left',
