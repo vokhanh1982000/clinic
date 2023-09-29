@@ -11,7 +11,7 @@ import CustomInput from '../../../../components/input/CustomInput';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { customerApi } from '../../../../apis';
-import { CreateCustomerDto } from '../../../../apis/client-axios';
+import { CreateCustomerDto, UpdateCustomerDto } from '../../../../apis/client-axios';
 import { Status } from '../../../../constants/enum';
 import moment from 'moment';
 
@@ -22,7 +22,7 @@ const CreateCustomer = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [avatar, setAvatar] = useState<string>();
-  const [isDeletecustomer, setIsDeletecustomer] = useState<boolean>(false);
+  const [isDeleteCustomer, setIsDeleteCustomer] = useState<boolean>(false);
 
   const { data: datacustomer } = useQuery(
     ['getDetailCustomer', id],
@@ -30,20 +30,28 @@ const CreateCustomer = () => {
     {
       onError: (error) => {},
       onSuccess: (response) => {
-        console.log(response);
-        // form.setFieldsValue({
-        //   ...response.data,
-        //   gender: response.data.gender ? 1 : 0,
-        //   dateOfBirth: response.data.dateOfBirth
-        //     ? moment(response.data.dateOfBirth, 'DD/MM/YYYY')
-        //     : null,
-        // });
+        form.setFieldsValue({
+          ...response.data,
+          gender: response.data.gender ? 1 : 0,
+          dateOfBirth: response.data.dateOfBirth ? moment(response.data.dateOfBirth, 'DD/MM/YYYY') : null,
+        });
       },
       enabled: !!id,
     }
   );
 
-  console.log(datacustomer);
+  const { mutate: DeleteCustomer, status: statusDeleteCustomer } = useMutation(
+    (id: string) => customerApi.customerControllerDeleteCustomerById(id),
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(['customerList']);
+        navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
+      },
+      onError: (error: any) => {
+        message.error(error.message);
+      },
+    }
+  );
 
   const { mutate: CustomerCreate, status: statusCreateCustomer } = useMutation(
     (createCustomer: CreateCustomerDto) => customerApi.customerControllerCreateCustomer(createCustomer),
@@ -58,49 +66,32 @@ const CreateCustomer = () => {
     }
   );
 
-  // const updatecustomer = useMutation(
-  //   (updatecustomer: UpdatecustomerDto) => customerApi.customerControllerUpdate(id as string, updatecustomer),
-  //   {
-  //     onSuccess: ({ data }) => {
-  //       queryClient.invalidateQueries(['getcustomerDetail', id]);
-  //       navigate(`/admin/${ADMIN_ROUTE_NAME.customer_MANAGEMENT}`);
-  //     },
-  //     onError: (error) => {
-  //       message.error(intl.formatMessage({ id: 'customer.update.error' }));
-  //     },
-  //   }
-  // );
-
-  // const deletecustomer = useMutation((id: string) => customerApi.customerControllerDelete(id), {
-  //   onSuccess: ({ data }) => {
-  //     queryClient.invalidateQueries(['getPermissions']);
-  //     queryClient.invalidateQueries(['getcustomerDetail', id]);
-  //     navigate(`/admin/${ADMIN_ROUTE_NAME.customer_MANAGEMENT}`);
-  //   },
-  //   onError: (error) => {
-  //     message.error(intl.formatMessage({ id: 'customer.permission.delete.error' }));
-  //   },
-  // });
-
-  // const handleDeletecustomer = () => {
-  //   Modal.confirm({
-  //     title: 'Confirm',
-  //     content: 'Are You Sure?',
-  //     icon: null,
-  //     okText: 'Confirm',
-  //     cancelText: 'Cancel',
-  //     onOk() {
-  //       if (id) deletecustomer.mutate(id);
-  //     },
-  //     onCancel() {
-  //       console.log('cancel');
-  //     },
-  //     centered: true,
-  //   });
-  // };
+  const { mutate: CustomerUpdate, status: statusUpdateCustomer } = useMutation(
+    (updatecustomer: UpdateCustomerDto) => customerApi.customerControllerUpdateCustomer(id as string, updatecustomer),
+    {
+      onSuccess: ({ data }) => {
+        queryClient.invalidateQueries(['getcustomerDetail', id]);
+        navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
+      },
+      onError: (error) => {
+        message.error(intl.formatMessage({ id: 'customer.update.error' }));
+      },
+    }
+  );
 
   const onFinish = (values: any) => {
-    CustomerCreate({ ...values, gender: Boolean(Number(values.gender)), status: Boolean(Number(values.status)) });
+    if (id) {
+      CustomerUpdate({ ...values, gender: Boolean(Number(values.gender)), status: Boolean(Number(values.status)) });
+    } else {
+      CustomerCreate({ ...values, gender: Boolean(Number(values.gender)), status: Boolean(Number(values.status)) });
+    }
+  };
+
+  const handleDelete = () => {
+    if (isDeleteCustomer && id) {
+      DeleteCustomer(id);
+    }
+    setIsDeleteCustomer(false);
   };
 
   return (
@@ -313,7 +304,7 @@ const CreateCustomer = () => {
               <CustomButton
                 className="button-delete"
                 onClick={() => {
-                  setIsDeletecustomer(true);
+                  setIsDeleteCustomer(true);
                 }}
               >
                 {intl.formatMessage({
@@ -345,11 +336,9 @@ const CreateCustomer = () => {
 
       <ConfirmDeleteModal
         name={''}
-        visible={isDeletecustomer}
-        onSubmit={() => {
-          setIsDeletecustomer(false);
-        }}
-        onClose={() => setIsDeletecustomer(false)}
+        visible={isDeleteCustomer}
+        onSubmit={handleDelete}
+        onClose={() => setIsDeleteCustomer(false)}
       />
     </Card>
   );

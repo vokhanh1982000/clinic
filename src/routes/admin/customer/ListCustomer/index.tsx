@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { Card } from 'antd';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Card, message } from 'antd';
 import Column from 'antd/es/table/Column';
 import { useState } from 'react';
 import { customerApi } from '../../../../apis';
@@ -18,21 +18,35 @@ import { Status } from '../../../../constants/enum';
 const ListUser = () => {
   const intl = useIntl();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
+  const [status, setStatus] = useState<boolean>();
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const { data, isLoading } = useQuery({
-    queryKey: ['customerList', { page, size, sort, fullTextSearch }],
-    queryFn: () =>
-      fullTextSearch
-        ? customerApi.customerControllerGet(page, size, sort, fullTextSearch)
-        : customerApi.customerControllerGet(page, size, sort),
+    queryKey: ['customerList', { page, size, sort, fullTextSearch, status }],
+    queryFn: () => customerApi.customerControllerGet(page, size, sort, fullTextSearch, status),
   });
 
+  const { mutate: DeleteCustomer, status: statusDeleteCustomer } = useMutation(
+    (id: string) => customerApi.customerControllerDeleteCustomerById(id),
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(['customerList']);
+      },
+      onError: (error: any) => {
+        message.error(error.message);
+      },
+    }
+  );
+
   const handleDelete = () => {
-    console.log('123');
+    if (isShowModalDelete && isShowModalDelete.id) {
+      DeleteCustomer(isShowModalDelete.id);
+    }
+    setIsShowModalDelete(undefined);
   };
 
   return (
@@ -62,21 +76,37 @@ const ListUser = () => {
           })}
           prefix={<IconSVG type="search" />}
           className="input-search"
+          onChange={(e) => {
+            setFullTextSearch(e.target.value);
+          }}
         />
         <CustomSelect
           className="select-status"
           placeholder={intl.formatMessage({
             id: 'customer.list.select.status.place-holder',
           })}
+          onChange={(e) => {
+            if (e === '') {
+              setStatus(undefined);
+            } else {
+              setStatus(Boolean(Number(e)));
+            }
+          }}
           options={[
             {
-              value: 'active',
+              value: '',
+              label: intl.formatMessage({
+                id: 'common.option.all',
+              }),
+            },
+            {
+              value: 1,
               label: intl.formatMessage({
                 id: 'common.active',
               }),
             },
             {
-              value: 'inactive',
+              value: 0,
               label: intl.formatMessage({
                 id: 'common.inactive',
               }),
