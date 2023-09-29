@@ -1,0 +1,74 @@
+#medicine-management {
+  .medicine-management__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    &__title {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 36px;
+      color: $text_black_light;
+    }
+
+    .button-add {
+      width: 199px;
+      border: unset;
+      display: flex;
+      align-items: center;
+      background-color: $primary_color;
+      color: $text_white;
+      gap: 12px;
+      padding: 8px 20px 8px 8px;
+
+      &__title {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .medicine-management__filter {
+    display: flex;
+    width: 750px;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 15px;
+
+    .input-search {
+      width: 350px;
+    }
+
+    .dropdown-unit,
+    .dropdown-status {
+      width: 184px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .anticon-down {
+        position: absolute;
+        right: 15px;
+      }
+    }
+
+    .dropdown-unit:hover,
+    .dropdown-status:hover {
+      color: inherit;
+      /* Sử dụng màu văn bản mặc định */
+      background-color: inherit;
+      /* Sử dụng màu nền mặc định */
+    }
+  }
+
+  .action-medicine {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+}

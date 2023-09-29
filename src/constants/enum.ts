@@ -12,3 +12,13 @@ export enum Status {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
 }
+
+export enum MedicineStatus {
+  STILL = 'still',
+  NONE_LEFT = 'none-left',
+}
+
+export enum MedicineUnit {
+  PELLET = 'pellet',
+  JAR = 'jar',
+}

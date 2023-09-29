@@ -1314,13 +1314,13 @@ export interface CreateMedicineDto {
      * @type {MedicineUnit}
      * @memberof CreateMedicineDto
      */
-    'unit': MedicineUnit;
+    'unit'?: MedicineUnit;
     /**
      * 
      * @type {MedicineStatus}
      * @memberof CreateMedicineDto
      */
-    'status': MedicineStatus;
+    'status'?: MedicineStatus;
     /**
      * 
      * @type {string}
@@ -2132,6 +2132,56 @@ export const MedicineStatusEnum = {
 
 export type MedicineStatusEnum = typeof MedicineStatusEnum[keyof typeof MedicineStatusEnum];
 
+/**
+ * 
+ * @export
+ * @interface MedicineControllerFindAll200Response
+ */
+export interface MedicineControllerFindAll200Response {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MedicineControllerFindAll200Response
+     */
+    'position': Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof MedicineControllerFindAll200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MedicineControllerFindAll200Response
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MedicineControllerFindAll200Response
+     */
+    'size': number;
+    /**
+     * 
+     * @type {Array<Medicine>}
+     * @memberof MedicineControllerFindAll200Response
+     */
+    'content'?: Array<Medicine>;
+}
+/**
+ * 
+ * @export
+ * @interface MedicineControllerFindAll200ResponseAllOf
+ */
+export interface MedicineControllerFindAll200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<Medicine>}
+     * @memberof MedicineControllerFindAll200ResponseAllOf
+     */
+    'content'?: Array<Medicine>;
+}
 /**
  * 
  * @export
@@ -3695,7 +3745,7 @@ export const AdminMedicineApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async medicineAdminControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: 'still' | 'none-left', unit?: 'pellet' | 'jar', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async medicineAdminControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: 'still' | 'none-left', unit?: 'pellet' | 'jar', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MedicineControllerFindAll200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.medicineAdminControllerFindAll(page, size, sort, fullTextSearch, status, unit, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3760,7 +3810,7 @@ export const AdminMedicineApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        medicineAdminControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: 'still' | 'none-left', unit?: 'pellet' | 'jar', options?: any): AxiosPromise<void> {
+        medicineAdminControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: 'still' | 'none-left', unit?: 'pellet' | 'jar', options?: any): AxiosPromise<MedicineControllerFindAll200Response> {
             return localVarFp.medicineAdminControllerFindAll(page, size, sort, fullTextSearch, status, unit, options).then((request) => request(axios, basePath));
         },
         /**
@@ -5258,11 +5308,11 @@ export const CadastralApiAxiosParamCreator = function (configuration?: Configura
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cadastralControllerGetDistrictByProvince: async (text?: string, cityCode?: string, districCode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cadastralControllerGetDistrictByProvince: async (text?: string, cityCode?: string, districtCode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/cadastral/search-districts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5287,8 +5337,8 @@ export const CadastralApiAxiosParamCreator = function (configuration?: Configura
                 localVarQueryParameter['cityCode'] = cityCode;
             }
 
-            if (districCode !== undefined) {
-                localVarQueryParameter['districCode'] = districCode;
+            if (districtCode !== undefined) {
+                localVarQueryParameter['districtCode'] = districtCode;
             }
 
 
@@ -5306,11 +5356,11 @@ export const CadastralApiAxiosParamCreator = function (configuration?: Configura
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cadastralControllerGetProvince: async (text?: string, cityCode?: string, districCode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cadastralControllerGetProvince: async (text?: string, cityCode?: string, districtCode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/cadastral/province`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5335,8 +5385,8 @@ export const CadastralApiAxiosParamCreator = function (configuration?: Configura
                 localVarQueryParameter['cityCode'] = cityCode;
             }
 
-            if (districCode !== undefined) {
-                localVarQueryParameter['districCode'] = districCode;
+            if (districtCode !== undefined) {
+                localVarQueryParameter['districtCode'] = districtCode;
             }
 
 
@@ -5354,11 +5404,11 @@ export const CadastralApiAxiosParamCreator = function (configuration?: Configura
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cadastralControllerGetWardByCode: async (text?: string, cityCode?: string, districCode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cadastralControllerGetWardByCode: async (text?: string, cityCode?: string, districtCode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/cadastral/search-wards`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5383,8 +5433,8 @@ export const CadastralApiAxiosParamCreator = function (configuration?: Configura
                 localVarQueryParameter['cityCode'] = cityCode;
             }
 
-            if (districCode !== undefined) {
-                localVarQueryParameter['districCode'] = districCode;
+            if (districtCode !== undefined) {
+                localVarQueryParameter['districtCode'] = districtCode;
             }
 
 
@@ -5412,36 +5462,36 @@ export const CadastralApiFp = function(configuration?: Configuration) {
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cadastralControllerGetDistrictByProvince(text?: string, cityCode?: string, districCode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Cadastral>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cadastralControllerGetDistrictByProvince(text, cityCode, districCode, options);
+        async cadastralControllerGetDistrictByProvince(text?: string, cityCode?: string, districtCode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Cadastral>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cadastralControllerGetDistrictByProvince(text, cityCode, districtCode, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cadastralControllerGetProvince(text?: string, cityCode?: string, districCode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Cadastral>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cadastralControllerGetProvince(text, cityCode, districCode, options);
+        async cadastralControllerGetProvince(text?: string, cityCode?: string, districtCode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Cadastral>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cadastralControllerGetProvince(text, cityCode, districtCode, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cadastralControllerGetWardByCode(text?: string, cityCode?: string, districCode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Cadastral>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cadastralControllerGetWardByCode(text, cityCode, districCode, options);
+        async cadastralControllerGetWardByCode(text?: string, cityCode?: string, districtCode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Cadastral>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cadastralControllerGetWardByCode(text, cityCode, districtCode, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -5458,34 +5508,34 @@ export const CadastralApiFactory = function (configuration?: Configuration, base
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cadastralControllerGetDistrictByProvince(text?: string, cityCode?: string, districCode?: string, options?: any): AxiosPromise<Array<Cadastral>> {
-            return localVarFp.cadastralControllerGetDistrictByProvince(text, cityCode, districCode, options).then((request) => request(axios, basePath));
+        cadastralControllerGetDistrictByProvince(text?: string, cityCode?: string, districtCode?: string, options?: any): AxiosPromise<Array<Cadastral>> {
+            return localVarFp.cadastralControllerGetDistrictByProvince(text, cityCode, districtCode, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cadastralControllerGetProvince(text?: string, cityCode?: string, districCode?: string, options?: any): AxiosPromise<Array<Cadastral>> {
-            return localVarFp.cadastralControllerGetProvince(text, cityCode, districCode, options).then((request) => request(axios, basePath));
+        cadastralControllerGetProvince(text?: string, cityCode?: string, districtCode?: string, options?: any): AxiosPromise<Array<Cadastral>> {
+            return localVarFp.cadastralControllerGetProvince(text, cityCode, districtCode, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {string} [text] 
          * @param {string} [cityCode] 
-         * @param {string} [districCode] 
+         * @param {string} [districtCode] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cadastralControllerGetWardByCode(text?: string, cityCode?: string, districCode?: string, options?: any): AxiosPromise<Array<Cadastral>> {
-            return localVarFp.cadastralControllerGetWardByCode(text, cityCode, districCode, options).then((request) => request(axios, basePath));
+        cadastralControllerGetWardByCode(text?: string, cityCode?: string, districtCode?: string, options?: any): AxiosPromise<Array<Cadastral>> {
+            return localVarFp.cadastralControllerGetWardByCode(text, cityCode, districtCode, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5501,39 +5551,39 @@ export class CadastralApi extends BaseAPI {
      * 
      * @param {string} [text] 
      * @param {string} [cityCode] 
-     * @param {string} [districCode] 
+     * @param {string} [districtCode] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CadastralApi
      */
-    public cadastralControllerGetDistrictByProvince(text?: string, cityCode?: string, districCode?: string, options?: AxiosRequestConfig) {
-        return CadastralApiFp(this.configuration).cadastralControllerGetDistrictByProvince(text, cityCode, districCode, options).then((request) => request(this.axios, this.basePath));
+    public cadastralControllerGetDistrictByProvince(text?: string, cityCode?: string, districtCode?: string, options?: AxiosRequestConfig) {
+        return CadastralApiFp(this.configuration).cadastralControllerGetDistrictByProvince(text, cityCode, districtCode, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {string} [text] 
      * @param {string} [cityCode] 
-     * @param {string} [districCode] 
+     * @param {string} [districtCode] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CadastralApi
      */
-    public cadastralControllerGetProvince(text?: string, cityCode?: string, districCode?: string, options?: AxiosRequestConfig) {
-        return CadastralApiFp(this.configuration).cadastralControllerGetProvince(text, cityCode, districCode, options).then((request) => request(this.axios, this.basePath));
+    public cadastralControllerGetProvince(text?: string, cityCode?: string, districtCode?: string, options?: AxiosRequestConfig) {
+        return CadastralApiFp(this.configuration).cadastralControllerGetProvince(text, cityCode, districtCode, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {string} [text] 
      * @param {string} [cityCode] 
-     * @param {string} [districCode] 
+     * @param {string} [districtCode] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CadastralApi
      */
-    public cadastralControllerGetWardByCode(text?: string, cityCode?: string, districCode?: string, options?: AxiosRequestConfig) {
-        return CadastralApiFp(this.configuration).cadastralControllerGetWardByCode(text, cityCode, districCode, options).then((request) => request(this.axios, this.basePath));
+    public cadastralControllerGetWardByCode(text?: string, cityCode?: string, districtCode?: string, options?: AxiosRequestConfig) {
+        return CadastralApiFp(this.configuration).cadastralControllerGetWardByCode(text, cityCode, districtCode, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -6683,7 +6733,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         customerControllerUpdate: async (updateCustomerDto: UpdateCustomerDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateCustomerDto' is not null or undefined
             assertParamExists('customerControllerUpdate', 'updateCustomerDto', updateCustomerDto)
-            const localVarPath = `/customers/update-for-customer/{id}`;
+            const localVarPath = `/customers/update-for-customer`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -8511,7 +8561,7 @@ export const MedicineApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async medicineControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: 'still' | 'none-left', unit?: 'pellet' | 'jar', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async medicineControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: 'still' | 'none-left', unit?: 'pellet' | 'jar', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MedicineControllerFindAll200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.medicineControllerFindAll(page, size, sort, fullTextSearch, status, unit, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -8576,7 +8626,7 @@ export const MedicineApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        medicineControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: 'still' | 'none-left', unit?: 'pellet' | 'jar', options?: any): AxiosPromise<void> {
+        medicineControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: 'still' | 'none-left', unit?: 'pellet' | 'jar', options?: any): AxiosPromise<MedicineControllerFindAll200Response> {
             return localVarFp.medicineControllerFindAll(page, size, sort, fullTextSearch, status, unit, options).then((request) => request(axios, basePath));
         },
         /**

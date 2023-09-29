@@ -20,6 +20,7 @@ const ListMedicalSpecialty = React.lazy(() => import('./medicalSpecialty/index')
 const ListNews = React.lazy(() => import('./news/index'));
 const Statistic = React.lazy(() => import('./statistic/index'));
 const CreateAdmin = React.lazy(() => import('./adminUser/CreateEditAdminUser'));
+const ListMedicine = React.lazy(() => import('./medicine/index'));
 
 export const AdminRoutes = () => (
   <Routes>
@@ -56,6 +57,7 @@ export const AdminRoutes = () => (
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateRole />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateRole />} />} />
       </Route>
+      <Route path={ADMIN_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<ListMedicine />} />
     </Route>
   </Routes>
 );

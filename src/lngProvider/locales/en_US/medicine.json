@@ -15,5 +15,22 @@
   "medicine.order.modal.create.quantity": "Quantity",
   "medicine.order.modal.create.feature": "Feature",
   "medicine.order.modal.create.button.create": "Add",
-  "medicine.order.modal.create.button.cancel": "Cancel"
+  "medicine.order.modal.create.button.cancel": "Cancel",
+  "medicine.list.title": "Medicine management",
+  "medicine.list.button.add": "Create",
+  "medicine.list.dropdown.unit": "Unit",
+  "medicine.list.dropdown.status": "Status",
+  "medicine.list.search": "Search medicine",
+  "medicine.list.table.name": "Medicine",
+  "medicine.list.table.usage": "Usage",
+  "medicine.list.table.feature": "Feature",
+  "medicine.list.table.unit": "Unit",
+  "medicine.list.table.status": "Status",
+  "medicine.list.table.action": "Action",
+  "medicine.list.modal.create": "Create",
+  "medicine.list.modal.update": "Detail",
+  "medicine.unit.pellet": "Pellet",
+  "medicine.unit.jar": "Jar",
+  "medicine.status.still": "Still",
+  "medicine.status.none-left": "None-left"
 }
