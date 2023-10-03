@@ -12,5 +12,8 @@
   "menu.medicineManagement": "Quản lý Thuốc",
   "menu.home": "Trang chủ",
   "menu.createRole": "Tạo role mới",
-  "menu.detailRole": "Chi Tiết Role"
+  "menu.detailRole": "Chi Tiết Role",
+  "menu.admin-profile": "Thông tin tài khoản",
+  "menu.admin-clinic-profile": "Thông tin tài khoản",
+  "menu.doctor-clinic-profile": "Thông tin tài khoản"
 }

@@ -10,6 +10,9 @@ import {
   CategoryApi,
   MedicineApi,
   AdminMedicineApi,
+  CadastralApi,
+  DoctorClinicApi,
+  AdministratorClinicApi,
 } from './client-axios';
 
 const config = new Configuration({
@@ -39,4 +42,21 @@ const categoryApi = new CategoryApi(config, undefined, axiosInstance);
 const medicineApi: MedicineApi = new MedicineApi(config, undefined, axiosInstance);
 const adminMedicineApi: AdminMedicineApi = new AdminMedicineApi(config, undefined, axiosInstance);
 
-export { authApi, customerApi, roleApi, permissionApi, adminApi, categoryApi, medicineApi, adminMedicineApi };
+const doctorClinicApi: DoctorClinicApi = new DoctorClinicApi(config, undefined, axiosInstance);
+const cadastralApi: CadastralApi = new CadastralApi(config, undefined, axiosInstance);
+
+const adminClinicApi = new AdministratorClinicApi(config, undefined, axiosInstance);
+
+export {
+  authApi,
+  customerApi,
+  roleApi,
+  permissionApi,
+  adminApi,
+  categoryApi,
+  medicineApi,
+  adminMedicineApi,
+  cadastralApi,
+  doctorClinicApi,
+  adminClinicApi,
+};
