@@ -1,0 +1,11 @@
+{
+  "admin-profile.table.title": "Thông tin tài khoảng",
+  "admin-profile.fullName": "Họ và tên",
+  "admin-profile.code": "Mã nhân sự",
+  "admin-profile.emailAddress": "Email",
+  "admin-profile.phoneNumber": "Số điện thoại",
+  "admin-profile.dateOfBirth": "Ngày sinh",
+  "admin-profile.gender": "Giới tính",
+  "admin-profile.save": "Lưu thay đổi",
+  "admin-profile.cancelled": "Huỷ"
+}

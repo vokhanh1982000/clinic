@@ -130,28 +130,26 @@ export const MedicineModal = (props: MedicineModalProps) => {
           </div>
         )}
         {isSuperAdmin && (
-
-            <Form.Item
-              name="unit"
-              className="unit"
-              label={intl.formatMessage({
-                id: 'medicine.modal.create.unit',
-              })}
+          <Form.Item
+            name="unit"
+            className="unit"
+            label={intl.formatMessage({
+              id: 'medicine.modal.create.unit',
+            })}
+          >
+            <Select
+              className={'ant-custom-select'}
+              onSelect={(value): void => {
+                form?.setFieldsValue({
+                  unit: value,
+                });
+              }}
             >
-              <Select
-                className={'ant-custom-select'}
-                onSelect={(value): void => {
-                  form?.setFieldsValue({
-                    unit: value,
-                  });
-                }}
-              >
-                {dropDownUnits.map((item: any) => {
-                  return <Option value={item.key}>{item.label}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-
+              {dropDownUnits.map((item: any) => {
+                return <Option value={item.key}>{item.label}</Option>;
+              })}
+            </Select>
+          </Form.Item>
         )}
         <div className="modal-medicine__content__action">
           {action === ActionUser.CREATE ? (

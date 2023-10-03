@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
 import { ADMIN_ROUTE_NAME } from '../../constants/route';
 import CreateDoctor from './doctor/CreateEditDoctor';
+import CreateCustomer from './customer/CreateEditCustomer';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));
@@ -20,7 +21,7 @@ const ListNews = React.lazy(() => import('./news/index'));
 const Statistic = React.lazy(() => import('./statistic/index'));
 const CreateAdmin = React.lazy(() => import('./adminUser/CreateEditAdminUser'));
 const ListMedicine = React.lazy(() => import('./medicine/index'));
-
+const AdminProfile = React.lazy(() => import('./profile/index'));
 export const AdminRoutes = () => (
   <Routes>
     <Route path={ADMIN_ROUTE_NAME.SIGNIN} element={<SignInAdmin />} />
@@ -46,14 +47,18 @@ export const AdminRoutes = () => (
       <Route path={ADMIN_ROUTE_NAME.MEDICAL_SPECIALTY_MANAGEMENT} element={<ListMedicalSpecialty />} />
       <Route path={ADMIN_ROUTE_NAME.NEWS_MANAGEMENT} element={<ListNews />} />
       <Route path={ADMIN_ROUTE_NAME.STATISTIC} element={<Statistic />} />
-      <Route path={ADMIN_ROUTE_NAME.USER_MANAGEMENT} element={<ListCustomer />} />
+      <Route path={ADMIN_ROUTE_NAME.USER_MANAGEMENT}>
+        <Route path="" element={<SuspenseWrapper component={<ListCustomer />} />} />
+        <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateCustomer />} />} />
+        <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateCustomer />} />} />
+      </Route>
       <Route path={ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListRole />} />} />
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateRole />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateRole />} />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<ListMedicine />} />
+      <Route path={ADMIN_ROUTE_NAME.ADMIN_PROFILE} element={<AdminProfile />} />
     </Route>
-
   </Routes>
 );

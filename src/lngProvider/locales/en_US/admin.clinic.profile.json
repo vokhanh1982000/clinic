@@ -1,0 +1,15 @@
+{
+  "admin-clinic.title": "Account information",
+  "admin-clinic.form.fullName": "Full name",
+  "admin-clinic.form.code": "Staff code",
+  "admin-clinic.form.email": "Email",
+  "admin-clinic.form.phone": "Phone number",
+  "admin-clinic.form.dob": "Birth day",
+  "admin-clinic.form.gender": "Gender",
+  "admin-clinic.form.province": "Province",
+  "admin-clinic.form.district": "District",
+  "admin-clinic.form.ward": "Ward",
+  "admin-clinic.form.address": "Address",
+  "admin-clinic.button-save": "Save change",
+  "admin-clinic.button-cancelled": "Cancelled"
+}

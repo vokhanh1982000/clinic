@@ -39,7 +39,7 @@ const CreateDoctor = () => {
     onSuccess: ({ data }) => {
       form.setFieldsValue({
         ...data,
-        gender: +data.gender,
+        gender: data.gender && +data.gender,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
         dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'DD/MM/YYYY') : moment('', 'DD/MM/YYYY'),

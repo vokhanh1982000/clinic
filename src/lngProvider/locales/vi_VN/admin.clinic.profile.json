@@ -1,0 +1,15 @@
+{
+  "admin-clinic.title": "Thông tin tài khoản",
+  "admin-clinic.form.fullName": "Họ và tên",
+  "admin-clinic.form.code": "Mã nhân sự",
+  "admin-clinic.form.email": "Email",
+  "admin-clinic.form.phone": "Số điện thoại",
+  "admin-clinic.form.dob": "Ngày sinh",
+  "admin-clinic.form.gender": "Giới tính",
+  "admin-clinic.form.province": "Tỉnh/Thành phố",
+  "admin-clinic.form.district": "Quận/Huyện",
+  "admin-clinic.form.ward": "Phường/Xã",
+  "admin-clinic.form.address": "Địa chỉ",
+  "admin-clinic.button-save": "Lưu thay đổi",
+  "admin-clinic.button-cancelled": "Huỷ"
+}
