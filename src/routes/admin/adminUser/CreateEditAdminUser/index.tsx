@@ -43,7 +43,7 @@ const CreateAdmin = () => {
         form.setFieldsValue({
           ...response.data,
           roleIds: response.data.user.roles,
-          gender: response.data.gender ? 1 : 0,
+          gender: +response.data.gender,
           dateOfBirth: response.data.dateOfBirth
             ? moment(response.data.dateOfBirth, 'DD/MM/YYYY')
             : moment('', 'DD/MM/YYYY'),
@@ -113,14 +113,14 @@ const CreateAdmin = () => {
       updateAdmin.mutate({
         ...values,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
-        gender: 0 ? true : false,
+        gender: values.gender ? false : true,
         roleIds,
         userId: id,
       });
     } else {
       const data: CreateAdminDto = {
         ...values,
-        gender: 0 ? true : false,
+        gender: values.gender ? false : true,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
         roleIds,
       };
@@ -135,8 +135,8 @@ const CreateAdmin = () => {
   };
 
   const renderCheckbox = (item: any, role: Role[] | undefined) => {
-    if (item && role) {
-      const checked = role?.some((val) => val.id === item.id);
+    if (item && detailAdmin?.data.user.roles) {
+      const checked = detailAdmin?.data.user.roles?.some((val) => val.id === item.id);
       return id ? (
         <Checkbox value={item.id} defaultChecked={checked} onChange={(e) => handeArrayCheckbox(e)}>
           {item.name}
@@ -245,21 +245,6 @@ const CreateAdmin = () => {
                       </Form.Item>
                     </Col>
                   </Row>
-                  <Row className="admin-management__info-item">
-                    <header>
-                      {intl.formatMessage({
-                        id: 'sigin.password',
-                      })}
-                    </header>
-                    <Form.Item name={n('password')}>
-                      <CustomInput
-                        isPassword={true}
-                        placeholder={intl.formatMessage({
-                          id: 'sigin.password',
-                        })}
-                      />
-                    </Form.Item>
-                  </Row>
                 </Col>
               </Row>
             </Card>
@@ -274,7 +259,7 @@ const CreateAdmin = () => {
               </Row>
               <Row className="admin-management__role-checkboxGroup">
                 <Form.Item>
-                  {roleData?.data.content?.map((item) => renderCheckbox(item, detailAdmin?.data.user.roles))}
+                  {roleData?.data.content?.map((item) => renderCheckbox(item, roleData?.data.content))}
                 </Form.Item>
               </Row>
             </Card>

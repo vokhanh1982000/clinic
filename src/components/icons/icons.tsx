@@ -7,6 +7,53 @@ interface IIconProps extends Omit<IRestProps, 'restProps'> {
 
 const IconSVG: React.FC<IIconProps> = (props) => {
   switch (props.type) {
+    case 'bokking':
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M13.7159 22.0623H4.625C3.52043 22.0623 2.625 21.1668 2.625 20.0623V6.06226C2.625 4.95769 3.52043 4.06226 4.625 4.06226H18.625C19.7296 4.06226 20.625 4.95769 20.625 6.06226V13.6532"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M15.6255 2.0625V6.0625"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M7.62451 2.0625V6.0625"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2.625 10.0623H20.625"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M17.6245 22.6681C20.1349 22.6681 22.17 20.633 22.17 18.1226C22.17 15.6121 20.1349 13.5771 17.6245 13.5771C15.1141 13.5771 13.079 15.6121 13.079 18.1226C13.079 20.633 15.1141 22.6681 17.6245 22.6681Z"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M17.4243 16.7229V19.1229L19.0243 19.9229"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      );
     case 'user':
       return (
         <svg width="94" height="94" viewBox="0 0 94 94" fill="none" xmlns="http://www.w3.org/2000/svg">

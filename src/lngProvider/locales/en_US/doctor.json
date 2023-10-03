@@ -1,7 +1,9 @@
 {
   "doctor-support.list.title": "Doctor Support Management",
+  "doctor.list.title": "Doctor Management",
   "doctor.list.button.add": "Create doctor support",
   "doctor-support.list.place-holder": "Search doctor support",
+  "doctor.list.place-holder": "Search doctor",
   "doctor.list.filter.specialist": "Specialist",
   "doctor.list.filter.status": "Status",
   "doctor.list.table.code": "Code",
@@ -15,6 +17,7 @@
   "doctor.list.table.status": "Status",
   "doctor.list.table.action": "Action",
   "doctor.create.title": "Create Doctor Support",
+  "doctor.clinic.create.title": "Create Doctor Clinic",
   "doctor.edit.title": "Doctor Support Detail",
   "doctor.create.info.title": "Register Infomation",
   "doctor.create.info.name": "Name",
@@ -32,5 +35,8 @@
   "doctor.create.button.create": "Create",
   "doctor.create.button.cancel": "Cancel",
   "doctor.edit.button.save": "Save",
-  "doctor.edit.button.delete": "Delete"
+  "doctor.edit.button.delete": "Delete",
+  "doctor.create.info.password": "Password",
+  "doctor.status.true": "Working",
+  "doctor.status.false": "Has Retired"
 }
