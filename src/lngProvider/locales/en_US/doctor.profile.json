@@ -1,0 +1,20 @@
+{
+  "doctor-profile.title": "Account information",
+  "doctor-profile.form.fullName": "Full name",
+  "doctor-profile.form.code": "Staff code",
+  "doctor-profile.form.email": "Email",
+  "doctor-profile.form.phone": "Phone number",
+  "doctor-profile.form.dob": "Birth day",
+  "doctor-profile.form.gender": "Gender",
+  "doctor-profile.form.category": "Category",
+  "doctor-profile.form.level": "Level",
+  "doctor-profile.form.status": "Status",
+  "doctor-profile.form.province": "Province",
+  "doctor-profile.form.district": "District",
+  "doctor-profile.form.ward": "Ward",
+  "doctor-profile.form.address": "Address",
+  "doctor-profile.achievement.history.title": "History",
+  "doctor-profile.achievement.experiment.title": "Experience",
+  "doctor-profile.button-save": "Save change",
+  "doctor-profile.button-cancelled": "Cancel"
+}
