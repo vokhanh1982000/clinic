@@ -1,13 +1,41 @@
 import { DatePicker, Form, Switch } from 'antd';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import IconSVG from '../../../../../components/icons/icons';
-import CustomInput from '../../../../../components/input/CustomInput';
-import CustomSelect from '../../../../../components/select/CustomSelect';
+import IconSVG from '../../icons/icons';
+import CustomInput from '../../input/CustomInput';
+import CustomSelect from '../../select/CustomSelect';
+import { DoctorType } from '../../../constants/enum';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Category, CreateCategoryDto, CreateDoctorClinicDto } from '../../../apis/client-axios';
+import { DefaultOptionType } from 'antd/es/select';
 
-const DoctorInfo = () => {
+interface DoctorTableProps {
+  placeHolder?: string;
+  doctorType: DoctorType;
+  n: any;
+  category: Category[] | undefined;
+}
+
+interface OptionSpecialist {
+  id: string;
+  label: string;
+}
+
+interface OptionStatus {
+  id: string;
+  label: string;
+}
+
+const DoctorInfo = (props: DoctorTableProps) => {
   const intl = useIntl();
+  const { placeHolder, doctorType, n, category } = props;
+  const navigate = useNavigate();
+  const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
+  const [statusSelect, setStatusSelect] = useState<OptionStatus>();
   const [avatar, setAvatar] = useState<string>();
+  const id = useParams();
+  const regexPhone = useRef(/^(0[1-9][0-9]{8}|0[1-9][0-9]{9}|84[1-9][0-9]{8}|84[1-9][0-9]{9})$/);
+
   return (
     <div className="doctor-info">
       <div className="doctor-info__header">
@@ -36,7 +64,7 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.name',
               })}
-              name={'name'}
+              name={n('fullName')}
               rules={[{ required: true }]}
             >
               <CustomInput />
@@ -46,10 +74,10 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.code',
               })}
-              name={'code'}
+              name={n('code')}
               rules={[{ required: true }]}
             >
-              <CustomInput disabled />
+              <CustomInput disabled={!id} />
             </Form.Item>
           </div>
           <div className="doctor-info__content__info__rows">
@@ -58,8 +86,11 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.email',
               })}
-              name={'email'}
-              rules={[{ required: true }]}
+              name={n('emailAddress')}
+              rules={[
+                { required: true },
+                { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
+              ]}
             >
               <CustomInput />
             </Form.Item>
@@ -68,8 +99,14 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.phone',
               })}
-              name={'phone'}
-              rules={[{ required: true }]}
+              name={n('phoneNumber')}
+              rules={[
+                { required: true },
+                {
+                  pattern: regexPhone.current,
+                  message: intl.formatMessage({ id: 'admin.user.phone.message' }),
+                },
+              ]}
             >
               <CustomInput />
             </Form.Item>
@@ -81,7 +118,7 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.dob',
               })}
-              name={'dob'}
+              name={n('dateOfBirth')}
               rules={[{ required: true }]}
             >
               <DatePicker />
@@ -92,19 +129,19 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.gender',
               })}
-              name={'gender'}
+              name={n('gender')}
               rules={[{ required: true }]}
             >
               <CustomSelect
                 options={[
                   {
-                    value: '0',
+                    value: 0,
                     label: intl.formatMessage({
                       id: 'common.gender.male',
                     }),
                   },
                   {
-                    value: '1',
+                    value: 1,
                     label: intl.formatMessage({
                       id: 'common.gender.female',
                     }),
@@ -119,24 +156,14 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.specialist',
               })}
-              name={'specialist'}
+              name={n('categoryIds')}
               rules={[{ required: true }]}
             >
               <CustomSelect
-                options={[
-                  {
-                    value: 'active',
-                    label: intl.formatMessage({
-                      id: 'common.active',
-                    }),
-                  },
-                  {
-                    value: 'inactive',
-                    label: intl.formatMessage({
-                      id: 'common.inactive',
-                    }),
-                  },
-                ]}
+                mode="multiple"
+                options={category?.flatMap((item) => {
+                  return { value: item.id, label: item.name } as DefaultOptionType;
+                })}
               />
             </Form.Item>
           </div>
@@ -146,7 +173,7 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.level',
               })}
-              name={'level'}
+              name={n('level')}
               rules={[{ required: true }]}
             >
               <CustomInput />
@@ -158,19 +185,19 @@ const DoctorInfo = () => {
               label={intl.formatMessage({
                 id: 'doctor.create.info.status',
               })}
-              name={'status'}
+              name={n('status')}
               rules={[{ required: true }]}
             >
               <CustomSelect
                 options={[
                   {
-                    value: 'active',
+                    value: 1,
                     label: intl.formatMessage({
                       id: 'common.active',
                     }),
                   },
                   {
-                    value: 'inactive',
+                    value: 0,
                     label: intl.formatMessage({
                       id: 'common.inactive',
                     }),
@@ -178,17 +205,33 @@ const DoctorInfo = () => {
                 ]}
               />
             </Form.Item>
-            <Form.Item
-              className="request"
-              label={intl.formatMessage({
-                id: 'doctor.create.info.request',
-              })}
-              name={'request'}
-              rules={[{ required: true }]}
-            >
-              <CustomInput />
-            </Form.Item>
+            {doctorType === DoctorType.DOCTOR_SUPPORT && (
+              <Form.Item
+                className="request block"
+                label={intl.formatMessage({
+                  id: 'doctor.create.info.request',
+                })}
+                name={'request'}
+                rules={[{ required: true }]}
+              >
+                <CustomInput />
+              </Form.Item>
+            )}
           </div>
+          {!id.id && (
+            <div className="doctor-info__content__info__rows">
+              <Form.Item
+                className="password block"
+                label={intl.formatMessage({
+                  id: 'doctor.create.info.password',
+                })}
+                name={n('password')}
+                rules={[{ required: true }]}
+              >
+                <CustomInput isPassword={true} />
+              </Form.Item>
+            </div>
+          )}
         </div>
       </div>
     </div>
