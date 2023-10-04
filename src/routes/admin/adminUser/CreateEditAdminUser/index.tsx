@@ -155,7 +155,7 @@ const CreateAdmin = () => {
     <Card id="admin-management">
       <Form form={form} onFinish={onFinish}>
         <Row className="admin-management__header">
-          <header>Thông tin quản trị viên</header>
+          <header>{intl.formatMessage({ id: 'admin.user.info' })}</header>
         </Row>
         <Row className="admin-management__body">
           <Col span={14} className="admin-management__body-info">
@@ -236,8 +236,8 @@ const CreateAdmin = () => {
                           className="admin-management__item-select"
                           defaultValue="Gender"
                           options={[
-                            { value: 0, label: 'Male' },
-                            { value: 1, label: 'Female' },
+                            { value: 0, label: intl.formatMessage({ id: 'common.gender.male' }) },
+                            { value: 1, label: intl.formatMessage({ id: 'common.gender.female' }) },
                           ]}
                         />
                       </Form.Item>
