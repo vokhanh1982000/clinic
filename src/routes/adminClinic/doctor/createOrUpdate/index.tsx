@@ -9,7 +9,11 @@ import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteM
 import DoctorInfo from '../../../../components/table/DoctorTable/information';
 import Achievement from '../../../../components/table/DoctorTable/achievenment';
 import { DoctorType } from '../../../../constants/enum';
-import { CreateDoctorClinicDto, UpdateDoctorClinicDto } from '../../../../apis/client-axios';
+import {
+  CreateDoctorClinicDto,
+  CreateDoctorClinicDtoGenderEnum,
+  UpdateDoctorClinicDto,
+} from '../../../../apis/client-axios';
 import { categoryApi, doctorClinicApi } from '../../../../apis';
 import moment from 'moment';
 import { error } from 'console';
@@ -39,7 +43,7 @@ const CreateDoctor = () => {
     onSuccess: ({ data }) => {
       form.setFieldsValue({
         ...data,
-        gender: data.gender && +data.gender,
+        gender: data.gender == CreateDoctorClinicDtoGenderEnum.Female ? 1 : 0,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
         dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'DD/MM/YYYY') : moment('', 'DD/MM/YYYY'),
@@ -87,22 +91,15 @@ const CreateDoctor = () => {
     if (!id) {
       createDocterClinic.mutate({
         ...values,
-        gender: !!values.gender,
+        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         status: !!values.status,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
         clinicId: null,
       });
     } else {
-      console.log({
-        ...values,
-        gender: !!values.gender,
-        status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
-        id: id,
-      });
       updateDoctorClinic.mutate({
         ...values,
-        gender: !!values.gender,
+        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         status: !!values.status,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
         id: id,
