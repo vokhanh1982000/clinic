@@ -14,6 +14,7 @@ import {
   ClinicsApi,
   DefaultApi,
   DoctorClinicApi,
+  AdministratorClinicApi,
 } from './client-axios';
 import AdminClinic from '../routes/adminClinic';
 
@@ -45,8 +46,8 @@ const medicineApi: MedicineApi = new MedicineApi(config, undefined, axiosInstanc
 const adminMedicineApi: AdminMedicineApi = new AdminMedicineApi(config, undefined, axiosInstance);
 const cadastralApi: CadastralApi = new CadastralApi(config, undefined, axiosInstance);
 const clinicsApi: ClinicsApi = new ClinicsApi(config, undefined, axiosInstance);
-const adminClinicsApi: DefaultApi = new DefaultApi(config, undefined, axiosInstance);
 const doctorClinicApi: DoctorClinicApi = new DoctorClinicApi(config, undefined, axiosInstance);
+const adminClinicApi = new AdministratorClinicApi(config, undefined, axiosInstance);
 
 export {
   authApi,
@@ -59,6 +60,6 @@ export {
   adminMedicineApi,
   cadastralApi,
   clinicsApi,
-  adminClinicsApi,
+  adminClinicApi,
   doctorClinicApi,
 };

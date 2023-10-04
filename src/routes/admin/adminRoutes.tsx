@@ -21,7 +21,7 @@ const ListNews = React.lazy(() => import('./news/index'));
 const Statistic = React.lazy(() => import('./statistic/index'));
 const CreateAdmin = React.lazy(() => import('./adminUser/CreateEditAdminUser'));
 const ListMedicine = React.lazy(() => import('./medicine/index'));
-
+const AdminProfile = React.lazy(() => import('./profile/index'));
 export const AdminRoutes = () => (
   <Routes>
     <Route path={ADMIN_ROUTE_NAME.SIGNIN} element={<SignInAdmin />} />
@@ -58,6 +58,7 @@ export const AdminRoutes = () => (
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateRole />} />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<ListMedicine />} />
+      <Route path={ADMIN_ROUTE_NAME.ADMIN_PROFILE} element={<AdminProfile />} />
     </Route>
   </Routes>
 );

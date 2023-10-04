@@ -1,0 +1,11 @@
+{
+  "admin-profile.table.title": "Account information",
+  "admin-profile.fullName": "Full name",
+  "admin-profile.code": "Staff code",
+  "admin-profile.emailAddress": "Email",
+  "admin-profile.phoneNumber": "Phone number",
+  "admin-profile.dateOfBirth": "Birthday",
+  "admin-profile.gender": "Gender",
+  "admin-profile.save": "Save change",
+  "admin-profile.cancelled": "Cancel"
+}

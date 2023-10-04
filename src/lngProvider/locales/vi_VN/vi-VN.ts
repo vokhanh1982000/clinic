@@ -10,7 +10,10 @@ import manager from './manager.json';
 import adminuser from './admin.user.json';
 import doctor from './doctor.json';
 import category from './category.json';
+import adminProfile from './admin.profile.json';
 import customer from './customer.json';
+import doctorProfile from './doctor.profile.json';
+import adminClinic from './admin.clinic.profile.json';
 
 const viLang = {
   messages: {
@@ -25,7 +28,10 @@ const viLang = {
     ...adminuser,
     ...doctor,
     ...category,
+    ...adminProfile,
     ...customer,
+    ...doctorProfile,
+    ...adminClinic,
   },
   antd: antdVI,
   locale: 'vi-VN',

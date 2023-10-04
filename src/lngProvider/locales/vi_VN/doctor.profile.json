@@ -1,0 +1,20 @@
+{
+  "doctor-profile.title": "Thông tin tài khoản",
+  "doctor-profile.form.fullName": "Họ và tên",
+  "doctor-profile.form.code": "Mã nhân sự",
+  "doctor-profile.form.email": "Email",
+  "doctor-profile.form.phone": "Số điện thoại",
+  "doctor-profile.form.dob": "Ngày sinh",
+  "doctor-profile.form.gender": "Giới tính",
+  "doctor-profile.form.category": "Chuyên khoa",
+  "doctor-profile.form.level": "Trình độ",
+  "doctor-profile.form.status": "Trạng thái",
+  "doctor-profile.form.province": "Tỉnh/Thành phố",
+  "doctor-profile.form.district": "Quận/Huyện",
+  "doctor-profile.form.ward": "Phường/Xã",
+  "doctor-profile.form.address": "Địa chỉ",
+  "doctor-profile.achievement.history.title": "Quá trình công tác",
+  "doctor-profile.achievement.experiment.title": "Kinh nghiệm",
+  "doctor-profile.button-save": "Lưu thay đổi",
+  "doctor-profile.button-cancelled": "Huỷ"
+}

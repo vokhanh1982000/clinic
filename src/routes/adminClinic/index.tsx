@@ -26,7 +26,7 @@ const AdminClinic = () => {
     getItem(
       intl.formatMessage({ id: 'menu.medicineManagement' }),
       ADMIN_CLINIC_ROUTE_PATH.MEDICINE_MANAGEMENT,
-      <img src="/assets/icons/admin/medicalSpecialtyManagementIconInactive.svg" />
+      <img src="/assets/icons/admin/medicineManagementIconInactive.svg" />
     ),
     getItem(
       intl.formatMessage({ id: 'menu.doctorManagement' }),

@@ -18,5 +18,7 @@
   "common.action.delete": "Delete",
   "common.gender.male": "Male",
   "common.gender.female": "Female",
-  "common.option.all": "All"
+  "common.option.all": "All",
+  "common.password.min": "Password minimum 8 characters",
+  "common.password.max": "Password maximum 8 characters"
 }

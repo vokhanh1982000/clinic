@@ -7,6 +7,53 @@ interface IIconProps extends Omit<IRestProps, 'restProps'> {
 
 const IconSVG: React.FC<IIconProps> = (props) => {
   switch (props.type) {
+    case 'bokking':
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M13.7159 22.0623H4.625C3.52043 22.0623 2.625 21.1668 2.625 20.0623V6.06226C2.625 4.95769 3.52043 4.06226 4.625 4.06226H18.625C19.7296 4.06226 20.625 4.95769 20.625 6.06226V13.6532"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M15.6255 2.0625V6.0625"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M7.62451 2.0625V6.0625"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2.625 10.0623H20.625"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M17.6245 22.6681C20.1349 22.6681 22.17 20.633 22.17 18.1226C22.17 15.6121 20.1349 13.5771 17.6245 13.5771C15.1141 13.5771 13.079 15.6121 13.079 18.1226C13.079 20.633 15.1141 22.6681 17.6245 22.6681Z"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M17.4243 16.7229V19.1229L19.0243 19.9229"
+            stroke="#702A14"
+            stroke-width="1.09102"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      );
     case 'user':
       return (
         <svg width="94" height="94" viewBox="0 0 94 94" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -292,6 +339,103 @@ const IconSVG: React.FC<IIconProps> = (props) => {
           <rect x="11.1998" y="17.6006" width="6.4" height="1.6" rx="0.8" fill="#EE5824" />
         </svg>
       );
+
+    case 'profile': {
+      return (
+        <div
+          style={{
+            borderRadius: '50%',
+            width: 32,
+            height: 32,
+            backgroundColor: '#fcded3',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 5px 0 0',
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_625_5642)">
+              <path
+                d="M3.6111 17.8333H3.61106C3.52342 17.8333 3.4393 17.7988 3.37692 17.7373C3.31514 17.6763 3.2796 17.5937 3.27777 17.507V14.1804C3.27886 14.0986 3.30947 14.02 3.36394 13.9591C4.20942 13.0436 5.23517 12.313 6.37669 11.8132C7.51915 11.3129 8.75281 11.0547 9.99999 11.0547C11.2472 11.0547 12.4808 11.3129 13.6233 11.8132C14.7648 12.313 15.7906 13.0437 16.6361 13.9591C16.689 14.0183 16.7195 14.0941 16.7222 14.1734V17.5C16.7222 17.5884 16.6871 17.6732 16.6246 17.7357C16.5621 17.7982 16.4773 17.8333 16.3889 17.8333H3.6111Z"
+                stroke="#EE5824"
+              />
+              <path
+                d="M13.3891 5.55686C13.3891 7.42849 11.8718 8.94575 10.0002 8.94575C8.12859 8.94575 6.61133 7.42849 6.61133 5.55686C6.61133 3.68523 8.12859 2.16797 10.0002 2.16797C11.8718 2.16797 13.3891 3.68523 13.3891 5.55686Z"
+                stroke="#EE5824"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_625_5642">
+                <rect width="20" height="20" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+      );
+    }
+    case 'logout': {
+      return (
+        <div
+          style={{
+            borderRadius: '50%',
+            width: 32,
+            height: 32,
+            backgroundColor: '#fcded3',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 5px 0 0',
+          }}
+        >
+          <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7 9H13M13 9L10.4286 11.6667M13 9L10.4286 6.33333M13 3.66667V2.77778C13 2.30628 12.8194 1.8541 12.4979 1.5207C12.1764 1.1873 11.7404 1 11.2857 1H2.71429C2.25963 1 1.82359 1.1873 1.5021 1.5207C1.18061 1.8541 1 2.30628 1 2.77778V15.2222C1 15.6937 1.18061 16.1459 1.5021 16.4793C1.82359 16.8127 2.25963 17 2.71429 17H11.2857C11.7404 17 12.1764 16.8127 12.4979 16.4793C12.8194 16.1459 13 15.6937 13 15.2222V14.3333"
+              stroke="#EE5824"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      );
+    }
+    case 'change-password': {
+      return (
+        <div
+          style={{
+            borderRadius: '50%',
+            width: 32,
+            height: 32,
+            backgroundColor: '#fcded3',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 5px 0 0',
+          }}
+        >
+          <svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M9.00012 11.6407C8.64297 11.642 8.29617 11.7607 8.01301 11.9784C7.72986 12.1961 7.52604 12.5007 7.43289 12.8455C7.33973 13.1903 7.3624 13.5561 7.4974 13.8868C7.6324 14.2174 7.87227 14.4946 8.18012 14.6757V17.0007H9.84012V14.6757C10.0837 14.5316 10.2858 14.3269 10.4269 14.0816C10.568 13.8363 10.6431 13.5586 10.6451 13.2757C10.6451 13.0601 10.6025 12.8467 10.5197 12.6476C10.4369 12.4486 10.3156 12.2679 10.1627 12.116C10.0098 11.964 9.82841 11.8438 9.62888 11.7622C9.42936 11.6807 9.21567 11.6393 9.00012 11.6407Z"
+              stroke="#EE5824"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M15.1449 7.88477H2.84994C1.65701 7.88477 0.689941 8.85183 0.689941 10.0448V18.5898C0.689941 19.7827 1.65701 20.7498 2.84994 20.7498H15.1449C16.3379 20.7498 17.3049 19.7827 17.3049 18.5898V10.0448C17.3049 8.85183 16.3379 7.88477 15.1449 7.88477Z"
+              stroke="#EE5824"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M3.6748 7.885V6.58C3.6748 5.1664 4.23636 3.81069 5.23593 2.81112C6.23549 1.81155 7.5912 1.25 9.0048 1.25C10.4184 1.25 11.7741 1.81155 12.7737 2.81112C13.7733 3.81069 14.3348 5.1664 14.3348 6.58V7.885"
+              stroke="#EE5824"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      );
+    }
 
     default:
       return null;

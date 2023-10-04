@@ -70,12 +70,16 @@
           }
           .camera {
             position: absolute;
-            right: 110px;
             bottom: 0;
-            padding: 8px;
-            background-color: rgb(255, 255, 255);
-            border-radius: 32px;
+            left: 140px;
+            width: 56px;
+            height: 56px;
             font-size: 20px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
             color: $secondary_color;
           }
         }
@@ -93,6 +97,22 @@
           font-weight: 700;
           color: $secondary_color;
         }
+        .admin-management__role-checkboxGroup {
+          div {
+            width: 100%;
+          }
+          .ant-form-item-control-input-content {
+            columns: 1;
+            -webkit-columns: 1;
+            -moz-columns: 1;
+            .ant-checkbox-wrapper {
+              width: 50%;
+              margin-top: 15px;
+              font-size: 16px;
+              font-family: 'Open-Sans' !important;
+            }
+          }
+        }
       }
       .admin-management__role-submit {
         margin-top: 20px;
@@ -107,12 +127,6 @@
         .admin-submit-remove {
           color: $primary_color;
         }
-      }
-      .ant-checkbox-wrapper {
-        width: 185px;
-        margin-top: 15px;
-        font-size: 16px;
-        font-family: 'Open-Sans' !important;
       }
     }
   }

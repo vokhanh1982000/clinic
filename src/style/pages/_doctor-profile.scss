@@ -1,32 +1,5 @@
-#doctor-management {
-  .doctor-management__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-
-    &__title {
-      font-weight: 700;
-      font-size: 24px;
-      line-height: 36px;
-      color: $text_black_light;
-    }
-
-    .button-add {
-      width: 244px;
-      border: unset;
-      display: flex;
-      align-items: center;
-      background-color: $primary_color;
-      color: $text_white;
-      justify-content: center;
-      width: 187px;
-    }
-  }
-}
-
-#create-doctor-management {
-  .create-doctor-title {
+#doctor-profile-management {
+  .doctor-profile-title {
     font-size: 24px;
     font-weight: 700;
     line-height: 36px;
@@ -34,7 +7,7 @@
     margin-bottom: 10px;
   }
 
-  .form-create-doctor {
+  .form-doctor-profile {
     margin-top: 20px;
     display: flex;
     // align-items: center;
@@ -125,10 +98,6 @@
             align-items: center;
             gap: 15px;
             width: 100%;
-
-            .block {
-              width: 100%;
-            }
           }
 
           .name {
@@ -149,31 +118,36 @@
             }
           }
 
-          // .level,
-          // .specialist,
-          // .status,
+          .category {
+            width: 100%;
+          }
+
           .email,
           .phone,
-          .gender {
+          .gender,
+          .level,
+          .specialist,
+          .status,
+          .province,
+          .district,
+          .ward,
+          .address {
             width: 50%;
-          }
-          .request {
-            width: 100%;
           }
         }
       }
     }
 
-    .achievement {
+    .achievement-wrap {
       width: 30%;
-      display: flex;
-      flex-direction: column;
-      &__data {
-        flex: 1;
+
+      .achievement {
+        width: 100%;
         border: 1px solid $border_input_color;
         border-radius: 24px;
         padding: 20px 15px;
         height: auto;
+
         &__history,
         &__experiment {
           &__title {
@@ -186,42 +160,37 @@
         }
       }
     }
+
+    .button-action {
+      margin-top: 20px;
+      width: 100%;
+
+      .more-action {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .button-create,
+      .button-save {
+        width: 100%;
+        background-color: $primary_color;
+        color: $text_white;
+        border: unset;
+      }
+
+      .button-delete {
+        width: 100%;
+        border: unset;
+        box-shadow: unset;
+        color: $text_warning;
+      }
+
+      .button-cancel {
+        width: 100%;
+        border: unset;
+        box-shadow: unset;
+        color: unset;
+      }
+    }
   }
-
-  .button-action {
-    margin-top: 20px;
-    float: right;
-    width: 100%;
-
-    .more-action {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .button-create,
-    .button-save {
-      width: 100%;
-      background-color: $primary_color;
-      color: $text_white;
-      border: unset;
-    }
-
-    .button-delete {
-      width: 100%;
-      border: unset;
-      box-shadow: unset;
-      color: $text_warning;
-    }
-
-    .button-cancel {
-      width: 100%;
-      border: unset;
-      box-shadow: unset;
-      color: unset;
-    }
-  }
-}
-
-.ant-btn-primary {
-  background-color: $primary_color !important;
 }

@@ -10,10 +10,14 @@ import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
 import { DoctorType } from '../../../constants/enum';
 import { ConfirmDeleteModal } from '../../modals/ConfirmDeleteModal';
+import { useQuery } from '@tanstack/react-query';
+import { doctorClinicApi } from '../../../apis';
 
 interface DoctorTableProps {
   placeHolder?: string;
   doctorType: DoctorType;
+  data?: any;
+  deleteFc?: (id: string) => void;
 }
 
 interface OptionSpecialist {
@@ -27,35 +31,25 @@ interface OptionStatus {
 }
 
 export const DoctorTable = (props: DoctorTableProps) => {
-  const { placeHolder, doctorType } = props;
+  const { placeHolder, doctorType, deleteFc } = props;
   const intl = useIntl();
   const navigate = useNavigate();
-  const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
-  const [sort, setSort] = useState<string>('');
-  const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
   const [statusSelect, setStatusSelect] = useState<OptionStatus>();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
+  const [sort, setSort] = useState<string>('');
+  const [categoryId, setCategoryId] = useState<any>(undefined);
+  const [status, setStatus] = useState<number>(-1);
+  const [fullTextSearch, setFullTextSearch] = useState<string>('');
 
-  const data = {
-    data: {
-      content: [
-        {
-          id: '1237',
-          code: '1237',
-          name: 'Nguyễn Thị Quỳnh',
-          email: 'abc@gmail.com',
-          phone: '0968 544 442',
-          specialist: 'Dạ Dày',
-          level: 'Phó Giáo Sư ',
-          workTime: '08:00 - 17:00',
-          status: 'active',
-        },
-      ],
-      total: 1,
-    },
-  };
+  const { data, isLoading } = useQuery({
+    queryKey: ['getAdminUser', { page, size, sort, fullTextSearch, categoryId, status }],
+    queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, status),
+  });
+
+  console.log(data);
 
   const items1: any = [
     {
@@ -93,20 +87,21 @@ export const DoctorTable = (props: DoctorTableProps) => {
 
   const items2: any = [
     {
+      key: '0',
+      label: (
+        <div onClick={() => setStatus(-1)}>
+          {intl.formatMessage({
+            id: 'All',
+          })}
+        </div>
+      ),
+    },
+    {
       key: '1',
       label: (
-        <div
-          onClick={() => {
-            setSpecialistSelect({
-              id: '1',
-              label: intl.formatMessage({
-                id: 'doctor.list.filter.status',
-              }),
-            });
-          }}
-        >
+        <div onClick={() => setStatus(1)}>
           {intl.formatMessage({
-            id: 'doctor.list.filter.status',
+            id: 'doctor.status.true',
           })}
         </div>
       ),
@@ -114,19 +109,23 @@ export const DoctorTable = (props: DoctorTableProps) => {
     {
       key: '2',
       label: (
-        <div
-          onClick={() => {
-            setSpecialistSelect({ id: '2', label: 'Example1' });
-          }}
-        >
-          Example1
+        <div onClick={() => setStatus(0)}>
+          {intl.formatMessage({
+            id: 'doctor.status.false',
+          })}
         </div>
       ),
     },
   ];
 
+  const handleSearch = (e: any) => {
+    if (!e.target.value.trim()) return setFullTextSearch('');
+    setFullTextSearch(e.target.value);
+  };
+
   const handleDelete = () => {
-    console.log(isShowModalDelete?.id);
+    if (deleteFc && isShowModalDelete) deleteFc(isShowModalDelete.id);
+    setIsShowModalDelete(undefined);
   };
 
   const handleClose = () => {
@@ -142,6 +141,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           })}
           prefix={<IconSVG type="search" />}
           className="input-search"
+          onChange={handleSearch}
         />
         <Dropdown className="dropdown-location" menu={{ items: items1 }} placement="bottomLeft" trigger={['click']}>
           <CustomButton className="button-location">
@@ -193,29 +193,35 @@ export const DoctorTable = (props: DoctorTableProps) => {
           title={intl.formatMessage({
             id: `${doctorType}.list.table.name`,
           })}
-          dataIndex="name"
+          dataIndex="fullName"
           width={'12%'}
         />
         <Column
           title={intl.formatMessage({
             id: 'doctor.list.table.email',
           })}
-          dataIndex="email"
+          dataIndex="emailAddress"
           width={'12%'}
         />
-        <Column
-          title={intl.formatMessage({
-            id: 'doctor.list.table.phone',
-          })}
-          dataIndex="phone"
-          width={'12%'}
-        />
+        {doctorType !== DoctorType.DOCTOR && (
+          <Column
+            title={intl.formatMessage({
+              id: 'doctor.list.table.phone',
+            })}
+            dataIndex="phoneNumber"
+            width={'12%'}
+          />
+        )}
         <Column
           title={intl.formatMessage({
             id: 'doctor.list.table.specialist',
           })}
-          dataIndex="specialist"
+          dataIndex="categories"
           width={'12%'}
+          render={(_, record: any) => {
+            const specialist = _.map((item: any) => item.name);
+            return <div>{specialist.join(',')}</div>;
+          }}
         />
         <Column
           title={intl.formatMessage({
@@ -224,13 +230,15 @@ export const DoctorTable = (props: DoctorTableProps) => {
           dataIndex="level"
           width={'12%'}
         />
-        <Column
-          title={intl.formatMessage({
-            id: 'doctor.list.table.workTime',
-          })}
-          dataIndex="workTime"
-          width={'12%'}
-        />
+        {doctorType !== DoctorType.DOCTOR && (
+          <Column
+            title={intl.formatMessage({
+              id: 'doctor.list.table.workTime',
+            })}
+            dataIndex="workTime"
+            width={'12%'}
+          />
+        )}
         <Column
           title={intl.formatMessage({
             id: 'doctor.list.table.status',
@@ -242,7 +250,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
               <IconSVG type={record.status} />
               <div>
                 {intl.formatMessage({
-                  id: `common.${record.status}`,
+                  id: `doctor.status.${record.status}`,
                 })}
               </div>
             </div>
@@ -252,10 +260,18 @@ export const DoctorTable = (props: DoctorTableProps) => {
           title={intl.formatMessage({
             id: 'doctor.list.table.action',
           })}
-          dataIndex="action"
+          dataIndex="id"
           width={'10%'}
           render={(_, record: any) => (
             <div className="action-doctor">
+              {doctorType === DoctorType.DOCTOR && (
+                <>
+                  <div onClick={() => navigate(`detail/${record.id}`)}>
+                    <IconSVG type="bokking" />
+                  </div>
+                  <span className="divider"></span>
+                </>
+              )}
               <div onClick={() => navigate(`detail/${record.id}`)}>
                 <IconSVG type="edit" />
               </div>

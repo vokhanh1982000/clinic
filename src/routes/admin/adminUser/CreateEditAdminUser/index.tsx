@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { adminApi, roleApi } from '../../../../apis';
 import CheckboxGroupCustom from '../../../../components/checkboxGroup/customCheckbox';
-import { CreateAdminDto, Role, UpdateAdminDto } from '../../../../apis/client-axios';
+import { CreateAdminDto, CreateDoctorClinicDtoGenderEnum, Role, UpdateAdminDto } from '../../../../apis/client-axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import moment from 'moment';
@@ -43,7 +43,7 @@ const CreateAdmin = () => {
         form.setFieldsValue({
           ...response.data,
           roleIds: response.data.user.roles,
-          gender: response.data.gender ? 1 : 0,
+          gender: response.data.gender == CreateDoctorClinicDtoGenderEnum.Female ? 1 : 0,
           dateOfBirth: response.data.dateOfBirth
             ? moment(response.data.dateOfBirth, 'DD/MM/YYYY')
             : moment('', 'DD/MM/YYYY'),
@@ -60,8 +60,8 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getDetailAdmin', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'role.create.error' }));
+      onError: ({ response }) => {
+        message.error(intl.formatMessage({ id: `${response.data.message}` }));
       },
     }
   );
@@ -73,29 +73,29 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getDetailAdmin', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
-      onError: (error) => {
-        // message.error(intl.formatMessage({ id: error }));
-        console.log(error);
+      onError: ({ response }) => {
+        console.log('err');
+        message.error(intl.formatMessage({ id: `${response.data.message}` }));
       },
     }
   );
-  const deleteAdmin = useMutation((id: string) => roleApi.roleControllerDelete(id), {
+  const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
-      navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
+      navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
     },
     onError: (error) => {
-      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
+      message.error(intl.formatMessage({ id: 'Fail' }));
     },
   });
 
-  const handleDelete = (text: any) => {
+  const handleDelete = () => {
     Modal.confirm({
       icon: null,
       content: intl.formatMessage({ id: 'admin.user.delete.confirm' }),
       okText: intl.formatMessage({ id: 'role.remove.confirm' }),
       cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
       onOk() {
-        if (text) deleteAdmin.mutate(text);
+        if (id) deleteAdmin.mutate(id);
       },
       onCancel() {
         console.log('cancel');
@@ -113,14 +113,14 @@ const CreateAdmin = () => {
       updateAdmin.mutate({
         ...values,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
-        gender: 0 ? true : false,
+        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         roleIds,
         userId: id,
       });
     } else {
       const data: CreateAdminDto = {
         ...values,
-        gender: 0 ? true : false,
+        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
         roleIds,
       };
@@ -134,27 +134,28 @@ const CreateAdmin = () => {
     form.setFieldValue(n('roleIds'), Array.from(item));
   };
 
-  const renderCheckbox = (item: any, role: Role[] | undefined) => {
-    if (item && role) {
-      const checked = role?.some((val) => val.id === item.id);
-      return id ? (
-        <Checkbox value={item.id} defaultChecked={checked} onChange={(e) => handeArrayCheckbox(e)}>
-          {item.name}
-        </Checkbox>
-      ) : (
+  const renderCheckbox = (item: any) => {
+    if (!id)
+      return (
         <Checkbox value={item.id} onChange={(e) => handeArrayCheckbox(e)}>
           {item.name}
         </Checkbox>
       );
+    if (item && detailAdmin?.data.user.roles) {
+      const checked = detailAdmin?.data.user.roles?.some((val) => val.id === item.id);
+      return (
+        <Checkbox value={item.id} defaultChecked={checked} onChange={(e) => handeArrayCheckbox(e)}>
+          {item.name}
+        </Checkbox>
+      );
     }
-    <></>;
   };
 
   return (
     <Card id="admin-management">
       <Form form={form} onFinish={onFinish}>
         <Row className="admin-management__header">
-          <header>Thông tin quản trị viên</header>
+          <header>{intl.formatMessage({ id: 'admin.user.info' })}</header>
         </Row>
         <Row className="admin-management__body">
           <Col span={14} className="admin-management__body-info">
@@ -197,10 +198,7 @@ const CreateAdmin = () => {
                       ]}
                       name={n('emailAddress')}
                     >
-                      <CustomInput
-                        name={n('emailAddress')}
-                        placeholder={intl.formatMessage({ id: 'admin.user.email.message' })}
-                      />
+                      <CustomInput name={n('emailAddress')} placeholder="email" />
                     </Form.Item>
                   </Row>
                   <Row className="admin-management__info-item">
@@ -238,28 +236,28 @@ const CreateAdmin = () => {
                           className="admin-management__item-select"
                           defaultValue="Gender"
                           options={[
-                            { value: 0, label: 'Male' },
-                            { value: 1, label: 'Female' },
+                            { value: 0, label: intl.formatMessage({ id: 'common.gender.male' }) },
+                            { value: 1, label: intl.formatMessage({ id: 'common.gender.female' }) },
                           ]}
                         />
                       </Form.Item>
                     </Col>
                   </Row>
-                  <Row className="admin-management__info-item">
-                    <header>
-                      {intl.formatMessage({
-                        id: 'sigin.password',
-                      })}
-                    </header>
-                    <Form.Item name={n('password')}>
-                      <CustomInput
-                        isPassword={true}
-                        placeholder={intl.formatMessage({
-                          id: 'sigin.password',
-                        })}
-                      />
-                    </Form.Item>
-                  </Row>
+                  {!id && (
+                    <Row className="admin-management__info-item">
+                      <header>{intl.formatMessage({ id: 'admin.user.password' })}</header>
+                      <Form.Item
+                        name={n('password')}
+                        rules={[
+                          { required: true },
+                          { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
+                          { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
+                        ]}
+                      >
+                        <CustomInput isPassword={true} />
+                      </Form.Item>
+                    </Row>
+                  )}
                 </Col>
               </Row>
             </Card>
@@ -273,9 +271,7 @@ const CreateAdmin = () => {
                 </div>
               </Row>
               <Row className="admin-management__role-checkboxGroup">
-                <Form.Item>
-                  {roleData?.data.content?.map((item) => renderCheckbox(item, detailAdmin?.data.user.roles))}
-                </Form.Item>
+                <Form.Item>{roleData?.data.content?.map((item) => renderCheckbox(item))}</Form.Item>
               </Row>
             </Card>
             <Row className="admin-management__role-submit">
