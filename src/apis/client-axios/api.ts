@@ -8470,11 +8470,11 @@ export const DoctorClinicApiAxiosParamCreator = function (configuration?: Config
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {string} [categoryId] 
-         * @param {boolean} [status] 
+         * @param {number} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerGetAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, status?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        doctorClinicControllerGetAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, status?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('doctorClinicControllerGetAll', 'page', page)
             const localVarPath = `/doctor-clinic/get-all-doctor-clinic`;
@@ -8641,11 +8641,11 @@ export const DoctorClinicApiFp = function(configuration?: Configuration) {
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {string} [categoryId] 
-         * @param {boolean} [status] 
+         * @param {number} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, status?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DoctorClinicControllerGetAll200Response>> {
+        async doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DoctorClinicControllerGetAll200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -8704,11 +8704,11 @@ export const DoctorClinicApiFactory = function (configuration?: Configuration, b
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {string} [categoryId] 
-         * @param {boolean} [status] 
+         * @param {number} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, status?: boolean, options?: any): AxiosPromise<DoctorClinicControllerGetAll200Response> {
+        doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, status?: number, options?: any): AxiosPromise<DoctorClinicControllerGetAll200Response> {
             return localVarFp.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, status, options).then((request) => request(axios, basePath));
         },
         /**
@@ -8768,12 +8768,12 @@ export class DoctorClinicApi extends BaseAPI {
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
      * @param {string} [categoryId] 
-     * @param {boolean} [status] 
+     * @param {number} [status] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DoctorClinicApi
      */
-    public doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, status?: boolean, options?: AxiosRequestConfig) {
+    public doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, status?: number, options?: AxiosRequestConfig) {
         return DoctorClinicApiFp(this.configuration).doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, status, options).then((request) => request(this.axios, this.basePath));
     }
 

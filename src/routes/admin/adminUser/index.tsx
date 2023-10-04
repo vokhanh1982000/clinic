@@ -60,6 +60,21 @@ const ListRole = () => {
     setFullTextSearch(e.target.value);
   };
 
+  const showInfo = (data: string[]) => {
+    Modal.info({
+      title: intl.formatMessage({ id: 'admin.user.role' }),
+      icon: null,
+      content: (
+        <ul>
+          {data.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ),
+      onOk() {},
+    });
+  };
+
   console.log(data);
   return (
     <Card id="role-management">
@@ -119,7 +134,7 @@ const ListRole = () => {
           title={intl.formatMessage({
             id: 'Email',
           })}
-          dataIndex="email"
+          dataIndex="emailAddress"
         />
         <Column
           title={intl.formatMessage({
@@ -129,33 +144,46 @@ const ListRole = () => {
         />{' '}
         <Column
           title={intl.formatMessage({
-            id: 'admin.user.code',
-          })}
-          dataIndex="role"
-        />
-        <Column
-          title={intl.formatMessage({
             id: 'admin.user.position',
           })}
           dataIndex="position"
         />
         <Column
           title={intl.formatMessage({
+            id: 'admin.user.role',
+          })}
+          dataIndex="user"
+          render={(_, record: any) => {
+            const data = _.roles.map((item: any) => item.name);
+            return (
+              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>administrator</div>
+                <Button type="text" onClick={() => showInfo(data)}>
+                  ...
+                </Button>
+              </Row>
+            );
+          }}
+        />
+        <Column
+          title={intl.formatMessage({
             id: 'role.list.table.action',
           })}
-          dataIndex="action"
+          dataIndex="user"
           width={'15%'}
-          render={(_, record: any) => (
-            <div className="action-role">
-              <div onClick={() => navigate(`detail/${record.userId}`)}>
-                <IconSVG type="edit" />
+          render={(_, record: any) => {
+            return (
+              <div className="action-role">
+                <div onClick={() => navigate(`detail/${_.id}`)}>
+                  <IconSVG type="edit" />
+                </div>
+                <span className="divider"></span>
+                <div onClick={() => handleDeleteAdmin(_.id)}>
+                  <IconSVG type="delete" />
+                </div>
               </div>
-              <span className="divider"></span>
-              <div onClick={() => handleDeleteAdmin(record.userId)}>
-                <IconSVG type="delete" />
-              </div>
-            </div>
-          )}
+            );
+          }}
           align="center"
         />
       </TableWrap>

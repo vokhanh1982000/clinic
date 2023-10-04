@@ -41,13 +41,15 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
   const [categoryId, setCategoryId] = useState<any>(undefined);
-  const [status, setStatus] = useState<any>(null);
+  const [status, setStatus] = useState<number>(-1);
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
 
   const { data, isLoading } = useQuery({
     queryKey: ['getAdminUser', { page, size, sort, fullTextSearch, categoryId, status }],
     queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, status),
   });
+
+  console.log(data);
 
   const items1: any = [
     {
@@ -85,9 +87,19 @@ export const DoctorTable = (props: DoctorTableProps) => {
 
   const items2: any = [
     {
+      key: '0',
+      label: (
+        <div onClick={() => setStatus(-1)}>
+          {intl.formatMessage({
+            id: 'All',
+          })}
+        </div>
+      ),
+    },
+    {
       key: '1',
       label: (
-        <div onClick={() => setStatus(true)}>
+        <div onClick={() => setStatus(1)}>
           {intl.formatMessage({
             id: 'doctor.status.true',
           })}
@@ -97,7 +109,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
     {
       key: '2',
       label: (
-        <div onClick={() => setStatus(false)}>
+        <div onClick={() => setStatus(0)}>
           {intl.formatMessage({
             id: 'doctor.status.false',
           })}
