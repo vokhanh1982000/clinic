@@ -18,6 +18,7 @@
   "doctor.list.table.action": "Action",
   "doctor.create.title": "Create Doctor Support",
   "doctor.clinic.create.title": "Create Doctor Clinic",
+  "doctor.clinic.edit.title": "Doctor Detail",
   "doctor.edit.title": "Doctor Support Detail",
   "doctor.create.info.title": "Register Infomation",
   "doctor.create.info.name": "Name",
