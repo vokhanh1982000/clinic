@@ -1,7 +1,9 @@
-import { useIntl } from 'react-intl';
-import TableWrap from '../../../../../components/TableWrap';
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Column from 'antd/es/table/Column';
+import { useState } from 'react';
+import { useIntl } from 'react-intl';
+import { doctorClinicApi } from '../../../../../apis';
+import TableWrap from '../../../../../components/TableWrap';
 import IconSVG from '../../../../../components/icons/icons';
 
 interface DoctorListProps {
@@ -14,24 +16,11 @@ export const DoctorList = (props: DoctorListProps) => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
 
-  const data = {
-    data: {
-      content: [
-        {
-          id: 1,
-          code: 1264,
-          name: 'Tăng Thăng Hà',
-          email: 'bacsid@gmail.com',
-          specialty: 'Chuyên môn 1',
-          level: 'Phó Giáo Sư',
-          schedule: '08:00 - 16:00',
-          status: 'active',
-          workStatus: 'Online',
-        },
-      ],
-      total: 1,
-    },
-  };
+  const { data: listDoctor, isLoading } = useQuery({
+    queryKey: ['getAdminClinic'],
+    queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(page, size, undefined, undefined, undefined, clinicId),
+    enabled: !!clinicId,
+  });
 
   return (
     <div className="list-doctor">
@@ -46,11 +35,11 @@ export const DoctorList = (props: DoctorListProps) => {
       {clinicId && (
         <TableWrap
           className="custom-table"
-          data={data?.data.content}
-          // isLoading={isLoading}
+          data={listDoctor?.data.content}
+          isLoading={isLoading}
           page={page}
           size={size}
-          total={data?.data.total}
+          total={listDoctor?.data.total}
           setSize={setSize}
           setPage={setPage}
           showPagination={true}

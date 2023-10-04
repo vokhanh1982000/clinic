@@ -7,6 +7,7 @@
   "manager.modal.create.phone": "Phone number",
   "manager.modal.create.dob": "Day of birth",
   "manager.modal.create.gender": "Gender",
+  "manager.modal.create.password": "Password",
   "manager.modal.create.button.create": "Create",
   "manager.modal.create.button.cancel": "Cancel",
   "manager.modal.create.button.edit": "Save",

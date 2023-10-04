@@ -10,7 +10,12 @@ import {
   CategoryApi,
   MedicineApi,
   AdminMedicineApi,
+  CadastralApi,
+  ClinicsApi,
+  DefaultApi,
+  DoctorClinicApi,
 } from './client-axios';
+import AdminClinic from '../routes/adminClinic';
 
 const config = new Configuration({
   basePath: process.env.REACT_APP_API_URL,
@@ -38,5 +43,22 @@ const adminApi = new AdminApi(config, undefined, axiosInstance);
 const categoryApi = new CategoryApi(config, undefined, axiosInstance);
 const medicineApi: MedicineApi = new MedicineApi(config, undefined, axiosInstance);
 const adminMedicineApi: AdminMedicineApi = new AdminMedicineApi(config, undefined, axiosInstance);
+const cadastralApi: CadastralApi = new CadastralApi(config, undefined, axiosInstance);
+const clinicsApi: ClinicsApi = new ClinicsApi(config, undefined, axiosInstance);
+const adminClinicsApi: DefaultApi = new DefaultApi(config, undefined, axiosInstance);
+const doctorClinicApi: DoctorClinicApi = new DoctorClinicApi(config, undefined, axiosInstance);
 
-export { authApi, customerApi, roleApi, permissionApi, adminApi, categoryApi, medicineApi, adminMedicineApi };
+export {
+  authApi,
+  customerApi,
+  roleApi,
+  permissionApi,
+  adminApi,
+  categoryApi,
+  medicineApi,
+  adminMedicineApi,
+  cadastralApi,
+  clinicsApi,
+  adminClinicsApi,
+  doctorClinicApi,
+};

@@ -185,6 +185,18 @@ export interface AdministratorClinic {
      * @type {string}
      * @memberof AdministratorClinic
      */
+    'dateOfBirth': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdministratorClinic
+     */
+    'gender': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdministratorClinic
+     */
     'avatarId': string;
     /**
      * 
@@ -252,6 +264,56 @@ export interface AdministratorClinic {
      * @memberof AdministratorClinic
      */
     'deletedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface AdministratorClinicControllerGetAll200Response
+ */
+export interface AdministratorClinicControllerGetAll200Response {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof AdministratorClinicControllerGetAll200Response
+     */
+    'position': Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorClinicControllerGetAll200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorClinicControllerGetAll200Response
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AdministratorClinicControllerGetAll200Response
+     */
+    'size': number;
+    /**
+     * 
+     * @type {Array<AdministratorClinic>}
+     * @memberof AdministratorClinicControllerGetAll200Response
+     */
+    'content'?: Array<AdministratorClinic>;
+}
+/**
+ * 
+ * @export
+ * @interface AdministratorClinicControllerGetAll200ResponseAllOf
+ */
+export interface AdministratorClinicControllerGetAll200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<AdministratorClinic>}
+     * @memberof AdministratorClinicControllerGetAll200ResponseAllOf
+     */
+    'content'?: Array<AdministratorClinic>;
 }
 /**
  * 
@@ -904,13 +966,13 @@ export interface CreateAdminClinicDto {
      * @type {string}
      * @memberof CreateAdminClinicDto
      */
-    'code': string;
+    'code'?: string;
     /**
      * 
      * @type {string}
      * @memberof CreateAdminClinicDto
      */
-    'clinicId': string;
+    'clinicId'?: string;
     /**
      * 
      * @type {string}
@@ -959,13 +1021,7 @@ export interface CreateAdminDto {
      * @type {string}
      * @memberof CreateAdminDto
      */
-    'code': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateAdminDto
-     */
-    'address'?: string;
+    'code'?: string;
     /**
      * 
      * @type {string}
@@ -1012,6 +1068,12 @@ export interface CreateClinicDto {
     'fullName'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof CreateClinicDto
+     */
+    'phoneClinic'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof CreateClinicDto
      */
@@ -1033,7 +1095,7 @@ export interface CreateClinicDto {
      * @type {string}
      * @memberof CreateClinicDto
      */
-    'districId'?: string;
+    'districtId'?: string;
     /**
      * 
      * @type {string}
@@ -1057,7 +1119,7 @@ export interface CreateClinicDto {
      * @type {Array<string>}
      * @memberof CreateClinicDto
      */
-    'adminClinicIds'?: Array<string>;
+    'adminClinic'?: Array<string>;
 }
 /**
  * 
@@ -1167,43 +1229,31 @@ export interface CreateDoctorClinicDto {
      * @type {string}
      * @memberof CreateDoctorClinicDto
      */
-    'code': string;
+    'code'?: string;
     /**
      * 
      * @type {string}
      * @memberof CreateDoctorClinicDto
      */
-    'address'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateDoctorClinicDto
-     */
-    'password': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateDoctorClinicDto
-     */
-    'level': string;
+    'level'?: string;
     /**
      * 
      * @type {boolean}
      * @memberof CreateDoctorClinicDto
      */
-    'status': boolean;
+    'status'?: boolean;
     /**
      * 
      * @type {string}
      * @memberof CreateDoctorClinicDto
      */
-    'overview': string;
+    'overview'?: string;
     /**
      * 
      * @type {string}
      * @memberof CreateDoctorClinicDto
      */
-    'experience': string;
+    'experience'?: string;
     /**
      * 
      * @type {Array<string>}
@@ -1216,6 +1266,12 @@ export interface CreateDoctorClinicDto {
      * @memberof CreateDoctorClinicDto
      */
     'clinicId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateDoctorClinicDto
+     */
+    'password': string;
 }
 /**
  * 
@@ -1640,12 +1696,6 @@ export interface DoctorClinic {
      * @type {string}
      * @memberof DoctorClinic
      */
-    'categoryId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DoctorClinic
-     */
     'userId': string;
     /**
      * 
@@ -1964,13 +2014,13 @@ export interface ForgotPasswordDto {
      * @type {string}
      * @memberof ForgotPasswordDto
      */
-    'type'?: ForgotPasswordDtoTypeEnum;
+    'identifier': string;
     /**
      * 
      * @type {string}
      * @memberof ForgotPasswordDto
      */
-    'identifier': string;
+    'type'?: ForgotPasswordDtoTypeEnum;
     /**
      * 
      * @type {string}
@@ -1983,12 +2033,6 @@ export interface ForgotPasswordDto {
      * @memberof ForgotPasswordDto
      */
     'confirmPass': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ForgotPasswordDto
-     */
-    'otp': string;
 }
 
 export const ForgotPasswordDtoTypeEnum = {
@@ -2308,37 +2352,14 @@ export interface RegisterCustomerDto {
      * @type {string}
      * @memberof RegisterCustomerDto
      */
-    'phoneNumber': string;
+    'phoneNumber'?: string;
     /**
      * 
      * @type {string}
      * @memberof RegisterCustomerDto
      */
-    'password': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterCustomerDto
-     */
-    'type': RegisterCustomerDtoTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterCustomerDto
-     */
-    'otp': string;
+    'otp'?: string;
 }
-
-export const RegisterCustomerDtoTypeEnum = {
-    Administrator: 'administrator',
-    Customer: 'customer',
-    AdministratorClinic: 'administrator_clinic',
-    DoctorClinic: 'doctor_clinic',
-    DoctorSupport: 'doctor_support'
-} as const;
-
-export type RegisterCustomerDtoTypeEnum = typeof RegisterCustomerDtoTypeEnum[keyof typeof RegisterCustomerDtoTypeEnum];
-
 /**
  * 
  * @export
@@ -2582,6 +2603,12 @@ export interface UpdateClinicDto {
     'fullName'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof UpdateClinicDto
+     */
+    'phoneClinic'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof UpdateClinicDto
      */
@@ -2603,7 +2630,7 @@ export interface UpdateClinicDto {
      * @type {string}
      * @memberof UpdateClinicDto
      */
-    'districId'?: string;
+    'districtId'?: string;
     /**
      * 
      * @type {string}
@@ -2622,12 +2649,6 @@ export interface UpdateClinicDto {
      * @memberof UpdateClinicDto
      */
     'backgound'?: File;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UpdateClinicDto
-     */
-    'adminClinicIds'?: Array<string>;
     /**
      * 
      * @type {string}
@@ -2682,18 +2703,6 @@ export interface UpdateCustomerDto {
      * @type {string}
      * @memberof UpdateCustomerDto
      */
-    'address'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateCustomerDto
-     */
-    'password'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateCustomerDto
-     */
     'proviceId': string;
     /**
      * 
@@ -2707,6 +2716,12 @@ export interface UpdateCustomerDto {
      * @memberof UpdateCustomerDto
      */
     'wardId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCustomerDto
+     */
+    'address'?: string;
 }
 /**
  * 
@@ -2755,18 +2770,6 @@ export interface UpdateDoctorClinicDto {
      * @type {string}
      * @memberof UpdateDoctorClinicDto
      */
-    'address'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateDoctorClinicDto
-     */
-    'password'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateDoctorClinicDto
-     */
     'level'?: string;
     /**
      * 
@@ -2798,6 +2801,12 @@ export interface UpdateDoctorClinicDto {
      * @memberof UpdateDoctorClinicDto
      */
     'clinicId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateDoctorClinicDto
+     */
+    'password'?: string;
     /**
      * 
      * @type {string}
@@ -6043,25 +6052,89 @@ export const ClinicsApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @param {number} page 
-         * @param {string} provinceId 
-         * @param {string} districtId 
-         * @param {string} wardId 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {string} [provinceId] 
+         * @param {string} [districtId] 
+         * @param {string} [wardId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clinicControllerGetAll: async (page: number, provinceId: string, districtId: string, wardId: string, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        clinicControllerGetAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, provinceId?: string, districtId?: string, wardId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('clinicControllerGetAll', 'page', page)
-            // verify required parameter 'provinceId' is not null or undefined
-            assertParamExists('clinicControllerGetAll', 'provinceId', provinceId)
-            // verify required parameter 'districtId' is not null or undefined
-            assertParamExists('clinicControllerGetAll', 'districtId', districtId)
-            // verify required parameter 'wardId' is not null or undefined
-            assertParamExists('clinicControllerGetAll', 'wardId', wardId)
             const localVarPath = `/clinics/get-all-clinic`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (provinceId !== undefined) {
+                localVarQueryParameter['provinceId'] = provinceId;
+            }
+
+            if (districtId !== undefined) {
+                localVarQueryParameter['districtId'] = districtId;
+            }
+
+            if (wardId !== undefined) {
+                localVarQueryParameter['wardId'] = wardId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [provinceId] 
+         * @param {string} [districtId] 
+         * @param {string} [wardId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        clinicControllerGetAllForCustomer: async (page: number, size?: number, sort?: string, fullTextSearch?: string, provinceId?: string, districtId?: string, wardId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('clinicControllerGetAllForCustomer', 'page', page)
+            const localVarPath = `/clinics/get-all-clinic-for-customer`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6126,6 +6199,43 @@ export const ClinicsApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('clinicControllerGetById', 'id', id)
             const localVarPath = `/clinics/get-clinic-by-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        clinicControllerGetByIdForCustomer: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('clinicControllerGetByIdForCustomer', 'id', id)
+            const localVarPath = `/clinics/get-clinic-for-customer-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6267,17 +6377,33 @@ export const ClinicsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} page 
-         * @param {string} provinceId 
-         * @param {string} districtId 
-         * @param {string} wardId 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {string} [provinceId] 
+         * @param {string} [districtId] 
+         * @param {string} [wardId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async clinicControllerGetAll(page: number, provinceId: string, districtId: string, wardId: string, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ClinicControllerGetAll200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.clinicControllerGetAll(page, provinceId, districtId, wardId, size, sort, fullTextSearch, options);
+        async clinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, provinceId?: string, districtId?: string, wardId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ClinicControllerGetAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.clinicControllerGetAll(page, size, sort, fullTextSearch, provinceId, districtId, wardId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [provinceId] 
+         * @param {string} [districtId] 
+         * @param {string} [wardId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async clinicControllerGetAllForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, provinceId?: string, districtId?: string, wardId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ClinicControllerGetAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.clinicControllerGetAllForCustomer(page, size, sort, fullTextSearch, provinceId, districtId, wardId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6288,6 +6414,16 @@ export const ClinicsApiFp = function(configuration?: Configuration) {
          */
         async clinicControllerGetById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Clinic>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.clinicControllerGetById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async clinicControllerGetByIdForCustomer(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Clinic>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.clinicControllerGetByIdForCustomer(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6348,17 +6484,32 @@ export const ClinicsApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @param {number} page 
-         * @param {string} provinceId 
-         * @param {string} districtId 
-         * @param {string} wardId 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {string} [provinceId] 
+         * @param {string} [districtId] 
+         * @param {string} [wardId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clinicControllerGetAll(page: number, provinceId: string, districtId: string, wardId: string, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<ClinicControllerGetAll200Response> {
-            return localVarFp.clinicControllerGetAll(page, provinceId, districtId, wardId, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        clinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, provinceId?: string, districtId?: string, wardId?: string, options?: any): AxiosPromise<ClinicControllerGetAll200Response> {
+            return localVarFp.clinicControllerGetAll(page, size, sort, fullTextSearch, provinceId, districtId, wardId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [provinceId] 
+         * @param {string} [districtId] 
+         * @param {string} [wardId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        clinicControllerGetAllForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, provinceId?: string, districtId?: string, wardId?: string, options?: any): AxiosPromise<ClinicControllerGetAll200Response> {
+            return localVarFp.clinicControllerGetAllForCustomer(page, size, sort, fullTextSearch, provinceId, districtId, wardId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6368,6 +6519,15 @@ export const ClinicsApiFactory = function (configuration?: Configuration, basePa
          */
         clinicControllerGetById(id: string, options?: any): AxiosPromise<Clinic> {
             return localVarFp.clinicControllerGetById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        clinicControllerGetByIdForCustomer(id: string, options?: any): AxiosPromise<Clinic> {
+            return localVarFp.clinicControllerGetByIdForCustomer(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6431,18 +6591,35 @@ export class ClinicsApi extends BaseAPI {
     /**
      * 
      * @param {number} page 
-     * @param {string} provinceId 
-     * @param {string} districtId 
-     * @param {string} wardId 
      * @param {number} [size] 
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
+     * @param {string} [provinceId] 
+     * @param {string} [districtId] 
+     * @param {string} [wardId] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ClinicsApi
      */
-    public clinicControllerGetAll(page: number, provinceId: string, districtId: string, wardId: string, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
-        return ClinicsApiFp(this.configuration).clinicControllerGetAll(page, provinceId, districtId, wardId, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    public clinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, provinceId?: string, districtId?: string, wardId?: string, options?: AxiosRequestConfig) {
+        return ClinicsApiFp(this.configuration).clinicControllerGetAll(page, size, sort, fullTextSearch, provinceId, districtId, wardId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {string} [provinceId] 
+     * @param {string} [districtId] 
+     * @param {string} [wardId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClinicsApi
+     */
+    public clinicControllerGetAllForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, provinceId?: string, districtId?: string, wardId?: string, options?: AxiosRequestConfig) {
+        return ClinicsApiFp(this.configuration).clinicControllerGetAllForCustomer(page, size, sort, fullTextSearch, provinceId, districtId, wardId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6454,6 +6631,17 @@ export class ClinicsApi extends BaseAPI {
      */
     public clinicControllerGetById(id: string, options?: AxiosRequestConfig) {
         return ClinicsApiFp(this.configuration).clinicControllerGetById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClinicsApi
+     */
+    public clinicControllerGetByIdForCustomer(id: string, options?: AxiosRequestConfig) {
+        return ClinicsApiFp(this.configuration).clinicControllerGetByIdForCustomer(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7163,6 +7351,144 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('administratorClinicControllerGetAll', 'page', page)
+            const localVarPath = `/administrator-clinic/get-all-admin-clinic`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetAllForCustomer: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('administratorClinicControllerGetAllForCustomer', 'page', page)
+            const localVarPath = `/administrator-clinic/get-all-admin-clinic-for-custormer`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} clinicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetAllNoPagination: async (clinicId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'clinicId' is not null or undefined
+            assertParamExists('administratorClinicControllerGetAllNoPagination', 'clinicId', clinicId)
+            const localVarPath = `/administrator-clinic/get-all-admin-clinic-no-pagination`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (clinicId !== undefined) {
+                localVarQueryParameter['clinicId'] = clinicId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7171,6 +7497,39 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('administratorClinicControllerGetById', 'id', id)
             const localVarPath = `/administrator-clinic/get-admin-clinic-by-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetByIdForCustomrer: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('administratorClinicControllerGetByIdForCustomrer', 'id', id)
+            const localVarPath = `/administrator-clinic/get-admin-clinic-for-customer-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7245,7 +7604,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async administratorClinicControllerCreateClinic(createAdminClinicDto: CreateAdminClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async administratorClinicControllerCreateClinic(createAdminClinicDto: CreateAdminClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerCreateClinic(createAdminClinicDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -7261,12 +7620,58 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdministratorClinicControllerGetAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerGetAll(page, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerGetAllForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdministratorClinicControllerGetAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerGetAllForCustomer(page, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} clinicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerGetAllNoPagination(clinicId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AdministratorClinic>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerGetAllNoPagination(clinicId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async administratorClinicControllerGetById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdministratorClinic>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerGetById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async administratorClinicControllerGetByIdForCustomrer(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdministratorClinic>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerGetByIdForCustomrer(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7295,7 +7700,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        administratorClinicControllerCreateClinic(createAdminClinicDto: CreateAdminClinicDto, options?: any): AxiosPromise<object> {
+        administratorClinicControllerCreateClinic(createAdminClinicDto: CreateAdminClinicDto, options?: any): AxiosPromise<void> {
             return localVarFp.administratorClinicControllerCreateClinic(createAdminClinicDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -7309,12 +7714,54 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<AdministratorClinicControllerGetAll200Response> {
+            return localVarFp.administratorClinicControllerGetAll(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetAllForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<AdministratorClinicControllerGetAll200Response> {
+            return localVarFp.administratorClinicControllerGetAllForCustomer(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} clinicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetAllNoPagination(clinicId: string, options?: any): AxiosPromise<Array<AdministratorClinic>> {
+            return localVarFp.administratorClinicControllerGetAllNoPagination(clinicId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         administratorClinicControllerGetById(id: string, options?: any): AxiosPromise<AdministratorClinic> {
             return localVarFp.administratorClinicControllerGetById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        administratorClinicControllerGetByIdForCustomrer(id: string, options?: any): AxiosPromise<AdministratorClinic> {
+            return localVarFp.administratorClinicControllerGetByIdForCustomrer(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7359,6 +7806,45 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public administratorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).administratorClinicControllerGetAll(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public administratorClinicControllerGetAllForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).administratorClinicControllerGetAllForCustomer(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} clinicId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public administratorClinicControllerGetAllNoPagination(clinicId: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).administratorClinicControllerGetAllNoPagination(clinicId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7366,6 +7852,17 @@ export class DefaultApi extends BaseAPI {
      */
     public administratorClinicControllerGetById(id: string, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).administratorClinicControllerGetById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public administratorClinicControllerGetByIdForCustomrer(id: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).administratorClinicControllerGetByIdForCustomrer(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7466,21 +7963,18 @@ export const DoctorClinicApiAxiosParamCreator = function (configuration?: Config
         /**
          * 
          * @param {number} page 
-         * @param {string} categoryId 
-         * @param {boolean} status 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {string} [categoryId] 
+         * @param {string} [clinicId] 
+         * @param {boolean} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerGetAll: async (page: number, categoryId: string, status: boolean, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        doctorClinicControllerGetAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, clinicId?: string, status?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('doctorClinicControllerGetAll', 'page', page)
-            // verify required parameter 'categoryId' is not null or undefined
-            assertParamExists('doctorClinicControllerGetAll', 'categoryId', categoryId)
-            // verify required parameter 'status' is not null or undefined
-            assertParamExists('doctorClinicControllerGetAll', 'status', status)
             const localVarPath = `/doctor-clinic/get-all-doctor-clinic`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7515,6 +8009,10 @@ export const DoctorClinicApiAxiosParamCreator = function (configuration?: Config
 
             if (categoryId !== undefined) {
                 localVarQueryParameter['categoryId'] = categoryId;
+            }
+
+            if (clinicId !== undefined) {
+                localVarQueryParameter['clinicId'] = clinicId;
             }
 
             if (status !== undefined) {
@@ -7641,16 +8139,17 @@ export const DoctorClinicApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} page 
-         * @param {string} categoryId 
-         * @param {boolean} status 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {string} [categoryId] 
+         * @param {string} [clinicId] 
+         * @param {boolean} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async doctorClinicControllerGetAll(page: number, categoryId: string, status: boolean, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DoctorClinicControllerGetAll200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerGetAll(page, categoryId, status, size, sort, fullTextSearch, options);
+        async doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, clinicId?: string, status?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DoctorClinicControllerGetAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7704,16 +8203,17 @@ export const DoctorClinicApiFactory = function (configuration?: Configuration, b
         /**
          * 
          * @param {number} page 
-         * @param {string} categoryId 
-         * @param {boolean} status 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
+         * @param {string} [categoryId] 
+         * @param {string} [clinicId] 
+         * @param {boolean} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerGetAll(page: number, categoryId: string, status: boolean, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<DoctorClinicControllerGetAll200Response> {
-            return localVarFp.doctorClinicControllerGetAll(page, categoryId, status, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, clinicId?: string, status?: boolean, options?: any): AxiosPromise<DoctorClinicControllerGetAll200Response> {
+            return localVarFp.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7768,17 +8268,18 @@ export class DoctorClinicApi extends BaseAPI {
     /**
      * 
      * @param {number} page 
-     * @param {string} categoryId 
-     * @param {boolean} status 
      * @param {number} [size] 
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
+     * @param {string} [categoryId] 
+     * @param {string} [clinicId] 
+     * @param {boolean} [status] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DoctorClinicApi
      */
-    public doctorClinicControllerGetAll(page: number, categoryId: string, status: boolean, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
-        return DoctorClinicApiFp(this.configuration).doctorClinicControllerGetAll(page, categoryId, status, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    public doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, clinicId?: string, status?: boolean, options?: AxiosRequestConfig) {
+        return DoctorClinicApiFp(this.configuration).doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
