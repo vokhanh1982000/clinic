@@ -1,24 +1,17 @@
-import { DatePicker, Form, message, Switch } from 'antd';
+import { Card, DatePicker, Form, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import IconSVG from '../../../components/icons/icons';
 import CustomInput from '../../../components/input/CustomInput';
 import CustomSelect from '../../../components/select/CustomSelect';
-
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import FormWrap from '../../../components/FormWrap';
-import avatar from 'antd/es/avatar';
-import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import CustomButton from '../../../components/buttons/CustomButton';
 import CustomArea from '../../../components/input/CustomArea';
-import { multiply, random, values } from 'lodash';
-import { Cadastral, Category, CategoryApi, DoctorClinic, UpdateDoctorClinicDto } from '../../../apis/client-axios';
+import { Cadastral, Category, DoctorClinic, UpdateDoctorClinicDto } from '../../../apis/client-axios';
 import { authApi, cadastralApi, categoryApi, doctorClinicApi } from '../../../apis';
-import { it } from 'node:test';
-import { doc } from 'prettier';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const DoctorProfile = () => {
   const intl = useIntl();
@@ -99,7 +92,7 @@ const DoctorProfile = () => {
     const doctor: DoctorClinic | undefined = doctorProfile?.data;
     form.setFieldsValue({
       ...doctor,
-      dateOfBirth: doctor?.dateOfBirth ? moment(doctor.dateOfBirth) : null,
+      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth, 'DD/MM/YYYY') : null,
       status: doctor?.status ? Number(doctor.status) : 0,
       categoryIds: doctor?.categories?.map((item) => {
         return item.id;
@@ -112,7 +105,7 @@ const DoctorProfile = () => {
 
   const onFinish = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth ? moment(data.dateOfBirth).format('YYYY-MM-DD') : null;
+    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format('DD/MM/YYYY') : null;
     console.log(data);
     updateDoctorProfile(data);
   };
@@ -201,7 +194,7 @@ const DoctorProfile = () => {
                   name={'dateOfBirth'}
                   rules={[{ required: true }]}
                 >
-                  <DatePicker />
+                  <DatePicker format={'DD/MM/YYYY'} />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item

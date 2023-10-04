@@ -1,4 +1,4 @@
-import { Card, DatePicker, Form, FormInstance } from 'antd';
+import { Card, DatePicker, Form } from 'antd';
 import CustomInput from '../../../components/input/CustomInput';
 import CustomButton from '../../../components/buttons/CustomButton';
 import React, { useEffect } from 'react';
@@ -9,7 +9,8 @@ import useForm from 'antd/es/form/hooks/useForm';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminApi, authApi } from '../../../apis';
 import CustomSelect from '../../../components/select/CustomSelect';
-import moment from 'moment';
+import { UpdateAdminDto } from '../../../apis/client-axios';
+import dayjs from 'dayjs';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
@@ -21,29 +22,27 @@ const Profile = () => {
   });
 
   const { mutate: UpdateAdmin, status: statusUpdateAdmin } = useMutation({
-    mutationFn: (updateAdmin) => adminApi.administratorControllerUpdate({ ...form.getFieldsValue() }),
+    mutationFn: (updateAdmin: UpdateAdminDto) => adminApi.administratorControllerUpdate(updateAdmin),
     onSuccess: () => queryClient.invalidateQueries(['admin-profile']),
   });
 
   useEffect(() => {
     if (data && form) {
       const dt = data.data;
-      console.log(dt.user.id);
       form.setFieldsValue({
         userId: dt.user.id,
         fullName: dt.fullName,
         code: dt.code,
         emailAddress: dt.emailAddress,
         phoneNumber: dt.phoneNumber,
-        dateOfBirth: dt.dateOfBirth ? moment(dt.dateOfBirth) : null,
+        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth, 'DD/MM/YYYY') : null,
         gender: dt.gender,
       });
     }
   }, [data]);
   const handleUpdate = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = moment(data.dateOfBirth).format('DD/MM/YYYY');
-    console.log(data.dateOfBirth);
+    data.dateOfBirth = data.dateOfBirth.format('DD/MM/YYYY');
     UpdateAdmin(data);
   };
   return (
@@ -123,7 +122,7 @@ const Profile = () => {
                       id: 'admin-profile.dateOfBirth',
                     })}
                   >
-                    <DatePicker />
+                    <DatePicker format={'DD/MM/YYYY'} />
                   </Form.Item>
                   <Form.Item
                     name={'gender'}
