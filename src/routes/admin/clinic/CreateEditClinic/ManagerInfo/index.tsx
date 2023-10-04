@@ -4,8 +4,13 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useParams } from 'react-router-dom';
-import { adminClinicsApi } from '../../../../../apis';
-import { CreateAdminClinicDto, UpdateAdminClinicDto } from '../../../../../apis/client-axios';
+import { adminClinicApi } from '../../../../../apis';
+import {
+  CreateAdminClinicDto,
+  CreateAdminClinicDtoGenderEnum,
+  UpdateAdminClinicDto,
+  UpdateAdminClinicDtoGenderEnum,
+} from '../../../../../apis/client-axios';
 import CustomButton from '../../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../../components/icons/icons';
 import { ConfirmDeleteModal } from '../../../../../components/modals/ConfirmDeleteModal';
@@ -30,7 +35,7 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
 
   const { data: listAdminClinic, isLoading } = useQuery({
     queryKey: ['getAdminClinic', id],
-    queryFn: () => adminClinicsApi.administratorClinicControllerGetAllNoPagination(id!),
+    queryFn: () => adminClinicApi.administratorClinicControllerGetAllNoPagination(id!),
     enabled: !!id,
   });
 
@@ -42,7 +47,7 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
 
   const { mutate: CreateAdminClinic, status: statusCreateAdminClinic } = useMutation(
     (createAdminClinic: CreateAdminClinicDto) =>
-      adminClinicsApi.administratorClinicControllerCreateClinic(createAdminClinic),
+      adminClinicApi.administratorClinicControllerCreateClinic(createAdminClinic),
     {
       onSuccess: ({ data }) => {
         setIsShowManagerCreateModal(false);
@@ -57,7 +62,7 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
 
   const { mutate: UpdateAdminClinic, status: statusUpdateAdminClinic } = useMutation(
     (updateAdminClinic: UpdateAdminClinicDto) =>
-      adminClinicsApi.administratorClinicControllerUpdateClinic(updateAdminClinic),
+      adminClinicApi.administratorClinicControllerUpdateClinic(updateAdminClinic),
     {
       onSuccess: ({ data }) => {
         setIsShowManagerUpdateModal(undefined);
@@ -71,7 +76,7 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
   );
 
   const { mutate: DeleteAdminClinic, status: statusDeleteAdminClinic } = useMutation(
-    (id: string) => adminClinicsApi.administratorClinicControllerDeleteClinic(id),
+    (id: string) => adminClinicApi.administratorClinicControllerDeleteClinic(id),
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['getAdminClinic']);
@@ -84,7 +89,15 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
 
   const handleCreate = (values: CreateAdminClinicDto) => {
     if (id) {
-      CreateAdminClinic({ ...values, gender: Boolean(Number(values.gender)), clinicId: id });
+      CreateAdminClinic({
+        ...values,
+        gender: values.gender
+          ? Number(values.gender) == 1
+            ? CreateAdminClinicDtoGenderEnum.Female
+            : CreateAdminClinicDtoGenderEnum.Male
+          : undefined,
+        clinicId: id,
+      });
     } else {
       setAdminsClinic([...adminsClinic, { ...values, gender: Boolean(Number(values.gender)), id: generateRandomId() }]);
       setIsShowManagerCreateModal(false);
@@ -96,7 +109,11 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
     if (id && isShowManagerUpdateModal) {
       UpdateAdminClinic({
         ...values,
-        gender: Boolean(Number(values.gender)),
+        gender: values.gender
+          ? Number(values.gender) == 1
+            ? UpdateAdminClinicDtoGenderEnum.Female
+            : UpdateAdminClinicDtoGenderEnum.Male
+          : undefined,
         clinicId: id,
         id: isShowManagerUpdateModal,
       });
