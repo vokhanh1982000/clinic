@@ -13,5 +13,8 @@
   "menu.home": "Home",
   "menu.createRole": "Create new role",
   "menu.detailRole": "Role Details",
-  "menu.admin-profile": "Account information"
+  "menu.admin-profile": "Account information",
+  "menu.dropdown.user.logout": "Logout",
+  "menu.dropdown.user.profile": "Profile",
+  "menu.dropdown.user.change-password": "Change password"
 }

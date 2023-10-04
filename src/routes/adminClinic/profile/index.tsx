@@ -11,7 +11,7 @@ import FormWrap from '../../../components/FormWrap';
 import CustomButton from '../../../components/buttons/CustomButton';
 import { AdministratorClinic, Cadastral, UpdateAdminClinicDto } from '../../../apis/client-axios';
 import { adminClinicApi, authApi, cadastralApi } from '../../../apis';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const AdminClinicProfile = () => {
   const intl = useIntl();
@@ -82,7 +82,7 @@ const AdminClinicProfile = () => {
     const adminClinic: AdministratorClinic | undefined = adminClinicProfile?.data;
     form.setFieldsValue({
       ...adminClinic,
-      dateOfBirth: adminClinic?.dateOfBirth ? moment(adminClinic.dateOfBirth, 'YYYY-MM-DD') : null,
+      dateOfBirth: adminClinic?.dateOfBirth ? dayjs(adminClinic?.dateOfBirth, 'DD/MM/YYYY') : undefined,
     });
     setSelectedProvince(adminClinic?.province);
     setSelectedDistrict(adminClinic?.district);
@@ -91,7 +91,7 @@ const AdminClinicProfile = () => {
 
   const onFinish = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth ? moment(data.dateOfBirth).format('DD/MM/YYYY') : null;
+    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format('DD/MM/YYYY') : null;
     updateAdminClinic(data);
   };
 
