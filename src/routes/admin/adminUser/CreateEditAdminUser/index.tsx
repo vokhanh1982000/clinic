@@ -60,8 +60,8 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getDetailAdmin', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'role.create.error' }));
+      onError: ({ response }) => {
+        message.error(intl.formatMessage({ id: `${response.data.message}` }));
       },
     }
   );
