@@ -46,7 +46,8 @@ export const DoctorTable = (props: DoctorTableProps) => {
 
   const { data, isLoading } = useQuery({
     queryKey: ['getAdminUser', { page, size, sort, fullTextSearch, categoryId, status }],
-    queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, status),
+    queryFn: () =>
+      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, undefined, status),
   });
 
   console.log(data);
