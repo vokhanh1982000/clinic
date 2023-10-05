@@ -21,5 +21,6 @@
   "common.option.all": "All",
   "common.password.min": "Password minimum 8 characters",
   "common.password.max": "Password maximum 8 characters",
+  "common.upload": "Upload",
   "common.message.err": "Required is Fail. Please try again"
 }

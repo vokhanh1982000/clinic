@@ -24,6 +24,7 @@ const ListMedicalSpecialty = () => {
   const [isShowModalCreate, setIsShowModalCreate] = useState<boolean>(false);
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string; name: string }>();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const [avatar, setAvatar] = useState<string>();
 
   const { data, isLoading } = useQuery({
     queryKey: ['categoryList', { page, size, sort, fullTextSearch }],
@@ -110,6 +111,8 @@ const ListMedicalSpecialty = () => {
             icon={<IconSVG type="create" />}
             onClick={() => {
               setIsShowModalCreate(true);
+              setAvatar(undefined);
+              form.resetFields();
             }}
           >
             {intl.formatMessage({
@@ -146,7 +149,17 @@ const ListMedicalSpecialty = () => {
               id: 'category.list.table.name',
             })}
             dataIndex="name"
-            width={'80%'}
+            width={'40%'}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'category.list.table.name',
+            })}
+            dataIndex="icon"
+            width={'40%'}
+            render={(_, record: any) => {
+              if (record.icon) return <img src={process.env.REACT_APP_URL_IMG_S3 + record.icon.preview} />;
+            }}
           />
           <Column
             title={intl.formatMessage({
@@ -160,8 +173,14 @@ const ListMedicalSpecialty = () => {
                   onClick={() => {
                     form.setFieldsValue({
                       name: record.name,
+                      iconId: record.iconId ? record.iconId : undefined,
                     });
                     setIsShowModalUpdate({ id: record.id, name: record.name });
+                    if (record.icon) {
+                      setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
+                    } else {
+                      setAvatar(undefined);
+                    }
                   }}
                 >
                   <IconSVG type="edit" />
@@ -185,6 +204,8 @@ const ListMedicalSpecialty = () => {
             action={ActionUser.CREATE}
             onSubmit={handleCreate}
             onClose={() => setIsShowModalCreate(false)}
+            avatar={avatar}
+            setAvatar={setAvatar}
           />
         )}
         {isShowModalUpdate && (
@@ -198,6 +219,8 @@ const ListMedicalSpecialty = () => {
             onSubmit={handleUpdate}
             onDelete={handleDelete}
             onClose={() => setIsShowModalUpdate(undefined)}
+            avatar={avatar}
+            setAvatar={setAvatar}
           />
         )}
         <ConfirmDeleteModal
