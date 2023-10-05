@@ -25,6 +25,7 @@ interface CategoryModalProps {
 interface UploadProps {
   file: File;
   assetFolderId?: string;
+  s3FilePath?: string;
 }
 
 export const CategoryModal = (props: CategoryModalProps) => {
@@ -38,7 +39,8 @@ export const CategoryModal = (props: CategoryModalProps) => {
   };
 
   const { mutate: UploadImage, status: statusUploadImage } = useMutation(
-    (uploadProps: UploadProps) => assetsApi.assetControllerUploadFile(uploadProps.file, uploadProps.assetFolderId),
+    (uploadProps: UploadProps) =>
+      assetsApi.assetControllerUploadFile(uploadProps.file, undefined, uploadProps.s3FilePath),
     {
       onSuccess: ({ data }) => {
         const newData = data as any;
@@ -56,7 +58,7 @@ export const CategoryModal = (props: CategoryModalProps) => {
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
     setLoadingImg(true);
-    UploadImage({ file });
+    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'category' });
   };
 
   return (
