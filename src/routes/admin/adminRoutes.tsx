@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
 import { ADMIN_ROUTE_NAME } from '../../constants/route';
 import CreateDoctor from './doctor/CreateEditDoctor';
-import CreateCustomer from "./customer/CreateEditCustomer";
+import CreateCustomer from './customer/CreateEditCustomer';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));

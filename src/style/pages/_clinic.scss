@@ -32,15 +32,22 @@
       width: 350px;
     }
 
-    .dropdown-location {
+    .select-province,
+    .select-district,
+    .select-ward {
       width: 184px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
 
-      .anticon-down {
-        position: absolute;
-        right: 15px;
+      .ant-select-selection-search {
+        input {
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .ant-select-selection-placeholder {
+        display: flex;
+        align-items: center;
       }
     }
 
@@ -85,72 +92,22 @@
     margin-bottom: 10px;
   }
 
-  .form-create-clinic {
+  .clinic-content {
     margin-top: 20px;
     display: flex;
     // align-items: center;
     gap: 15px;
     max-width: 100% !important;
 
-    .clinic-info {
+    .form-create-clinic {
+      max-width: unset !important;
       padding: 20px 15px;
       width: 70%;
       border: 1px solid $border_input_color;
       border-radius: 24px;
-      display: flex;
-      justify-content: space-between;
 
-      &__title {
-        font-size: 20px;
-        font-weight: 700;
-        line-height: 32px;
-        color: $secondary_color;
-        width: 30%;
-      }
-
-      &__content {
-        width: 70%;
-
-        &__rows {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          width: 100%;
-        }
-
-        .name {
-          width: 70%;
-        }
-
-        .code {
-          width: 30%;
-        }
-
-        .workTime {
-          width: 50%;
-
-          .ant-picker {
-            height: 48px;
-            border-radius: 24px;
-          }
-        }
-
-        .status {
-          width: 50%;
-        }
-      }
-    }
-
-    .manager-info {
-      padding: 20px 15px;
-      width: 30%;
-      height: auto;
-      border: 1px solid $border_input_color;
-      border-radius: 24px;
-
-      &__header {
+      .clinic-info {
         display: flex;
-        align-items: center;
         justify-content: space-between;
 
         &__title {
@@ -161,62 +118,170 @@
           width: 30%;
         }
 
-        .button-add {
-          width: 116px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: $primary_color;
-          border: 1px solid $primary_color;
+        &__content {
+          width: 70%;
 
-          span {
-            font-weight: 600;
+          &__rows {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+          }
+
+          .name {
+            width: 70%;
+          }
+
+          .code {
+            width: 30%;
+          }
+
+          .workTime {
+            width: 50%;
+
+            .ant-picker {
+              width: 100%;
+              height: 48px;
+              border-radius: 24px;
+            }
+          }
+
+          .status,
+          .province,
+          .district,
+          .address,
+          .ward {
+            width: 50%;
           }
         }
       }
+    }
 
-      &__list {
-        margin-top: 15px;
+    .container-right {
+      width: 30%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .form-create-manager {
+        max-width: unset !important;
+        padding: 20px 15px;
         border: 1px solid $border_input_color;
-        border-radius: 8px;
+        border-radius: 24px;
+        height: 75%;
 
-        &__item {
-          padding: 10px 20px 10px 30px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          cursor: pointer;
+        .manager-info {
+          &__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-          &__delete {
-            z-index: 10;
+            &__title {
+              font-size: 20px;
+              font-weight: 700;
+              line-height: 32px;
+              color: $secondary_color;
+              width: 30%;
+            }
+
+            .button-add {
+              width: 116px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: $primary_color;
+              border: 1px solid $primary_color;
+
+              span {
+                font-weight: 600;
+              }
+            }
+          }
+
+          &__list {
+            margin-top: 15px;
+            border: 1px solid $border_input_color;
+            border-radius: 8px;
+
+            &__item {
+              padding: 10px 20px 10px 30px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              cursor: pointer;
+
+              &__info {
+                word-break: break-all;
+              }
+
+              &__delete {
+                z-index: 10;
+              }
+            }
+
+            .border-manager {
+              border-bottom: 1px solid $border_input_color;
+            }
           }
         }
 
-        .border-manager {
-          border-bottom: 1px solid $border_input_color;
+        .code {
+          width: 194px;
+        }
+
+        .clinic {
+          width: 397px;
+        }
+
+        .ant-form-item {
+          margin-bottom: 10px;
+
+          .ant-form-item-label {
+            padding: unset;
+
+            label {
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 22px;
+              color: $text_black_light;
+            }
+          }
         }
       }
-    }
 
-    .code {
-      width: 194px;
-    }
+      .button-action {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
 
-    .clinic {
-      width: 397px;
-    }
+        .more-action {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
 
-    .ant-form-item {
-      margin-bottom: 10px;
+        .button-create,
+        .button-save {
+          width: 100%;
+          background-color: $primary_color;
+          color: $text_white;
+          border: unset;
+        }
 
-      .ant-form-item-label {
-        padding: unset;
+        .button-delete {
+          width: 100%;
+          border: unset;
+          box-shadow: unset;
+          color: $text_warning;
+        }
 
-        label {
-          font-size: 14px;
-          font-weight: 700;
-          line-height: 22px;
-          color: $text_black_light;
+        .button-cancel {
+          width: 100%;
+          border: unset;
+          box-shadow: unset;
+          color: unset;
         }
       }
     }
@@ -239,42 +304,4 @@
       gap: 5px;
     }
   }
-
-  .button-action {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    .more-action {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .button-create,
-    .button-save {
-      width: 436px;
-      background-color: $primary_color;
-      color: $text_white;
-      border: unset;
-    }
-
-    .button-delete {
-      width: 436px;
-      border: unset;
-      box-shadow: unset;
-      color: $text_warning;
-    }
-
-    .button-cancel {
-      width: 436px;
-      border: unset;
-      box-shadow: unset;
-      color: unset;
-    }
-  }
-}
-
-.ant-btn-primary {
-  background-color: $primary_color !important;
 }
