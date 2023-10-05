@@ -9,41 +9,43 @@ import { useState } from 'react';
 
 interface ClinicInfoParams {
   form: FormInstance;
+  provinceId: string | undefined;
+  setProvinceId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  districtId: string | undefined;
+  setDistrictId: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 export const ClinicInfo = (props: ClinicInfoParams) => {
-  const { form } = props;
+  const { form, provinceId, setProvinceId, districtId, setDistrictId } = props;
   const intl = useIntl();
-  const [provinceCode, setProvinceCode] = useState<string>();
-  const [districtCode, setDistrictCode] = useState<string>();
 
   const { data: listProvince, isLoading } = useQuery({
-    queryKey: ['customerList'],
+    queryKey: ['listProvince'],
     queryFn: () => cadastralApi.cadastralControllerGetProvince(),
   });
 
   const { data: listDistrict } = useQuery({
-    queryKey: ['customerList', provinceCode],
-    queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvince(undefined, provinceCode),
-    enabled: !!provinceCode,
+    queryKey: ['listDistrict', provinceId],
+    queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvinceId(provinceId, undefined),
+    enabled: !!provinceId,
   });
 
   const { data: listWard } = useQuery({
-    queryKey: ['customerList', districtCode],
-    queryFn: () => cadastralApi.cadastralControllerGetWardByCode(undefined, undefined, districtCode),
-    enabled: !!districtCode,
+    queryKey: ['listWard', districtId],
+    queryFn: () => cadastralApi.cadastralControllerGetWardByDistrictId(undefined, districtId),
+    enabled: !!districtId,
   });
 
-  const handleChangeProvince = (value: any, option: any) => {
-    setProvinceCode(option.code);
+  const handleChangeProvince = (value: any) => {
+    setProvinceId(value);
     form.setFieldsValue({
       districtId: undefined,
       wardId: undefined,
     });
   };
 
-  const handleChangeDistrict = (value: any, option: any) => {
-    setDistrictCode(option.code);
+  const handleChangeDistrict = (value: any) => {
+    setDistrictId(value);
     form.setFieldsValue({
       wardId: undefined,
     });
@@ -95,7 +97,6 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
                   ? listProvince.data.map((item) => ({
                       label: item.name,
                       value: item.id,
-                      code: item.baseCode,
                     }))
                   : []
               }
@@ -115,7 +116,6 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
                   ? listDistrict.data.map((item) => ({
                       label: item.name,
                       value: item.id,
-                      code: item.baseCode,
                     }))
                   : []
               }
@@ -137,7 +137,6 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
                   ? listWard.data.map((item) => ({
                       label: item.name,
                       value: item.id,
-                      code: item.baseCode,
                     }))
                   : []
               }
