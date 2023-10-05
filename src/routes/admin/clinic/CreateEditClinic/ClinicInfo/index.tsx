@@ -147,7 +147,7 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
             label={intl.formatMessage({
               id: 'clinic.create.clinic.address',
             })}
-            name={'detailAddress'}
+            name={'address'}
           >
             <CustomInput />
           </Form.Item>
