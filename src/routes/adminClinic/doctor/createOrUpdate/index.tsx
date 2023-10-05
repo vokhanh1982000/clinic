@@ -81,11 +81,17 @@ const CreateDoctor = () => {
     onSuccess: ({ data }) => {
       console.log(data);
       queryClient.invalidateQueries(['getAdminUser']);
+      navigate(-1);
     },
     onError: (error) => {
-      message.error(intl.formatMessage({ id: `${error}` }));
+      message.error(intl.formatMessage({ id: 'common.message.err' }));
     },
   });
+
+  const handelDelete = () => {
+    if (id) deleteAdmin.mutate(id);
+    setIsDeleteDoctor(false);
+  };
 
   const onFinish = (values: any) => {
     if (!id) {
@@ -130,9 +136,7 @@ const CreateDoctor = () => {
       <ConfirmDeleteModal
         name={''}
         visible={isDeleteDoctor}
-        onSubmit={() => {
-          setIsDeleteDoctor(true);
-        }}
+        onSubmit={() => handelDelete()}
         onClose={() => setIsDeleteDoctor(false)}
       />
     </Card>

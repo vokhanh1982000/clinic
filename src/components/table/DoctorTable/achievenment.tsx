@@ -22,8 +22,9 @@ const Achievement = (props: Props) => {
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    if (deleteFc && id) deleteFc(id);
-    setIsDeleteDoctor(false);
+    setIsDeleteDoctor(true);
+    // if (deleteFc && id) deleteFc(id);
+    // setIsDeleteDoctor(false);
   };
 
   return (
