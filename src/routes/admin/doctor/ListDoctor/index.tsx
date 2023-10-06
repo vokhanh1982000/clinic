@@ -1,13 +1,14 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { Card } from 'antd';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Card, message } from 'antd';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
-import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
+import { ADMIN_CLINIC_ROUTE_NAME, ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { DoctorTable } from '../../../../components/table/DoctorTable';
 import { DoctorType } from '../../../../constants/enum';
+import { doctorClinicApi, doctorSupportApi } from '../../../../apis';
 
 const ListDoctor = () => {
   const intl = useIntl();
@@ -27,6 +28,16 @@ const ListDoctor = () => {
     }
   };
 
+  const deleteAdmin = useMutation((id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id), {
+    onSuccess: ({ data }) => {
+      console.log(data);
+      queryClient.invalidateQueries(['getDoctorSupport']);
+    },
+    onError: (error) => {
+      message.error(intl.formatMessage({ id: `${error}` }));
+    },
+  });
+
   const handleClose = () => {
     setIsShowModalDelete(undefined);
   };
@@ -35,7 +46,7 @@ const ListDoctor = () => {
       <div className="doctor-management__header">
         <div className="doctor-management__header__title">
           {intl.formatMessage({
-            id: 'doctor-support.list.title',
+            id: 'doctor.list.title',
           })}
         </div>
         <CustomButton
@@ -50,7 +61,7 @@ const ListDoctor = () => {
           })}
         </CustomButton>
       </div>
-      <DoctorTable doctorType={DoctorType.DOCTOR_SUPPORT} />
+      <DoctorTable deleteFc={(id: string) => deleteAdmin.mutate(id)} doctorType={DoctorType.DOCTOR_SUPPORT} />
     </Card>
   );
 };

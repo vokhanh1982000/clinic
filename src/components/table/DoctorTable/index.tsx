@@ -3,7 +3,7 @@ import TableWrap from '../../TableWrap';
 import IconSVG from '../../icons/icons';
 import { Column } from 'rc-table';
 import CustomInput from '../../input/CustomInput';
-import { Dropdown } from 'antd';
+import { Dropdown, Menu, MenuProps } from 'antd';
 import CustomButton from '../../buttons/CustomButton';
 import { DownOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 import { DoctorType } from '../../../constants/enum';
 import { ConfirmDeleteModal } from '../../modals/ConfirmDeleteModal';
 import { useQuery } from '@tanstack/react-query';
-import { doctorClinicApi } from '../../../apis';
+import { categoryApi, doctorClinicApi, doctorSupportApi } from '../../../apis';
 
 interface DoctorTableProps {
   placeHolder?: string;
@@ -44,13 +44,34 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const [status, setStatus] = useState<number>(-1);
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['getAdminUser', { page, size, sort, fullTextSearch, categoryId, status }],
+  const { data: doctorClinics } = useQuery({
+    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status }],
     queryFn: () =>
       doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, undefined, status),
+    enabled: doctorType === DoctorType.DOCTOR,
   });
 
-  console.log(data);
+  const { data: doctorSupports } = useQuery({
+    queryKey: ['getDoctorSupport', { page, size, sort, fullTextSearch, categoryId, status }],
+    queryFn: () =>
+      doctorSupportApi.doctorSupportControllerFindDoctorSupport(
+        page,
+        size,
+        sort,
+        fullTextSearch,
+        categoryId,
+        status,
+        undefined,
+        undefined,
+        undefined
+      ),
+    enabled: doctorType === DoctorType.DOCTOR_SUPPORT,
+  });
+
+  const { data: category } = useQuery({
+    queryKey: ['category'],
+    queryFn: () => categoryApi.categoryControllerFindCategory(1, 10, undefined, undefined),
+  });
 
   const items1: any = [
     {
@@ -86,7 +107,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
     },
   ];
 
-  const items2: any = [
+  const statusDoctor: any = [
     {
       key: '0',
       label: (
@@ -133,6 +154,19 @@ export const DoctorTable = (props: DoctorTableProps) => {
     setIsShowModalDelete(undefined);
   };
 
+  const menu = (
+    <Menu>
+      <Menu.Item key="0" onClick={() => setCategoryId(undefined)}>
+        All
+      </Menu.Item>
+      {category?.data.content?.map((item) => (
+        <Menu.Item key={item.id} onClick={() => setCategoryId(item.id)}>
+          {item.name}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
   return (
     <div className="doctor-table">
       <div className="doctor-table__filter">
@@ -144,7 +178,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           className="input-search"
           onChange={handleSearch}
         />
-        <Dropdown className="dropdown-location" menu={{ items: items1 }} placement="bottomLeft" trigger={['click']}>
+        <Dropdown overlay={menu} className="dropdown-location" placement="bottomLeft" trigger={['click']}>
           <CustomButton className="button-location">
             <IconSVG type="specialist"></IconSVG>
             <div>
@@ -157,7 +191,12 @@ export const DoctorTable = (props: DoctorTableProps) => {
             <DownOutlined />
           </CustomButton>
         </Dropdown>
-        <Dropdown className="dropdown-location" menu={{ items: items2 }} placement="bottomLeft" trigger={['click']}>
+        <Dropdown
+          className="dropdown-location"
+          menu={{ items: statusDoctor }}
+          placement="bottomLeft"
+          trigger={['click']}
+        >
           <CustomButton className="button-location">
             <IconSVG type="status"></IconSVG>
             <div>
@@ -174,11 +213,11 @@ export const DoctorTable = (props: DoctorTableProps) => {
 
       <TableWrap
         className="custom-table"
-        data={data?.data.content}
+        data={doctorType === DoctorType.DOCTOR ? doctorClinics?.data.content : doctorSupports?.data.content}
         // isLoading={isLoading}
         page={page}
         size={size}
-        total={data?.data.total}
+        total={doctorType === DoctorType.DOCTOR ? doctorClinics?.data.total : doctorClinics?.data.total}
         setSize={setSize}
         setPage={setPage}
         showPagination={true}
@@ -231,7 +270,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           dataIndex="level"
           width={'12%'}
         />
-        {doctorType !== DoctorType.DOCTOR && (
+        {/* {doctorType !== DoctorType.DOCTOR && (
           <Column
             title={intl.formatMessage({
               id: 'doctor.list.table.workTime',
@@ -239,7 +278,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
             dataIndex="workTime"
             width={'12%'}
           />
-        )}
+        )} */}
         <Column
           title={intl.formatMessage({
             id: 'doctor.list.table.status',

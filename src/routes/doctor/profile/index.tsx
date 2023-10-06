@@ -93,7 +93,7 @@ const DoctorProfile = () => {
     const doctor: DoctorClinic | undefined = doctorProfile?.data;
     form.setFieldsValue({
       ...doctor,
-      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth, 'DD/MM/YYYY') : null,
+      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth, 'YYYY-MM-DD') : null,
       status: doctor?.status ? Number(doctor.status) : 0,
       categoryIds: doctor?.categories?.map((item) => {
         return item.id;
@@ -106,7 +106,8 @@ const DoctorProfile = () => {
 
   const onFinish = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format('DD/MM/YYYY') : null;
+    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format('YYYY-MM-DD') : null;
+    console.log(data);
     updateDoctorProfile(data);
   };
 
@@ -194,7 +195,7 @@ const DoctorProfile = () => {
                   name={'dateOfBirth'}
                   rules={[{ required: true }]}
                 >
-                  <DatePicker format={'DD/MM/YYYY'} />
+                  <DatePicker format={'YYYY-MM-DD'} />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item

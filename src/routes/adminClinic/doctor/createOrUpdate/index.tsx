@@ -45,7 +45,7 @@ const CreateDoctor = () => {
         ...data,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
-        dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'DD/MM/YYYY') : moment('', 'DD/MM/YYYY'),
+        dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'YYYY-MM-DD') : moment('', 'YYYY-MM-DD'),
       });
     },
   });
@@ -97,14 +97,14 @@ const CreateDoctor = () => {
       createDocterClinic.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
+        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
         clinicId: null,
       });
     } else {
       updateDoctorClinic.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
+        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
         id: id,
       });
     }
