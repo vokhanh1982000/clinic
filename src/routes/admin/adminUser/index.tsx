@@ -13,6 +13,7 @@ import CustomInput from '../../../components/input/CustomInput';
 import TableWrap from '../../../components/TableWrap';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import DropdownCustom from '../../../components/dropdown/CustomDropdow';
+import { debounce } from 'lodash';
 const ListRole = () => {
   const intl = useIntl();
   const navigate = useNavigate();
@@ -24,7 +25,6 @@ const ListRole = () => {
 
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
-      console.log(data);
       queryClient.invalidateQueries(['getAdminUser']);
       navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
     },
@@ -55,9 +55,16 @@ const ListRole = () => {
     });
   };
 
+  const debouncedUpdateInputValue = debounce((value) => {
+    setFullTextSearch(value);
+  }, 500);
+
   const handleSearch = (e: any) => {
     if (e.target.value.trim() === '') return setFullTextSearch(null);
-    setFullTextSearch(e.target.value);
+    if (debouncedUpdateInputValue.cancel) {
+      debouncedUpdateInputValue.cancel();
+    }
+    debouncedUpdateInputValue(e.target.value);
   };
 
   const showInfo = (data: string[]) => {
@@ -75,7 +82,6 @@ const ListRole = () => {
     });
   };
 
-  console.log(data);
   return (
     <Card id="role-management">
       <div className="role-management__header">

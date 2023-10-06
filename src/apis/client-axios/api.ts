@@ -5182,10 +5182,11 @@ export const AssetsApiAxiosParamCreator = function (configuration?: Configuratio
          * 
          * @param {File} file 
          * @param {string} [assetFolderId] 
+         * @param {string} [s3FilePath] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        assetControllerUploadFile: async (file: File, assetFolderId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        assetControllerUploadFile: async (file: File, assetFolderId?: string, s3FilePath?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'file' is not null or undefined
             assertParamExists('assetControllerUploadFile', 'file', file)
             const localVarPath = `/assets/upload`;
@@ -5212,6 +5213,10 @@ export const AssetsApiAxiosParamCreator = function (configuration?: Configuratio
     
             if (assetFolderId !== undefined) { 
                 localVarFormParams.append('assetFolderId', assetFolderId as any);
+            }
+    
+            if (s3FilePath !== undefined) { 
+                localVarFormParams.append('s3FilePath', s3FilePath as any);
             }
     
     
@@ -5271,11 +5276,12 @@ export const AssetsApiFp = function(configuration?: Configuration) {
          * 
          * @param {File} file 
          * @param {string} [assetFolderId] 
+         * @param {string} [s3FilePath] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async assetControllerUploadFile(file: File, assetFolderId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.assetControllerUploadFile(file, assetFolderId, options);
+        async assetControllerUploadFile(file: File, assetFolderId?: string, s3FilePath?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.assetControllerUploadFile(file, assetFolderId, s3FilePath, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -5319,11 +5325,12 @@ export const AssetsApiFactory = function (configuration?: Configuration, basePat
          * 
          * @param {File} file 
          * @param {string} [assetFolderId] 
+         * @param {string} [s3FilePath] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        assetControllerUploadFile(file: File, assetFolderId?: string, options?: any): AxiosPromise<object> {
-            return localVarFp.assetControllerUploadFile(file, assetFolderId, options).then((request) => request(axios, basePath));
+        assetControllerUploadFile(file: File, assetFolderId?: string, s3FilePath?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.assetControllerUploadFile(file, assetFolderId, s3FilePath, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5372,12 +5379,13 @@ export class AssetsApi extends BaseAPI {
      * 
      * @param {File} file 
      * @param {string} [assetFolderId] 
+     * @param {string} [s3FilePath] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AssetsApi
      */
-    public assetControllerUploadFile(file: File, assetFolderId?: string, options?: AxiosRequestConfig) {
-        return AssetsApiFp(this.configuration).assetControllerUploadFile(file, assetFolderId, options).then((request) => request(this.axios, this.basePath));
+    public assetControllerUploadFile(file: File, assetFolderId?: string, s3FilePath?: string, options?: AxiosRequestConfig) {
+        return AssetsApiFp(this.configuration).assetControllerUploadFile(file, assetFolderId, s3FilePath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

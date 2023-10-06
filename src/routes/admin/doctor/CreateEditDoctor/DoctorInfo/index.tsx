@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import IconSVG from '../../../../../components/icons/icons';
 import CustomInput from '../../../../../components/input/CustomInput';
 import CustomSelect from '../../../../../components/select/CustomSelect';
+import { UserGender } from '../../../../../constants/enum';
 
 const DoctorInfo = () => {
   const intl = useIntl();
@@ -98,13 +99,13 @@ const DoctorInfo = () => {
               <CustomSelect
                 options={[
                   {
-                    value: '0',
+                    value: UserGender.MALE,
                     label: intl.formatMessage({
                       id: 'common.gender.male',
                     }),
                   },
                   {
-                    value: '1',
+                    value: UserGender.FEMALE,
                     label: intl.formatMessage({
                       id: 'common.gender.female',
                     }),

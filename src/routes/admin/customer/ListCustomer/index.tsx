@@ -14,6 +14,7 @@ import CustomInput from '../../../../components/input/CustomInput';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { Status } from '../../../../constants/enum';
+import { debounce } from 'lodash';
 
 const ListUser = () => {
   const intl = useIntl();
@@ -49,6 +50,10 @@ const ListUser = () => {
     setIsShowModalDelete(undefined);
   };
 
+  const debouncedUpdateInputValue = debounce((value) => {
+    setFullTextSearch(value);
+  }, 500);
+
   return (
     <Card id="customer-management">
       <div className="customer-management__header">
@@ -77,7 +82,10 @@ const ListUser = () => {
           prefix={<IconSVG type="search" />}
           className="input-search"
           onChange={(e) => {
-            setFullTextSearch(e.target.value);
+            if (debouncedUpdateInputValue.cancel) {
+              debouncedUpdateInputValue.cancel();
+            }
+            debouncedUpdateInputValue(e.target.value);
           }}
         />
         <CustomSelect

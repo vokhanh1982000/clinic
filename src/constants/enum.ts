@@ -22,3 +22,8 @@ export enum MedicineUnit {
   PELLET = 'pellet',
   JAR = 'jar',
 }
+
+export enum UserGender {
+  MALE = 'male',
+  FEMALE = 'female',
+}

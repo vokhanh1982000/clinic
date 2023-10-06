@@ -12,6 +12,7 @@ import { ActionUser } from '../../../constants/enum';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { categoryApi } from '../../../apis';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../../apis/client-axios';
+import { debounce } from 'lodash';
 
 const ListMedicalSpecialty = () => {
   const intl = useIntl();
@@ -97,141 +98,146 @@ const ListMedicalSpecialty = () => {
     form.resetFields();
   };
 
+  const debouncedUpdateInputValue = debounce((value) => {
+    setFullTextSearch(value);
+  }, 500);
+
   return (
     <Card id="category-management">
-      <Form form={form} onFinish={handleCreate}>
-        <div className="category-management__header">
-          <div className="category-management__header__title">
-            {intl.formatMessage({
-              id: 'category.list.title',
-            })}
-          </div>
-          <CustomButton
-            className="button-add"
-            icon={<IconSVG type="create" />}
-            onClick={() => {
-              setIsShowModalCreate(true);
-              setAvatar(undefined);
-              form.resetFields();
-            }}
-          >
-            {intl.formatMessage({
-              id: 'category.list.button.add',
-            })}
-          </CustomButton>
+      <div className="category-management__header">
+        <div className="category-management__header__title">
+          {intl.formatMessage({
+            id: 'category.list.title',
+          })}
         </div>
-        <div className="category-management__filter">
-          <CustomInput
-            placeholder={intl.formatMessage({
-              id: 'category.list.search',
-            })}
-            prefix={<IconSVG type="search" />}
-            className="input-search"
-            onChange={(e) => {
-              setFullTextSearch(e.target.value);
-            }}
-          />
-        </div>
-
-        <TableWrap
-          className="custom-table"
-          data={data?.data.content}
-          // isLoading={isLoading}
-          page={page}
-          size={size}
-          total={data?.data.total}
-          setSize={setSize}
-          setPage={setPage}
-          showPagination={true}
+        <CustomButton
+          className="button-add"
+          icon={<IconSVG type="create" />}
+          onClick={() => {
+            setIsShowModalCreate(true);
+            setAvatar(undefined);
+            form.resetFields();
+          }}
         >
-          <Column
-            title={intl.formatMessage({
-              id: 'category.list.table.name',
-            })}
-            dataIndex="name"
-            width={'40%'}
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'category.list.table.name',
-            })}
-            dataIndex="icon"
-            width={'40%'}
-            render={(_, record: any) => {
-              if (record.icon) return <img src={process.env.REACT_APP_URL_IMG_S3 + record.icon.preview} />;
-            }}
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'category.list.table.action',
-            })}
-            dataIndex="action"
-            width={'20%'}
-            render={(_, record: any) => (
-              <div className="action-category">
-                <div
-                  onClick={() => {
-                    form.setFieldsValue({
-                      name: record.name,
-                      iconId: record.iconId ? record.iconId : undefined,
-                    });
-                    setIsShowModalUpdate({ id: record.id, name: record.name });
-                    if (record.icon) {
-                      setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
-                    } else {
-                      setAvatar(undefined);
-                    }
-                  }}
-                >
-                  <IconSVG type="edit" />
-                </div>
-                <span className="divider"></span>
-                <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
-                  <IconSVG type="delete" />
-                </div>
-              </div>
-            )}
-            align="center"
-          />
-        </TableWrap>
-        {isShowModalCreate && (
-          <CategoryModal
-            form={form}
-            visible={isShowModalCreate}
-            title={intl.formatMessage({
-              id: 'category.modal.create.title.create',
-            })}
-            action={ActionUser.CREATE}
-            onSubmit={handleCreate}
-            onClose={() => setIsShowModalCreate(false)}
-            avatar={avatar}
-            setAvatar={setAvatar}
-          />
-        )}
-        {isShowModalUpdate && (
-          <CategoryModal
-            form={form}
-            visible={!!isShowModalUpdate}
-            title={intl.formatMessage({
-              id: 'category.modal.create.title.edit',
-            })}
-            action={ActionUser.EDIT}
-            onSubmit={handleUpdate}
-            onDelete={handleDelete}
-            onClose={() => setIsShowModalUpdate(undefined)}
-            avatar={avatar}
-            setAvatar={setAvatar}
-          />
-        )}
-        <ConfirmDeleteModal
-          name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
-          visible={!!isShowModalDelete}
-          onSubmit={handleDelete}
-          onClose={() => {
-            setIsShowModalDelete(undefined);
+          {intl.formatMessage({
+            id: 'category.list.button.add',
+          })}
+        </CustomButton>
+      </div>
+      <div className="category-management__filter">
+        <CustomInput
+          placeholder={intl.formatMessage({
+            id: 'category.list.search',
+          })}
+          prefix={<IconSVG type="search" />}
+          className="input-search"
+          onChange={(e) => {
+            if (debouncedUpdateInputValue.cancel) {
+              debouncedUpdateInputValue.cancel();
+            }
+            debouncedUpdateInputValue(e.target.value);
           }}
         />
-      </Form>
+      </div>
+
+      <TableWrap
+        className="custom-table"
+        data={data?.data.content}
+        // isLoading={isLoading}
+        page={page}
+        size={size}
+        total={data?.data.total}
+        setSize={setSize}
+        setPage={setPage}
+        showPagination={true}
+      >
+        <Column
+          title={intl.formatMessage({
+            id: 'category.list.table.name',
+          })}
+          dataIndex="name"
+          width={'40%'}
+        />
+        <Column
+          title={intl.formatMessage({
+            id: 'category.list.table.icon',
+          })}
+          dataIndex="icon"
+          width={'40%'}
+          render={(_, record: any) => {
+            if (record.icon) return <img src={process.env.REACT_APP_URL_IMG_S3 + record.icon.preview} />;
+          }}
+        />
+        <Column
+          title={intl.formatMessage({
+            id: 'category.list.table.action',
+          })}
+          dataIndex="action"
+          width={'20%'}
+          render={(_, record: any) => (
+            <div className="action-category">
+              <div
+                onClick={() => {
+                  form.setFieldsValue({
+                    name: record.name,
+                    iconId: record.iconId ? record.iconId : undefined,
+                  });
+                  setIsShowModalUpdate({ id: record.id, name: record.name });
+                  if (record.icon) {
+                    setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
+                  } else {
+                    setAvatar(undefined);
+                  }
+                }}
+              >
+                <IconSVG type="edit" />
+              </div>
+              <span className="divider"></span>
+              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
+                <IconSVG type="delete" />
+              </div>
+            </div>
+          )}
+          align="center"
+        />
+      </TableWrap>
+      {isShowModalCreate && (
+        <CategoryModal
+          form={form}
+          visible={isShowModalCreate}
+          title={intl.formatMessage({
+            id: 'category.modal.create.title.create',
+          })}
+          action={ActionUser.CREATE}
+          onSubmit={handleCreate}
+          onClose={() => setIsShowModalCreate(false)}
+          avatar={avatar}
+          setAvatar={setAvatar}
+        />
+      )}
+      {isShowModalUpdate && (
+        <CategoryModal
+          form={form}
+          visible={!!isShowModalUpdate}
+          title={intl.formatMessage({
+            id: 'category.modal.create.title.edit',
+          })}
+          action={ActionUser.EDIT}
+          onSubmit={handleUpdate}
+          onDelete={handleDelete}
+          onClose={() => setIsShowModalUpdate(undefined)}
+          avatar={avatar}
+          setAvatar={setAvatar}
+        />
+      )}
+      <ConfirmDeleteModal
+        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDelete}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
     </Card>
   );
 };

@@ -91,15 +91,10 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
     if (id) {
       CreateAdminClinic({
         ...values,
-        gender: values.gender
-          ? Number(values.gender) == 1
-            ? CreateAdminClinicDtoGenderEnum.Female
-            : CreateAdminClinicDtoGenderEnum.Male
-          : undefined,
         clinicId: id,
       });
     } else {
-      setAdminsClinic([...adminsClinic, { ...values, gender: Boolean(Number(values.gender)), id: generateRandomId() }]);
+      setAdminsClinic([...adminsClinic, { ...values, id: generateRandomId() }]);
       setIsShowManagerCreateModal(false);
       form.resetFields();
     }
@@ -109,19 +104,12 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
     if (id && isShowManagerUpdateModal) {
       UpdateAdminClinic({
         ...values,
-        gender: values.gender
-          ? Number(values.gender) == 1
-            ? UpdateAdminClinicDtoGenderEnum.Female
-            : UpdateAdminClinicDtoGenderEnum.Male
-          : undefined,
         clinicId: id,
         id: isShowManagerUpdateModal,
       });
     } else if (!id && isShowManagerUpdateModal) {
       setAdminsClinic((prevValues: any) =>
-        prevValues.map((item: any) =>
-          item.id === isShowManagerUpdateModal ? { ...item, ...values, gender: Boolean(Number(values.gender)) } : item
-        )
+        prevValues.map((item: any) => (item.id === isShowManagerUpdateModal ? { ...item, ...values } : item))
       );
       setIsShowManagerUpdateModal(undefined);
       form.resetFields();
@@ -182,7 +170,6 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
                 onClick={() => {
                   form.setFieldsValue({
                     ...manager,
-                    gender: Boolean(Number(manager.gender)),
                     dateOfBirth: manager.dateOfBirth ? dayjs(manager.dateOfBirth) : null,
                   });
                   setIsShowManagerUpdateModal(manager.id);

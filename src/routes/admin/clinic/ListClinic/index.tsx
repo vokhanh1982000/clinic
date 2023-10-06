@@ -14,6 +14,7 @@ import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { Status } from '../../../../constants/enum';
+import { debounce } from 'lodash';
 
 interface optionLocation {
   id: string;
@@ -105,6 +106,10 @@ const ListClinic = () => {
     setWardSelected({ id: option.value, code: option.code });
   };
 
+  const debouncedUpdateInputValue = debounce((value) => {
+    setFullTextSearch(value);
+  }, 500);
+
   return (
     <Card id="clinic-management">
       <div className="clinic-management__header">
@@ -132,6 +137,12 @@ const ListClinic = () => {
             id: 'clinic.list.search',
           })}
           prefix={<IconSVG type="search" />}
+          onChange={(e) => {
+            if (debouncedUpdateInputValue.cancel) {
+              debouncedUpdateInputValue.cancel();
+            }
+            debouncedUpdateInputValue(e.target.value);
+          }}
         />
         <CustomSelect
           className="select-province"
