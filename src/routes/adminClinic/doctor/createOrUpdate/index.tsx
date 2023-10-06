@@ -43,7 +43,6 @@ const CreateDoctor = () => {
     onSuccess: ({ data }) => {
       form.setFieldsValue({
         ...data,
-        gender: data.gender == CreateDoctorClinicDtoGenderEnum.Female ? 1 : 0,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
         dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'DD/MM/YYYY') : moment('', 'DD/MM/YYYY'),
@@ -97,7 +96,6 @@ const CreateDoctor = () => {
     if (!id) {
       createDocterClinic.mutate({
         ...values,
-        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         status: !!values.status,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
         clinicId: null,
@@ -105,7 +103,6 @@ const CreateDoctor = () => {
     } else {
       updateDoctorClinic.mutate({
         ...values,
-        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         status: !!values.status,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
         id: id,

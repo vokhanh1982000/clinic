@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import IconSVG from '../../icons/icons';
 import CustomInput from '../../input/CustomInput';
 import CustomSelect from '../../select/CustomSelect';
-import { DoctorType } from '../../../constants/enum';
+import { DoctorType, UserGender } from '../../../constants/enum';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Category, CreateCategoryDto, CreateDoctorClinicDto } from '../../../apis/client-axios';
 import { DefaultOptionType } from 'antd/es/select';
@@ -135,13 +135,13 @@ const DoctorInfo = (props: DoctorTableProps) => {
               <CustomSelect
                 options={[
                   {
-                    value: 0,
+                    value: UserGender.MALE,
                     label: intl.formatMessage({
                       id: 'common.gender.male',
                     }),
                   },
                   {
-                    value: 1,
+                    value: UserGender.FEMALE,
                     label: intl.formatMessage({
                       id: 'common.gender.female',
                     }),

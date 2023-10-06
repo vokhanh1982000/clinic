@@ -3,6 +3,7 @@
   "category.list.button.add": "Medical Specialty Create",
   "category.list.search": "Medical Specialty Search",
   "category.list.table.name": "Medical Specialty",
+  "category.list.table.icon": "Icon",
   "category.list.table.action": "Action",
   "category.modal.create.title.create": "Medical Specialty Create",
   "category.modal.create.title.edit": "Medical Specialty Detail",
