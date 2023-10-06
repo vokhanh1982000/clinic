@@ -12,6 +12,7 @@ import CustomArea from '../../../components/input/CustomArea';
 import { Cadastral, Category, DoctorClinic, UpdateDoctorClinicDto } from '../../../apis/client-axios';
 import { authApi, cadastralApi, categoryApi, doctorClinicApi } from '../../../apis';
 import dayjs from 'dayjs';
+import { UserGender } from '../../../constants/enum';
 
 const DoctorProfile = () => {
   const intl = useIntl();
@@ -106,7 +107,6 @@ const DoctorProfile = () => {
   const onFinish = () => {
     const data = form.getFieldsValue();
     data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format('DD/MM/YYYY') : null;
-    console.log(data);
     updateDoctorProfile(data);
   };
 
@@ -208,13 +208,13 @@ const DoctorProfile = () => {
                   <CustomSelect
                     options={[
                       {
-                        value: 'male',
+                        value: UserGender.MALE,
                         label: intl.formatMessage({
                           id: 'common.gender.male',
                         }),
                       },
                       {
-                        value: 'female',
+                        value: UserGender.FEMALE,
                         label: intl.formatMessage({
                           id: 'common.gender.female',
                         }),

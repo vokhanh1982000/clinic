@@ -11,6 +11,7 @@ import { adminApi, authApi } from '../../../apis';
 import CustomSelect from '../../../components/select/CustomSelect';
 import { UpdateAdminDto } from '../../../apis/client-axios';
 import dayjs from 'dayjs';
+import { UserGender } from '../../../constants/enum';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
@@ -134,13 +135,13 @@ const Profile = () => {
                     <CustomSelect
                       options={[
                         {
-                          value: 'male',
+                          value: UserGender.MALE,
                           label: intl.formatMessage({
                             id: 'common.gender.male',
                           }),
                         },
                         {
-                          value: 'female',
+                          value: UserGender.FEMALE,
                           label: intl.formatMessage({
                             id: 'common.gender.female',
                           }),

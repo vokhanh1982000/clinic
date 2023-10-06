@@ -12,6 +12,7 @@ import CustomButton from '../../../components/buttons/CustomButton';
 import { AdministratorClinic, Cadastral, UpdateAdminClinicDto } from '../../../apis/client-axios';
 import { adminClinicApi, authApi, cadastralApi } from '../../../apis';
 import dayjs from 'dayjs';
+import { UserGender } from '../../../constants/enum';
 
 const AdminClinicProfile = () => {
   const intl = useIntl();
@@ -195,13 +196,13 @@ const AdminClinicProfile = () => {
                   <CustomSelect
                     options={[
                       {
-                        value: 'male',
+                        value: UserGender.MALE,
                         label: intl.formatMessage({
                           id: 'common.gender.male',
                         }),
                       },
                       {
-                        value: 'female',
+                        value: UserGender.FEMALE,
                         label: intl.formatMessage({
                           id: 'common.gender.female',
                         }),

@@ -1,19 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, DatePicker, Form, Upload, message } from 'antd';
+import moment from 'moment';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
-import FormWrap from '../../../../components/FormWrap';
-import CustomButton from '../../../../components/buttons/CustomButton';
-import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
-import IconSVG from '../../../../components/icons/icons';
-import CustomInput from '../../../../components/input/CustomInput';
-import CustomSelect from '../../../../components/select/CustomSelect';
-import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { customerApi } from '../../../../apis';
 import { CreateCustomerDto, UpdateCustomerDto } from '../../../../apis/client-axios';
-import { Status } from '../../../../constants/enum';
-import moment from 'moment';
+import FormWrap from '../../../../components/FormWrap';
+import CustomButton from '../../../../components/buttons/CustomButton';
+import IconSVG from '../../../../components/icons/icons';
+import CustomInput from '../../../../components/input/CustomInput';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import CustomSelect from '../../../../components/select/CustomSelect';
+import { Status, UserGender } from '../../../../constants/enum';
+import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -32,7 +32,6 @@ const CreateCustomer = () => {
       onSuccess: (response) => {
         form.setFieldsValue({
           ...response.data,
-          gender: response.data.gender ? 1 : 0,
           dateOfBirth: response.data.dateOfBirth ? moment(response.data.dateOfBirth, 'DD/MM/YYYY') : null,
         });
       },
@@ -81,9 +80,15 @@ const CreateCustomer = () => {
 
   const onFinish = (values: any) => {
     if (id) {
-      CustomerUpdate({ ...values, gender: Boolean(Number(values.gender)), status: Boolean(Number(values.status)) });
+      CustomerUpdate({
+        ...values,
+        status: Boolean(Number(values.status)),
+      });
     } else {
-      CustomerCreate({ ...values, gender: Boolean(Number(values.gender)), status: Boolean(Number(values.status)) });
+      CustomerCreate({
+        ...values,
+        status: Boolean(Number(values.status)),
+      });
     }
   };
 
@@ -160,7 +165,6 @@ const CreateCustomer = () => {
                     id: 'customer.create.name',
                   })}
                   name={'fullName'}
-                  rules={[{ required: true }]}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -170,7 +174,6 @@ const CreateCustomer = () => {
                     id: 'customer.create.code',
                   })}
                   name={'code'}
-                  rules={[{ required: true }]}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -182,7 +185,6 @@ const CreateCustomer = () => {
                     id: 'customer.create.email',
                   })}
                   name={'emailAddress'}
-                  rules={[{ required: true }]}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -205,7 +207,6 @@ const CreateCustomer = () => {
                     id: 'customer.create.dob',
                   })}
                   name={'dob'}
-                  rules={[{ required: true }]}
                 >
                   <DatePicker />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
@@ -216,18 +217,17 @@ const CreateCustomer = () => {
                     id: 'customer.create.gender',
                   })}
                   name={'gender'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={[
                       {
-                        value: 0,
+                        value: UserGender.MALE,
                         label: intl.formatMessage({
                           id: 'common.gender.male',
                         }),
                       },
                       {
-                        value: 1,
+                        value: UserGender.FEMALE,
                         label: intl.formatMessage({
                           id: 'common.gender.female',
                         }),
@@ -254,7 +254,6 @@ const CreateCustomer = () => {
                     id: 'customer.create.status',
                   })}
                   name={'status'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={[

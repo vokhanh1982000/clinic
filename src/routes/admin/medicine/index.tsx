@@ -15,6 +15,7 @@ import { MedicineModal } from '../../../components/modals/MedicineModal';
 import { ActionUser, MedicineStatus, MedicineUnit } from '../../../constants/enum';
 import useForm from 'antd/es/form/hooks/useForm';
 import { CreateCategoryDto, CreateMedicineDto, UpdateCategoryDto, UpdateMedicineDto } from '../../../apis/client-axios';
+import { debounce } from 'lodash';
 
 interface Unit {
   id: string;
@@ -114,6 +115,10 @@ const ListMedicine = () => {
     form.resetFields();
   };
 
+  const debouncedUpdateInputValue = debounce((value) => {
+    setFullTextSearch(value);
+  }, 500);
+
   return (
     <Card id="medicine-management">
       <Form form={form} onFinish={handleCreate} layout={'vertical'}>
@@ -143,7 +148,10 @@ const ListMedicine = () => {
             })}
             prefix={<IconSVG type="search" />}
             onChange={(e) => {
-              setFullTextSearch(e.target.value);
+              if (debouncedUpdateInputValue.cancel) {
+                debouncedUpdateInputValue.cancel();
+              }
+              debouncedUpdateInputValue(e.target.value);
             }}
           />
         </div>

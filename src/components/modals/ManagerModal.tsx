@@ -2,7 +2,7 @@ import { DatePicker, Form, FormInstance, Modal } from 'antd';
 import { useIntl } from 'react-intl';
 import { useParams } from 'react-router-dom';
 import { FORMAT_DATE } from '../../constants/common';
-import { ActionUser } from '../../constants/enum';
+import { ActionUser, UserGender } from '../../constants/enum';
 import FormWrap from '../FormWrap';
 import CustomButton from '../buttons/CustomButton';
 import IconSVG from '../icons/icons';
@@ -97,13 +97,13 @@ export const ManagerModal = (props: ManagerModalProps) => {
               <CustomSelect
                 options={[
                   {
-                    value: 0,
+                    value: UserGender.MALE,
                     label: intl.formatMessage({
                       id: 'common.gender.male',
                     }),
                   },
                   {
-                    value: 1,
+                    value: UserGender.FEMALE,
                     label: intl.formatMessage({
                       id: 'common.gender.female',
                     }),

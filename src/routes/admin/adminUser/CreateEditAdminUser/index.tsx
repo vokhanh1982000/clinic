@@ -11,6 +11,7 @@ import { CreateAdminDto, CreateDoctorClinicDtoGenderEnum, Role, UpdateAdminDto }
 import { useNavigate, useParams } from 'react-router-dom';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import moment from 'moment';
+import { UserGender } from '../../../../constants/enum';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -43,7 +44,6 @@ const CreateAdmin = () => {
         form.setFieldsValue({
           ...response.data,
           roleIds: response.data.user.roles,
-          gender: response.data.gender == CreateDoctorClinicDtoGenderEnum.Female ? 1 : 0,
           dateOfBirth: response.data.dateOfBirth
             ? moment(response.data.dateOfBirth, 'DD/MM/YYYY')
             : moment('', 'DD/MM/YYYY'),
@@ -113,14 +113,12 @@ const CreateAdmin = () => {
       updateAdmin.mutate({
         ...values,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
-        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         roleIds,
         userId: id,
       });
     } else {
       const data: CreateAdminDto = {
         ...values,
-        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
         roleIds,
       };
@@ -236,8 +234,8 @@ const CreateAdmin = () => {
                           className="admin-management__item-select"
                           defaultValue="Gender"
                           options={[
-                            { value: 0, label: intl.formatMessage({ id: 'common.gender.male' }) },
-                            { value: 1, label: intl.formatMessage({ id: 'common.gender.female' }) },
+                            { value: UserGender.MALE, label: intl.formatMessage({ id: 'common.gender.male' }) },
+                            { value: UserGender.FEMALE, label: intl.formatMessage({ id: 'common.gender.female' }) },
                           ]}
                         />
                       </Form.Item>
