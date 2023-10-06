@@ -22,6 +22,8 @@ const CreateClinic = () => {
   const queryClient = useQueryClient();
   const [isDeleteClinic, setIsDeleteClinic] = useState<boolean>(false);
   const [adminsClinic, setAdminsClinic] = useState<any>([]);
+  const [provinceId, setProvinceId] = useState<string>();
+  const [districtId, setDistrictId] = useState<string>();
 
   const { data: dataClinic } = useQuery(
     ['getDetailClinic', id],
@@ -33,6 +35,8 @@ const CreateClinic = () => {
           ...response.data,
           status: response.data.status ? 1 : 0,
         });
+        setProvinceId(response.data.provinceId ? response.data.provinceId : undefined);
+        setDistrictId(response.data.districtId ? response.data.districtId : undefined);
       },
       enabled: !!id,
     }
@@ -121,7 +125,13 @@ const CreateClinic = () => {
       </div>
       <div className="clinic-content">
         <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-clinic">
-          <ClinicInfo form={form} />
+          <ClinicInfo
+            form={form}
+            provinceId={provinceId}
+            setProvinceId={setProvinceId}
+            districtId={districtId}
+            setDistrictId={setDistrictId}
+          />
         </FormWrap>
         <div className="container-right">
           <div className="form-create-manager">

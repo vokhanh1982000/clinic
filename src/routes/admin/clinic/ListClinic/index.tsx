@@ -226,19 +226,29 @@ const ListClinic = () => {
           title={intl.formatMessage({
             id: 'clinic.list.table.address',
           })}
-          dataIndex="detailAddress"
+          dataIndex="address"
           width={'25%'}
+          render={(_, record: any) => {
+            let detailAddress: string[] = [];
+            if (record.ward) {
+              detailAddress.push(record.ward.name);
+            }
+            if (record.district) {
+              detailAddress.push(record.district.name);
+            }
+            if (record.province) {
+              detailAddress.push(record.province.name);
+            }
+            return (
+              <>
+                {record.address} {detailAddress.join(' - ')}
+              </>
+            );
+          }}
         />
         <Column
           title={intl.formatMessage({
-            id: 'clinic.list.table.workTime',
-          })}
-          dataIndex="workTime"
-          width={'15%'}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'clinic.list.table.status',
+            id: 'clinic.list.table.address',
           })}
           dataIndex="status"
           width={'15%'}
