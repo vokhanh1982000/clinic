@@ -10,6 +10,7 @@
   "menu.newsManagement": "News and Articles Management",
   "menu.statisticsManagement": "Statistics Management",
   "menu.medicineManagement": "Medicine Management",
+  "menu.setting": "Clinic Setting",
   "menu.home": "Home",
   "menu.createRole": "Create new role",
   "menu.detailRole": "Role Details",

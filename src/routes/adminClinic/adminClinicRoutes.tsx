@@ -10,6 +10,7 @@ const ListBooking = React.lazy(() => import('./booking/index'));
 const ListMedicine = React.lazy(() => import('./medicine/index'));
 const ListDoctor = React.lazy(() => import('./doctor/index'));
 const CreateDoctor = React.lazy(() => import('./doctor/createOrUpdate'));
+const Setting = React.lazy(() => import('./setting/index'));
 export const AdminClinicRoutes = () => (
   <Routes>
     <Route path="/signin" element={<SuspenseWrapper component={<SignIn />} />} />
@@ -24,6 +25,7 @@ export const AdminClinicRoutes = () => (
           element={<SuspenseWrapper component={<CreateDoctor />} />}
         />
       </Route>
+      <Route path={ADMIN_CLINIC_ROUTE_NAME.SETTING} element={<Setting />} />
       <Route path={ADMIN_CLINIC_ROUTE_NAME.ADMIN_CLINIC_PROFILE} element={<AdminClinicProfile />} />
     </Route>
   </Routes>
