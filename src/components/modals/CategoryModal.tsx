@@ -9,6 +9,7 @@ import FormWrap from '../FormWrap';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { assetsApi } from '../../apis';
+import { MyUploadProps } from '../../constants/dto';
 
 interface CategoryModalProps {
   form: FormInstance;
@@ -22,12 +23,6 @@ interface CategoryModalProps {
   setAvatar: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
-interface UploadProps {
-  file: File;
-  assetFolderId?: string;
-  s3FilePath?: string;
-}
-
 export const CategoryModal = (props: CategoryModalProps) => {
   const { form, visible, title, action, onSubmit, onDelete, onClose, avatar, setAvatar } = props;
   const intl = useIntl();
@@ -39,7 +34,7 @@ export const CategoryModal = (props: CategoryModalProps) => {
   };
 
   const { mutate: UploadImage, status: statusUploadImage } = useMutation(
-    (uploadProps: UploadProps) =>
+    (uploadProps: MyUploadProps) =>
       assetsApi.assetControllerUploadFile(uploadProps.file, undefined, uploadProps.s3FilePath),
     {
       onSuccess: ({ data }) => {

@@ -34,6 +34,8 @@ export const getMenuActiveIconName = (key: string, route: 'Admin' | 'AdminClinic
         return 'medicineManagementIconActive';
       case ADMIN_CLINIC_ROUTE_PATH.DOCTOR_MANAGEMENT:
         return 'doctorManagementIconActive';
+      case ADMIN_CLINIC_ROUTE_PATH.SETTING:
+        return 'settingIconActive';
       default:
         return '';
     }

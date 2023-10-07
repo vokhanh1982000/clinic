@@ -33,6 +33,11 @@ const AdminClinic = () => {
       ADMIN_CLINIC_ROUTE_PATH.DOCTOR_MANAGEMENT,
       <img src="/assets/icons/admin/doctorManagementIconInactive.svg" />
     ),
+    getItem(
+      intl.formatMessage({ id: 'menu.setting' }),
+      ADMIN_CLINIC_ROUTE_PATH.SETTING,
+      <img src="/assets/icons/admin/settingIconInactive.svg" />
+    ),
   ];
   const [menu, setMenu] = useState(defaultMenu);
 

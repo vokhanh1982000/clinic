@@ -14,6 +14,8 @@ import customer from './customer.json';
 import adminProfile from './admin.profile.json';
 import doctorProfile from './doctor.profile.json';
 import adminClinicProfile from './admin.clinic.profile.json';
+import setting from './setting.json';
+import changePassword from './change-password.json';
 
 const EnLang = {
   messages: {
@@ -32,6 +34,8 @@ const EnLang = {
     ...adminProfile,
     ...adminClinicProfile,
     ...doctorProfile,
+    ...setting,
+    ...changePassword,
   },
   antd: antdEN,
   locale: 'en-US',
