@@ -4,7 +4,7 @@ import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
 import { ADMIN_ROUTE_NAME } from '../../constants/route';
 import CreateDoctor from './doctor/CreateEditDoctor';
 import CreateCustomer from './customer/CreateEditCustomer';
-import ChangePasswordAdmin from "./auth/ChangePassword";
+import ChangePasswordAdmin from './auth/ChangePassword';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));

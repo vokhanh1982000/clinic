@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
 import { DOCTOR_CLINIC_ROUTE_NAME } from '../../constants/route';
 import DoctorProfile from './profile';
-import ChangePasswordDoctorClinic from "./auth/ChangePassword";
+import ChangePasswordDoctorClinic from './auth/ChangePassword';
 
 const Doctor = React.lazy(() => import('.'));
 const SignInDoctor = React.lazy(() => import('./auth/SignInDoctor'));
