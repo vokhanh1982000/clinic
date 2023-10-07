@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import OTPInput from 'react-otp-input';
 import { authApi } from '../../../apis';
 import { FindUserByIdentifierDto, ForgotPasswordDto } from '../../../apis/client-axios';
-import ForgotSuccess from './forgotSuccess';
+import ForgotSuccess from './forgot-success';
 
 const ConfirmCode = ({ data, userType }: any) => {
   const intl = useIntl();

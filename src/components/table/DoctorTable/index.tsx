@@ -8,7 +8,7 @@ import CustomButton from '../../buttons/CustomButton';
 import { DownOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
-import { DoctorType } from '../../../constants/enum';
+import { DoctorType, LanguageType } from '../../../constants/enum';
 import { ConfirmDeleteModal } from '../../modals/ConfirmDeleteModal';
 import { useQuery } from '@tanstack/react-query';
 import { categoryApi, doctorClinicApi, doctorSupportApi } from '../../../apis';
@@ -279,6 +279,15 @@ export const DoctorTable = (props: DoctorTableProps) => {
             width={'12%'}
           />
         )} */}
+        {doctorType === DoctorType.DOCTOR_SUPPORT && (
+          <Column
+            title={intl.formatMessage({
+              id: 'doctor.list.language',
+            })}
+            width={'12%'}
+            render={() => <div>{LanguageType.VN + ', ' + LanguageType.ENG}</div>}
+          />
+        )}
         <Column
           title={intl.formatMessage({
             id: 'doctor.list.table.status',
