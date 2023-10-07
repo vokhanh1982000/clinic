@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
 import { ADMIN_CLINIC_ROUTE_NAME } from '../../constants/route';
 import AdminClinicProfile from './profile';
+import ChangePasswordAdminClinic from "./auth/ChangePassword";
 
 const AdminClinic = React.lazy(() => import('.'));
 const SignIn = React.lazy(() => import('./auth/SignIn'));
@@ -27,6 +28,7 @@ export const AdminClinicRoutes = () => (
         />
       </Route>
       <Route path={ADMIN_CLINIC_ROUTE_NAME.ADMIN_CLINIC_PROFILE} element={<AdminClinicProfile />} />
+      <Route path={ADMIN_CLINIC_ROUTE_NAME.CHANGE_PASSWORD} element={<ChangePasswordAdminClinic />} />
     </Route>
   </Routes>
 );
