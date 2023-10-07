@@ -36,14 +36,14 @@ const Profile = () => {
         code: dt.code,
         emailAddress: dt.emailAddress,
         phoneNumber: dt.phoneNumber,
-        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth, 'DD/MM/YYYY') : null,
+        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth, 'YYYY-MM-DD') : null,
         gender: dt.gender,
       });
     }
   }, [data]);
   const handleUpdate = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth.format('DD/MM/YYYY');
+    data.dateOfBirth = data.dateOfBirth.format('YYYY-MM-DD');
     UpdateAdmin(data);
   };
   return (
@@ -123,7 +123,7 @@ const Profile = () => {
                       id: 'admin-profile.dateOfBirth',
                     })}
                   >
-                    <DatePicker format={'DD/MM/YYYY'} />
+                    <DatePicker format={'YYYY-MM-DD'} />
                   </Form.Item>
                   <Form.Item
                     name={'gender'}

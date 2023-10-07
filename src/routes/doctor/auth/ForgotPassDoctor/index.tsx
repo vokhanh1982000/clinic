@@ -1,7 +1,7 @@
 import { UpdatePasswordDtoTypeEnum } from '../../../../apis/client-axios';
 import ForgotPassComponent from '../../../../components/auth/ForgotPassword';
 
-const ForgotPassAdmin = () => {
-  return <ForgotPassComponent userType={UpdatePasswordDtoTypeEnum.Administrator} />;
+const ForgotPassDoctor = () => {
+  return <ForgotPassComponent userType={UpdatePasswordDtoTypeEnum.DoctorClinic} />;
 };
-export default ForgotPassAdmin;
+export default ForgotPassDoctor;

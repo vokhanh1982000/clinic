@@ -1,10 +1,21 @@
-import { Button, Form, Input, Result } from 'antd';
+import { Button, Form, Result } from 'antd';
 import { useIntl } from 'react-intl';
-
-const ForgotSuccess = () => {
+import { useNavigate } from 'react-router-dom';
+import { UpdatePasswordDtoTypeEnum } from '../../../apis/client-axios';
+import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../../constants/route';
+const ForgotSuccess = ({ userType }: any) => {
   const intl = useIntl();
+  const navigate = useNavigate();
 
-  const onFinish = () => {};
+  const onFinish = () => {
+    if (userType == UpdatePasswordDtoTypeEnum.Administrator) {
+      navigate(ADMIN_ROUTE_PATH.SIGNIN);
+    } else if (userType == UpdatePasswordDtoTypeEnum.AdministratorClinic) {
+      navigate(ADMIN_CLINIC_ROUTE_PATH.SIGNIN);
+    } else if (userType == UpdatePasswordDtoTypeEnum.DoctorClinic) {
+      navigate(DOCTOR_CLINIC_ROUTE_PATH.SIGNIN);
+    }
+  };
 
   const onFinishFailed = () => {};
 
@@ -16,6 +27,7 @@ const ForgotSuccess = () => {
           title={intl.formatMessage({ id: 'forgot.success.title' })}
           subTitle={intl.formatMessage({ id: 'forgot.success.messenger' })}
         />
+        <div></div>
         <Form
           name="basic"
           layout="vertical"

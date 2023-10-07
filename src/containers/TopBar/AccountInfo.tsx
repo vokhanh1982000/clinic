@@ -50,6 +50,17 @@ const AccountInfo = (props: { infoDropdownItems?: MenuProps['items'] }) => {
       label: intl.formatMessage({
         id: 'menu.dropdown.user.change-password',
       }),
+      onClick: (): void => {
+        if (authUser?.user.type === 'administrator_clinic') {
+          navigate(ADMIN_CLINIC_ROUTE_PATH.CHANGE_PASSWORD);
+        }
+        if (authUser?.user.type === 'administrator') {
+          navigate(ADMIN_ROUTE_PATH.CHANGE_PASSWORD);
+        }
+        if (authUser?.user.type === 'doctor_clinic') {
+          navigate(DOCTOR_CLINIC_ROUTE_PATH.CHANGE_PASSWORD);
+        }
+      },
       icon: <IconSVG type={'change-password'} />,
     },
     {

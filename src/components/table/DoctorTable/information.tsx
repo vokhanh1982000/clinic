@@ -211,7 +211,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 label={intl.formatMessage({
                   id: 'doctor.create.info.request',
                 })}
-                name={'request'}
+                name={n('totalRequestReceniver')}
                 rules={[{ required: true }]}
               >
                 <CustomInput />

@@ -40,6 +40,9 @@ const App: React.FC = () => {
             Checkbox: {
               colorPrimary: PRIMARY_COLOR,
             },
+            Spin: {
+              colorPrimary: PRIMARY_COLOR,
+            },
           },
         }}
         locale={currentAppLocale.antd}

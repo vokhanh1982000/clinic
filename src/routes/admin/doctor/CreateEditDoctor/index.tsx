@@ -1,13 +1,25 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { Card, Form } from 'antd';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Card, Form, message } from 'antd';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import FormWrap from '../../../../components/FormWrap';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
-import Achievement from './Achievement';
-import DoctorInfo from './DoctorInfo';
+import DoctorInfo from '../../../../components/table/DoctorTable/information';
+import Achievement from '../../../../components/table/DoctorTable/achievenment';
+import { DoctorType } from '../../../../constants/enum';
+import {
+  CreateDoctorClinicDto,
+  CreateDoctorClinicDtoGenderEnum,
+  CreateDoctorSupport,
+  UpdateDoctorClinicDto,
+  UpdateDoctorSupport,
+} from '../../../../apis/client-axios';
+import { categoryApi, doctorSupportApi } from '../../../../apis';
+import moment from 'moment';
+import { error } from 'console';
+import { values } from 'lodash';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -17,76 +29,90 @@ const CreateDoctor = () => {
   const queryClient = useQueryClient();
   const [isDeleteDoctor, setIsDeleteDoctor] = useState<boolean>(false);
 
-  // const { data: datadoctor } = useQuery({
-  //   queryKey: ['getdoctorDetail', id],
-  //   queryFn: () => doctorApi.doctorControllerGetById(id as string),
-  //   enabled: !!id,
-  // });
+  const n = (key: keyof CreateDoctorSupport) => {
+    return key;
+  };
 
-  // const createdoctor = useMutation((createdoctor: CreatedoctorDto) => doctorApi.doctorControllerCreate(createdoctor), {
-  //   onSuccess: ({ data }) => {
-  //     queryClient.invalidateQueries(['getUsers']);
-  //     navigate(`/admin/${ADMIN_ROUTE_NAME.doctor_MANAGEMENT}`);
-  //   },
-  //   onError: (error) => {
-  //     message.error(intl.formatMessage({ id: 'doctor.create.error' }));
-  //   },
-  // });
+  const { data: category } = useQuery({
+    queryKey: ['category'],
+    queryFn: () => categoryApi.categoryControllerFindCategory(1, 10),
+  });
 
-  // const updatedoctor = useMutation(
-  //   (updatedoctor: UpdatedoctorDto) => doctorApi.doctorControllerUpdate(id as string, updatedoctor),
-  //   {
-  //     onSuccess: ({ data }) => {
-  //       queryClient.invalidateQueries(['getdoctorDetail', id]);
-  //       navigate(`/admin/${ADMIN_ROUTE_NAME.doctor_MANAGEMENT}`);
-  //     },
-  //     onError: (error) => {
-  //       message.error(intl.formatMessage({ id: 'doctor.update.error' }));
-  //     },
-  //   }
-  // );
+  const { data: doctorSupport } = useQuery({
+    queryKey: ['doctorSupport', id],
+    queryFn: () => doctorSupportApi.doctorSupportControllerFindDoctorSupportById(id as string),
+    enabled: !!id,
+    onSuccess: ({ data }) => {
+      console.log(data);
+      form.setFieldsValue({
+        ...data,
+        status: +data.status,
+        categoryIds: data.categories.flatMap((item) => item.id),
+        dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'YYYY-MM-DD') : moment('', 'YYYY-MM-DD'),
+      });
+    },
+  });
 
-  // const deletedoctor = useMutation((id: string) => doctorApi.doctorControllerDelete(id), {
-  //   onSuccess: ({ data }) => {
-  //     queryClient.invalidateQueries(['getPermissions']);
-  //     queryClient.invalidateQueries(['getdoctorDetail', id]);
-  //     navigate(`/admin/${ADMIN_ROUTE_NAME.doctor_MANAGEMENT}`);
-  //   },
-  //   onError: (error) => {
-  //     message.error(intl.formatMessage({ id: 'doctor.permission.delete.error' }));
-  //   },
-  // });
+  const createDoctorSupport = useMutation(
+    (createDoctorSupport: CreateDoctorSupport) =>
+      doctorSupportApi.doctorSupportControllerCreateDoctorSupport(createDoctorSupport),
+    {
+      onSuccess: ({ data }) => {
+        navigate(-1);
+        console.log(data);
+      },
+      onError: (error) => {
+        message.error(intl.formatMessage({ id: 'doctor.create.error' }));
+      },
+    }
+  );
 
-  // const handleDeletedoctor = () => {
-  //   Modal.confirm({
-  //     title: 'Confirm',
-  //     content: 'Are You Sure?',
-  //     icon: null,
-  //     okText: 'Confirm',
-  //     cancelText: 'Cancel',
-  //     onOk() {
-  //       if (id) deletedoctor.mutate(id);
-  //     },
-  //     onCancel() {
-  //       console.log('cancel');
-  //     },
-  //     centered: true,
-  //   });
-  // };
+  const updateDoctorSupport = useMutation(
+    (updateDoctorSupport: UpdateDoctorSupport) =>
+      doctorSupportApi.doctorSupportControllerUpdateDoctorSupportForAdmin(updateDoctorSupport),
+    {
+      onSuccess: ({ data }) => {
+        navigate(-1);
+        console.log(data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
+
+  const deleteAdmin = useMutation((id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id), {
+    onSuccess: ({ data }) => {
+      console.log(data);
+      queryClient.invalidateQueries(['getDoctorSupport']);
+      navigate(-1);
+    },
+    onError: (error) => {
+      message.error(intl.formatMessage({ id: 'common.message.err' }));
+    },
+  });
+
+  const handelDelete = () => {
+    if (id) deleteAdmin.mutate(id);
+    setIsDeleteDoctor(false);
+  };
 
   const onFinish = (values: any) => {
-    // const permissions = form.getFieldValue(n('permissions'));
-    // if (!id) {
-    //   createdoctor.mutate({
-    //     ...values,
-    //     permissions,
-    //   });
-    // } else {
-    //   updatedoctor.mutate({
-    //     ...values,
-    //     permissions,
-    //   });
-    // }
+    if (!id) {
+      createDoctorSupport.mutate({
+        ...values,
+        status: !!values.status,
+        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        clinicId: null,
+      });
+    } else {
+      updateDoctorSupport.mutate({
+        ...values,
+        status: !!values.status,
+        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        id: id,
+      });
+    }
   };
 
   return (
@@ -94,63 +120,25 @@ const CreateDoctor = () => {
       <div className="create-doctor-title">
         {id
           ? intl.formatMessage({
-              id: 'doctor.edit.title',
+              id: 'doctor.clinic.edit.title',
             })
           : intl.formatMessage({
-              id: 'doctor.create.title',
+              id: 'doctor.clinic.create.title',
             })}
       </div>
       <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-doctor">
-        <DoctorInfo />
-        <Achievement />
+        <DoctorInfo category={category?.data.content} n={n} doctorType={DoctorType.DOCTOR_SUPPORT} />
+        <Achievement
+          deleteFc={(id: string) => deleteAdmin.mutate(id)}
+          n={n}
+          setIsDeleteDoctor={setIsDeleteDoctor}
+          onSubmit={() => form.submit()}
+        />
       </FormWrap>
-
-      <div className="button-action">
-        {id ? (
-          <div className="more-action">
-            <CustomButton className="button-save" onClick={() => form.submit()}>
-              {intl.formatMessage({
-                id: 'doctor.edit.button.save',
-              })}
-            </CustomButton>
-            <CustomButton
-              className="button-delete"
-              onClick={() => {
-                setIsDeleteDoctor(true);
-              }}
-            >
-              {intl.formatMessage({
-                id: 'doctor.edit.button.delete',
-              })}
-            </CustomButton>
-          </div>
-        ) : (
-          <div className="more-action">
-            <CustomButton className="button-create" onClick={() => form.submit()}>
-              {intl.formatMessage({
-                id: 'doctor.create.button.create',
-              })}
-            </CustomButton>
-            <CustomButton
-              className="button-cancel"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              {intl.formatMessage({
-                id: 'doctor.create.button.cancel',
-              })}
-            </CustomButton>
-          </div>
-        )}
-      </div>
-
       <ConfirmDeleteModal
         name={''}
         visible={isDeleteDoctor}
-        onSubmit={() => {
-          setIsDeleteDoctor(false);
-        }}
+        onSubmit={() => handelDelete()}
         onClose={() => setIsDeleteDoctor(false)}
       />
     </Card>
