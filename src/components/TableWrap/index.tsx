@@ -2,7 +2,7 @@ import { Pagination, Row, Table } from 'antd';
 
 export interface ITableWrapProps<T> {
   className?: string;
-  data?: T[];
+  data?: T[] | any[];
   isLoading?: boolean;
   page?: number;
   size?: number;

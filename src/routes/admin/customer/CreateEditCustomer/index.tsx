@@ -32,7 +32,8 @@ const CreateCustomer = () => {
       onSuccess: (response) => {
         form.setFieldsValue({
           ...response.data,
-          dateOfBirth: response.data.dateOfBirth ? moment(response.data.dateOfBirth, 'DD/MM/YYYY') : null,
+          gender: response.data.gender ? 1 : 0,
+          dateOfBirth: response.data.dateOfBirth ? moment(response.data.dateOfBirth, 'YYYY-MM-DD') : null,
         });
       },
       enabled: !!id,

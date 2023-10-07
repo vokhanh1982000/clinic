@@ -45,8 +45,8 @@ const CreateAdmin = () => {
           ...response.data,
           roleIds: response.data.user.roles,
           dateOfBirth: response.data.dateOfBirth
-            ? moment(response.data.dateOfBirth, 'DD/MM/YYYY')
-            : moment('', 'DD/MM/YYYY'),
+            ? moment(response.data.dateOfBirth, 'YYYY-MM-DD')
+            : moment('', 'YYYY-MM-DD'),
         });
       },
     }
@@ -112,14 +112,16 @@ const CreateAdmin = () => {
     if (id) {
       updateAdmin.mutate({
         ...values,
-        dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
+        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
         roleIds,
         userId: id,
       });
     } else {
       const data: CreateAdminDto = {
         ...values,
-        dateOfBirth: moment(values.dateOfBirth).format('DD/MM/YYYY'),
+        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
+        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
         roleIds,
       };
       createAdmin.mutate(data);
@@ -224,7 +226,7 @@ const CreateAdmin = () => {
                     <Col span={14}>
                       <header>{intl.formatMessage({ id: 'admin.user.dateOfBirth' })}</header>
                       <Form.Item rules={[{ required: true }]} name={n('dateOfBirth')}>
-                        <DatePickerCustom dateFormat="DD/MM/YYYY" className="date-select"></DatePickerCustom>
+                        <DatePickerCustom dateFormat="YYYY-MM-DD" className="date-select"></DatePickerCustom>
                       </Form.Item>
                     </Col>
                     <Col span={9}>
