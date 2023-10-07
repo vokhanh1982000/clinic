@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * PROJECT_NAME
+ * iHealth
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -22,6 +22,350 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
+
+/**
+ * 
+ * @export
+ * @interface AdminClinicCreateBookingDto
+ */
+export interface AdminClinicCreateBookingDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'doctorClinicId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'customerId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'status': AdminClinicCreateBookingDtoStatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'isPrioritize': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'hasBookedAssistant': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'appointmentStartTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'appointmentEndTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'customerNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'appointmentNote'?: string;
+    /**
+     * 
+     * @type {CreatePrescriptionDto}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'prescription'?: CreatePrescriptionDto;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
+    'clinicId': string;
+}
+
+export const AdminClinicCreateBookingDtoStatusEnum = {
+    Completed: 'completed',
+    Pending: 'pending',
+    Cancelled: 'cancelled',
+    Approved: 'approved'
+} as const;
+
+export type AdminClinicCreateBookingDtoStatusEnum = typeof AdminClinicCreateBookingDtoStatusEnum[keyof typeof AdminClinicCreateBookingDtoStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface AdminClinicUpdateBookingDto
+ */
+export interface AdminClinicUpdateBookingDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'doctorClinicId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'customerId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'status'?: AdminClinicUpdateBookingDtoStatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'isPrioritize'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'hasBookedAssistant'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'appointmentStartTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'appointmentEndTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'customerNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'appointmentNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'id': string;
+    /**
+     * 
+     * @type {UpdatePrescriptionDto}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'prescription'?: UpdatePrescriptionDto;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'clinicId'?: string;
+}
+
+export const AdminClinicUpdateBookingDtoStatusEnum = {
+    Completed: 'completed',
+    Pending: 'pending',
+    Cancelled: 'cancelled',
+    Approved: 'approved'
+} as const;
+
+export type AdminClinicUpdateBookingDtoStatusEnum = typeof AdminClinicUpdateBookingDtoStatusEnum[keyof typeof AdminClinicUpdateBookingDtoStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface AdminCreateBookingDto
+ */
+export interface AdminCreateBookingDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'clinicId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'doctorClinicId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'customerId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'status': AdminCreateBookingDtoStatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdminCreateBookingDto
+     */
+    'isPrioritize': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdminCreateBookingDto
+     */
+    'hasBookedAssistant': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'appointmentStartTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'appointmentEndTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'customerNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'appointmentNote'?: string;
+    /**
+     * 
+     * @type {CreatePrescriptionDto}
+     * @memberof AdminCreateBookingDto
+     */
+    'prescription'?: CreatePrescriptionDto;
+}
+
+export const AdminCreateBookingDtoStatusEnum = {
+    Completed: 'completed',
+    Pending: 'pending',
+    Cancelled: 'cancelled',
+    Approved: 'approved'
+} as const;
+
+export type AdminCreateBookingDtoStatusEnum = typeof AdminCreateBookingDtoStatusEnum[keyof typeof AdminCreateBookingDtoStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface AdminUpdateBookingDto
+ */
+export interface AdminUpdateBookingDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'clinicId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'doctorClinicId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'customerId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'status'?: AdminUpdateBookingDtoStatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdminUpdateBookingDto
+     */
+    'isPrioritize'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AdminUpdateBookingDto
+     */
+    'hasBookedAssistant'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'appointmentStartTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'appointmentEndTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'customerNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'appointmentNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'id': string;
+    /**
+     * 
+     * @type {UpdatePrescriptionDto}
+     * @memberof AdminUpdateBookingDto
+     */
+    'prescription'?: UpdatePrescriptionDto;
+}
+
+export const AdminUpdateBookingDtoStatusEnum = {
+    Completed: 'completed',
+    Pending: 'pending',
+    Cancelled: 'cancelled',
+    Approved: 'approved'
+} as const;
+
+export type AdminUpdateBookingDtoStatusEnum = typeof AdminUpdateBookingDtoStatusEnum[keyof typeof AdminUpdateBookingDtoStatusEnum];
 
 /**
  * 
@@ -621,6 +965,168 @@ export interface AuthenticationMethod {
 /**
  * 
  * @export
+ * @interface Booking
+ */
+export interface Booking {
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'doctorClinicId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'customerId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'clinicId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'status': BookingStatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Booking
+     */
+    'isPrioritize': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Booking
+     */
+    'hasBookedAssistant': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'appointmentStartTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'appointmentEndTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'customerNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'appointmentNote'?: string;
+    /**
+     * 
+     * @type {Customer}
+     * @memberof Booking
+     */
+    'customer': Customer;
+    /**
+     * 
+     * @type {DoctorClinic}
+     * @memberof Booking
+     */
+    'doctorClinic': DoctorClinic;
+    /**
+     * 
+     * @type {Clinic}
+     * @memberof Booking
+     */
+    'clinic': Clinic;
+    /**
+     * 
+     * @type {Prescription}
+     * @memberof Booking
+     */
+    'prescription': Prescription;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Booking
+     */
+    'deletedAt': string;
+}
+
+export const BookingStatusEnum = {
+    Completed: 'completed',
+    Pending: 'pending',
+    Cancelled: 'cancelled',
+    Approved: 'approved'
+} as const;
+
+export type BookingStatusEnum = typeof BookingStatusEnum[keyof typeof BookingStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface BookingByMonthDto
+ */
+export interface BookingByMonthDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof BookingByMonthDto
+     */
+    'day': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BookingByMonthDto
+     */
+    'isWork': boolean;
+    /**
+     * 
+     * @type {CountBookingByMonthDto}
+     * @memberof BookingByMonthDto
+     */
+    'data'?: CountBookingByMonthDto;
+}
+/**
+ * 
+ * @export
  * @interface Cadastral
  */
 export interface Cadastral {
@@ -876,6 +1382,24 @@ export interface Clinic {
     'medicines': Array<Medicine>;
     /**
      * 
+     * @type {Array<Booking>}
+     * @memberof Clinic
+     */
+    'bookings': Array<Booking>;
+    /**
+     * 
+     * @type {Array<WorkSchedule>}
+     * @memberof Clinic
+     */
+    'workSchedules'?: Array<WorkSchedule>;
+    /**
+     * 
+     * @type {Array<HolidaySchedule>}
+     * @memberof Clinic
+     */
+    'holidaySchedules'?: Array<HolidaySchedule>;
+    /**
+     * 
      * @type {string}
      * @memberof Clinic
      */
@@ -996,6 +1520,37 @@ export interface ClinicControllerGetAll200ResponseAllOf {
      * @memberof ClinicControllerGetAll200ResponseAllOf
      */
     'content'?: Array<Clinic>;
+}
+/**
+ * 
+ * @export
+ * @interface CountBookingByMonthDto
+ */
+export interface CountBookingByMonthDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof CountBookingByMonthDto
+     */
+    'completed': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CountBookingByMonthDto
+     */
+    'approved': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CountBookingByMonthDto
+     */
+    'pending': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CountBookingByMonthDto
+     */
+    'cancelled': number;
 }
 /**
  * 
@@ -1251,7 +1806,7 @@ export interface CreateClinicDto {
      * @type {string}
      * @memberof CreateClinicDto
      */
-    'detailAddress'?: string;
+    'address'?: string;
     /**
      * 
      * @type {File}
@@ -1264,6 +1819,12 @@ export interface CreateClinicDto {
      * @memberof CreateClinicDto
      */
     'adminClinic'?: Array<string>;
+    /**
+     * 
+     * @type {Array<CreateWorkScheduleDto>}
+     * @memberof CreateClinicDto
+     */
+    'workSchedules': Array<CreateWorkScheduleDto>;
 }
 /**
  * 
@@ -1644,6 +2205,62 @@ export interface CreateMedicineDto {
 /**
  * 
  * @export
+ * @interface CreatePrescriptionDto
+ */
+export interface CreatePrescriptionDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrescriptionDto
+     */
+    'bookingId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrescriptionDto
+     */
+    'diagnosticResults'?: string;
+    /**
+     * 
+     * @type {Array<CreatePrescriptionMedicineDto>}
+     * @memberof CreatePrescriptionDto
+     */
+    'prescriptionMedicine'?: Array<CreatePrescriptionMedicineDto>;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePrescriptionMedicineDto
+ */
+export interface CreatePrescriptionMedicineDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrescriptionMedicineDto
+     */
+    'prescriptionId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrescriptionMedicineDto
+     */
+    'medicineId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePrescriptionMedicineDto
+     */
+    'quantity': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrescriptionMedicineDto
+     */
+    'guide'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateRoleDto
  */
 export interface CreateRoleDto {
@@ -1672,6 +2289,55 @@ export interface CreateUserRoleDto {
      * @memberof CreateUserRoleDto
      */
     'id': string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateWorkScheduleDto
+ */
+export interface CreateWorkScheduleDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateWorkScheduleDto
+     */
+    'day': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateWorkScheduleDto
+     */
+    'status'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateWorkScheduleDto
+     */
+    'amFrom': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateWorkScheduleDto
+     */
+    'amTo': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateWorkScheduleDto
+     */
+    'pmFrom': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateWorkScheduleDto
+     */
+    'pmTo': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateWorkScheduleDto
+     */
+    'clinicId'?: string;
 }
 /**
  * 
@@ -1781,6 +2447,12 @@ export interface Customer {
      * @memberof Customer
      */
     'avatar'?: Asset;
+    /**
+     * 
+     * @type {Array<Booking>}
+     * @memberof Customer
+     */
+    'bookings': Array<Booking>;
     /**
      * 
      * @type {string}
@@ -2035,6 +2707,12 @@ export interface DoctorClinic {
     'categories': Array<Category>;
     /**
      * 
+     * @type {Booking}
+     * @memberof DoctorClinic
+     */
+    'bookings'?: Booking;
+    /**
+     * 
      * @type {string}
      * @memberof DoctorClinic
      */
@@ -2129,6 +2807,47 @@ export interface DoctorClinicControllerGetAll200ResponseAllOf {
      */
     'content'?: Array<DoctorClinic>;
 }
+/**
+ * 
+ * @export
+ * @interface DoctorClinicUpdateBookingDto
+ */
+export interface DoctorClinicUpdateBookingDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DoctorClinicUpdateBookingDto
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DoctorClinicUpdateBookingDto
+     */
+    'clinicId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DoctorClinicUpdateBookingDto
+     */
+    'status': DoctorClinicUpdateBookingDtoStatusEnum;
+    /**
+     * 
+     * @type {UpdatePrescriptionDto}
+     * @memberof DoctorClinicUpdateBookingDto
+     */
+    'prescription': UpdatePrescriptionDto;
+}
+
+export const DoctorClinicUpdateBookingDtoStatusEnum = {
+    Completed: 'completed',
+    Pending: 'pending',
+    Cancelled: 'cancelled',
+    Approved: 'approved'
+} as const;
+
+export type DoctorClinicUpdateBookingDtoStatusEnum = typeof DoctorClinicUpdateBookingDtoStatusEnum[keyof typeof DoctorClinicUpdateBookingDtoStatusEnum];
+
 /**
  * 
  * @export
@@ -2435,6 +3154,12 @@ export interface ForgotPasswordDto {
      * @memberof ForgotPasswordDto
      */
     'confirmPass': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgotPasswordDto
+     */
+    'otp': string;
 }
 
 export const ForgotPasswordDtoTypeEnum = {
@@ -2447,6 +3172,67 @@ export const ForgotPasswordDtoTypeEnum = {
 
 export type ForgotPasswordDtoTypeEnum = typeof ForgotPasswordDtoTypeEnum[keyof typeof ForgotPasswordDtoTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface HolidaySchedule
+ */
+export interface HolidaySchedule {
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
+    'date': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
+    'clinicId'?: string;
+    /**
+     * 
+     * @type {Clinic}
+     * @memberof HolidaySchedule
+     */
+    'clinic': Clinic;
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
+    'deletedAt': string;
+}
 /**
  * 
  * @export
@@ -2527,6 +3313,12 @@ export interface Medicine {
      * @memberof Medicine
      */
     'clinic': Clinic;
+    /**
+     * 
+     * @type {Array<PrescriptionMedicine>}
+     * @memberof Medicine
+     */
+    'prescriptionMedicine'?: Array<PrescriptionMedicine>;
     /**
      * 
      * @type {string}
@@ -2742,6 +3534,152 @@ export interface PermissionGroupDto {
      * @memberof PermissionGroupDto
      */
     'permissions': Array<PermissionDefinitionConfig>;
+}
+/**
+ * 
+ * @export
+ * @interface Prescription
+ */
+export interface Prescription {
+    /**
+     * 
+     * @type {string}
+     * @memberof Prescription
+     */
+    'bookingId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Prescription
+     */
+    'diagnosticResults'?: string;
+    /**
+     * 
+     * @type {Array<PrescriptionMedicine>}
+     * @memberof Prescription
+     */
+    'prescriptionMedicine'?: Array<PrescriptionMedicine>;
+    /**
+     * 
+     * @type {Booking}
+     * @memberof Prescription
+     */
+    'booking': Booking;
+    /**
+     * 
+     * @type {string}
+     * @memberof Prescription
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Prescription
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Prescription
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Prescription
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Prescription
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Prescription
+     */
+    'deletedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface PrescriptionMedicine
+ */
+export interface PrescriptionMedicine {
+    /**
+     * 
+     * @type {object}
+     * @memberof PrescriptionMedicine
+     */
+    'prescriptionId': object;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrescriptionMedicine
+     */
+    'medicineId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PrescriptionMedicine
+     */
+    'quantity': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrescriptionMedicine
+     */
+    'guide'?: string;
+    /**
+     * 
+     * @type {Prescription}
+     * @memberof PrescriptionMedicine
+     */
+    'prescription': Prescription;
+    /**
+     * 
+     * @type {Medicine}
+     * @memberof PrescriptionMedicine
+     */
+    'medicine': Medicine;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrescriptionMedicine
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrescriptionMedicine
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrescriptionMedicine
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrescriptionMedicine
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrescriptionMedicine
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrescriptionMedicine
+     */
+    'deletedAt': string;
 }
 /**
  * 
@@ -3176,13 +4114,19 @@ export interface UpdateClinicDto {
      * @type {string}
      * @memberof UpdateClinicDto
      */
-    'detailAddress'?: string;
+    'address'?: string;
     /**
      * 
      * @type {File}
      * @memberof UpdateClinicDto
      */
     'backgound'?: File;
+    /**
+     * 
+     * @type {Array<CreateWorkScheduleDto>}
+     * @memberof UpdateClinicDto
+     */
+    'workSchedules'?: Array<CreateWorkScheduleDto>;
     /**
      * 
      * @type {string}
@@ -3244,6 +4188,12 @@ export interface UpdateClinicForAdminClinic {
      * @memberof UpdateClinicForAdminClinic
      */
     'categoryIds': Array<string>;
+    /**
+     * 
+     * @type {Array<CreateWorkScheduleDto>}
+     * @memberof UpdateClinicForAdminClinic
+     */
+    'workSchedules': Array<CreateWorkScheduleDto>;
 }
 /**
  * 
@@ -3683,6 +4633,74 @@ export type UpdatePasswordDtoTypeEnum = typeof UpdatePasswordDtoTypeEnum[keyof t
 /**
  * 
  * @export
+ * @interface UpdatePrescriptionDto
+ */
+export interface UpdatePrescriptionDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePrescriptionDto
+     */
+    'bookingId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePrescriptionDto
+     */
+    'diagnosticResults'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePrescriptionDto
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {Array<UpdatePrescriptionMedicineDto>}
+     * @memberof UpdatePrescriptionDto
+     */
+    'prescriptionMedicine'?: Array<UpdatePrescriptionMedicineDto>;
+}
+/**
+ * 
+ * @export
+ * @interface UpdatePrescriptionMedicineDto
+ */
+export interface UpdatePrescriptionMedicineDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePrescriptionMedicineDto
+     */
+    'prescriptionId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePrescriptionMedicineDto
+     */
+    'medicineId'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdatePrescriptionMedicineDto
+     */
+    'quantity'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePrescriptionMedicineDto
+     */
+    'guide'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePrescriptionMedicineDto
+     */
+    'id'?: string;
+}
+/**
+ * 
+ * @export
  * @interface UpdateRoleDto
  */
 export interface UpdateRoleDto {
@@ -3802,6 +4820,97 @@ export interface VerifyTokenDto {
      * @memberof VerifyTokenDto
      */
     'token': string;
+}
+/**
+ * 
+ * @export
+ * @interface WorkSchedule
+ */
+export interface WorkSchedule {
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkSchedule
+     */
+    'day': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof WorkSchedule
+     */
+    'status': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'amFrom': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'amTo': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'pmFrom': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'pmTo': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'clinicId'?: string;
+    /**
+     * 
+     * @type {Clinic}
+     * @memberof WorkSchedule
+     */
+    'clinic': Clinic;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkSchedule
+     */
+    'deletedAt': string;
 }
 
 /**
@@ -4204,6 +5313,1166 @@ export class AdminApi extends BaseAPI {
      */
     public administratorControllerUpdate(updateAdminDto: UpdateAdminDto, options?: AxiosRequestConfig) {
         return AdminApiFp(this.configuration).administratorControllerUpdate(updateAdminDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * AdminBookingApi - axios parameter creator
+ * @export
+ */
+export const AdminBookingApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {AdminCreateBookingDto} adminCreateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerCreate: async (adminCreateBookingDto: AdminCreateBookingDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'adminCreateBookingDto' is not null or undefined
+            assertParamExists('adminBookingControllerCreate', 'adminCreateBookingDto', adminCreateBookingDto)
+            const localVarPath = `/admin-booking/create-booking`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(adminCreateBookingDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/admin-booking/get-booking`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerFindOne: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminBookingControllerFindOne', 'id', id)
+            const localVarPath = `/admin-booking/get-booking/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {string} [clinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerGetBookingByDay: async (date: string, customerName?: string, clinicId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('adminBookingControllerGetBookingByDay', 'date', date)
+            const localVarPath = `/admin-booking/get-booking-by-day`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (customerName !== undefined) {
+                localVarQueryParameter['customerName'] = customerName;
+            }
+
+            if (clinicId !== undefined) {
+                localVarQueryParameter['clinicId'] = clinicId;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {string} [clinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerGetBookingByMonth: async (date: string, customerName?: string, clinicId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('adminBookingControllerGetBookingByMonth', 'date', date)
+            const localVarPath = `/admin-booking/get-booking-by-month`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (customerName !== undefined) {
+                localVarQueryParameter['customerName'] = customerName;
+            }
+
+            if (clinicId !== undefined) {
+                localVarQueryParameter['clinicId'] = clinicId;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminBookingControllerRemove', 'id', id)
+            const localVarPath = `/admin-booking/delete-booking/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AdminUpdateBookingDto} adminUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerUpdate: async (id: string, adminUpdateBookingDto: AdminUpdateBookingDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminBookingControllerUpdate', 'id', id)
+            // verify required parameter 'adminUpdateBookingDto' is not null or undefined
+            assertParamExists('adminBookingControllerUpdate', 'adminUpdateBookingDto', adminUpdateBookingDto)
+            const localVarPath = `/admin-booking/update-booking/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(adminUpdateBookingDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AdminBookingApi - functional programming interface
+ * @export
+ */
+export const AdminBookingApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AdminBookingApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {AdminCreateBookingDto} adminCreateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminBookingControllerCreate(adminCreateBookingDto: AdminCreateBookingDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminBookingControllerCreate(adminCreateBookingDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminBookingControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Booking>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminBookingControllerFindAll(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminBookingControllerFindOne(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminBookingControllerFindOne(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {string} [clinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminBookingControllerGetBookingByDay(date: string, customerName?: string, clinicId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Booking>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminBookingControllerGetBookingByDay(date, customerName, clinicId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {string} [clinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminBookingControllerGetBookingByMonth(date: string, customerName?: string, clinicId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BookingByMonthDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminBookingControllerGetBookingByMonth(date, customerName, clinicId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminBookingControllerRemove(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminBookingControllerRemove(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AdminUpdateBookingDto} adminUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminBookingControllerUpdate(id: string, adminUpdateBookingDto: AdminUpdateBookingDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminBookingControllerUpdate(id, adminUpdateBookingDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * AdminBookingApi - factory interface
+ * @export
+ */
+export const AdminBookingApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AdminBookingApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {AdminCreateBookingDto} adminCreateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerCreate(adminCreateBookingDto: AdminCreateBookingDto, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminBookingControllerCreate(adminCreateBookingDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerFindAll(options?: any): AxiosPromise<Array<Booking>> {
+            return localVarFp.adminBookingControllerFindAll(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerFindOne(id: string, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminBookingControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {string} [clinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerGetBookingByDay(date: string, customerName?: string, clinicId?: string, options?: any): AxiosPromise<Array<Booking>> {
+            return localVarFp.adminBookingControllerGetBookingByDay(date, customerName, clinicId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {string} [clinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerGetBookingByMonth(date: string, customerName?: string, clinicId?: string, options?: any): AxiosPromise<Array<BookingByMonthDto>> {
+            return localVarFp.adminBookingControllerGetBookingByMonth(date, customerName, clinicId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerRemove(id: string, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminBookingControllerRemove(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AdminUpdateBookingDto} adminUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerUpdate(id: string, adminUpdateBookingDto: AdminUpdateBookingDto, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminBookingControllerUpdate(id, adminUpdateBookingDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AdminBookingApi - object-oriented interface
+ * @export
+ * @class AdminBookingApi
+ * @extends {BaseAPI}
+ */
+export class AdminBookingApi extends BaseAPI {
+    /**
+     * 
+     * @param {AdminCreateBookingDto} adminCreateBookingDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminBookingApi
+     */
+    public adminBookingControllerCreate(adminCreateBookingDto: AdminCreateBookingDto, options?: AxiosRequestConfig) {
+        return AdminBookingApiFp(this.configuration).adminBookingControllerCreate(adminCreateBookingDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminBookingApi
+     */
+    public adminBookingControllerFindAll(options?: AxiosRequestConfig) {
+        return AdminBookingApiFp(this.configuration).adminBookingControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminBookingApi
+     */
+    public adminBookingControllerFindOne(id: string, options?: AxiosRequestConfig) {
+        return AdminBookingApiFp(this.configuration).adminBookingControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [customerName] 
+     * @param {string} [clinicId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminBookingApi
+     */
+    public adminBookingControllerGetBookingByDay(date: string, customerName?: string, clinicId?: string, options?: AxiosRequestConfig) {
+        return AdminBookingApiFp(this.configuration).adminBookingControllerGetBookingByDay(date, customerName, clinicId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [customerName] 
+     * @param {string} [clinicId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminBookingApi
+     */
+    public adminBookingControllerGetBookingByMonth(date: string, customerName?: string, clinicId?: string, options?: AxiosRequestConfig) {
+        return AdminBookingApiFp(this.configuration).adminBookingControllerGetBookingByMonth(date, customerName, clinicId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminBookingApi
+     */
+    public adminBookingControllerRemove(id: string, options?: AxiosRequestConfig) {
+        return AdminBookingApiFp(this.configuration).adminBookingControllerRemove(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {AdminUpdateBookingDto} adminUpdateBookingDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminBookingApi
+     */
+    public adminBookingControllerUpdate(id: string, adminUpdateBookingDto: AdminUpdateBookingDto, options?: AxiosRequestConfig) {
+        return AdminBookingApiFp(this.configuration).adminBookingControllerUpdate(id, adminUpdateBookingDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * AdminClinicBookingApi - axios parameter creator
+ * @export
+ */
+export const AdminClinicBookingApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {AdminClinicCreateBookingDto} adminClinicCreateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerCreate: async (adminClinicCreateBookingDto: AdminClinicCreateBookingDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'adminClinicCreateBookingDto' is not null or undefined
+            assertParamExists('adminClinicBookingControllerCreate', 'adminClinicCreateBookingDto', adminClinicCreateBookingDto)
+            const localVarPath = `/admin-clinic-booking`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(adminClinicCreateBookingDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/admin-clinic-booking`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerFindOne: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminClinicBookingControllerFindOne', 'id', id)
+            const localVarPath = `/admin-clinic-booking/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerGetBookingByDay: async (date: string, customerName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('adminClinicBookingControllerGetBookingByDay', 'date', date)
+            const localVarPath = `/admin-clinic-booking/get-booking-by-day`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (customerName !== undefined) {
+                localVarQueryParameter['customerName'] = customerName;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerGetBookingByMonth: async (date: string, customerName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('adminClinicBookingControllerGetBookingByMonth', 'date', date)
+            const localVarPath = `/admin-clinic-booking/get-booking-by-month`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (customerName !== undefined) {
+                localVarQueryParameter['customerName'] = customerName;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerGetBookingByWeek: async (date: string, customerName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('adminClinicBookingControllerGetBookingByWeek', 'date', date)
+            const localVarPath = `/admin-clinic-booking/get-booking-by-week`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (customerName !== undefined) {
+                localVarQueryParameter['customerName'] = customerName;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminClinicBookingControllerRemove', 'id', id)
+            const localVarPath = `/admin-clinic-booking/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AdminClinicUpdateBookingDto} adminClinicUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerUpdate: async (id: string, adminClinicUpdateBookingDto: AdminClinicUpdateBookingDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminClinicBookingControllerUpdate', 'id', id)
+            // verify required parameter 'adminClinicUpdateBookingDto' is not null or undefined
+            assertParamExists('adminClinicBookingControllerUpdate', 'adminClinicUpdateBookingDto', adminClinicUpdateBookingDto)
+            const localVarPath = `/admin-clinic-booking/update-booking/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(adminClinicUpdateBookingDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AdminClinicBookingApi - functional programming interface
+ * @export
+ */
+export const AdminClinicBookingApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AdminClinicBookingApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {AdminClinicCreateBookingDto} adminClinicCreateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerCreate(adminClinicCreateBookingDto: AdminClinicCreateBookingDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerCreate(adminClinicCreateBookingDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Booking>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerFindAll(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerFindOne(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerFindOne(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerGetBookingByDay(date: string, customerName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Booking>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerGetBookingByDay(date, customerName, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerGetBookingByMonth(date: string, customerName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BookingByMonthDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerGetBookingByMonth(date, customerName, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerGetBookingByWeek(date: string, customerName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Booking>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerGetBookingByWeek(date, customerName, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerRemove(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerRemove(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AdminClinicUpdateBookingDto} adminClinicUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerUpdate(id: string, adminClinicUpdateBookingDto: AdminClinicUpdateBookingDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerUpdate(id, adminClinicUpdateBookingDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * AdminClinicBookingApi - factory interface
+ * @export
+ */
+export const AdminClinicBookingApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AdminClinicBookingApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {AdminClinicCreateBookingDto} adminClinicCreateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerCreate(adminClinicCreateBookingDto: AdminClinicCreateBookingDto, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminClinicBookingControllerCreate(adminClinicCreateBookingDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerFindAll(options?: any): AxiosPromise<Array<Booking>> {
+            return localVarFp.adminClinicBookingControllerFindAll(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerFindOne(id: string, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminClinicBookingControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerGetBookingByDay(date: string, customerName?: string, options?: any): AxiosPromise<Array<Booking>> {
+            return localVarFp.adminClinicBookingControllerGetBookingByDay(date, customerName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerGetBookingByMonth(date: string, customerName?: string, options?: any): AxiosPromise<Array<BookingByMonthDto>> {
+            return localVarFp.adminClinicBookingControllerGetBookingByMonth(date, customerName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerGetBookingByWeek(date: string, customerName?: string, options?: any): AxiosPromise<Array<Booking>> {
+            return localVarFp.adminClinicBookingControllerGetBookingByWeek(date, customerName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerRemove(id: string, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminClinicBookingControllerRemove(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AdminClinicUpdateBookingDto} adminClinicUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerUpdate(id: string, adminClinicUpdateBookingDto: AdminClinicUpdateBookingDto, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminClinicBookingControllerUpdate(id, adminClinicUpdateBookingDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AdminClinicBookingApi - object-oriented interface
+ * @export
+ * @class AdminClinicBookingApi
+ * @extends {BaseAPI}
+ */
+export class AdminClinicBookingApi extends BaseAPI {
+    /**
+     * 
+     * @param {AdminClinicCreateBookingDto} adminClinicCreateBookingDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerCreate(adminClinicCreateBookingDto: AdminClinicCreateBookingDto, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerCreate(adminClinicCreateBookingDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerFindAll(options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerFindOne(id: string, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [customerName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerGetBookingByDay(date: string, customerName?: string, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerGetBookingByDay(date, customerName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [customerName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerGetBookingByMonth(date: string, customerName?: string, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerGetBookingByMonth(date, customerName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [customerName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerGetBookingByWeek(date: string, customerName?: string, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerGetBookingByWeek(date, customerName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerRemove(id: string, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerRemove(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {AdminClinicUpdateBookingDto} adminClinicUpdateBookingDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerUpdate(id: string, adminClinicUpdateBookingDto: AdminClinicUpdateBookingDto, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerUpdate(id, adminClinicUpdateBookingDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -6167,6 +8436,45 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @param {FindUserByIdentifierDto} findUserByIdentifierDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerSendOTPForgotPassword: async (findUserByIdentifierDto: FindUserByIdentifierDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findUserByIdentifierDto' is not null or undefined
+            assertParamExists('authControllerSendOTPForgotPassword', 'findUserByIdentifierDto', findUserByIdentifierDto)
+            const localVarPath = `/auth/send-otp-forgot-password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findUserByIdentifierDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {UpdatePasswordDto} updatePasswordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6300,7 +8608,7 @@ export const AuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authControllerCheckIdentierForgotPass(findUserByIdentifierDto: FindUserByIdentifierDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async authControllerCheckIdentierForgotPass(findUserByIdentifierDto: FindUserByIdentifierDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerCheckIdentierForgotPass(findUserByIdentifierDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -6387,6 +8695,16 @@ export const AuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {FindUserByIdentifierDto} findUserByIdentifierDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authControllerSendOTPForgotPassword(findUserByIdentifierDto: FindUserByIdentifierDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerSendOTPForgotPassword(findUserByIdentifierDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {UpdatePasswordDto} updatePasswordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6458,7 +8776,7 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authControllerCheckIdentierForgotPass(findUserByIdentifierDto: FindUserByIdentifierDto, options?: any): AxiosPromise<object> {
+        authControllerCheckIdentierForgotPass(findUserByIdentifierDto: FindUserByIdentifierDto, options?: any): AxiosPromise<void> {
             return localVarFp.authControllerCheckIdentierForgotPass(findUserByIdentifierDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -6533,6 +8851,15 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
          */
         authControllerRegisterCustomerAccount(registerCustomerDto: RegisterCustomerDto, options?: any): AxiosPromise<void> {
             return localVarFp.authControllerRegisterCustomerAccount(registerCustomerDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {FindUserByIdentifierDto} findUserByIdentifierDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerSendOTPForgotPassword(findUserByIdentifierDto: FindUserByIdentifierDto, options?: any): AxiosPromise<void> {
+            return localVarFp.authControllerSendOTPForgotPassword(findUserByIdentifierDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6705,6 +9032,17 @@ export class AuthApi extends BaseAPI {
      */
     public authControllerRegisterCustomerAccount(registerCustomerDto: RegisterCustomerDto, options?: AxiosRequestConfig) {
         return AuthApiFp(this.configuration).authControllerRegisterCustomerAccount(registerCustomerDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {FindUserByIdentifierDto} findUserByIdentifierDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public authControllerSendOTPForgotPassword(findUserByIdentifierDto: FindUserByIdentifierDto, options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authControllerSendOTPForgotPassword(findUserByIdentifierDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9384,6 +11722,481 @@ export class DoctorClinicApi extends BaseAPI {
      */
     public doctorClinicControllerUpdate(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig) {
         return DoctorClinicApiFp(this.configuration).doctorClinicControllerUpdate(updateDoctorClinicDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * DoctorClinicBookingApi - axios parameter creator
+ * @export
+ */
+export const DoctorClinicBookingApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/doctor-clinic-booking`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerFindOne: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('doctorClinicBookingControllerFindOne', 'id', id)
+            const localVarPath = `/doctor-clinic-booking/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerGetBookingByDay: async (date: string, customerName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('doctorClinicBookingControllerGetBookingByDay', 'date', date)
+            const localVarPath = `/doctor-clinic-booking/get-booking-by-day`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (customerName !== undefined) {
+                localVarQueryParameter['customerName'] = customerName;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerGetBookingByMonth: async (date: string, customerName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('doctorClinicBookingControllerGetBookingByMonth', 'date', date)
+            const localVarPath = `/doctor-clinic-booking/get-booking-by-month`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (customerName !== undefined) {
+                localVarQueryParameter['customerName'] = customerName;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerGetBookingByWeek: async (date: string, customerName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('doctorClinicBookingControllerGetBookingByWeek', 'date', date)
+            const localVarPath = `/doctor-clinic-booking/get-booking-by-week`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (customerName !== undefined) {
+                localVarQueryParameter['customerName'] = customerName;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {DoctorClinicUpdateBookingDto} doctorClinicUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerUpdate: async (id: string, doctorClinicUpdateBookingDto: DoctorClinicUpdateBookingDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('doctorClinicBookingControllerUpdate', 'id', id)
+            // verify required parameter 'doctorClinicUpdateBookingDto' is not null or undefined
+            assertParamExists('doctorClinicBookingControllerUpdate', 'doctorClinicUpdateBookingDto', doctorClinicUpdateBookingDto)
+            const localVarPath = `/doctor-clinic-booking/update-booking/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(doctorClinicUpdateBookingDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DoctorClinicBookingApi - functional programming interface
+ * @export
+ */
+export const DoctorClinicBookingApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DoctorClinicBookingApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorClinicBookingControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Booking>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicBookingControllerFindAll(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorClinicBookingControllerFindOne(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicBookingControllerFindOne(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorClinicBookingControllerGetBookingByDay(date: string, customerName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Booking>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicBookingControllerGetBookingByDay(date, customerName, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorClinicBookingControllerGetBookingByMonth(date: string, customerName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BookingByMonthDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicBookingControllerGetBookingByMonth(date, customerName, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorClinicBookingControllerGetBookingByWeek(date: string, customerName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Booking>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicBookingControllerGetBookingByWeek(date, customerName, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {DoctorClinicUpdateBookingDto} doctorClinicUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorClinicBookingControllerUpdate(id: string, doctorClinicUpdateBookingDto: DoctorClinicUpdateBookingDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicBookingControllerUpdate(id, doctorClinicUpdateBookingDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DoctorClinicBookingApi - factory interface
+ * @export
+ */
+export const DoctorClinicBookingApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DoctorClinicBookingApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerFindAll(options?: any): AxiosPromise<Array<Booking>> {
+            return localVarFp.doctorClinicBookingControllerFindAll(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerFindOne(id: string, options?: any): AxiosPromise<Booking> {
+            return localVarFp.doctorClinicBookingControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerGetBookingByDay(date: string, customerName?: string, options?: any): AxiosPromise<Array<Booking>> {
+            return localVarFp.doctorClinicBookingControllerGetBookingByDay(date, customerName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerGetBookingByMonth(date: string, customerName?: string, options?: any): AxiosPromise<Array<BookingByMonthDto>> {
+            return localVarFp.doctorClinicBookingControllerGetBookingByMonth(date, customerName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [customerName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerGetBookingByWeek(date: string, customerName?: string, options?: any): AxiosPromise<Array<Booking>> {
+            return localVarFp.doctorClinicBookingControllerGetBookingByWeek(date, customerName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {DoctorClinicUpdateBookingDto} doctorClinicUpdateBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicBookingControllerUpdate(id: string, doctorClinicUpdateBookingDto: DoctorClinicUpdateBookingDto, options?: any): AxiosPromise<Booking> {
+            return localVarFp.doctorClinicBookingControllerUpdate(id, doctorClinicUpdateBookingDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DoctorClinicBookingApi - object-oriented interface
+ * @export
+ * @class DoctorClinicBookingApi
+ * @extends {BaseAPI}
+ */
+export class DoctorClinicBookingApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorClinicBookingApi
+     */
+    public doctorClinicBookingControllerFindAll(options?: AxiosRequestConfig) {
+        return DoctorClinicBookingApiFp(this.configuration).doctorClinicBookingControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorClinicBookingApi
+     */
+    public doctorClinicBookingControllerFindOne(id: string, options?: AxiosRequestConfig) {
+        return DoctorClinicBookingApiFp(this.configuration).doctorClinicBookingControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [customerName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorClinicBookingApi
+     */
+    public doctorClinicBookingControllerGetBookingByDay(date: string, customerName?: string, options?: AxiosRequestConfig) {
+        return DoctorClinicBookingApiFp(this.configuration).doctorClinicBookingControllerGetBookingByDay(date, customerName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [customerName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorClinicBookingApi
+     */
+    public doctorClinicBookingControllerGetBookingByMonth(date: string, customerName?: string, options?: AxiosRequestConfig) {
+        return DoctorClinicBookingApiFp(this.configuration).doctorClinicBookingControllerGetBookingByMonth(date, customerName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [customerName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorClinicBookingApi
+     */
+    public doctorClinicBookingControllerGetBookingByWeek(date: string, customerName?: string, options?: AxiosRequestConfig) {
+        return DoctorClinicBookingApiFp(this.configuration).doctorClinicBookingControllerGetBookingByWeek(date, customerName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {DoctorClinicUpdateBookingDto} doctorClinicUpdateBookingDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorClinicBookingApi
+     */
+    public doctorClinicBookingControllerUpdate(id: string, doctorClinicUpdateBookingDto: DoctorClinicUpdateBookingDto, options?: AxiosRequestConfig) {
+        return DoctorClinicBookingApiFp(this.configuration).doctorClinicBookingControllerUpdate(id, doctorClinicUpdateBookingDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
