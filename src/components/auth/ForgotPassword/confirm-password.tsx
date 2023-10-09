@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { authApi } from '../../../apis';
 import { FindUserByIdentifierDto, UpdatePasswordDto } from '../../../apis/client-axios';
-import ConfirmCode from './confirmCode';
+import ConfirmCode from './confirm-code';
 
 const ConfirmPassword = ({ data, userType }: any) => {
   const n = (key: keyof UpdatePasswordDto) => {
