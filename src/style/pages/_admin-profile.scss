@@ -34,6 +34,8 @@
       &__content {
         margin-top: 20px;
         display: flex;
+        justify-content: space-between;
+        gap: 25px;
 
         &__avatar {
           margin-left: 15px;
@@ -47,9 +49,10 @@
             align-items: center;
             background-color: $table_header_color;
             border-radius: 50%;
-            width: 214px;
-            height: 214px;
             border: 1px solid $primary_color;
+            height: 100%;
+            aspect-ratio: 1;
+            max-width: 214px;
 
             overflow: hidden;
 
@@ -61,7 +64,7 @@
           &__camera {
             position: absolute;
             bottom: 0;
-            left: 150px;
+            left: 68%;
             width: 56px;
             height: 56px;
             background-color: $text_white;

@@ -83,7 +83,7 @@ const SidebarContent = (props: ISideBarContentProp) => {
     <>
       <SidebarLogo />
       <Menu
-        style={{ height: 'calc(100% - 64px)', width: 355 }}
+        style={{ height: 'calc(84.4% - 64px)', width: 355 }}
         onClick={onClick}
         // theme="dark"
         selectedKeys={[current || '']}

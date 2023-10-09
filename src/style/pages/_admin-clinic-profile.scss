@@ -65,9 +65,10 @@
             align-items: center;
             background-color: $table_header_color;
             border-radius: 50%;
-            width: 214px;
-            height: 214px;
             border: 1px solid $primary_color;
+            height: 100%;
+            aspect-ratio: 1;
+            max-width: 214px;
 
             overflow: hidden;
 
@@ -79,7 +80,7 @@
           &__camera {
             position: absolute;
             bottom: 0;
-            left: 150px;
+            left: 68%;
             width: 56px;
             height: 56px;
             background-color: $text_white;
@@ -169,6 +170,26 @@
           border: unset;
           box-shadow: unset;
           color: unset;
+        }
+      }
+    }
+
+    .ant-form-item {
+      margin-bottom: 10px;
+
+      .ant-form-item-row {
+        flex-direction: column;
+      }
+
+      .ant-form-item-label {
+        text-align: start;
+        padding: unset;
+
+        label {
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 22px;
+          color: $text_black_light;
         }
       }
     }
