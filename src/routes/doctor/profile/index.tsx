@@ -60,7 +60,7 @@ const DoctorProfile = () => {
 
   const { mutate: updateDoctorProfile, status: statusUpdateDoctorProfile } = useMutation(
     (updateDoctorClinicDto: UpdateDoctorClinicDto) =>
-      doctorClinicApi.doctorClinicControllerUpdate(updateDoctorClinicDto),
+      doctorClinicApi.doctorClinicControllerUpdateDoctorClinicForMe(updateDoctorClinicDto),
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['doctorProfile']);
