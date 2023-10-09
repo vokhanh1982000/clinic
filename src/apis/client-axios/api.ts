@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * iHealth
+ * PROJECT_NAME
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -1846,10 +1846,10 @@ export interface CreateClinicDto {
     'adminClinic'?: Array<string>;
     /**
      * 
-     * @type {Array<CreateWorkScheduleDto>}
+     * @type {Array<string>}
      * @memberof CreateClinicDto
      */
-    'workSchedules': Array<CreateWorkScheduleDto>;
+    'categoryIds': Array<string>;
 }
 /**
  * 
@@ -4148,22 +4148,16 @@ export interface UpdateClinicDto {
     'backgound'?: File;
     /**
      * 
-     * @type {Array<CreateWorkScheduleDto>}
+     * @type {Array<string>}
      * @memberof UpdateClinicDto
      */
-    'workSchedules'?: Array<CreateWorkScheduleDto>;
+    'categoryIds'?: Array<string>;
     /**
      * 
      * @type {string}
      * @memberof UpdateClinicDto
      */
     'id': string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UpdateClinicDto
-     */
-    'categoryIds': Array<string>;
 }
 /**
  * 
@@ -7405,7 +7399,7 @@ export const AdministratorClinicApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async administratorClinicControllerUpdateClinic(updateAdminClinicDto: UpdateAdminClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async administratorClinicControllerUpdateClinic(updateAdminClinicDto: UpdateAdminClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerUpdateClinic(updateAdminClinicDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -7415,7 +7409,7 @@ export const AdministratorClinicApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async administratorClinicControllerUpdateMe(updateAdminClinicDto: UpdateAdminClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async administratorClinicControllerUpdateMe(updateAdminClinicDto: UpdateAdminClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.administratorClinicControllerUpdateMe(updateAdminClinicDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -7504,7 +7498,7 @@ export const AdministratorClinicApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        administratorClinicControllerUpdateClinic(updateAdminClinicDto: UpdateAdminClinicDto, options?: any): AxiosPromise<object> {
+        administratorClinicControllerUpdateClinic(updateAdminClinicDto: UpdateAdminClinicDto, options?: any): AxiosPromise<void> {
             return localVarFp.administratorClinicControllerUpdateClinic(updateAdminClinicDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -7513,7 +7507,7 @@ export const AdministratorClinicApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        administratorClinicControllerUpdateMe(updateAdminClinicDto: UpdateAdminClinicDto, options?: any): AxiosPromise<object> {
+        administratorClinicControllerUpdateMe(updateAdminClinicDto: UpdateAdminClinicDto, options?: any): AxiosPromise<void> {
             return localVarFp.administratorClinicControllerUpdateMe(updateAdminClinicDto, options).then((request) => request(axios, basePath));
         },
     };
@@ -10350,7 +10344,7 @@ export const ClinicsApiAxiosParamCreator = function (configuration?: Configurati
         clinicControllerUpdateClinic: async (updateClinicDto: UpdateClinicDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateClinicDto' is not null or undefined
             assertParamExists('clinicControllerUpdateClinic', 'updateClinicDto', updateClinicDto)
-            const localVarPath = `/clinics/update-clinic`;
+            const localVarPath = `/clinics/update-clinic-for-supper-admin`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -10551,7 +10545,7 @@ export const ClinicsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async clinicControllerUpdateClinic(updateClinicDto: UpdateClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async clinicControllerUpdateClinic(updateClinicDto: UpdateClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.clinicControllerUpdateClinic(updateClinicDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -10561,7 +10555,7 @@ export const ClinicsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic: UpdateClinicForAdminClinic, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic: UpdateClinicForAdminClinic, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -10666,7 +10660,7 @@ export const ClinicsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clinicControllerUpdateClinic(updateClinicDto: UpdateClinicDto, options?: any): AxiosPromise<object> {
+        clinicControllerUpdateClinic(updateClinicDto: UpdateClinicDto, options?: any): AxiosPromise<void> {
             return localVarFp.clinicControllerUpdateClinic(updateClinicDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -10675,7 +10669,7 @@ export const ClinicsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic: UpdateClinicForAdminClinic, options?: any): AxiosPromise<object> {
+        clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic: UpdateClinicForAdminClinic, options?: any): AxiosPromise<void> {
             return localVarFp.clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic, options).then((request) => request(axios, basePath));
         },
         /**
@@ -11638,10 +11632,88 @@ export const DoctorClinicApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerUpdate: async (updateDoctorClinicDto: UpdateDoctorClinicDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        doctorClinicControllerUpdateDoctorClinicForMe: async (updateDoctorClinicDto: UpdateDoctorClinicDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateDoctorClinicDto' is not null or undefined
-            assertParamExists('doctorClinicControllerUpdate', 'updateDoctorClinicDto', updateDoctorClinicDto)
-            const localVarPath = `/doctor-clinic/update-doctor-clinic/{id}`;
+            assertParamExists('doctorClinicControllerUpdateDoctorClinicForMe', 'updateDoctorClinicDto', updateDoctorClinicDto)
+            const localVarPath = `/doctor-clinic/update-doctor-clinic-for-me`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateDoctorClinicDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {UpdateDoctorClinicDto} updateDoctorClinicDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicControllerUpdateForAdminClinic: async (updateDoctorClinicDto: UpdateDoctorClinicDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateDoctorClinicDto' is not null or undefined
+            assertParamExists('doctorClinicControllerUpdateForAdminClinic', 'updateDoctorClinicDto', updateDoctorClinicDto)
+            const localVarPath = `/doctor-clinic/update-doctor-clinic-for-admin-clinic/{id}`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateDoctorClinicDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {UpdateDoctorClinicDto} updateDoctorClinicDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicControllerUpdateForSupperAdmin: async (updateDoctorClinicDto: UpdateDoctorClinicDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateDoctorClinicDto' is not null or undefined
+            assertParamExists('doctorClinicControllerUpdateForSupperAdmin', 'updateDoctorClinicDto', updateDoctorClinicDto)
+            const localVarPath = `/doctor-clinic/update-doctor-clinic-for-supper-admin/{id}`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -11687,7 +11759,7 @@ export const DoctorClinicApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async doctorClinicControllerCreate(createDoctorClinicDto: CreateDoctorClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async doctorClinicControllerCreate(createDoctorClinicDto: CreateDoctorClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerCreate(createDoctorClinicDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -11736,8 +11808,28 @@ export const DoctorClinicApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async doctorClinicControllerUpdate(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerUpdate(updateDoctorClinicDto, options);
+        async doctorClinicControllerUpdateDoctorClinicForMe(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerUpdateDoctorClinicForMe(updateDoctorClinicDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {UpdateDoctorClinicDto} updateDoctorClinicDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorClinicControllerUpdateForAdminClinic(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerUpdateForAdminClinic(updateDoctorClinicDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {UpdateDoctorClinicDto} updateDoctorClinicDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorClinicControllerUpdateForSupperAdmin(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerUpdateForSupperAdmin(updateDoctorClinicDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -11756,7 +11848,7 @@ export const DoctorClinicApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerCreate(createDoctorClinicDto: CreateDoctorClinicDto, options?: any): AxiosPromise<object> {
+        doctorClinicControllerCreate(createDoctorClinicDto: CreateDoctorClinicDto, options?: any): AxiosPromise<void> {
             return localVarFp.doctorClinicControllerCreate(createDoctorClinicDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -11801,8 +11893,26 @@ export const DoctorClinicApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerUpdate(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: any): AxiosPromise<object> {
-            return localVarFp.doctorClinicControllerUpdate(updateDoctorClinicDto, options).then((request) => request(axios, basePath));
+        doctorClinicControllerUpdateDoctorClinicForMe(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: any): AxiosPromise<void> {
+            return localVarFp.doctorClinicControllerUpdateDoctorClinicForMe(updateDoctorClinicDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UpdateDoctorClinicDto} updateDoctorClinicDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicControllerUpdateForAdminClinic(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: any): AxiosPromise<void> {
+            return localVarFp.doctorClinicControllerUpdateForAdminClinic(updateDoctorClinicDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UpdateDoctorClinicDto} updateDoctorClinicDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorClinicControllerUpdateForSupperAdmin(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: any): AxiosPromise<void> {
+            return localVarFp.doctorClinicControllerUpdateForSupperAdmin(updateDoctorClinicDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -11874,8 +11984,30 @@ export class DoctorClinicApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DoctorClinicApi
      */
-    public doctorClinicControllerUpdate(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig) {
-        return DoctorClinicApiFp(this.configuration).doctorClinicControllerUpdate(updateDoctorClinicDto, options).then((request) => request(this.axios, this.basePath));
+    public doctorClinicControllerUpdateDoctorClinicForMe(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig) {
+        return DoctorClinicApiFp(this.configuration).doctorClinicControllerUpdateDoctorClinicForMe(updateDoctorClinicDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UpdateDoctorClinicDto} updateDoctorClinicDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorClinicApi
+     */
+    public doctorClinicControllerUpdateForAdminClinic(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig) {
+        return DoctorClinicApiFp(this.configuration).doctorClinicControllerUpdateForAdminClinic(updateDoctorClinicDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UpdateDoctorClinicDto} updateDoctorClinicDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorClinicApi
+     */
+    public doctorClinicControllerUpdateForSupperAdmin(updateDoctorClinicDto: UpdateDoctorClinicDto, options?: AxiosRequestConfig) {
+        return DoctorClinicApiFp(this.configuration).doctorClinicControllerUpdateForSupperAdmin(updateDoctorClinicDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

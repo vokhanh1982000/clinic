@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, message } from 'antd';
+import { Card, Modal, message } from 'antd';
 import Column from 'antd/es/table/Column';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { cadastralApi, clinicsApi } from '../../../../apis';
@@ -30,12 +30,14 @@ const ListClinic = () => {
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [locationSelect, setLocationSelect] = useState<optionLocation>();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const [isShowListManager, setIsShowListManager] = useState<string>();
 
   const queryClient = useQueryClient();
 
   const [provinceSelected, setProvinceSelected] = useState<{ id: string; code: string }>();
   const [districtSelected, setDistrictSelected] = useState<{ id: string; code: string }>();
   const [wardSelected, setWardSelected] = useState<{ id: string; code: string }>();
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const { data: listProvince } = useQuery({
     queryKey: ['provinceList'],
@@ -110,6 +112,21 @@ const ListClinic = () => {
     setFullTextSearch(value);
   }, 500);
 
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (wrapperRef.current instanceof HTMLElement && event.target instanceof HTMLElement) {
+        if (!wrapperRef.current.contains(event.target)) {
+          setIsShowListManager(undefined);
+        }
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <Card id="clinic-management">
       <div className="clinic-management__header">
@@ -146,6 +163,7 @@ const ListClinic = () => {
         />
         <CustomSelect
           className="select-province"
+          value={provinceSelected?.id || undefined}
           placeholder={intl.formatMessage({
             id: 'common.province.name',
           })}
@@ -162,6 +180,7 @@ const ListClinic = () => {
         />
         <CustomSelect
           className="select-district"
+          value={districtSelected?.id || undefined}
           placeholder={intl.formatMessage({
             id: 'common.district.name',
           })}
@@ -178,6 +197,7 @@ const ListClinic = () => {
         />
         <CustomSelect
           className="select-ward"
+          value={wardSelected?.id || undefined}
           placeholder={intl.formatMessage({
             id: 'common.ward.name',
           })}
@@ -220,10 +240,39 @@ const ListClinic = () => {
           width={'15%'}
           render={(_, record: any) => {
             if (record.adminClinic && record.adminClinic.length > 0) {
+              const data = record.adminClinic.map((item: any) => item.fullName);
               return (
                 <div className="manager-clinic">
-                  <div>{record.manager}</div>
-                  {record.adminClinic.length > 1 && <IconSVG type="more" />}
+                  <div>{record.adminClinic[0].fullName}</div>
+                  {data.length > 1 && (
+                    <div className="manager-clinic__more">
+                      <span onClick={() => setIsShowListManager(record.id)}>
+                        <IconSVG type="more" />
+                      </span>
+                      {isShowListManager === record.id && (
+                        <div
+                          className="manager-clinic__more__list"
+                          ref={isShowListManager === record.id ? wrapperRef : undefined}
+                        >
+                          <div className="manager-clinic__more__list__title">
+                            <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
+                            <span
+                              onClick={() => {
+                                setIsShowListManager(undefined);
+                              }}
+                            >
+                              <IconSVG type="close" />
+                            </span>
+                          </div>
+                          <div className="manager-clinic__more__list__content">
+                            {data.map((e: any) => {
+                              return <div className="manager-clinic__more__list__content__item">{e}</div>;
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             } else {
@@ -257,14 +306,14 @@ const ListClinic = () => {
         />
         <Column
           title={intl.formatMessage({
-            id: 'clinic.list.table.address',
+            id: 'clinic.list.table.status',
           })}
           dataIndex="status"
           width={'15%'}
           render={(_, record: any) => {
             let status = record.status ? Status.ACTIVE : Status.INACTIVE;
             return (
-              <div className="status-customer">
+              <div className="status-clinic">
                 {status ? (
                   <>
                     <IconSVG type={status} />

@@ -1,6 +1,8 @@
 .ant-custom-select {
+  height: 48px !important;
+
   .ant-select-selector {
-    height: 48px !important;
+    height: 100%;
     border-radius: 36px;
 
     .ant-select-selection-item {
