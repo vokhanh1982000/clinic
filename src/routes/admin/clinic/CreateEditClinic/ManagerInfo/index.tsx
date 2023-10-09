@@ -158,40 +158,43 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
           })}
         </CustomButton>
       </div>
-      <div className={`${adminsClinic.length > 0 && 'manager-info__list'}`}>
-        {adminsClinic.length > 0 &&
-          adminsClinic.map((manager: any, index: number) => {
-            return (
-              <div
-                className={`manager-info__list__item ${
-                  adminsClinic.length > 1 && index < adminsClinic.length - 1 && 'border-manager'
-                }`}
-                key={manager.id}
-                onClick={() => {
-                  form.setFieldsValue({
-                    ...manager,
-                    dateOfBirth: manager.dateOfBirth ? dayjs(manager.dateOfBirth) : null,
-                  });
-                  setIsShowManagerUpdateModal(manager.id);
-                }}
-              >
-                <div className="manager-info__list__item__info">
-                  <div className="manager-info__list__item__info__name">{manager.fullName}</div>
-                  <div className="manager-info__list__item__info__email">{manager.emailAddress}</div>
-                </div>
+      <div className="list-box">
+        <div className={`${adminsClinic.length > 0 && 'manager-info__list'}`}>
+          {adminsClinic.length > 0 &&
+            adminsClinic.map((manager: any, index: number) => {
+              return (
                 <div
-                  className="manager-info__list__item__delete"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsDeleteManager({ id: manager.id, name: manager.fullName || manager.phoneNumber });
+                  className={`manager-info__list__item ${
+                    adminsClinic.length > 1 && index < adminsClinic.length - 1 && 'border-manager'
+                  }`}
+                  key={manager.id}
+                  onClick={() => {
+                    form.setFieldsValue({
+                      ...manager,
+                      dateOfBirth: manager.dateOfBirth ? dayjs(manager.dateOfBirth) : null,
+                    });
+                    setIsShowManagerUpdateModal(manager.id);
                   }}
                 >
-                  <IconSVG type="close" />
+                  <div className="manager-info__list__item__info">
+                    <div className="manager-info__list__item__info__name">{manager.fullName}</div>
+                    <div className="manager-info__list__item__info__email">{manager.emailAddress}</div>
+                  </div>
+                  <div
+                    className="manager-info__list__item__delete"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsDeleteManager({ id: manager.id, name: manager.fullName || manager.phoneNumber });
+                    }}
+                  >
+                    <IconSVG type="close" />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+        </div>
       </div>
+
       {isShowManagerCreateModal && (
         <ManagerModal
           form={form}

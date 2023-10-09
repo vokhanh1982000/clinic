@@ -12,12 +12,14 @@ import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { ClinicInfo } from './ClinicInfo';
 import { DoctorList } from './DoctorList';
 import { ManagerInfo } from './ManagerInfo';
+import { CategoryCheckbox } from '../../../../components/categoryCheckbox';
 
 const CreateClinic = () => {
   const intl = useIntl();
   const { id } = useParams();
   const [form] = Form.useForm<any>();
   const [formManager] = Form.useForm<any>();
+  const [formCategory] = Form.useForm<any>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isDeleteClinic, setIsDeleteClinic] = useState<boolean>(false);
@@ -31,14 +33,17 @@ const CreateClinic = () => {
     {
       onError: (error) => {},
       onSuccess: (response) => {
+        const categoryIds = response.data.categories.map((e) => e.id);
         form.setFieldsValue({
           ...response.data,
           status: response.data.status ? 1 : 0,
         });
+        formCategory.setFieldValue('categoryIds', categoryIds);
         setProvinceId(response.data.provinceId ? response.data.provinceId : undefined);
         setDistrictId(response.data.districtId ? response.data.districtId : undefined);
       },
       enabled: !!id,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -80,6 +85,7 @@ const CreateClinic = () => {
 
   const onFinish = (values: any) => {
     const data = form.getFieldsValue();
+    const categoryIds = formCategory.getFieldsValue();
     if (!id) {
       const dataAdminClinic = adminsClinic.map((item: any) => {
         const { id, ...rest } = item;
@@ -89,6 +95,7 @@ const CreateClinic = () => {
         ...data,
         status: Boolean(Number(data.status)),
         adminClinic: dataAdminClinic,
+        ...categoryIds,
       });
     } else {
       const newObj: any = {};
@@ -101,6 +108,7 @@ const CreateClinic = () => {
         ...newObj,
         status: Boolean(Number(data.status)),
         id: id,
+        ...categoryIds,
       });
     }
   };
@@ -136,7 +144,11 @@ const CreateClinic = () => {
         <div className="container-right">
           <div className="form-create-manager">
             <ManagerInfo form={formManager} adminsClinic={adminsClinic} setAdminsClinic={setAdminsClinic} />
+            <FormWrap form={formCategory} layout="vertical" className="form-category">
+              <CategoryCheckbox form={formCategory} />
+            </FormWrap>
           </div>
+
           <div className="button-action">
             {id ? (
               <div className="more-action">
@@ -179,7 +191,7 @@ const CreateClinic = () => {
         </div>
       </div>
 
-      <DoctorList clinicId={id} />
+      {id && <DoctorList clinicId={id} />}
 
       <ConfirmDeleteModal
         name={dataClinic?.data.fullName || dataClinic?.data.phoneClinic || ''}

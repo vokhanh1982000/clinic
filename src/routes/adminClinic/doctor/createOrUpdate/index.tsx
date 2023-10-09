@@ -68,7 +68,8 @@ const CreateDoctor = () => {
   );
 
   const updateDoctorClinic = useMutation(
-    (updateDoctorClinic: UpdateDoctorClinicDto) => doctorClinicApi.doctorClinicControllerUpdate(updateDoctorClinic),
+    (updateDoctorClinic: UpdateDoctorClinicDto) =>
+      doctorClinicApi.doctorClinicControllerUpdateForAdminClinic(updateDoctorClinic),
     {
       onSuccess: ({ data }) => {
         navigate(-1);
