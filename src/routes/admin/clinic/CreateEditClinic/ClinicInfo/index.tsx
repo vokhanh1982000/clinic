@@ -6,6 +6,7 @@ import CustomSelect from '../../../../../components/select/CustomSelect';
 import { useQuery } from '@tanstack/react-query';
 import { cadastralApi } from '../../../../../apis';
 import { useState } from 'react';
+import { CadastalCustom } from '../../../../../components/Cadastral';
 
 interface ClinicInfoParams {
   form: FormInstance;
@@ -83,7 +84,14 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
             <CustomInput />
           </Form.Item>
         </div>
-        <div className="clinic-info__content__rows">
+        <CadastalCustom
+          form={form}
+          provinceId={provinceId}
+          districtId={districtId}
+          setProvinceId={setProvinceId}
+          setDistrictId={setDistrictId}
+        ></CadastalCustom>
+        {/* <div className="clinic-info__content__rows">
           <Form.Item
             className="province"
             label={intl.formatMessage({
@@ -151,7 +159,7 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
           >
             <CustomInput />
           </Form.Item>
-        </div>
+        </div> */}
 
         <Form.Item
           className="phone"

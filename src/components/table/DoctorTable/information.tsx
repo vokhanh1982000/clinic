@@ -1,4 +1,4 @@
-import { DatePicker, Form, Switch } from 'antd';
+import { DatePicker, Form, FormInstance, Switch } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import IconSVG from '../../icons/icons';
@@ -8,8 +8,14 @@ import { DoctorType, UserGender } from '../../../constants/enum';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Category, CreateCategoryDto, CreateDoctorClinicDto } from '../../../apis/client-axios';
 import { DefaultOptionType } from 'antd/es/select';
+import { CadastalCustom } from '../../Cadastral';
 
 interface DoctorTableProps {
+  form?: FormInstance;
+  provinceId?: string;
+  districtId?: string;
+  setProvinceId: (id: string) => void;
+  setDistrictId: (id: string) => void;
   placeHolder?: string;
   doctorType: DoctorType;
   n: any;
@@ -28,7 +34,7 @@ interface OptionStatus {
 
 const DoctorInfo = (props: DoctorTableProps) => {
   const intl = useIntl();
-  const { placeHolder, doctorType, n, category } = props;
+  const { placeHolder, doctorType, n, category, form, provinceId, districtId, setProvinceId, setDistrictId } = props;
   const navigate = useNavigate();
   const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
   const [statusSelect, setStatusSelect] = useState<OptionStatus>();
@@ -150,6 +156,13 @@ const DoctorInfo = (props: DoctorTableProps) => {
               />
             </Form.Item>
           </div>
+          <CadastalCustom
+            form={form}
+            setProvinceId={setProvinceId}
+            setDistrictId={setDistrictId}
+            districtId={districtId}
+            provinceId={provinceId}
+          ></CadastalCustom>
           <div className="doctor-info__content__info__rows">
             <Form.Item
               className="specialist block"
