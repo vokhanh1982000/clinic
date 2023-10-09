@@ -17,7 +17,7 @@ const ForgotPassComponent = (props: IForgotPassComponent) => {
   const n = (key: keyof FindUserByIdentifierDto) => {
     return key;
   };
-  const regexPhone = useRef(/^(0[1-9][0-9]{8}|0[1-9][0-9]{9}|84[1-9][0-9]{8}|84[1-9][0-9]{9})$/);
+  const regexPhone = useRef(/^0[1-9][0-9]{8}$/);
   const intl = useIntl();
   const [pass, setPass] = useState({ identifier: '', type: '' });
   const navigate = useNavigate();

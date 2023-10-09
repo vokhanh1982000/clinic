@@ -40,7 +40,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
   const [statusSelect, setStatusSelect] = useState<OptionStatus>();
   const [avatar, setAvatar] = useState<string>();
   const id = useParams();
-  const regexPhone = useRef(/^(0[1-9][0-9]{8}|0[1-9][0-9]{9}|84[1-9][0-9]{8}|84[1-9][0-9]{9})$/);
+  const regexPhone = useRef(/^0[1-9][0-9]{8}$/);
 
   return (
     <div className="doctor-info">

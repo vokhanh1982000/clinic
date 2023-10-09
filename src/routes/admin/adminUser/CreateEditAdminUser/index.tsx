@@ -20,7 +20,7 @@ const CreateAdmin = () => {
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<any>('null');
   const [form] = Form.useForm();
-  const regexPhone = useRef(/^(0[1-9][0-9]{8}|0[1-9][0-9]{9}|84[1-9][0-9]{8}|84[1-9][0-9]{9})$/);
+  const regexPhone = useRef(/^0[1-9][0-9]{8}$/);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();

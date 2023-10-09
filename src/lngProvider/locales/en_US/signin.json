@@ -6,5 +6,10 @@
   "sigin.submit": "Sign In",
   "sigin.emailOrPasswordWrong": "Phone number or password is wrong",
   "sigin.forgot": "Forgot your password ?",
-  "sigin.title": "Login"
+  "sigin.title": "Login",
+  "sigin.validate.phone.require": "Please enter the phone number",
+  "sigin.validate.phone.length": "Phone must be 10 characters",
+  "sigin.validate.phone.isPhone": "The phone number must be numeric and start with 0",
+  "sigin.validate.password.require": "Please enter Password",
+  "sigin.validate.password.length": "Password must be 8 to 16 characters"
 }

@@ -89,7 +89,7 @@ const SignInCommon = (props: ISignInCommon) => {
   };
 
   return (
-    <div className="vh-100 row justify-content-center align-items-center">
+    <div className="vh-100 row justify-content-center align-items-center m-auto">
       <div id="login-form" className=" justify-content-center align-items-center">
         <div className="logo">
           <img src="/assets/images/logo.png" />
@@ -111,7 +111,11 @@ const SignInCommon = (props: ISignInCommon) => {
             label={intl.formatMessage({ id: 'sigin.username' })}
             name={n('username')}
             className="mb-3"
-            rules={[{ required: true, min: 10, max: 10 }]}
+            rules={[
+              { required: true, message: intl.formatMessage({ id: 'sigin.validate.phone.require' }) },
+              { len: 10, message: intl.formatMessage({ id: 'sigin.validate.phone.length' }) },
+              { pattern: /^0[1-9][0-9]{8}$/, message: intl.formatMessage({ id: 'sigin.validate.phone.isPhone' }) },
+            ]}
           >
             <Input placeholder={intl.formatMessage({ id: 'sigin.username.placeholder' })} />
           </Form.Item>
@@ -120,7 +124,10 @@ const SignInCommon = (props: ISignInCommon) => {
             className="form-item-password"
             label={intl.formatMessage({ id: 'sigin.password' })}
             name={n('password')}
-            rules={[{ required: true, min: 8, max: 16 }]}
+            rules={[
+              { required: true, message: intl.formatMessage({ id: 'sigin.validate.password.require' }) },
+              { min: 8, max: 16, message: intl.formatMessage({ id: 'sigin.validate.password.length' }) },
+            ]}
           >
             <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />
           </Form.Item>

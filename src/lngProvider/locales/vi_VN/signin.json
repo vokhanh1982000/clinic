@@ -4,7 +4,12 @@
   "sigin.password": "Mật khẩu",
   "sigin.password.placeholder": "Nhập mật khẩu",
   "sigin.submit": "Đăng nhập",
-  "sigin.emailOrPasswordWrong": "Email hoặc mật khẩu không đúng",
+  "sigin.emailOrPasswordWrong": "Số điện thoại hoặc mật khẩu không đúng",
   "sigin.forgot": "Quên mật khẩu ?",
-  "sigin.title": "Login"
+  "sigin.title": "Đăng nhập",
+  "sigin.validate.phone.require": "Vui lòng nhập số điện thoại",
+  "sigin.validate.phone.length": "Số điện thoại phải dài đúng 10 ký tự",
+  "sigin.validate.phone.isPhone": "Số điện thoại phải là số và bắt đầu bằng số 0",
+  "sigin.validate.password.require": "Vui lòng nhập mật khẩu",
+  "sigin.validate.password.length": "Mật khẩu phải dài từ 8 đến 16 ký tự"
 }
