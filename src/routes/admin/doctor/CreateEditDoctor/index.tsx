@@ -28,6 +28,8 @@ const CreateDoctor = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isDeleteDoctor, setIsDeleteDoctor] = useState<boolean>(false);
+  const [provinceId, setProvinceId] = useState<string>();
+  const [districtId, setDistrictId] = useState<string>();
 
   const n = (key: keyof CreateDoctorSupport) => {
     return key;
@@ -43,13 +45,14 @@ const CreateDoctor = () => {
     queryFn: () => doctorSupportApi.doctorSupportControllerFindDoctorSupportById(id as string),
     enabled: !!id,
     onSuccess: ({ data }) => {
-      console.log(data);
       form.setFieldsValue({
         ...data,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
         dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'YYYY-MM-DD') : moment('', 'YYYY-MM-DD'),
       });
+      setProvinceId(data.provinceId);
+      setDistrictId(data.districtId);
     },
   });
 
@@ -127,7 +130,16 @@ const CreateDoctor = () => {
             })}
       </div>
       <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-doctor">
-        <DoctorInfo category={category?.data.content} n={n} doctorType={DoctorType.DOCTOR_SUPPORT} />
+        <DoctorInfo
+          form={form}
+          provinceId={provinceId}
+          districtId={districtId}
+          setProvinceId={setProvinceId}
+          setDistrictId={setDistrictId}
+          category={category?.data.content}
+          n={n}
+          doctorType={DoctorType.DOCTOR_SUPPORT}
+        />
         <Achievement
           deleteFc={(id: string) => deleteAdmin.mutate(id)}
           n={n}

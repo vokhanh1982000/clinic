@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../apis';
 import { FindUserByIdentifierDto, UpdatePasswordDtoTypeEnum } from '../../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../../constants/route';
-import ConfirmPassword from './confirmPassword';
+import ConfirmPassword from './confirm-password';
 
 export interface IForgotPassComponent {
   userType: UpdatePasswordDtoTypeEnum;

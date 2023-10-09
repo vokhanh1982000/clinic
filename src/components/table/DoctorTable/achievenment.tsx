@@ -30,9 +30,9 @@ const Achievement = (props: Props) => {
   return (
     <div className="achievement">
       <div className="achievement__data">
-        <div className="achievement__history">
-          <div className="achievement__history__title">
-            <div className="achievement__history__title__label">
+        <div className="achievement__data__history">
+          <div className="achievement__data__history__title">
+            <div className="achievement__data__history__title__label">
               {intl.formatMessage({
                 id: 'doctor.create.achievement.history.title',
               })}
@@ -43,8 +43,8 @@ const Achievement = (props: Props) => {
             <CustomArea rows={6} style={{ resize: 'none' }} />
           </Form.Item>
         </div>
-        <div className="achievement__experiment">
-          <div className="achievement__experiment__title">
+        <div className="achievement__data__experiment">
+          <div className="achievement__data__experiment__title">
             <div className="achievement__experiment__title__label">
               {intl.formatMessage({
                 id: 'doctor.create.achievement.experiment.title',

@@ -27,3 +27,8 @@ export enum UserGender {
   MALE = 'male',
   FEMALE = 'female',
 }
+
+export enum LanguageType {
+  VN = 'VN',
+  ENG = 'ENG',
+}

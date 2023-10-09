@@ -63,3 +63,18 @@
     color: $text_white;
   }
 }
+
+.cadastral {
+  .cadastral_item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    .province,
+    .district,
+    .ward,
+    .address {
+      width: 50%;
+    }
+  }
+}

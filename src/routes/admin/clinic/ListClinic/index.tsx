@@ -146,6 +146,9 @@ const ListClinic = () => {
         />
         <CustomSelect
           className="select-province"
+          placeholder={intl.formatMessage({
+            id: 'common.province.name',
+          })}
           options={
             listProvince && listProvince.data && listProvince.data.length > 0
               ? listProvince.data.map((item) => ({
@@ -159,6 +162,9 @@ const ListClinic = () => {
         />
         <CustomSelect
           className="select-district"
+          placeholder={intl.formatMessage({
+            id: 'common.district.name',
+          })}
           options={
             listDistrict && listDistrict.data && listDistrict.data.length > 0
               ? listDistrict.data.map((item) => ({
@@ -172,6 +178,9 @@ const ListClinic = () => {
         />
         <CustomSelect
           className="select-ward"
+          placeholder={intl.formatMessage({
+            id: 'common.ward.name',
+          })}
           options={
             listWard && listWard.data && listWard.data.length > 0
               ? listWard.data.map((item) => ({
