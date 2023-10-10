@@ -127,3 +127,7 @@
   flex-direction: row-reverse;
   gap: 5px;
 }
+
+.ant-form-item-required::after {
+  content: unset !important;
+}
