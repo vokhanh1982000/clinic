@@ -4227,6 +4227,12 @@ export interface UpdateClinicForAdminClinic {
     'categoryIds': Array<string>;
     /**
      * 
+     * @type {string}
+     * @memberof UpdateClinicForAdminClinic
+     */
+    'backgroundId'?: string;
+    /**
+     * 
      * @type {Array<CreateWorkScheduleDto>}
      * @memberof UpdateClinicForAdminClinic
      */
