@@ -93,7 +93,7 @@ const DoctorProfile = () => {
     const doctor: DoctorClinic | undefined = doctorProfile?.data;
     form.setFieldsValue({
       ...doctor,
-      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth, 'YYYY-MM-DD') : null,
+      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth) : null,
       status: doctor?.status ? Number(doctor.status) : 0,
       categoryIds: doctor?.categories?.map((item) => {
         return item.id;
@@ -195,7 +195,13 @@ const DoctorProfile = () => {
                   name={'dateOfBirth'}
                   rules={[{ required: true }]}
                 >
-                  <DatePicker format={'YYYY-MM-DD'} />
+                  <DatePicker
+                    format={'DD/MM/YYYY'}
+                    disabledDate={(current) => {
+                      const today = dayjs();
+                      return current && dayjs(current).isAfter(today, 'day');
+                    }}
+                  />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item

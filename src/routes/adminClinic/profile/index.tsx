@@ -83,7 +83,7 @@ const AdminClinicProfile = () => {
     const adminClinic: AdministratorClinic | undefined = adminClinicProfile?.data;
     form.setFieldsValue({
       ...adminClinic,
-      dateOfBirth: adminClinic?.dateOfBirth ? dayjs(adminClinic?.dateOfBirth, 'YYYY-MM-DD') : undefined,
+      dateOfBirth: adminClinic?.dateOfBirth ? dayjs(adminClinic?.dateOfBirth) : undefined,
     });
     setSelectedProvince(adminClinic?.province);
     setSelectedDistrict(adminClinic?.district);
@@ -95,7 +95,6 @@ const AdminClinicProfile = () => {
     data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format('YYYY-MM-DD') : null;
     updateAdminClinic(data);
   };
-
   return (
     <Card id="admin-clinic-profile-management">
       <div className="admin-clinic-profile-title">
@@ -180,7 +179,13 @@ const AdminClinicProfile = () => {
                   })}
                   name={'dateOfBirth'}
                 >
-                  <DatePicker format={'YYYY-MM-DD'} />
+                  <DatePicker
+                    format={'DD/MM/YYYY'}
+                    disabledDate={(current) => {
+                      const today = dayjs();
+                      return current && dayjs(current).isAfter(today, 'day');
+                    }}
+                  />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item
