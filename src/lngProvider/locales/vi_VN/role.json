@@ -1,5 +1,6 @@
 {
   "role.list.title": "Quản lý Phân Quyền Hệ thống",
+  "role.title": "Quản lý Phân Quyền",
   "role.list.button.add": "Tạo Role mới",
   "role.list.search": "Tìm kiếm Role",
   "role.list.table.code": "Mã",
@@ -15,11 +16,14 @@
   "role.create.button.create": "Tạo mới",
   "role.edit.title": "Chi Tiết Vai Trò",
   "role.edit.button.save": "Lưu thông tin",
-  "role.edit.button.delete": "Xóa Role",
-  "role.create.error": "Thêm mới thất bại. Vui lòng đổi tên vai trò!",
-  "role.update.error": "Cập nhật thất bại!",
+  "role.edit.button.delete": "Xóa quyền",
+  "role.create.error": "Thêm mới thất bại. Tên vai trò có thể đã được sử dụng!",
+  "role.update.error": "Cập nhật thất bại. Tên vai trò có thể đã được sử dụng!",
   "role.remove.confirm": "Xác nhận",
   "role.remove.cancel": "Hủy bỏ",
   "role.remove.confirm.prefix": "Bạn có chắc chắn muốn xóa phân quyền '",
-  "role.remove.confirm.suffixes": "' ra khỏi hệ thống ?"
+  "role.remove.confirm.suffixes": "' ra khỏi hệ thống ?",
+  "role.name.err": "Tên vai trò chỉ bao gồm chữ hoa, thường và số từ 0 -> 9. Tối đa 30 kí tự",
+  "role.input.err": "Vui lòng nhập vai trò",
+  "role.delete.success": "Xóa vai trò thành công!"
 }

@@ -30,7 +30,6 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
     {
       onSuccess: ({ data }) => {
         const newData = data as any;
-        console.log(newData);
         form.setFieldValue('backgroundId', newData.id);
         setBackground(process.env.REACT_APP_URL_IMG_S3 + newData.preview);
         setLoadingImg(false);
@@ -91,14 +90,14 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
         <div className="line-title"></div>
       </div>
       <div className="clinic-info__content">
-        <div className="clinic-info__content__rows item-center">
+        <div className="clinic-info__content__rows item-center box-upload">
           {(background || loadingImg) && (
             <div className="clinic-info__content__image">{loadingImg ? <Spin /> : <img src={background} />}</div>
           )}
           <Form.Item name="backgroundId" className="clinic-info__content__upload">
             <Upload name="avatar" className="avatar-uploader" showUploadList={false} customRequest={customRequest}>
               <div className="icon__text">
-                <IconSVG type="upload" />
+                <IconSVG type="upload-2" />
                 <span>
                   {intl.formatMessage({
                     id: 'common.upload',

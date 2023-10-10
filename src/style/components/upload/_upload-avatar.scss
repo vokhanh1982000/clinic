@@ -1,0 +1,33 @@
+#upload-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $table_header_color;
+  border-radius: 50%;
+  width: 214px;
+  height: 214px;
+  border: 1px solid $primary_color;
+
+  overflow: hidden;
+
+  img {
+    height: 100%;
+  }
+
+  .icon-upload {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 0px;
+    left: 150px;
+
+    .icon-camera {
+      width: 56px;
+      height: 56px;
+      background-color: $text_white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+  }
+}

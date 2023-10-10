@@ -1,4 +1,4 @@
-import { DatePicker, Form, FormInstance, Switch } from 'antd';
+import { DatePicker, Form, FormInstance, Switch, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import IconSVG from '../../icons/icons';
@@ -9,11 +9,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Category, CreateCategoryDto, CreateDoctorClinicDto } from '../../../apis/client-axios';
 import { DefaultOptionType } from 'antd/es/select';
 import { CadastalCustom } from '../../Cadastral';
+import UploadAvatar from '../../upload/UploadAvatar';
+import { useMutation } from '@tanstack/react-query';
+import { MyUploadProps } from '../../../constants/dto';
+import { assetsApi } from '../../../apis';
 
 interface DoctorTableProps {
-  form?: FormInstance;
+  form: FormInstance;
+  avatar: string | undefined;
   provinceId?: string;
   districtId?: string;
+  setAvatar: React.Dispatch<React.SetStateAction<string | undefined>>;
   setProvinceId: (id: string) => void;
   setDistrictId: (id: string) => void;
   placeHolder?: string;
@@ -34,13 +40,48 @@ interface OptionStatus {
 
 const DoctorInfo = (props: DoctorTableProps) => {
   const intl = useIntl();
-  const { placeHolder, doctorType, n, category, form, provinceId, districtId, setProvinceId, setDistrictId } = props;
+  const {
+    placeHolder,
+    doctorType,
+    n,
+    category,
+    form,
+    provinceId,
+    districtId,
+    setProvinceId,
+    setDistrictId,
+    avatar,
+    setAvatar,
+  } = props;
   const navigate = useNavigate();
   const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
   const [statusSelect, setStatusSelect] = useState<OptionStatus>();
-  const [avatar, setAvatar] = useState<string>();
+  const [loadingImg, setLoadingImg] = useState<boolean>(false);
   const id = useParams();
   const regexPhone = useRef(/^0[1-9][0-9]{8}$/);
+
+  const { mutate: UploadImage, status: statusUploadImage } = useMutation(
+    (uploadProps: MyUploadProps) =>
+      assetsApi.assetControllerUploadFile(uploadProps.file, undefined, uploadProps.s3FilePath),
+    {
+      onSuccess: ({ data }) => {
+        const newData = data as any;
+        form.setFieldValue('avatarId', newData.id);
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + newData.preview);
+        setLoadingImg(false);
+      },
+      onError: (error: any) => {
+        setLoadingImg(false);
+        message.error(error.message);
+      },
+    }
+  );
+
+  const customRequest = async (options: any) => {
+    const { file, onSuccess, onError } = options;
+    setLoadingImg(true);
+    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
+  };
 
   return (
     <div className="doctor-info">
@@ -56,12 +97,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
       </div>
       <div className="doctor-info__content">
         <div className="doctor-info__content__avatar">
-          <span className="doctor-info__content__avatar__img">
-            {avatar ? <img src={avatar} /> : <IconSVG type="avatar-default" />}
-            <span className="doctor-info__content__avatar__camera">
-              <IconSVG type="camera" />
-            </span>
-          </span>
+          <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
         </div>
         <div className="doctor-info__content__info">
           <div className="doctor-info__content__info__rows">

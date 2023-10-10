@@ -1,14 +1,18 @@
 .confirm-delete-modal {
   width: 352px !important;
-
+  height: 168px;
+  border-radius: 16px;
+  font-family: Open-Sans;
   .title {
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
     text-align: center;
+    color: $text_black_grey;
 
     .name {
       font-weight: 700;
+      color: $text_black_grey;
     }
   }
 
@@ -20,6 +24,10 @@
 
     .button-cancel {
       width: 146px;
+      border-color: $text_cancel_btn;
+      span {
+        font-weight: 600;
+      }
     }
 
     .button-cancel:hover {
@@ -31,6 +39,9 @@
       width: 146px;
       background-color: $primary_color;
       color: $text_white;
+      span {
+        font-weight: 600;
+      }
     }
 
     .button-delete:hover {

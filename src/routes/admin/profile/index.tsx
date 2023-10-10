@@ -12,6 +12,7 @@ import CustomSelect from '../../../components/select/CustomSelect';
 import { UpdateAdminDto } from '../../../apis/client-axios';
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
+import { FORMAT_DATE } from '../../../constants/common';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
@@ -43,7 +44,7 @@ const Profile = () => {
   }, [data]);
   const handleUpdate = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth.format('YYYY-MM-DD');
+    data.dateOfBirth = data.dateOfBirth.format(FORMAT_DATE);
     UpdateAdmin(data);
   };
   return (
@@ -124,7 +125,7 @@ const Profile = () => {
                     })}
                   >
                     <DatePicker
-                      format={'DD/MM/YYYY'}
+                      format={FORMAT_DATE}
                       disabledDate={(current) => {
                         const today = dayjs();
                         return current && dayjs(current).isAfter(today, 'day');

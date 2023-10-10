@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, Input, Button, message, Modal, Dropdown, Space, Row } from 'antd';
+import { Card, Input, Button, message, Modal, Dropdown, Space, Row, notification } from 'antd';
 
 import Column from 'antd/es/table/Column';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { adminApi, roleApi } from '../../../apis';
@@ -14,6 +14,8 @@ import TableWrap from '../../../components/TableWrap';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import DropdownCustom from '../../../components/dropdown/CustomDropdow';
 import { debounce } from 'lodash';
+import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
+
 const ListRole = () => {
   const intl = useIntl();
   const navigate = useNavigate();
@@ -22,6 +24,9 @@ const ListRole = () => {
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<any>(null);
   const queryClient = useQueryClient();
+  const [isShowListManager, setIsShowListManager] = useState<string>();
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
 
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
@@ -38,21 +43,11 @@ const ListRole = () => {
     queryFn: () => adminApi.administratorControllerGet(page, size, sort, fullTextSearch),
   });
 
-  const handleDeleteAdmin = (text: any) => {
-    console.log('tex: ', text);
-    Modal.confirm({
-      icon: null,
-      content: intl.formatMessage({ id: 'admin.user.delete.confirm' }),
-      okText: intl.formatMessage({ id: 'role.remove.confirm' }),
-      cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
-      onOk() {
-        if (text) deleteAdmin.mutate(text);
-      },
-      onCancel() {
-        console.log('cancel');
-      },
-      centered: true,
-    });
+  const handleDeleteAdmin = () => {
+    if (isShowModalDelete && isShowModalDelete.id) {
+      deleteAdmin.mutate(isShowModalDelete.id);
+      setIsShowModalDelete(undefined);
+    }
   };
 
   const debouncedUpdateInputValue = debounce((value) => {
@@ -65,21 +60,6 @@ const ListRole = () => {
       debouncedUpdateInputValue.cancel();
     }
     debouncedUpdateInputValue(e.target.value);
-  };
-
-  const showInfo = (data: string[]) => {
-    Modal.info({
-      title: intl.formatMessage({ id: 'admin.user.role' }),
-      icon: null,
-      content: (
-        <ul>
-          {data.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      ),
-      onOk() {},
-    });
   };
 
   return (
@@ -154,7 +134,7 @@ const ListRole = () => {
           })}
           dataIndex="position"
         />
-        <Column
+        {/* <Column
           title={intl.formatMessage({
             id: 'admin.user.role',
           })}
@@ -162,13 +142,63 @@ const ListRole = () => {
           render={(_, record: any) => {
             const data = _.roles.map((item: any) => item.name);
             return (
-              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }} >
                 <div>administrator</div>
-                <Button type="text" onClick={() => showInfo(data)}>
+                <Button type="text" onClick={() => openNotification(data)}>
                   ...
                 </Button>
               </Row>
             );
+          }}
+        /> */}
+        <Column
+          title={intl.formatMessage({
+            id: 'admin.user.role',
+          })}
+          dataIndex="user"
+          width={'15%'}
+          render={(_, record: any) => {
+            const data = _.roles.map((item: any) => item.name);
+            if (data && data.length > 0) {
+              return (
+                <div id="clinic-management">
+                  <div className="manager-clinic">
+                    <div>{data[0]}</div>
+                    {data.length > 1 && (
+                      <div className="manager-clinic__more">
+                        <span onClick={() => setIsShowListManager(record.id)}>
+                          <IconSVG type="more" />
+                        </span>
+                        {isShowListManager === record.id && (
+                          <div
+                            className="manager-clinic__more__list"
+                            ref={isShowListManager === record.id ? wrapperRef : undefined}
+                          >
+                            <div className="manager-clinic__more__list__title">
+                              <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
+                              <span
+                                onClick={() => {
+                                  setIsShowListManager(undefined);
+                                }}
+                              >
+                                <IconSVG type="close" />
+                              </span>
+                            </div>
+                            <div className="manager-clinic__more__list__content">
+                              {data.map((e: any) => {
+                                return <div className="manager-clinic__more__list__content__item">{e}</div>;
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            } else {
+              return <></>;
+            }
           }}
         />
         <Column
@@ -184,7 +214,7 @@ const ListRole = () => {
                   <IconSVG type="edit" />
                 </div>
                 <span className="divider"></span>
-                <div onClick={() => handleDeleteAdmin(_.id)}>
+                <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.fullName })}>
                   <IconSVG type="delete" />
                 </div>
               </div>
@@ -193,6 +223,14 @@ const ListRole = () => {
           align="center"
         />
       </TableWrap>
+      <ConfirmDeleteModal
+        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDeleteAdmin}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
     </Card>
   );
 };

@@ -5,13 +5,19 @@ import DatePickerCustom from '../../../../components/date/datePicker';
 import CustomAvatar from '../../../../components/avatar/avatarCustom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
-import { adminApi, roleApi } from '../../../../apis';
+import { adminApi, assetsApi, roleApi } from '../../../../apis';
 import CheckboxGroupCustom from '../../../../components/checkboxGroup/customCheckbox';
 import { CreateAdminDto, CreateDoctorClinicDtoGenderEnum, Role, UpdateAdminDto } from '../../../../apis/client-axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import moment from 'moment';
 import { UserGender } from '../../../../constants/enum';
+import dayjs from 'dayjs';
+import { FORMAT_DATE } from '../../../../constants/common';
+import UploadAvatar from '../../../../components/upload/UploadAvatar';
+import { MyUploadProps } from '../../../../constants/dto';
+import CustomSelect from '../../../../components/select/CustomSelect';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -24,6 +30,9 @@ const CreateAdmin = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [avatar, setAvatar] = useState<string>();
+  const [loadingImg, setLoadingImg] = useState<boolean>(false);
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string | undefined; name: string | undefined }>();
 
   const n = (key: keyof CreateAdminDto) => {
     return key;
@@ -40,15 +49,19 @@ const CreateAdmin = () => {
     {
       onError: (error) => {},
       onSuccess: (response) => {
+        setIsShowModalDelete({ id: undefined, name: response.data.fullName });
         form.setFieldValue(n('roleIds'), Array.from(response.data.user.roles.map((item) => item.id)));
         form.setFieldsValue({
           ...response.data,
-          roleIds: response.data.user.roles,
-          dateOfBirth: response.data.dateOfBirth
-            ? moment(response.data.dateOfBirth, 'YYYY-MM-DD')
-            : moment('', 'YYYY-MM-DD'),
+          roleIds: Array.from(response.data.user.roles.map((item) => item.id)),
+          dateOfBirth: response.data.dateOfBirth ? dayjs(response.data.dateOfBirth, FORMAT_DATE) : null,
         });
+        if (response.data.avatar) {
+          setAvatar(process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview);
+        }
       },
+      enabled: !!id,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -89,19 +102,10 @@ const CreateAdmin = () => {
   });
 
   const handleDelete = () => {
-    Modal.confirm({
-      icon: null,
-      content: intl.formatMessage({ id: 'admin.user.delete.confirm' }),
-      okText: intl.formatMessage({ id: 'role.remove.confirm' }),
-      cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
-      onOk() {
-        if (id) deleteAdmin.mutate(id);
-      },
-      onCancel() {
-        console.log('cancel');
-      },
-      centered: true,
-    });
+    if (isShowModalDelete && isShowModalDelete.id) {
+      deleteAdmin.mutate(isShowModalDelete.id);
+      setIsShowModalDelete(undefined);
+    }
   };
 
   const onFinish = (values: any) => {
@@ -112,16 +116,14 @@ const CreateAdmin = () => {
     if (id) {
       updateAdmin.mutate({
         ...values,
-        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
-        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
+        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
         roleIds,
         userId: id,
       });
     } else {
       const data: CreateAdminDto = {
         ...values,
-        gender: !!values.gender ? CreateDoctorClinicDtoGenderEnum.Female : CreateDoctorClinicDtoGenderEnum.Male,
-        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
         roleIds,
       };
       createAdmin.mutate(data);
@@ -151,6 +153,29 @@ const CreateAdmin = () => {
     }
   };
 
+  const { mutate: UploadImage, status: statusUploadImage } = useMutation(
+    (uploadProps: MyUploadProps) =>
+      assetsApi.assetControllerUploadFile(uploadProps.file, undefined, uploadProps.s3FilePath),
+    {
+      onSuccess: ({ data }) => {
+        const newData = data as any;
+        form.setFieldValue('avatarId', newData.id);
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + newData.preview);
+        setLoadingImg(false);
+      },
+      onError: (error: any) => {
+        setLoadingImg(false);
+        message.error(error.message);
+      },
+    }
+  );
+
+  const customRequest = async (options: any) => {
+    const { file, onSuccess, onError } = options;
+    setLoadingImg(true);
+    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
+  };
+
   return (
     <Card id="admin-management">
       <Form form={form} onFinish={onFinish}>
@@ -165,14 +190,16 @@ const CreateAdmin = () => {
                   <header>{intl.formatMessage({ id: 'admin.user.info' })}</header>
                   <div className="line-element"></div>
                 </div>
-                <Row>
+                {/* <Row>
                   <span>{intl.formatMessage({ id: 'admin.user.online' })}</span>
                   <Switch disabled />
-                </Row>
+                </Row> */}
               </Row>
               <Row className="admin-management__body-data">
                 <Col span={10}>
-                  <CustomAvatar size={180} />
+                  <div className="admin-management__body-data__avatar">
+                    <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
+                  </div>
                 </Col>
                 <Col span={14}>
                   <Row className="admin-management__info-item">
@@ -226,15 +253,14 @@ const CreateAdmin = () => {
                     <Col span={14}>
                       <header>{intl.formatMessage({ id: 'admin.user.dateOfBirth' })}</header>
                       <Form.Item rules={[{ required: true }]} name={n('dateOfBirth')}>
-                        <DatePickerCustom dateFormat="YYYY-MM-DD" className="date-select"></DatePickerCustom>
+                        <DatePickerCustom dateFormat={FORMAT_DATE} className="date-select"></DatePickerCustom>
                       </Form.Item>
                     </Col>
                     <Col span={9}>
                       <header>{intl.formatMessage({ id: 'admin.user.gender' })}</header>
                       <Form.Item rules={[{ required: true }]} name={n('gender')}>
-                        <Select
+                        <CustomSelect
                           className="admin-management__item-select"
-                          defaultValue="Gender"
                           options={[
                             { value: UserGender.MALE, label: intl.formatMessage({ id: 'common.gender.male' }) },
                             { value: UserGender.FEMALE, label: intl.formatMessage({ id: 'common.gender.female' }) },
@@ -271,7 +297,9 @@ const CreateAdmin = () => {
                 </div>
               </Row>
               <Row className="admin-management__role-checkboxGroup">
-                <Form.Item>{roleData?.data.content?.map((item) => renderCheckbox(item))}</Form.Item>
+                <Form.Item className="custom-checkbox">
+                  {roleData?.data.content?.map((item) => renderCheckbox(item))}
+                </Form.Item>
               </Row>
             </Card>
             <Row className="admin-management__role-submit">
@@ -279,7 +307,12 @@ const CreateAdmin = () => {
                 {intl.formatMessage({ id: 'common.action.save' })}
               </Button>
               {id && (
-                <Button type="text" block className="admin-submit-remove" onClick={handleDelete}>
+                <Button
+                  type="text"
+                  block
+                  className="admin-submit-remove"
+                  onClick={() => setIsShowModalDelete({ id: id, name: isShowModalDelete?.name })}
+                >
                   {intl.formatMessage({ id: 'admin.user.delete' })}
                 </Button>
               )}
@@ -287,6 +320,14 @@ const CreateAdmin = () => {
           </Col>
         </Row>
       </Form>
+      <ConfirmDeleteModal
+        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        visible={!!isShowModalDelete?.id}
+        onSubmit={handleDelete}
+        onClose={() => {
+          setIsShowModalDelete({ id: undefined, name: isShowModalDelete?.name });
+        }}
+      />
     </Card>
   );
 };

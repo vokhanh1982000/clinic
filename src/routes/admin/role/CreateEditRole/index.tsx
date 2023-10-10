@@ -12,6 +12,7 @@ import CustomInput from '../../../../components/input/CustomInput';
 import { useIntl } from 'react-intl';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 
 const CreateRole = () => {
   const intl = useIntl();
@@ -19,6 +20,8 @@ const CreateRole = () => {
   const [form] = Form.useForm<CreateRoleDto>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string | undefined }>();
+  const [roleName, setRoleName] = useState<string>();
 
   const { data: dataPermissions } = useQuery({
     queryKey: ['getPermissions'],
@@ -29,6 +32,9 @@ const CreateRole = () => {
     queryKey: ['getRoleDetail', id],
     queryFn: () => roleApi.roleControllerGetById(id as string),
     enabled: !!id,
+    onSuccess: ({ data }) => {
+      setRoleName(data.name);
+    },
   });
 
   const createRole = useMutation((createRole: CreateRoleDto) => roleApi.roleControllerCreate(createRole), {
@@ -132,22 +138,10 @@ const CreateRole = () => {
   };
 
   const handleDeleteRole = () => {
-    Modal.confirm({
-      content:
-        intl.formatMessage({ id: 'role.remove.confirm.prefix' }) +
-        dataRole?.data.name +
-        intl.formatMessage({ id: 'role.remove.confirm.suffixes' }),
-      icon: null,
-      okText: intl.formatMessage({ id: 'role.remove.confirm' }),
-      cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
-      onOk() {
-        if (id) deleteRole.mutate(id);
-      },
-      onCancel() {
-        console.log('cancel');
-      },
-      centered: true,
-    });
+    if (isShowModalDelete && isShowModalDelete.id) {
+      deleteRole.mutate(isShowModalDelete.id);
+      setIsShowModalDelete(undefined);
+    }
   };
 
   const onFinish = (values: any) => {
@@ -209,7 +203,20 @@ const CreateRole = () => {
             id: 'role.create.role',
           })}
           name={n('name')}
-          rules={[{ required: true }]}
+          rules={[
+            {
+              required: true,
+              message: intl.formatMessage({
+                id: 'role.input.err',
+              }),
+            },
+            {
+              pattern: /^[a-zA-Z0-9\s]{1,30}$/,
+              message: intl.formatMessage({
+                id: 'role.name.err',
+              }),
+            },
+          ]}
         >
           <CustomInput />
         </Form.Item>
@@ -217,18 +224,28 @@ const CreateRole = () => {
 
       <TableWrap className="custom-table" data={dataPermissions?.data} showPagination={false}>
         <Column
-          title={intl.formatMessage({
-            id: 'role.create.role',
-          })}
+          title={
+            <span className="table-title__name detail">
+              {intl.formatMessage({
+                id: 'role.create.role',
+              })}
+            </span>
+          }
           key={'label'}
           dataIndex={'label'}
         ></Column>
         {[...Array(numOfCol)].map((x, i) => (
           <Column<PermissionGroupDto>
-            title={getAction(i)}
+            title={
+              <span className="table-title__name detail">
+                {intl.formatMessage({
+                  id: getAction(i),
+                })}
+              </span>
+            }
             align="center"
             key={`col-${i}`}
-            render={(value, record) => renderColumn(i, record)}
+            render={(value, record) => <div className="custom-checkbox item-center">{renderColumn(i, record)}</div>}
           ></Column>
         ))}
       </TableWrap>
@@ -240,7 +257,7 @@ const CreateRole = () => {
                 id: 'role.edit.button.save',
               })}
             </CustomButton>
-            <CustomButton className="button-delete" onClick={() => handleDeleteRole()}>
+            <CustomButton className="button-delete" onClick={() => setIsShowModalDelete({ id: id, name: roleName })}>
               {intl.formatMessage({
                 id: 'role.edit.button.delete',
               })}
@@ -254,6 +271,14 @@ const CreateRole = () => {
           </CustomButton>
         )}
       </div>
+      <ConfirmDeleteModal
+        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDeleteRole}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
     </Card>
   );
 };
