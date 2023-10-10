@@ -3,6 +3,7 @@
 }
 
 .item-center {
+  display: flex;
   justify-content: center;
 }
 
@@ -70,6 +71,7 @@
     align-items: center;
     gap: 15px;
     width: 100%;
+
     .province,
     .district,
     .ward,
@@ -78,6 +80,49 @@
     }
   }
 }
+
+.custom-checkbox {
+  .ant-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-checkbox-inner {
+    background-color: unset !important;
+    width: 22px;
+    height: 22px;
+  }
+
+  .ant-checkbox-inner::after {
+    border-color: $primary_color;
+    top: 45%;
+    inset-inline-start: 30%;
+  }
+
+  .ant-checkbox-checked {
+    .ant-checkbox-inner {
+      border: 1px solid $primary_color !important;
+    }
+  }
+
+  .ant-checkbox-checked:after {
+    border-color: $primary_color;
+    border: 1px solid $primary_color;
+    background-color: unset !important;
+  }
+
+  .custom-label-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    img {
+      max-width: 25px;
+      max-height: 25px;
+    }
+  }
+}
+
 .ant-form-item-required {
   flex-direction: row-reverse;
   gap: 5px;

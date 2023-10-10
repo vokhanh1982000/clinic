@@ -1749,6 +1749,12 @@ export interface CreateAdminDto {
      * @memberof CreateAdminDto
      */
     'roleIds': Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAdminDto
+     */
+    'avatarId'?: string;
 }
 
 export const CreateAdminDtoGenderEnum = {
@@ -1834,10 +1840,10 @@ export interface CreateClinicDto {
     'address'?: string;
     /**
      * 
-     * @type {File}
+     * @type {string}
      * @memberof CreateClinicDto
      */
-    'backgound': File;
+    'backgound'?: string;
     /**
      * 
      * @type {Array<string>}
@@ -1917,6 +1923,12 @@ export interface CreateCustomerDto {
      * @memberof CreateCustomerDto
      */
     'status': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'avatarId'?: string;
 }
 
 export const CreateCustomerDtoGenderEnum = {
@@ -4050,6 +4062,12 @@ export interface UpdateAdminDto {
      * @type {string}
      * @memberof UpdateAdminDto
      */
+    'avatarId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateAdminDto
+     */
     'userId': string;
 }
 
@@ -4142,10 +4160,10 @@ export interface UpdateClinicDto {
     'address'?: string;
     /**
      * 
-     * @type {File}
+     * @type {string}
      * @memberof UpdateClinicDto
      */
-    'backgound'?: File;
+    'backgound'?: string;
     /**
      * 
      * @type {Array<string>}
@@ -8231,7 +8249,6 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @summary Login
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8693,7 +8710,6 @@ export const AuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Login
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8868,7 +8884,6 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
-         * @summary Login
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -9047,7 +9062,6 @@ export class AuthApi extends BaseAPI {
 
     /**
      * 
-     * @summary Login
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApi
@@ -13858,7 +13872,7 @@ export const RolesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async roleControllerDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async roleControllerDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.roleControllerDelete(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -13921,7 +13935,7 @@ export const RolesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        roleControllerDelete(id: string, options?: any): AxiosPromise<void> {
+        roleControllerDelete(id: string, options?: any): AxiosPromise<object> {
             return localVarFp.roleControllerDelete(id, options).then((request) => request(axios, basePath));
         },
         /**

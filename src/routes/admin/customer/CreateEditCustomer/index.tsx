@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, DatePicker, Form, Upload, message } from 'antd';
+import { Card, DatePicker, Form, Spin, Upload, message } from 'antd';
 import moment from 'moment';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
-import { customerApi } from '../../../../apis';
+import { assetsApi, customerApi } from '../../../../apis';
 import { CreateCustomerDto, UpdateCustomerDto } from '../../../../apis/client-axios';
 import FormWrap from '../../../../components/FormWrap';
 import CustomButton from '../../../../components/buttons/CustomButton';
@@ -14,6 +14,10 @@ import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteM
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { Status, UserGender } from '../../../../constants/enum';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
+import { MyUploadProps } from '../../../../constants/dto';
+import dayjs from 'dayjs';
+import UploadAvatar from '../../../../components/upload/UploadAvatar';
+import { FORMAT_DATE } from '../../../../constants/common';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -23,6 +27,7 @@ const CreateCustomer = () => {
   const queryClient = useQueryClient();
   const [avatar, setAvatar] = useState<string>();
   const [isDeleteCustomer, setIsDeleteCustomer] = useState<boolean>(false);
+  const [loadingImg, setLoadingImg] = useState<boolean>(false);
 
   const { data: datacustomer } = useQuery(
     ['getDetailCustomer', id],
@@ -32,11 +37,15 @@ const CreateCustomer = () => {
       onSuccess: (response) => {
         form.setFieldsValue({
           ...response.data,
-          gender: response.data.gender ? 1 : 0,
-          dateOfBirth: response.data.dateOfBirth ? moment(response.data.dateOfBirth, 'YYYY-MM-DD') : null,
+          status: response.data.user.isActive ? 1 : 0,
+          dateOfBirth: response.data.dateOfBirth ? dayjs(response.data.dateOfBirth, FORMAT_DATE) : null,
         });
+        if (response.data.avatar) {
+          setAvatar(process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview);
+        }
       },
       enabled: !!id,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -100,6 +109,29 @@ const CreateCustomer = () => {
     setIsDeleteCustomer(false);
   };
 
+  const { mutate: UploadImage, status: statusUploadImage } = useMutation(
+    (uploadProps: MyUploadProps) =>
+      assetsApi.assetControllerUploadFile(uploadProps.file, undefined, uploadProps.s3FilePath),
+    {
+      onSuccess: ({ data }) => {
+        const newData = data as any;
+        form.setFieldValue('avatarId', newData.id);
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + newData.preview);
+        setLoadingImg(false);
+      },
+      onError: (error: any) => {
+        setLoadingImg(false);
+        message.error(error.message);
+      },
+    }
+  );
+
+  const customRequest = async (options: any) => {
+    const { file, onSuccess, onError } = options;
+    setLoadingImg(true);
+    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
+  };
+
   return (
     <Card id="create-customer-management">
       <div className="create-customer-header">
@@ -141,22 +173,7 @@ const CreateCustomer = () => {
           </div>
           <div className="customer-info__content">
             <div className="customer-info__content__avatar">
-              <span className="customer-info__content__avatar__img">
-                <Upload
-                  name="avatar"
-                  // listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList={false}
-                  // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-                  // beforeUpload={beforeUpload}
-                  // onChange={handleChange}
-                >
-                  {avatar ? <img src={avatar} /> : <IconSVG type="avatar-default" />}
-                  <span className="customer-info__content__avatar__camera">
-                    <IconSVG type="camera" />
-                  </span>
-                </Upload>
-              </span>
+              <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
             </div>
             <div className="customer-info__content__info">
               <div className="customer-info__content__info__rows">
@@ -207,7 +224,7 @@ const CreateCustomer = () => {
                   label={intl.formatMessage({
                     id: 'customer.create.dob',
                   })}
-                  name={'dob'}
+                  name={'dateOfBirth'}
                 >
                   <DatePicker />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}

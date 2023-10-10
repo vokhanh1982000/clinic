@@ -13,6 +13,7 @@ import { AdministratorClinic, Cadastral, UpdateAdminClinicDto } from '../../../a
 import { adminClinicApi, authApi, cadastralApi } from '../../../apis';
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
+import { FORMAT_DATE } from '../../../constants/common';
 
 const AdminClinicProfile = () => {
   const intl = useIntl();
@@ -83,7 +84,7 @@ const AdminClinicProfile = () => {
     const adminClinic: AdministratorClinic | undefined = adminClinicProfile?.data;
     form.setFieldsValue({
       ...adminClinic,
-      dateOfBirth: adminClinic?.dateOfBirth ? dayjs(adminClinic?.dateOfBirth, 'YYYY-MM-DD') : undefined,
+      dateOfBirth: adminClinic?.dateOfBirth ? dayjs(adminClinic?.dateOfBirth, FORMAT_DATE) : null,
     });
     setSelectedProvince(adminClinic?.province);
     setSelectedDistrict(adminClinic?.district);
@@ -92,7 +93,7 @@ const AdminClinicProfile = () => {
 
   const onFinish = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format('YYYY-MM-DD') : null;
+    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format(FORMAT_DATE) : undefined;
     updateAdminClinic(data);
   };
 
@@ -180,7 +181,7 @@ const AdminClinicProfile = () => {
                   })}
                   name={'dateOfBirth'}
                 >
-                  <DatePicker format={'YYYY-MM-DD'} />
+                  <DatePicker format={FORMAT_DATE} />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item

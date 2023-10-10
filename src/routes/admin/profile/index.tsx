@@ -12,6 +12,7 @@ import CustomSelect from '../../../components/select/CustomSelect';
 import { UpdateAdminDto } from '../../../apis/client-axios';
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
+import { FORMAT_DATE } from '../../../constants/common';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
@@ -36,14 +37,14 @@ const Profile = () => {
         code: dt.code,
         emailAddress: dt.emailAddress,
         phoneNumber: dt.phoneNumber,
-        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth, 'YYYY-MM-DD') : null,
+        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth, FORMAT_DATE) : null,
         gender: dt.gender,
       });
     }
   }, [data]);
   const handleUpdate = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth.format('YYYY-MM-DD');
+    data.dateOfBirth = data.dateOfBirth.format(FORMAT_DATE);
     UpdateAdmin(data);
   };
   return (
@@ -123,7 +124,7 @@ const Profile = () => {
                       id: 'admin-profile.dateOfBirth',
                     })}
                   >
-                    <DatePicker format={'YYYY-MM-DD'} />
+                    <DatePicker format={FORMAT_DATE} />
                   </Form.Item>
                   <Form.Item
                     name={'gender'}

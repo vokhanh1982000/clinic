@@ -8,12 +8,15 @@
       font-family: 'Open-sans';
     }
   }
+
   .admin-management__body {
     margin-top: 20px;
     justify-content: space-between;
+
     .admin-management__body-info {
       .admin-management__info-header {
         justify-content: space-between;
+
         header {
           font-family: 'Open-sans';
           font-size: 20px;
@@ -21,6 +24,7 @@
           color: $secondary_color;
           font-family: 'Open-sans';
         }
+
         span {
           margin-right: 4px;
           font-weight: 600;
@@ -29,15 +33,25 @@
           font-family: 'Open-sans';
         }
       }
+
       .admin-management__body-data {
         margin-top: 20px;
+
+        &__avatar {
+          width: 30%;
+          height: fit-content;
+          position: relative;
+        }
+
         .admin-management__info-item {
           justify-content: space-between;
+
           .date-select {
             height: 48px;
             border-radius: 32px;
             width: 100%;
           }
+
           .admin-management__info-change {
             display: flex;
             align-items: center;
@@ -46,84 +60,83 @@
             justify-content: center;
             color: $primary_color;
           }
+
           .admin-management__item-select {
             width: 100%;
+
             .ant-select-selector {
               height: 48px;
               border-radius: 32px;
               width: 100%;
             }
+
             .ant-select-selection-item {
               display: flex;
               align-items: center;
             }
           }
+
           .ant-form-item {
             width: 100%;
           }
         }
-        .ant-custom-avatar {
-          position: relative;
-          .ant-avatar {
-            background-color: $table_header_color;
-            border-color: $primary_color;
-          }
-          .camera {
-            position: absolute;
-            bottom: 0;
-            left: 140px;
-            width: 56px;
-            height: 56px;
-            font-size: 20px;
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            color: $secondary_color;
-          }
-        }
       }
     }
+
     .admin-management__body-role {
       display: flex;
       flex-direction: column;
       justify-content: inherit;
+
       .admin-management__role-checkox {
         flex: 1;
+
         .admin-management__role-header {
           font-family: 'Open-sans';
           font-size: 20px;
           font-weight: 700;
           color: $secondary_color;
         }
+
         .admin-management__role-checkboxGroup {
-          div {
-            width: 100%;
-          }
+          margin-top: 15px;
+
           .ant-form-item-control-input-content {
-            columns: 1;
-            -webkit-columns: 1;
-            -moz-columns: 1;
-            .ant-checkbox-wrapper {
-              width: 50%;
-              margin-top: 15px;
-              font-size: 16px;
-              font-family: 'Open-Sans' !important;
-            }
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            word-break: break-all;
           }
+
+          // div {
+          //   width: 100%;
+          // }
+          // .ant-form-item-control-input-content {
+          //   columns: 1;
+          //   -webkit-columns: 1;
+          //   -moz-columns: 1;
+          //   .ant-checkbox-wrapper {
+          //     width: 50%;
+          //     margin-top: 15px;
+          //     font-size: 16px;
+          //     font-family: 'Open-Sans' !important;
+          //   }
+          // }
         }
       }
+
       .admin-management__role-submit {
         margin-top: 20px;
         height: 120px;
         align-items: center;
+
         button {
           border-radius: 32px;
           height: 48px;
           font-size: 16px;
           font-family: 'Open-sans';
         }
+
         .admin-submit-remove {
           color: $primary_color;
         }
@@ -131,12 +144,14 @@
     }
   }
 }
+
 .line-element {
   width: 94px;
   height: 2px;
   margin-top: 2px;
   background-color: $primary_color;
 }
+
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
 .ant-btn-default:not(:disabled):hover {
   border-color: unset;
