@@ -5,5 +5,8 @@
   "setting.clinic.introduce": "Introduce",
   "setting.schedule.title": "Schedule",
   "setting.category.title": "Specialty",
-  "setting.button.save": "Save"
+  "setting.button.save": "Save",
+  "setting.schedule.week.title": "Tuần",
+  "setting.schedule.morning.title": "Buổi sáng",
+  "setting.schedule.afternoon.title": "Buổi chiều"
 }

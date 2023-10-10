@@ -5,5 +5,8 @@
   "setting.clinic.introduce": "Giới thiệu",
   "setting.schedule.title": "Lịch làm việc",
   "setting.category.title": "Chuyên khoa",
-  "setting.button.save": "Lưu thay đổi"
+  "setting.button.save": "Lưu thay đổi",
+  "setting.schedule.week.title": "Tuần",
+  "setting.schedule.morning.title": "Buổi sáng",
+  "setting.schedule.afternoon.title": "Buổi chiều"
 }

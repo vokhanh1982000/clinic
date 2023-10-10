@@ -122,3 +122,8 @@
     }
   }
 }
+
+.ant-form-item-required {
+  flex-direction: row-reverse;
+  gap: 5px;
+}

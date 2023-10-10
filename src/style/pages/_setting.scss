@@ -12,25 +12,25 @@
     gap: 20px;
 
     &__left-container {
-      width: 70%;
+      width: 100%;
       border: 1px solid $border_input_color;
       border-radius: 24px;
       padding: 15px;
 
       .clinic-info {
         display: flex;
-        justify-content: space-between;
+        justify-content: start;
 
         &__title {
           font-size: 20px;
           font-weight: 700;
           line-height: 32px;
           color: $secondary_color;
-          width: 30%;
+          width: 25%;
         }
 
         &__content {
-          width: 70%;
+          width: 40%;
 
           &__rows {
             display: flex;
@@ -83,21 +83,21 @@
       }
 
       .schedule-setting {
+        display: flex;
         &__title {
           font-size: 20px;
           font-weight: 700;
           line-height: 32px;
           color: $secondary_color;
-          width: 30%;
+          width: 25%;
         }
 
         &__content {
-          width: 100%;
-          margin-top: 15px;
+          width: 60%;
+          margin-top: 50px;
 
           &__label {
             display: flex;
-
             &__item {
               width: 12.5%;
               height: 44px;
@@ -131,10 +131,11 @@
               border: 1px solid $border_input_color;
               border-bottom: unset;
               border-right: unset;
-              padding: 10px 2px;
+              //padding: 10px 2px;
+              padding-top: 5px;
               display: flex;
-              justify-content: center;
-              align-items: center;
+              //justify-content: center;
+              //align-items: center;
 
               .time {
                 border: 1px solid $border_input_color;
@@ -161,10 +162,11 @@
               height: 44px;
               border: 1px solid $border_input_color;
               border-right: unset;
-              padding: 10px 2px;
+              //padding: 10px 2px;
               display: flex;
-              justify-content: center;
-              align-items: center;
+              //justify-content: center;
+              //align-items: center;
+              padding-top: 5px;
 
               .time {
                 border: 1px solid $border_input_color;
@@ -247,38 +249,16 @@
           //   border-right: 1px solid $border_input_color;
           //   border-radius: 0 12px 12px 0;
           // }
-        }
-      }
-    }
-
-    &__right-container {
-      width: 30%;
-
-      .category-select {
-        border: 1px solid $border_input_color;
-        border-radius: 24px;
-        padding: 15px;
-
-        &__title {
-          font-size: 20px;
-          font-weight: 700;
-          line-height: 32px;
-          color: $secondary_color;
-        }
-
-        &__content {
-          margin-top: 10px;
 
           .ant-checkbox-group {
             display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 10px;
 
             .ant-checkbox-inner {
-              border: 1px solid $primary_color;
+              border: 1.8px solid $primary_color;
               background-color: unset;
-              width: 22px;
-              height: 22px;
+              width: 20px;
+              height: 20px;
             }
 
             .ant-checkbox-inner::after {
@@ -294,17 +274,73 @@
           }
         }
       }
+    }
 
-      .button-action {
-        margin-top: 25px;
+    .category-select {
+      display: flex;
+      justify-content: start;
+      //padding: 15px;
 
-        .button-save {
-          width: 100%;
-          background-color: $primary_color;
-          color: $text_white;
-          border: unset;
+      &__title {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 32px;
+        color: $secondary_color;
+        width: 25%;
+      }
+
+      &__content {
+        //margin-top: 10px;
+        width: 40%;
+        .ant-checkbox-group {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+
+          .ant-checkbox-inner {
+            border: 1px solid $primary_color;
+            background-color: unset;
+            width: 22px;
+            height: 22px;
+          }
+
+          .ant-checkbox-inner::after {
+            border-color: $primary_color;
+            top: 45%;
+            inset-inline-start: 30%;
+          }
+
+          .ant-checkbox-checked:after {
+            border-color: $primary_color;
+            border: 1px solid $primary_color;
+          }
         }
       }
+    }
+
+    .button-action {
+      margin-left: 25%;
+      width: 40%;
+      display: flex;
+      margin-top: 35px;
+      //justify-content: center;
+
+      .button-save {
+        width: 100%;
+        background-color: $primary_color;
+        color: $text_white;
+        border: unset;
+      }
+    }
+
+    .ant-picker,
+    .ant-picker-range {
+      border-radius: 15px;
+      margin: 0 3px;
+    }
+    .ant-picker-input,
+    .ant-picker-input-active {
+      width: 60%;
     }
   }
 }

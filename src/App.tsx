@@ -44,6 +44,9 @@ const App: React.FC = () => {
               colorPrimary: PRIMARY_COLOR,
             },
           },
+          token: {
+            fontFamily: 'Open-Sans, Open-Sans-Italic',
+          },
         }}
         locale={currentAppLocale.antd}
       >
