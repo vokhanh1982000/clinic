@@ -65,7 +65,7 @@
             align-items: center;
             background-color: $table_header_color;
             border-radius: 50%;
-            border: 1px solid $primary_color;
+            border: 4px solid $primary_color;
             height: 100%;
             aspect-ratio: 1;
             max-width: 214px;
@@ -80,7 +80,7 @@
           &__camera {
             position: absolute;
             bottom: 0;
-            left: 68%;
+            left: 58%;
             width: 56px;
             height: 56px;
             background-color: $text_white;
@@ -96,9 +96,13 @@
 
           &__rows {
             display: flex;
-            align-items: center;
+            //align-items: center;
             gap: 15px;
             width: 100%;
+
+            .ant-input {
+              font-weight: 400;
+            }
           }
 
           .name {
