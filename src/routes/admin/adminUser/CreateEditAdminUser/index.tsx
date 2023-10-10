@@ -17,6 +17,7 @@ import { FORMAT_DATE } from '../../../../constants/common';
 import UploadAvatar from '../../../../components/upload/UploadAvatar';
 import { MyUploadProps } from '../../../../constants/dto';
 import CustomSelect from '../../../../components/select/CustomSelect';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -31,6 +32,7 @@ const CreateAdmin = () => {
   const { id } = useParams();
   const [avatar, setAvatar] = useState<string>();
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string | undefined; name: string | undefined }>();
 
   const n = (key: keyof CreateAdminDto) => {
     return key;
@@ -47,6 +49,8 @@ const CreateAdmin = () => {
     {
       onError: (error) => {},
       onSuccess: (response) => {
+        setIsShowModalDelete({ id: undefined, name: response.data.fullName });
+        form.setFieldValue(n('roleIds'), Array.from(response.data.user.roles.map((item) => item.id)));
         form.setFieldsValue({
           ...response.data,
           roleIds: Array.from(response.data.user.roles.map((item) => item.id)),
@@ -98,19 +102,10 @@ const CreateAdmin = () => {
   });
 
   const handleDelete = () => {
-    Modal.confirm({
-      icon: null,
-      content: intl.formatMessage({ id: 'admin.user.delete.confirm' }),
-      okText: intl.formatMessage({ id: 'role.remove.confirm' }),
-      cancelText: intl.formatMessage({ id: 'role.remove.cancel' }),
-      onOk() {
-        if (id) deleteAdmin.mutate(id);
-      },
-      onCancel() {
-        console.log('cancel');
-      },
-      centered: true,
-    });
+    if (isShowModalDelete && isShowModalDelete.id) {
+      deleteAdmin.mutate(isShowModalDelete.id);
+      setIsShowModalDelete(undefined);
+    }
   };
 
   const onFinish = (values: any) => {
@@ -312,7 +307,12 @@ const CreateAdmin = () => {
                 {intl.formatMessage({ id: 'common.action.save' })}
               </Button>
               {id && (
-                <Button type="text" block className="admin-submit-remove" onClick={handleDelete}>
+                <Button
+                  type="text"
+                  block
+                  className="admin-submit-remove"
+                  onClick={() => setIsShowModalDelete({ id: id, name: isShowModalDelete?.name })}
+                >
                   {intl.formatMessage({ id: 'admin.user.delete' })}
                 </Button>
               )}
@@ -320,6 +320,14 @@ const CreateAdmin = () => {
           </Col>
         </Row>
       </Form>
+      <ConfirmDeleteModal
+        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        visible={!!isShowModalDelete?.id}
+        onSubmit={handleDelete}
+        onClose={() => {
+          setIsShowModalDelete({ id: undefined, name: isShowModalDelete?.name });
+        }}
+      />
     </Card>
   );
 };
