@@ -70,7 +70,15 @@ const ConfirmPassword = ({ data, userType }: any) => {
                 className="form-item-password"
                 label={intl.formatMessage({ id: 'sigin.password' })}
                 name={n('newPass')}
-                rules={[{ required: true, min: 8, max: 16 }]}
+                rules={[
+                  {
+                    required: true,
+                    min: 8,
+                    max: 16,
+                    pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
+                    message: intl.formatMessage({ id: 'sigin.validate.password' }),
+                  },
+                ]}
               >
                 <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />
               </Form.Item>
@@ -79,7 +87,15 @@ const ConfirmPassword = ({ data, userType }: any) => {
                 className="form-item-password"
                 label={intl.formatMessage({ id: 'forgot.confirmPassword' })}
                 name={n('confirmPass')}
-                rules={[{ required: true, min: 8, max: 16 }]}
+                rules={[
+                  {
+                    required: true,
+                    min: 8,
+                    max: 16,
+                    pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
+                    message: intl.formatMessage({ id: 'sigin.validate.password' }),
+                  },
+                ]}
               >
                 <Input.Password placeholder={intl.formatMessage({ id: 'forgot.confirmPassword.placeholder' })} />
               </Form.Item>
