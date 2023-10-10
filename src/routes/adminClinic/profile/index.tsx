@@ -157,7 +157,6 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.email',
                   })}
                   name={'emailAddress'}
-                  rules={[{ required: true }]}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -180,7 +179,6 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.dob',
                   })}
                   name={'dateOfBirth'}
-                  rules={[{ required: true }]}
                 >
                   <DatePicker format={'YYYY-MM-DD'} />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
@@ -191,7 +189,6 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.gender',
                   })}
                   name={'gender'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={[
@@ -218,7 +215,6 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.province',
                   })}
                   name={'provinceId'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={listProvince?.data.map((item: Cadastral) => {
@@ -238,7 +234,6 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.district',
                   })}
                   name={'districtId'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={listDistrict?.data.map((item: Cadastral) => {
@@ -260,7 +255,6 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.ward',
                   })}
                   name={'wardId'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={listWard?.data?.map((item: Cadastral) => {
@@ -280,7 +274,6 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.address',
                   })}
                   name={'address'}
-                  rules={[{ required: true }]}
                 >
                   <CustomInput />
                 </Form.Item>
