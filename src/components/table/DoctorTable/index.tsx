@@ -8,7 +8,7 @@ import CustomButton from '../../buttons/CustomButton';
 import { DownOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
-import { DoctorType, LanguageType } from '../../../constants/enum';
+import { DoctorType, LanguageType, Status } from '../../../constants/enum';
 import { ConfirmDeleteModal } from '../../modals/ConfirmDeleteModal';
 import { useQuery } from '@tanstack/react-query';
 import { categoryApi, doctorClinicApi, doctorSupportApi } from '../../../apis';
@@ -36,7 +36,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const navigate = useNavigate();
   const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
   const [statusSelect, setStatusSelect] = useState<OptionStatus>();
-  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string | undefined; name: string | undefined }>();
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
@@ -72,40 +72,6 @@ export const DoctorTable = (props: DoctorTableProps) => {
     queryKey: ['category'],
     queryFn: () => categoryApi.categoryControllerFindCategory(1, 10, undefined, undefined),
   });
-
-  const items1: any = [
-    {
-      key: '1',
-      label: (
-        <div
-          onClick={() => {
-            setSpecialistSelect({
-              id: '1',
-              label: intl.formatMessage({
-                id: 'doctor.list.filter.specialist',
-              }),
-            });
-          }}
-        >
-          {intl.formatMessage({
-            id: 'doctor.list.filter.specialist',
-          })}
-        </div>
-      ),
-    },
-    {
-      key: '2',
-      label: (
-        <div
-          onClick={() => {
-            setSpecialistSelect({ id: '2', label: 'Example1' });
-          }}
-        >
-          Example1
-        </div>
-      ),
-    },
-  ];
 
   const statusDoctor: any = [
     {
@@ -146,12 +112,12 @@ export const DoctorTable = (props: DoctorTableProps) => {
   };
 
   const handleDelete = () => {
-    if (deleteFc && isShowModalDelete) deleteFc(isShowModalDelete.id);
+    if (deleteFc && isShowModalDelete?.id) deleteFc(isShowModalDelete.id);
     setIsShowModalDelete(undefined);
   };
 
   const handleClose = () => {
-    setIsShowModalDelete(undefined);
+    setIsShowModalDelete({ id: undefined, name: isShowModalDelete?.name });
   };
 
   const menu = (
@@ -294,16 +260,36 @@ export const DoctorTable = (props: DoctorTableProps) => {
           })}
           dataIndex="status"
           width={'13%'}
-          render={(_, record: any) => (
-            <div className="status-doctor">
-              <IconSVG type={record.status} />
-              <div>
-                {intl.formatMessage({
-                  id: `doctor.status.${record.status}`,
-                })}
+          // render={(_, record: any) => (
+          //   <div className="status-doctor">
+          //     <IconSVG type={record.status} />
+          //     <div>
+          //       {intl.formatMessage({
+          //         id: `doctor.status.${record.status}`,
+          //       })}
+          //     </div>
+          //   </div>
+          // )}
+
+          render={(_, record: any) => {
+            let status = record.status ? Status.ACTIVE : Status.INACTIVE;
+            return (
+              <div className="status-doctor">
+                {status ? (
+                  <>
+                    <IconSVG type={status} />
+                    <div>
+                      {intl.formatMessage({
+                        id: `doctor.status.${record.status}`,
+                      })}
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
-            </div>
-          )}
+            );
+          }}
         />
         <Column
           title={intl.formatMessage({
@@ -325,7 +311,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
+              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.fullName })}>
                 <IconSVG type="delete" />
               </div>
             </div>
@@ -335,7 +321,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
       </TableWrap>
       <ConfirmDeleteModal
         name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
-        visible={!!isShowModalDelete}
+        visible={!!isShowModalDelete?.id}
         onSubmit={handleDelete}
         onClose={handleClose}
       />

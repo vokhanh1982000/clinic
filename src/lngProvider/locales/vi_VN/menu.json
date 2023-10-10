@@ -1,5 +1,6 @@
 {
-  "menu.roleManagement": "Quản lý Phân Quyền",
+  "menu.roleManagement": "Quản lý Phân Quyền Hệ Thống",
+  "menu.roleManagement.sideBar": "Quản lý Phân Quyền",
   "menu.adminManagement": "Quản lý Admin",
   "menu.clinicManagement": "Quản lý Phòng Khám",
   "menu.doctorManagement": "Quản lý Bác Sĩ",
@@ -12,8 +13,8 @@
   "menu.medicineManagement": "Quản lý Thuốc",
   "menu.setting": "Cài đặt phòng khám",
   "menu.home": "Trang chủ",
-  "menu.createRole": "Tạo role mới",
-  "menu.detailRole": "Chi Tiết Role",
+  "menu.createRole": "Tạo vai trò mới",
+  "menu.detailRole": "Chi Tiết Vai Trò",
   "menu.admin-profile": "Thông tin tài khoản",
   "menu.admin-clinic-profile": "Thông tin tài khoản",
   "menu.doctor-clinic-profile": "Thông tin tài khoản",

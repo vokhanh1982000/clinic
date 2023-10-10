@@ -41,7 +41,7 @@ const ListRole = () => {
 
   const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
     onSuccess: ({ data }) => {
-      console.log(data);
+      message.error(intl.formatMessage({ id: 'role.delete.success' }));
       queryClient.invalidateQueries(['getUsers']);
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
@@ -51,7 +51,8 @@ const ListRole = () => {
   });
 
   const handleSearch = (e: any) => {
-    if (e.target.value === ' ') return setFullTextSearch(null);
+    if (e.target.value.trim() === '') return setFullTextSearch(null);
+    setPage(1);
     setFullTextSearch(e.target.value);
   };
 
@@ -61,7 +62,7 @@ const ListRole = () => {
       <div className="role-management__header">
         <div className="role-management__header__title">
           {intl.formatMessage({
-            id: 'role.list.title',
+            id: 'role.title',
           })}
         </div>
         <CustomButton
@@ -84,9 +85,10 @@ const ListRole = () => {
         })}
         prefix={<IconSVG type="search" />}
         className="input-search"
+        allowClear
       />
       <TableWrap
-        className="custom-table"
+        className="custom-table role-management__header__table"
         data={data?.data.content}
         isLoading={isLoading}
         page={page}
@@ -97,15 +99,23 @@ const ListRole = () => {
         showPagination={true}
       >
         <Column
-          title={intl.formatMessage({
-            id: 'role.list.table.role',
-          })}
+          title={
+            <span className="table-title__name">
+              {intl.formatMessage({
+                id: 'role.list.table.role',
+              })}
+            </span>
+          }
           dataIndex="name"
         />
         <Column
-          title={intl.formatMessage({
-            id: 'role.list.table.action',
-          })}
+          title={
+            <span className="table-title__name">
+              {intl.formatMessage({
+                id: 'role.list.table.action',
+              })}
+            </span>
+          }
           dataIndex="action"
           width={'15%'}
           render={(_, record: any) => (

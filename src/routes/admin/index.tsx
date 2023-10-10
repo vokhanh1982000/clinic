@@ -19,7 +19,7 @@ const Admin = () => {
 
   const defaultMenu = [
     getItem(
-      intl.formatMessage({ id: 'menu.roleManagement' }),
+      intl.formatMessage({ id: 'menu.roleManagement.sideBar' }),
       ADMIN_ROUTE_PATH.ROLE_MANAGEMENT,
       <img src="/assets/icons/admin/roleManagementIconInactive.svg" />
     ),

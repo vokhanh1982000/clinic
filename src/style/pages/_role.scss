@@ -1,4 +1,5 @@
 #role-management {
+  font-family: Open-Sans !important;
   .role-management__header {
     display: flex;
     justify-content: space-between;
@@ -6,12 +7,12 @@
     margin-bottom: 15px;
 
     &__title {
+      font-family: Open-Sans !important;
       font-weight: 700;
       font-size: 24px;
       line-height: 36px;
       color: $text_black_light;
     }
-
     .button-add {
       width: 177px;
       border: unset;
@@ -40,7 +41,9 @@
 }
 
 #create-role-management {
+  font-family: Open-Sans;
   .create-role-title {
+    font-family: Open-Sans;
     font-size: 24px;
     font-weight: 700;
     line-height: 36px;
@@ -103,4 +106,23 @@
       color: $text_warning;
     }
   }
+}
+.table-title__name {
+  color: $table_title_name;
+  font-weight: 700;
+  font-size: 20px;
+}
+.ant-table-tbody {
+  font-family: Open-Sans !important;
+  font-weight: 400;
+  font-size: 16px;
+  color: $text_black_light;
+  .ant-table-cell {
+    max-width: 800px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+  }
+}
+.table-title__name.detail {
+  font-weight: 600;
 }
