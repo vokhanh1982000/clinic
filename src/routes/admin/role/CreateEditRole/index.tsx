@@ -228,7 +228,7 @@ const CreateRole = () => {
             title={getAction(i)}
             align="center"
             key={`col-${i}`}
-            render={(value, record) => renderColumn(i, record)}
+            render={(value, record) => <div className="custom-checkbox item-center">{renderColumn(i, record)}</div>}
           ></Column>
         ))}
       </TableWrap>

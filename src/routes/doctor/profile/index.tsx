@@ -13,6 +13,7 @@ import { Cadastral, Category, DoctorClinic, UpdateDoctorClinicDto } from '../../
 import { authApi, cadastralApi, categoryApi, doctorClinicApi } from '../../../apis';
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
+import { FORMAT_DATE } from '../../../constants/common';
 
 const DoctorProfile = () => {
   const intl = useIntl();
@@ -93,7 +94,7 @@ const DoctorProfile = () => {
     const doctor: DoctorClinic | undefined = doctorProfile?.data;
     form.setFieldsValue({
       ...doctor,
-      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth, 'YYYY-MM-DD') : null,
+      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth, FORMAT_DATE) : null,
       status: doctor?.status ? Number(doctor.status) : 0,
       categoryIds: doctor?.categories?.map((item) => {
         return item.id;
@@ -106,7 +107,7 @@ const DoctorProfile = () => {
 
   const onFinish = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format('YYYY-MM-DD') : null;
+    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format(FORMAT_DATE) : null;
     console.log(data);
     updateDoctorProfile(data);
   };
@@ -195,7 +196,7 @@ const DoctorProfile = () => {
                   name={'dateOfBirth'}
                   rules={[{ required: true }]}
                 >
-                  <DatePicker format={'YYYY-MM-DD'} />
+                  <DatePicker format={FORMAT_DATE} />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item

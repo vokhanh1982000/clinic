@@ -1,25 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, Form, message } from 'antd';
+import moment from 'moment';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
-import FormWrap from '../../../../components/FormWrap';
-import CustomButton from '../../../../components/buttons/CustomButton';
-import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
-import DoctorInfo from '../../../../components/table/DoctorTable/information';
-import Achievement from '../../../../components/table/DoctorTable/achievenment';
-import { DoctorType } from '../../../../constants/enum';
-import {
-  CreateDoctorClinicDto,
-  CreateDoctorClinicDtoGenderEnum,
-  CreateDoctorSupport,
-  UpdateDoctorClinicDto,
-  UpdateDoctorSupport,
-} from '../../../../apis/client-axios';
 import { categoryApi, doctorSupportApi } from '../../../../apis';
-import moment from 'moment';
-import { error } from 'console';
-import { values } from 'lodash';
+import { CreateDoctorSupport, UpdateDoctorSupport } from '../../../../apis/client-axios';
+import FormWrap from '../../../../components/FormWrap';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import Achievement from '../../../../components/table/DoctorTable/achievenment';
+import DoctorInfo from '../../../../components/table/DoctorTable/information';
+import { DoctorType } from '../../../../constants/enum';
+import dayjs from 'dayjs';
+import { FORMAT_DATE } from '../../../../constants/common';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -30,6 +23,7 @@ const CreateDoctor = () => {
   const [isDeleteDoctor, setIsDeleteDoctor] = useState<boolean>(false);
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
+  const [avatar, setAvatar] = useState<string>();
 
   const n = (key: keyof CreateDoctorSupport) => {
     return key;
@@ -49,11 +43,15 @@ const CreateDoctor = () => {
         ...data,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
-        dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'YYYY-MM-DD') : moment('', 'YYYY-MM-DD'),
+        dateOfBirth: data.dateOfBirth ? dayjs(data.dateOfBirth, FORMAT_DATE) : null,
       });
+      if (data.avatar) {
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + data.avatar.preview);
+      }
       setProvinceId(data.provinceId);
       setDistrictId(data.districtId);
     },
+    refetchOnWindowFocus: false,
   });
 
   const createDoctorSupport = useMutation(
@@ -105,14 +103,14 @@ const CreateDoctor = () => {
       createDoctorSupport.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
         clinicId: null,
       });
     } else {
       updateDoctorSupport.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
         id: id,
       });
     }
@@ -132,8 +130,10 @@ const CreateDoctor = () => {
       <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-doctor">
         <DoctorInfo
           form={form}
+          avatar={avatar}
           provinceId={provinceId}
           districtId={districtId}
+          setAvatar={setAvatar}
           setProvinceId={setProvinceId}
           setDistrictId={setDistrictId}
           category={category?.data.content}

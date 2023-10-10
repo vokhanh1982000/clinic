@@ -18,6 +18,7 @@ import { categoryApi, doctorClinicApi } from '../../../../apis';
 import moment from 'moment';
 import { error } from 'console';
 import { values } from 'lodash';
+import { FORMAT_DATE } from '../../../../constants/common';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -28,6 +29,7 @@ const CreateDoctor = () => {
   const [isDeleteDoctor, setIsDeleteDoctor] = useState<boolean>(false);
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
+  const [avatar, setAvatar] = useState<string>();
 
   const n = (key: keyof CreateDoctorClinicDto) => {
     return key;
@@ -47,11 +49,15 @@ const CreateDoctor = () => {
         ...data,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
-        dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, 'YYYY-MM-DD') : moment('', 'YYYY-MM-DD'),
+        dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, FORMAT_DATE) : null,
       });
+      if (data.avatar) {
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + data.avatar.preview);
+      }
       data.provinceId && setProvinceId(data.provinceId);
       data.districtId && setDistrictId(data.districtId);
     },
+    refetchOnWindowFocus: false,
   });
 
   const createDocterClinic = useMutation(
@@ -59,7 +65,6 @@ const CreateDoctor = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
-        console.log(data);
       },
       onError: (error) => {
         message.error(intl.formatMessage({ id: 'doctor.create.error' }));
@@ -73,7 +78,6 @@ const CreateDoctor = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
-        console.log(data);
       },
       onError: (error) => {
         console.log(error);
@@ -102,14 +106,14 @@ const CreateDoctor = () => {
       createDocterClinic.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
         clinicId: null,
       });
     } else {
       updateDoctorClinic.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
         id: id,
       });
     }
@@ -129,8 +133,10 @@ const CreateDoctor = () => {
       <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-doctor">
         <DoctorInfo
           form={form}
+          avatar={avatar}
           provinceId={provinceId}
           districtId={districtId}
+          setAvatar={setAvatar}
           setProvinceId={setProvinceId}
           setDistrictId={setDistrictId}
           category={category?.data.content}

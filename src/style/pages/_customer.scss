@@ -148,40 +148,9 @@
         gap: 25px;
 
         &__avatar {
-          margin-left: 15px;
           width: 30%;
           height: fit-content;
           position: relative;
-
-          &__img {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: $table_header_color;
-            border-radius: 50%;
-            width: 214px;
-            height: 214px;
-            border: 1px solid $primary_color;
-
-            overflow: hidden;
-
-            img {
-              height: 100%;
-            }
-          }
-
-          &__camera {
-            position: absolute;
-            bottom: 0;
-            left: 150px;
-            width: 56px;
-            height: 56px;
-            background-color: $text_white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-          }
         }
 
         &__info {
