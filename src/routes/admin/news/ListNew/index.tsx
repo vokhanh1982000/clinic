@@ -1,6 +1,198 @@
-import React from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Card, Switch } from 'antd';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
+import CustomButton from '../../../../components/buttons/CustomButton';
+import IconSVG from '../../../../components/icons/icons';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
+import CustomInput from '../../../../components/input/CustomInput';
+import { newsApi } from '../../../../apis';
+import { debounce } from 'lodash';
+import CustomSelect from '../../../../components/select/CustomSelect';
+import TableWrap from '../../../../components/TableWrap';
+import Column from 'antd/es/table/Column';
+import { Status } from '../../../../constants/enum';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 
 const ListNew = () => {
-  return <div>ok</div>;
+  const intl = useIntl();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
+  const [sort, setSort] = useState<string>('');
+  const [status, setStatus] = useState<boolean>();
+  const [fullTextSearch, setFullTextSearch] = useState<string>('');
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const { data, isLoading } = useQuery({
+    queryKey: ['newList', { page, size, sort, fullTextSearch, status }],
+    queryFn: () => newsApi.newControllerGet(page, size, sort, fullTextSearch, status),
+  });
+
+  const handleDelete = () => {
+    if (isShowModalDelete && isShowModalDelete.id) {
+      // Deletenew(isShowModalDelete.id);
+    }
+    setIsShowModalDelete(undefined);
+  };
+
+  const debouncedUpdateInputValue = debounce((value) => {
+    setFullTextSearch(value);
+  }, 500);
+
+  return (
+    <Card id="new-management">
+      <div className="new-management__header">
+        <div className="new-management__header__title">
+          {intl.formatMessage({
+            id: 'new.list.title',
+          })}
+        </div>
+        <CustomButton
+          className="button-add"
+          icon={<IconSVG type="create" />}
+          onClick={() => {
+            navigate(ADMIN_ROUTE_PATH.CREATE_USER);
+          }}
+        >
+          {intl.formatMessage({
+            id: 'new.list.button.add',
+          })}
+        </CustomButton>
+      </div>
+      <div className="new-management__filter">
+        <CustomInput
+          placeholder={intl.formatMessage({
+            id: 'new.list.search',
+          })}
+          prefix={<IconSVG type="search" />}
+          className="input-search"
+          onChange={(e) => {
+            if (debouncedUpdateInputValue.cancel) {
+              debouncedUpdateInputValue.cancel();
+            }
+            debouncedUpdateInputValue(e.target.value);
+          }}
+        />
+        <CustomSelect
+          className="select-status"
+          placeholder={intl.formatMessage({
+            id: 'new.list.select.status.place-holder',
+          })}
+          onChange={(e) => {
+            if (e === '') {
+              setStatus(undefined);
+            } else {
+              setStatus(Boolean(Number(e)));
+            }
+          }}
+          options={[
+            {
+              value: '',
+              label: intl.formatMessage({
+                id: 'common.option.all',
+              }),
+            },
+            {
+              value: 1,
+              label: intl.formatMessage({
+                id: 'common.active',
+              }),
+            },
+            {
+              value: 0,
+              label: intl.formatMessage({
+                id: 'common.inactive',
+              }),
+            },
+          ]}
+        />
+      </div>
+      <TableWrap
+        className="custom-table"
+        data={data?.data.content}
+        // isLoading={isLoading}
+        page={page}
+        size={size}
+        total={data?.data.total}
+        setSize={setSize}
+        setPage={setPage}
+        showPagination={true}
+      >
+        <Column
+          title={intl.formatMessage({
+            id: 'new.list.table.image',
+          })}
+          dataIndex="fullName"
+          width={'15%'}
+          render={(_, record: any) => {
+            return <div>{record.img}</div>;
+          }}
+        />
+        <Column
+          title={intl.formatMessage({
+            id: 'new.list.table.title',
+          })}
+          dataIndex="title"
+          width={'20%'}
+        />
+        <Column
+          title={intl.formatMessage({
+            id: 'new.list.table.createDate',
+          })}
+          dataIndex="createDate"
+          width={'15%'}
+          render={(_, record: any) => {
+            return <div>{record.createDate}</div>;
+          }}
+        />
+        <Column
+          title={intl.formatMessage({
+            id: 'new.list.table.content',
+          })}
+          dataIndex="content"
+          width={'25%'}
+        />
+        <Column
+          title={intl.formatMessage({
+            id: 'new.list.table.status',
+          })}
+          dataIndex="status"
+          width={'10%'}
+          render={(_, record: any) => {
+            return <Switch checked={record.status} />;
+          }}
+        />
+        <Column
+          title={intl.formatMessage({
+            id: 'new.list.table.action',
+          })}
+          dataIndex="action"
+          width={'15%'}
+          render={(_, record: any) => (
+            <div className="action-new">
+              <div onClick={() => navigate(`detail/${record.id}`)}>
+                <IconSVG type="edit" />
+              </div>
+              <span className="divider"></span>
+              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
+                <IconSVG type="delete" />
+              </div>
+            </div>
+          )}
+          align="center"
+        />
+      </TableWrap>
+      <ConfirmDeleteModal
+        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDelete}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
+    </Card>
+  );
 };
 export default ListNew;

@@ -16,6 +16,7 @@ import doctorProfile from './doctor.profile.json';
 import adminClinic from './admin.clinic.profile.json';
 import setting from './setting.json';
 import changePassword from './change-password.json';
+import news from './new.json';
 
 const viLang = {
   messages: {
@@ -36,6 +37,7 @@ const viLang = {
     ...adminClinic,
     ...setting,
     ...changePassword,
+    ...news,
   },
   antd: antdVI,
   locale: 'vi-VN',
