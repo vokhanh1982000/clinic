@@ -196,7 +196,13 @@ const DoctorProfile = () => {
                   name={'dateOfBirth'}
                   rules={[{ required: true }]}
                 >
-                  <DatePicker format={FORMAT_DATE} />
+                  <DatePicker
+                    format={FORMAT_DATE}
+                    disabledDate={(current) => {
+                      const today = dayjs();
+                      return current && dayjs(current).isAfter(today, 'day');
+                    }}
+                  />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item

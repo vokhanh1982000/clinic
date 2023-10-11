@@ -37,7 +37,7 @@ const Profile = () => {
         code: dt.code,
         emailAddress: dt.emailAddress,
         phoneNumber: dt.phoneNumber,
-        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth, FORMAT_DATE) : null,
+        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth) : null,
         gender: dt.gender,
       });
     }
@@ -124,7 +124,13 @@ const Profile = () => {
                       id: 'admin-profile.dateOfBirth',
                     })}
                   >
-                    <DatePicker format={FORMAT_DATE} />
+                    <DatePicker
+                      format={FORMAT_DATE}
+                      disabledDate={(current) => {
+                        const today = dayjs();
+                        return current && dayjs(current).isAfter(today, 'day');
+                      }}
+                    />
                   </Form.Item>
                   <Form.Item
                     name={'gender'}

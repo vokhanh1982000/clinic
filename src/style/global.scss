@@ -50,6 +50,9 @@
   .ant-table-container table > tbody > tr:last-child > *:last-child {
     border-end-end-radius: 12px;
   }
+  .ant-table-container table > thead > tr > th {
+    color: $table_header_label_color;
+  }
 }
 
 .custom-pagination {
