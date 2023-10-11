@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ListNews = () => {
+const ListNew = () => {
   return <div>ok</div>;
 };
-export default ListNews;
+export default ListNew;

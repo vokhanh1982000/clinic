@@ -18,7 +18,7 @@ const ListClinic = React.lazy(() => import('./clinic/ListClinic'));
 const CreateClinic = React.lazy(() => import('./clinic/CreateEditClinic'));
 const ListDoctor = React.lazy(() => import('./doctor/ListDoctor'));
 const ListMedicalSpecialty = React.lazy(() => import('./medicalSpecialty/index'));
-const ListNews = React.lazy(() => import('./news/index'));
+const ListNews = React.lazy(() => import('./news/ListNew'));
 const Statistic = React.lazy(() => import('./statistic/index'));
 const CreateAdmin = React.lazy(() => import('./adminUser/CreateEditAdminUser'));
 const ListMedicine = React.lazy(() => import('./medicine/index'));
@@ -46,7 +46,11 @@ export const AdminRoutes = () => (
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateDoctor />} />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.MEDICAL_SPECIALTY_MANAGEMENT} element={<ListMedicalSpecialty />} />
-      <Route path={ADMIN_ROUTE_NAME.NEWS_MANAGEMENT} element={<ListNews />} />
+      <Route path={ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}>
+        <Route path="" element={<SuspenseWrapper component={<ListNews />} />} />
+        <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateDoctor />} />} />
+        <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateDoctor />} />} />
+      </Route>
       <Route path={ADMIN_ROUTE_NAME.STATISTIC} element={<Statistic />} />
       <Route path={ADMIN_ROUTE_NAME.USER_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListCustomer />} />} />
