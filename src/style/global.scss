@@ -135,23 +135,21 @@
 .ant-form-item-required::after {
   content: unset !important;
 }
-
-.ant-form-item {
-  .ant-form-item-label {
-    .ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
-      display: none !important;
-    }
-
-    .ant-form-item-required:not(.ant-form-item-required-mark-optional)::after {
-      display: inline-block;
-      margin-inline-end: 4px;
-      color: #ff4d4f;
-      font-size: 14px;
-      line-height: 1;
-      content: '*';
-    }
-  }
-}
+//.ant-form-item {
+//  .ant-form-item-label {
+//    .ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+//      display: none !important;
+//    }
+//    .ant-form-item-required:not(.ant-form-item-required-mark-optional)::after {
+//      display: inline-block;
+//      margin-inline-end: 4px;
+//      color: #ff4d4f;
+//      font-size: 14px;
+//      line-height: 1;
+//      content: '*';
+//    }
+//  }
+//}
 
 .text-error {
   color: $text_error;

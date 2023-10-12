@@ -1,0 +1,6 @@
+{
+  "validate.required": "Không được bỏ trống",
+  "validate.min_4_char": "Ít nhất 4 kí tự",
+  "validate.space": "Không được bỏ trống",
+  "validate.phone": "Không đúng định dạng"
+}
