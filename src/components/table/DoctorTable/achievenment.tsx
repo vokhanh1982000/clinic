@@ -82,7 +82,7 @@ const Achievement = (props: Props) => {
               <CustomButton
                 className="button-cancel"
                 onClick={() => {
-                  navigate(ADMIN_CLINIC_ROUTE_PATH.DOCTOR_MANAGEMENT);
+                  navigate(-1);
                 }}
               >
                 {intl.formatMessage({

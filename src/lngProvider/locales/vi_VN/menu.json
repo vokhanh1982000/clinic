@@ -1,7 +1,7 @@
 {
   "menu.roleManagement": "Quản lý Phân Quyền Hệ Thống",
   "menu.roleManagement.sideBar": "Quản lý Phân Quyền",
-  "menu.adminManagement": "Quản lý Admin",
+  "menu.adminManagement": "Quản Lý Quản Trị Viên",
   "menu.clinicManagement": "Quản lý Phòng Khám",
   "menu.doctorManagement": "Quản lý Bác Sĩ",
   "menu.doctorSupportManagement": "Quản lý Bác Sĩ Tư Vấn",

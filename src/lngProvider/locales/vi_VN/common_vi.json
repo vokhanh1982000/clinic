@@ -21,9 +21,17 @@
   "common.option.all": "Tất cả",
   "common.password.min": "Mật khẩu tối thiểu 8 kí tự",
   "common.password.max": "Mật khẩu tối tối đa 16 kí tự",
+  "common.password.space": "Mật khẩu không bao gồm khoảng trắng",
+  "common.password.regex": "Mật khẩu chỉ bao gồm chữ thường , chữ in hoa, số, 1 vài kí tự đặc biệt như #$@!%&*?",
   "common.upload": "Tải ảnh",
   "common.message.err": "Đã có lỗi xảy ra. Vui lòng thử lại",
   "common.province.name": "Tỉnh thành",
   "common.district.name": "Quận/Huyện",
-  "common.ward.name": "Xã/Phường"
+  "common.ward.name": "Xã/Phường",
+  "common.address.name": "Địa chỉ",
+  "common.noti.space": "Vui lòng bắt đầu với kí tự",
+  "common.noti.special": "Vui lòng không nhập kí tự đặc biệt",
+  "common.noti.input": "Vui lòng nhập dữ liệu cho trường này",
+  "common.noti.select": "Vui lòng chọn dữ liệu cho trường này",
+  "common.noti.role": "Tên vai trò có thể đã được sử dụng. Vui lòng thử lại"
 }
