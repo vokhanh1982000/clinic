@@ -40,6 +40,8 @@ const CreateRole = () => {
   const createRole = useMutation((createRole: CreateRoleDto) => roleApi.roleControllerCreate(createRole), {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['getUsers']);
+      queryClient.invalidateQueries(['getAdminUser']);
+      queryClient.invalidateQueries(['getAllAdmin']);
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
     onError: (error) => {
@@ -51,11 +53,13 @@ const CreateRole = () => {
     (updateRole: UpdateRoleDto) => roleApi.roleControllerUpdate(id as string, updateRole),
     {
       onSuccess: ({ data }) => {
+        queryClient.invalidateQueries(['getAdminUser']);
+        queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getRoleDetail', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
       },
       onError: (error) => {
-        message.error(intl.formatMessage({ id: 'role.update.error' }));
+        message.error(intl.formatMessage({ id: 'rocle.update.error' }));
       },
     }
   );
@@ -147,6 +151,12 @@ const CreateRole = () => {
   const onFinish = (values: any) => {
     const permissions = Array.from(new Set(form.getFieldValue(n('permissions')))) as string[];
 
+    console.log({
+      // code: values.code,
+      name: values.name,
+      permissions: permissions,
+      id: id,
+    });
     id
       ? updateRole.mutate({
           // code: values.code,
@@ -211,9 +221,15 @@ const CreateRole = () => {
               }),
             },
             {
-              pattern: /^[a-zA-Z0-9\s]{1,30}$/,
+              pattern: /^(?![\s])[\s\S]*$/,
               message: intl.formatMessage({
-                id: 'role.name.err',
+                id: 'common.noti.space',
+              }),
+            },
+            {
+              pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+              message: intl.formatMessage({
+                id: 'common.noti.special',
               }),
             },
           ]}
@@ -225,7 +241,7 @@ const CreateRole = () => {
       <TableWrap className="custom-table" data={dataPermissions?.data} showPagination={false}>
         <Column
           title={
-            <span className="table-title__name detail">
+            <span className="">
               {intl.formatMessage({
                 id: 'role.create.role',
               })}
@@ -237,7 +253,7 @@ const CreateRole = () => {
         {[...Array(numOfCol)].map((x, i) => (
           <Column<PermissionGroupDto>
             title={
-              <span className="table-title__name detail">
+              <span className="">
                 {intl.formatMessage({
                   id: getAction(i),
                 })}

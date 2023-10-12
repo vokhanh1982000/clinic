@@ -16,6 +16,7 @@ import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { EditOutlined, DeleteOutlined, SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import { debounce } from 'lodash';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -50,10 +51,17 @@ const ListRole = () => {
     },
   });
 
+  const debouncedUpdateInputValue = debounce((value) => {
+    setFullTextSearch(value);
+    setPage(1);
+  });
+
   const handleSearch = (e: any) => {
     if (e.target.value.trim() === '') return setFullTextSearch(null);
-    setPage(1);
-    setFullTextSearch(e.target.value);
+    if (debouncedUpdateInputValue.caller) {
+      debouncedUpdateInputValue.cancel();
+    }
+    debouncedUpdateInputValue(e.target.value);
   };
 
   console.log(data);
@@ -100,7 +108,7 @@ const ListRole = () => {
       >
         <Column
           title={
-            <span className="table-title__name">
+            <span style={{ fontWeight: 700 }}>
               {intl.formatMessage({
                 id: 'role.list.table.role',
               })}
@@ -110,7 +118,7 @@ const ListRole = () => {
         />
         <Column
           title={
-            <span className="table-title__name">
+            <span style={{ fontWeight: 700 }}>
               {intl.formatMessage({
                 id: 'role.list.table.action',
               })}

@@ -23,7 +23,6 @@
   "role.remove.cancel": "Cancel",
   "role.remove.confirm.prefix": "Are you sure delele role '",
   "role.remove.confirm.suffixes": "' from the system?",
-  "role.name.err": "Role names only include upper and lower case letters and numbers from 0 -> 9. Maximum 30 characters",
   "role.input.err": "Please input role name",
   "role.delete.success": "Delete role success!"
 }
