@@ -13,10 +13,11 @@
     }
 
     .button-add {
-      width: 227px;
+      width: 191px;
       border: unset;
       display: flex;
       align-items: center;
+      justify-content: center;
       background-color: $primary_color;
       color: $text_white;
     }
@@ -57,6 +58,26 @@
     }
   }
 
+  .image-new {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .content-new {
+    max-height: 3 * (25px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    img {
+      max-width: 100%;
+    }
+
+    p {
+      margin-bottom: 0px;
+    }
+  }
+
   .manager-new {
     display: flex;
     align-items: center;
@@ -82,148 +103,145 @@
 }
 
 #create-new-management {
-  .create-new-header {
+  .container-new {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    &__title {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 36px;
-      color: $text_black_light;
-      margin-bottom: 10px;
-    }
-
-    .button-chat {
-      background-color: $primary_color;
-      color: $text_white;
-    }
-  }
-
-  .form-create-new {
-    margin-top: 20px;
-    display: flex;
-    // align-items: center;
     gap: 15px;
-    max-width: 100% !important;
 
-    .new-info {
-      padding: 20px 15px;
-      width: 70%;
-      border: 1px solid $border_input_color;
-      border-radius: 24px;
+    .left-container {
+      width: 60%;
+      position: relative;
 
-      &__header {
+      .ck-editor__editable {
+        height: 75vh;
+      }
+    }
+
+    .loading-img-editor {
+      .ant-spin {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 100;
+      }
+
+      .ck-editor__editable {
+        opacity: 0.6;
+      }
+    }
+
+    .content-error {
+      .ck-toolbar,
+      .ck-editor__editable {
+        border: 1px solid $text_error;
+      }
+    }
+
+    .title-error {
+      border: 1px solid $text_error;
+    }
+
+    .right-container {
+      width: 40%;
+
+      &__content {
+        border: 1px solid $border_input_color;
+        border-radius: 24px;
+        padding: 15px 10px 25px 10px;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
+        flex-direction: column;
+        gap: 15px;
 
-        &__title {
-          font-size: 20px;
-          font-weight: 700;
-          line-height: 32px;
-          color: $secondary_color;
+        &__image {
+          width: 100%;
+          height: 246px;
+          border: 1px solid $border_input_color;
+          border-radius: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &__display {
+            position: relative;
+
+            img {
+              max-height: 100%;
+              max-width: 100%;
+            }
+
+            span {
+              position: absolute;
+              right: 5px;
+              top: 5px;
+            }
+          }
+
+          &__upload {
+            .avatar-uploader {
+              .ant-upload {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .text-upload {
+                  color: $primary_color;
+                }
+              }
+            }
+          }
         }
 
-        &__switch {
+        &__title {
+          &__label {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 22px;
+          }
+        }
+
+        &__status {
           display: flex;
           align-items: center;
           gap: 10px;
 
           &__label {
-            color: $secondary_color;
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 24px;
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 22px;
           }
         }
       }
 
-      &__content {
+      &__action {
         margin-top: 25px;
-        display: flex;
-        justify-content: space-between;
-        gap: 25px;
 
-        &__avatar {
-          width: 30%;
-          height: fit-content;
-          position: relative;
+        .more-action {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
         }
 
-        &__info {
-          width: 70%;
-
-          &__rows {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            width: 100%;
-          }
-
-          .name {
-            width: 70%;
-          }
-
-          .code {
-            width: 30%;
-          }
-
-          .dob {
-            width: 50%;
-
-            .ant-picker {
-              width: 100%;
-              height: 48px;
-              border-radius: 24px;
-            }
-          }
-
-          .email,
-          .phone,
-          .gender,
-          .status,
-          .package {
-            width: 50%;
-          }
+        .button-create,
+        .button-save {
+          width: 100%;
+          background-color: $primary_color;
+          color: $text_white;
+          border: unset;
         }
-      }
-    }
 
-    .button-action {
-      width: 30%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-start;
+        .button-delete {
+          width: 100%;
+          border: unset;
+          box-shadow: unset;
+          color: $text_warning;
+        }
 
-      .more-action {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-      }
-
-      .button-create,
-      .button-save {
-        width: 100%;
-        background-color: $primary_color;
-        color: $text_white;
-        border: unset;
-      }
-
-      .button-delete {
-        width: 100%;
-        border: unset;
-        box-shadow: unset;
-        color: $text_warning;
-      }
-
-      .button-cancel {
-        width: 100%;
-        border: unset;
-        box-shadow: unset;
-        color: unset;
+        .button-cancel {
+          width: 100%;
+          border: unset;
+          box-shadow: unset;
+          color: unset;
+        }
       }
     }
   }

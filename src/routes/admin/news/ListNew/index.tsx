@@ -1,5 +1,5 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, Switch } from 'antd';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Card, Switch, message } from 'antd';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,8 @@ import TableWrap from '../../../../components/TableWrap';
 import Column from 'antd/es/table/Column';
 import { Status } from '../../../../constants/enum';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import moment from 'moment';
+import { FORMAT_DATE, FORMAT_DATE_VN } from '../../../../constants/common';
 
 const ListNew = () => {
   const intl = useIntl();
@@ -30,9 +32,33 @@ const ListNew = () => {
     queryFn: () => newsApi.newControllerGet(page, size, sort, fullTextSearch, status),
   });
 
+  const { mutate: UpdateStatusNew, status: statusUpdateStatusNew } = useMutation(
+    (id: string) => newsApi.newControllerUpdateStatusNew(id),
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(['newList']);
+      },
+      onError: (error: any) => {
+        message.error(error.message);
+      },
+    }
+  );
+
+  const { mutate: DeleteNew, status: statusDeleteNew } = useMutation(
+    (id: string) => newsApi.newControllerDeleteNew(id),
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(['newList']);
+      },
+      onError: (error: any) => {
+        message.error(error.message);
+      },
+    }
+  );
+
   const handleDelete = () => {
     if (isShowModalDelete && isShowModalDelete.id) {
-      // Deletenew(isShowModalDelete.id);
+      DeleteNew(isShowModalDelete.id);
     }
     setIsShowModalDelete(undefined);
   };
@@ -53,7 +79,7 @@ const ListNew = () => {
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
-            navigate(ADMIN_ROUTE_PATH.CREATE_USER);
+            navigate(ADMIN_ROUTE_PATH.CREATE_NEW);
           }}
         >
           {intl.formatMessage({
@@ -127,7 +153,9 @@ const ListNew = () => {
           dataIndex="fullName"
           width={'15%'}
           render={(_, record: any) => {
-            return <div>{record.img}</div>;
+            if (record.avatar && record.avatar.preview) {
+              return <img className="image-new" src={process.env.REACT_APP_URL_IMG_S3 + record.avatar.preview} />;
+            }
           }}
         />
         <Column
@@ -144,7 +172,7 @@ const ListNew = () => {
           dataIndex="createDate"
           width={'15%'}
           render={(_, record: any) => {
-            return <div>{record.createDate}</div>;
+            return <div>{moment(record.createdOnDate).format(FORMAT_DATE_VN)}</div>;
           }}
         />
         <Column
@@ -153,6 +181,9 @@ const ListNew = () => {
           })}
           dataIndex="content"
           width={'25%'}
+          render={(_, record: any) => {
+            return <div className="content-new" dangerouslySetInnerHTML={{ __html: record.content }}></div>;
+          }}
         />
         <Column
           title={intl.formatMessage({
@@ -161,7 +192,14 @@ const ListNew = () => {
           dataIndex="status"
           width={'10%'}
           render={(_, record: any) => {
-            return <Switch checked={record.status} />;
+            return (
+              <Switch
+                checked={record.status}
+                onChange={() => {
+                  UpdateStatusNew(record.id);
+                }}
+              />
+            );
           }}
         />
         <Column
@@ -176,7 +214,7 @@ const ListNew = () => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
+              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.title })}>
                 <IconSVG type="delete" />
               </div>
             </div>

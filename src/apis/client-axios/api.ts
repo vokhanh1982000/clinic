@@ -423,6 +423,12 @@ export interface Administrator {
     'dateOfBirth': string;
     /**
      * 
+     * @type {string}
+     * @memberof Administrator
+     */
+    'address'?: string;
+    /**
+     * 
      * @type {User}
      * @memberof Administrator
      */
@@ -441,6 +447,12 @@ export interface Administrator {
     'provinceId': string;
     /**
      * 
+     * @type {string}
+     * @memberof Administrator
+     */
+    'wardId': string;
+    /**
+     * 
      * @type {Cadastral}
      * @memberof Administrator
      */
@@ -451,6 +463,12 @@ export interface Administrator {
      * @memberof Administrator
      */
     'district': Cadastral;
+    /**
+     * 
+     * @type {Cadastral}
+     * @memberof Administrator
+     */
+    'ward': Cadastral;
     /**
      * 
      * @type {Asset}
@@ -2259,10 +2277,16 @@ export interface CreateNewDto {
     'content': string;
     /**
      * 
+     * @type {boolean}
+     * @memberof CreateNewDto
+     */
+    'status': boolean;
+    /**
+     * 
      * @type {string}
      * @memberof CreateNewDto
      */
-    'imageUrl': string;
+    'backgroundId'?: string;
 }
 /**
  * 
@@ -4470,6 +4494,12 @@ export interface UpdateCustomerDto {
      * @memberof UpdateCustomerDto
      */
     'districId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCustomerDto
+     */
+    'avatarId'?: string;
 }
 
 export const UpdateCustomerDtoGenderEnum = {
@@ -4793,10 +4823,16 @@ export interface UpdateNewDto {
     'content': string;
     /**
      * 
+     * @type {boolean}
+     * @memberof UpdateNewDto
+     */
+    'status': boolean;
+    /**
+     * 
      * @type {string}
      * @memberof UpdateNewDto
      */
-    'imageUrl': string;
+    'backgroundId'?: string;
 }
 /**
  * 
@@ -14004,6 +14040,43 @@ export const NewsApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerUpdateStatusNew: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('newControllerUpdateStatusNew', 'id', id)
+            const localVarPath = `/news/update-status/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -14020,7 +14093,7 @@ export const NewsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async newControllerCreateNew(createNewDto: CreateNewDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NewControllerGet200Response>> {
+        async newControllerCreateNew(createNewDto: CreateNewDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerCreateNew(createNewDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -14030,7 +14103,7 @@ export const NewsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async newControllerDeleteNew(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NewControllerGet200Response>> {
+        async newControllerDeleteNew(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerDeleteNew(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -14054,7 +14127,7 @@ export const NewsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async newControllerGetDetail(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NewControllerGet200Response>> {
+        async newControllerGetDetail(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<New>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerGetDetail(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -14065,8 +14138,18 @@ export const NewsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async newControllerUpdateNew(id: string, updateNewDto: UpdateNewDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NewControllerGet200Response>> {
+        async newControllerUpdateNew(id: string, updateNewDto: UpdateNewDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<New>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerUpdateNew(id, updateNewDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newControllerUpdateStatusNew(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerUpdateStatusNew(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -14085,7 +14168,7 @@ export const NewsApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        newControllerCreateNew(createNewDto: CreateNewDto, options?: any): AxiosPromise<NewControllerGet200Response> {
+        newControllerCreateNew(createNewDto: CreateNewDto, options?: any): AxiosPromise<object> {
             return localVarFp.newControllerCreateNew(createNewDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -14094,7 +14177,7 @@ export const NewsApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        newControllerDeleteNew(id: string, options?: any): AxiosPromise<NewControllerGet200Response> {
+        newControllerDeleteNew(id: string, options?: any): AxiosPromise<void> {
             return localVarFp.newControllerDeleteNew(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -14116,7 +14199,7 @@ export const NewsApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        newControllerGetDetail(id: string, options?: any): AxiosPromise<NewControllerGet200Response> {
+        newControllerGetDetail(id: string, options?: any): AxiosPromise<New> {
             return localVarFp.newControllerGetDetail(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -14126,8 +14209,17 @@ export const NewsApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        newControllerUpdateNew(id: string, updateNewDto: UpdateNewDto, options?: any): AxiosPromise<NewControllerGet200Response> {
+        newControllerUpdateNew(id: string, updateNewDto: UpdateNewDto, options?: any): AxiosPromise<New> {
             return localVarFp.newControllerUpdateNew(id, updateNewDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerUpdateStatusNew(id: string, options?: any): AxiosPromise<object> {
+            return localVarFp.newControllerUpdateStatusNew(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -14197,6 +14289,17 @@ export class NewsApi extends BaseAPI {
      */
     public newControllerUpdateNew(id: string, updateNewDto: UpdateNewDto, options?: AxiosRequestConfig) {
         return NewsApiFp(this.configuration).newControllerUpdateNew(id, updateNewDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsApi
+     */
+    public newControllerUpdateStatusNew(id: string, options?: AxiosRequestConfig) {
+        return NewsApiFp(this.configuration).newControllerUpdateStatusNew(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

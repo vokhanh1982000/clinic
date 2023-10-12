@@ -40,9 +40,13 @@
           }
 
           .box-upload {
-            width: 130%;
+            width: 100%;
             margin-bottom: 15px;
             gap: unset;
+          }
+
+          .custom-box-image {
+            width: 130%;
           }
 
           &__image {
@@ -54,7 +58,7 @@
 
             img {
               max-height: 100%;
-              width: auto;
+              max-width: 100%;
               border-radius: 16px;
             }
           }

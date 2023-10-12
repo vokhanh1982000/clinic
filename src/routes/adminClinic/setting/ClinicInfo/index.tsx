@@ -90,7 +90,7 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
         <div className="line-title"></div>
       </div>
       <div className="clinic-info__content">
-        <div className="clinic-info__content__rows item-center box-upload">
+        <div className={`clinic-info__content__rows item-center box-upload ${background && 'custom-box-image'}`}>
           {(background || loadingImg) && (
             <div className="clinic-info__content__image">{loadingImg ? <Spin /> : <img src={background} />}</div>
           )}

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, DatePicker, Form, Spin, Upload, message } from 'antd';
+import { Card, DatePicker, Form, Spin, Switch, Upload, message } from 'antd';
 import moment from 'moment';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -17,6 +17,9 @@ import { MyUploadProps } from '../../../../constants/dto';
 import dayjs from 'dayjs';
 import UploadAvatar from '../../../../components/upload/UploadAvatar';
 import { FORMAT_DATE } from '../../../../constants/common';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CreateNewDto, UpdateNewDto } from '../../../../apis/client-axios';
 
 const CreateNew = () => {
   const intl = useIntl();
@@ -24,21 +27,27 @@ const CreateNew = () => {
   const [form] = Form.useForm<any>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [avatar, setAvatar] = useState<string>();
-  const [isDeletenew, setIsDeletenew] = useState<boolean>(false);
+  const [avatar, setAvatar] = useState<{ id: string; src: string }>();
+  const [isDeleteNew, setIsDeleteNew] = useState<boolean>(false);
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
+  const [dataEditor, setDataEditor] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [status, setStatus] = useState<boolean>(true);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [loadingImgOnEditor, setLoadingImgOnEditor] = useState<boolean>(false);
 
   const { data: dataNew } = useQuery(['getDetailnew', id], () => newsApi.newControllerGetDetail(id as string), {
     onError: (error) => {},
     onSuccess: (response) => {
-      // form.setFieldsValue({
-      //   ...response.data,
-      //   status: response.data.user.isActive ? 1 : 0,
-      //   dateOfBirth: response.data.dateOfBirth ? dayjs(response.data.dateOfBirth, FORMAT_DATE) : null,
-      // });
-      // if (response.data.avatar) {
-      //   setAvatar(process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview);
-      // }
+      setTitle(response.data.title || '');
+      setDataEditor(response.data.content || '');
+      setStatus(response.data.status);
+      if (response.data.avatar) {
+        setAvatar({
+          id: response.data.avatar.id,
+          src: process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview,
+        });
+      }
     },
     enabled: !!id,
     refetchOnWindowFocus: false,
@@ -49,7 +58,7 @@ const CreateNew = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['newList']);
-        navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
+        navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
       },
       onError: (error: any) => {
         message.error(error.message);
@@ -57,51 +66,57 @@ const CreateNew = () => {
     }
   );
 
-  // const { mutate: newCreate, status: statusCreateNew } = useMutation(
-  //   (createnew: CreateNewDto) => newApi.(createnew),
-  //   {
-  //     onSuccess: ({ data }) => {
-  //       queryClient.invalidateQueries(['getUsers']);
-  //       navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
-  //     },
-  //     onError: (error) => {
-  //       message.error(intl.formatMessage({ id: 'new.create.error' }));
-  //     },
-  //   }
-  // );
+  const { mutate: newCreate, status: statusCreateNew } = useMutation(
+    (createnew: CreateNewDto) => newsApi.newControllerCreateNew(createnew),
+    {
+      onSuccess: ({ data }) => {
+        navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
+      },
+      onError: (error) => {
+        message.error(intl.formatMessage({ id: 'new.create.error' }));
+      },
+    }
+  );
 
-  // const { mutate: newUpdate, status: statusUpdatenew } = useMutation(
-  //   (updatenew: UpdatenewDto) => newApi.newControllerUpdatenew(id as string, updatenew),
-  //   {
-  //     onSuccess: ({ data }) => {
-  //       queryClient.invalidateQueries(['getnewDetail', id]);
-  //       navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
-  //     },
-  //     onError: (error) => {
-  //       message.error(intl.formatMessage({ id: 'new.update.error' }));
-  //     },
-  //   }
-  // );
+  const { mutate: newUpdate, status: statusUpdatenew } = useMutation(
+    (updatenew: UpdateNewDto) => newsApi.newControllerUpdateNew(id as string, updatenew),
+    {
+      onSuccess: ({ data }) => {
+        navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
+      },
+      onError: (error) => {
+        message.error(intl.formatMessage({ id: 'new.update.error' }));
+      },
+    }
+  );
 
-  const onFinish = (values: any) => {
-    // if (id) {
-    //   newUpdate({
-    //     ...values,
-    //     status: Boolean(Number(values.status)),
-    //   });
-    // } else {
-    //   newCreate({
-    //     ...values,
-    //     status: Boolean(Number(values.status)),
-    //   });
-    // }
+  const onFinish = () => {
+    setIsSubmit(true);
+    if (title === '' || dataEditor === '') {
+      return;
+    }
+    if (id) {
+      newUpdate({
+        title: title,
+        content: dataEditor,
+        status: status,
+        backgroundId: avatar?.id,
+      });
+    } else {
+      newCreate({
+        title: title,
+        content: dataEditor,
+        status: status,
+        backgroundId: avatar?.id,
+      });
+    }
   };
 
   const handleDelete = () => {
-    if (isDeletenew && id) {
+    if (isDeleteNew && id) {
       DeleteNew(id);
     }
-    setIsDeletenew(false);
+    setIsDeleteNew(false);
   };
 
   const { mutate: UploadImage, status: statusUploadImage } = useMutation(
@@ -110,8 +125,7 @@ const CreateNew = () => {
     {
       onSuccess: ({ data }) => {
         const newData = data as any;
-        form.setFieldValue('avatarId', newData.id);
-        setAvatar(process.env.REACT_APP_URL_IMG_S3 + newData.preview);
+        setAvatar({ id: newData.id, src: process.env.REACT_APP_URL_IMG_S3 + newData.preview });
         setLoadingImg(false);
       },
       onError: (error: any) => {
@@ -124,233 +138,204 @@ const CreateNew = () => {
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
     setLoadingImg(true);
-    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
+    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'new' });
+  };
+
+  const handleChange = (event: any, editor: any) => {
+    const data = editor.getData();
+    setDataEditor(data);
+  };
+
+  function uploadPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+      setLoadingImgOnEditor(true);
+      return uploadAdapter(loader);
+    };
+  }
+
+  const uploadAdapter = (loader: any) => {
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          loader.file.then((file: any) => {
+            const body = new FormData();
+            body.append('file', file);
+            body.append('s3FilePath', 'new');
+            const token = localStorage.getItem('token');
+            const headers = new Headers();
+            headers.append('Authorization', `Bearer ${token}`);
+            fetch(`${process.env.REACT_APP_API_URL}/assets/upload`, {
+              method: 'post',
+              body: body,
+              headers: headers,
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                if (res.error) {
+                  setLoadingImgOnEditor(false);
+                  reject(
+                    intl.formatMessage({
+                      id: 'common.upload.fail',
+                    })
+                  );
+                }
+
+                setLoadingImgOnEditor(false);
+
+                resolve({
+                  default: `${process.env.REACT_APP_URL_IMG_S3}${res?.preview}`,
+                });
+              })
+              .catch((err) => {
+                setLoadingImgOnEditor(false);
+                reject(err);
+              });
+          });
+        });
+      },
+    };
   };
 
   return (
     <Card id="create-new-management">
-      <div className="create-new-header">
-        <div className="create-new-header__title">
-          {id
-            ? intl.formatMessage({
-                id: 'new.edit.title',
-              })
-            : intl.formatMessage({
-                id: 'new.create.title',
-              })}
-        </div>
-        {id && (
-          <CustomButton
-            className="button-chat"
-            icon={<IconSVG type="chat" />}
-            onClick={() => {
-              navigate(ADMIN_ROUTE_PATH.CREATE_USER);
+      <div className="container-new">
+        <div
+          className={`left-container ${isSubmit && dataEditor === '' && 'content-error'} ${
+            loadingImgOnEditor && 'loading-img-editor'
+          }`}
+        >
+          {loadingImgOnEditor && <Spin />}
+          <CKEditor
+            config={{
+              extraPlugins: [uploadPlugin],
             }}
-          >
-            {intl.formatMessage({
-              id: 'new.edit.button.chat',
-            })}
-          </CustomButton>
-        )}
-      </div>
-
-      <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-new">
-        <div className="new-info">
-          <div className="new-info__header">
-            <div className="new-info__header__title">
-              <div className="new-info__header__title__label">
-                {intl.formatMessage({
-                  id: 'new.create.info',
-                })}
-              </div>
-              <div className="line-title"></div>
-            </div>
-          </div>
-          <div className="new-info__content">
-            <div className="new-info__content__avatar">
-              <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
-            </div>
-            <div className="new-info__content__info">
-              <div className="new-info__content__info__rows">
-                <Form.Item
-                  className="name"
-                  label={intl.formatMessage({
-                    id: 'new.create.name',
-                  })}
-                  name={'fullName'}
-                >
-                  <CustomInput />
-                </Form.Item>
-                <Form.Item
-                  className="code"
-                  label={intl.formatMessage({
-                    id: 'new.create.code',
-                  })}
-                  name={'code'}
-                >
-                  <CustomInput />
-                </Form.Item>
-              </div>
-              <div className="new-info__content__info__rows">
-                <Form.Item
-                  className="email"
-                  label={intl.formatMessage({
-                    id: 'new.create.email',
-                  })}
-                  name={'emailAddress'}
-                >
-                  <CustomInput />
-                </Form.Item>
-                <Form.Item
-                  className="phone"
-                  label={intl.formatMessage({
-                    id: 'new.create.phone',
-                  })}
-                  name={'phoneNumber'}
-                  rules={[{ required: true }]}
-                >
-                  <CustomInput />
-                </Form.Item>
-              </div>
-
-              <div className="new-info__content__info__rows">
-                <Form.Item
-                  className="dob"
-                  label={intl.formatMessage({
-                    id: 'new.create.dob',
-                  })}
-                  name={'dateOfBirth'}
-                >
-                  <DatePicker />
-                  {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
-                </Form.Item>
-                <Form.Item
-                  className="gender"
-                  label={intl.formatMessage({
-                    id: 'new.create.gender',
-                  })}
-                  name={'gender'}
-                >
-                  <CustomSelect
-                    options={[
-                      {
-                        value: UserGender.MALE,
-                        label: intl.formatMessage({
-                          id: 'common.gender.male',
-                        }),
-                      },
-                      {
-                        value: UserGender.FEMALE,
-                        label: intl.formatMessage({
-                          id: 'common.gender.female',
-                        }),
-                      },
-                    ]}
-                  />
-                </Form.Item>
-              </div>
-              <div className="new-info__content__info__rows">
-                {/* disable -> phase2 */}
-                <Form.Item
-                  className="package"
-                  label={intl.formatMessage({
-                    id: 'new.create.package',
-                  })}
-                  name={'package'}
-                  // rules={[{ required: true }]}
-                >
-                  <CustomSelect disabled />
-                </Form.Item>
-                <Form.Item
-                  className="status"
-                  label={intl.formatMessage({
-                    id: 'new.create.status',
-                  })}
-                  name={'status'}
-                >
-                  <CustomSelect
-                    options={[
-                      {
-                        value: 1,
-                        label: intl.formatMessage({
-                          id: `common.${Status.ACTIVE}`,
-                        }),
-                      },
-                      {
-                        value: 0,
-                        label: intl.formatMessage({
-                          id: `common.${Status.INACTIVE}`,
-                        }),
-                      },
-                    ]}
-                  />
-                </Form.Item>
-              </div>
-              {!id && (
-                <Form.Item
-                  name={'password'}
-                  label={intl.formatMessage({
-                    id: 'new.create.password',
-                  })}
-                  rules={[{ required: true }]}
-                >
-                  <CustomInput
-                    isPassword={true}
-                    placeholder={intl.formatMessage({
-                      id: 'sigin.password',
-                    })}
-                  />
-                </Form.Item>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="button-action">
-          {id ? (
-            <div className="more-action">
-              <CustomButton className="button-save" onClick={() => form.submit()}>
-                {intl.formatMessage({
-                  id: 'new.edit.button.save',
-                })}
-              </CustomButton>
-              <CustomButton
-                className="button-delete"
-                onClick={() => {
-                  setIsDeletenew(true);
-                }}
-              >
-                {intl.formatMessage({
-                  id: 'new.edit.button.delete',
-                })}
-              </CustomButton>
-            </div>
-          ) : (
-            <div className="more-action">
-              <CustomButton className="button-create" onClick={() => form.submit()}>
-                {intl.formatMessage({
-                  id: 'new.create.button.create',
-                })}
-              </CustomButton>
-              <CustomButton
-                className="button-cancel"
-                onClick={() => {
-                  navigate(-1);
-                }}
-              >
-                {intl.formatMessage({
-                  id: 'new.create.button.cancel',
-                })}
-              </CustomButton>
-            </div>
+            editor={ClassicEditor}
+            data={dataEditor}
+            onChange={handleChange}
+          />
+          {isSubmit && dataEditor === '' && (
+            <span className="text-error">
+              {intl.formatMessage({
+                id: 'new.create.error.content',
+              })}
+            </span>
           )}
         </div>
-      </FormWrap>
-
+        <div className="right-container">
+          <div className="right-container__content">
+            <div className="right-container__content__image">
+              {loadingImg ? (
+                <Spin />
+              ) : avatar && avatar.src ? (
+                <div className="right-container__content__image__display">
+                  <img src={avatar.src} />
+                  <span
+                    onClick={() => {
+                      setAvatar(undefined);
+                    }}
+                  >
+                    <IconSVG type="close-white" />
+                  </span>
+                </div>
+              ) : (
+                <div className="right-container__content__image__upload">
+                  <Upload
+                    name="avatar"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    customRequest={customRequest}
+                  >
+                    <span className="icon-upload">
+                      <IconSVG type="upload-2" />
+                    </span>
+                    <div className="text-upload">
+                      {intl.formatMessage({
+                        id: 'new.create.upload',
+                      })}
+                    </div>
+                  </Upload>
+                </div>
+              )}
+            </div>
+            <div className="right-container__content__title">
+              <div className="right-container__content__title__label">
+                {intl.formatMessage({
+                  id: 'new.create.title',
+                })}
+              </div>
+              <CustomInput
+                value={title}
+                className={`${isSubmit && title === '' && 'title-error'}`}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              {isSubmit && title === '' && (
+                <span className="text-error">
+                  {intl.formatMessage({
+                    id: 'new.create.error.title',
+                  })}
+                </span>
+              )}
+            </div>
+            <div className="right-container__content__status">
+              <div className="right-container__content__status__label">
+                {intl.formatMessage({
+                  id: 'new.create.status',
+                })}
+              </div>
+              <Switch
+                checked={status}
+                onChange={(e) => {
+                  setStatus(e);
+                }}
+              />
+            </div>
+          </div>
+          <div className="right-container__action">
+            {id ? (
+              <div className="more-action">
+                <CustomButton className="button-save" onClick={onFinish} disabled={loadingImg || loadingImgOnEditor}>
+                  {intl.formatMessage({
+                    id: 'new.edit.button.save',
+                  })}
+                </CustomButton>
+                <CustomButton
+                  className="button-delete"
+                  onClick={() => {
+                    setIsDeleteNew(true);
+                  }}
+                >
+                  {intl.formatMessage({
+                    id: 'new.edit.button.delete',
+                  })}
+                </CustomButton>
+              </div>
+            ) : (
+              <div className="more-action">
+                <CustomButton className="button-create" onClick={onFinish} disabled={loadingImg || loadingImgOnEditor}>
+                  {intl.formatMessage({
+                    id: 'new.create.button.create',
+                  })}
+                </CustomButton>
+                <CustomButton
+                  className="button-cancel"
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  {intl.formatMessage({
+                    id: 'new.create.button.cancel',
+                  })}
+                </CustomButton>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
       <ConfirmDeleteModal
         name={''}
-        visible={isDeletenew}
+        visible={isDeleteNew}
         onSubmit={handleDelete}
-        onClose={() => setIsDeletenew(false)}
+        onClose={() => setIsDeleteNew(false)}
       />
     </Card>
   );

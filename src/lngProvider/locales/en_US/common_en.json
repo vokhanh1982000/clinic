@@ -25,5 +25,6 @@
   "common.message.err": "Required is Fail. Please try again",
   "common.province.name": "Province",
   "common.district.name": "District",
-  "common.ward.name": "Ward"
+  "common.ward.name": "Ward",
+  "common.upload.fail": "Upload fail"
 }
