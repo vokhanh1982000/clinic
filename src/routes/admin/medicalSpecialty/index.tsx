@@ -232,6 +232,9 @@ const ListMedicalSpecialty = () => {
       )}
       <ConfirmDeleteModal
         name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        subName={intl.formatMessage({
+          id: 'category.modal.delete.subName',
+        })}
         visible={!!isShowModalDelete}
         onSubmit={handleDelete}
         onClose={() => {

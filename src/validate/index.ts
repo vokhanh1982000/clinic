@@ -136,6 +136,18 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         required: true,
         message: intl.formatMessage({ id: 'validate.required' }),
       },
+      {
+        validator(_: RuleObject, value: string) {
+          if (value && value.trimStart() !== value) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.space',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
+      },
     ],
     userCode: [
       {

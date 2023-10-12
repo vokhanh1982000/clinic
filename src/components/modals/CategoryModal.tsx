@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { assetsApi } from '../../apis';
 import { MyUploadProps } from '../../constants/dto';
+import { ValidateLibrary } from '../../validate';
 
 interface CategoryModalProps {
   form: FormInstance;
@@ -92,9 +93,9 @@ export const CategoryModal = (props: CategoryModalProps) => {
               label={intl.formatMessage({
                 id: 'category.modal.create.name',
               })}
-              rules={[{ required: true }]}
+              rules={ValidateLibrary(intl).required}
             >
-              <CustomInput />
+              <CustomInput maxLength={255} />
             </Form.Item>
           </div>
 
