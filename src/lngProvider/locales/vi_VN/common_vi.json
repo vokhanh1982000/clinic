@@ -25,5 +25,6 @@
   "common.message.err": "Đã có lỗi xảy ra. Vui lòng thử lại",
   "common.province.name": "Tỉnh thành",
   "common.district.name": "Quận/Huyện",
-  "common.ward.name": "Xã/Phường"
+  "common.ward.name": "Xã/Phường",
+  "common.upload.fail": "Tải ảnh thất bại"
 }

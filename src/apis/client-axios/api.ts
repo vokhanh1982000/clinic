@@ -423,6 +423,12 @@ export interface Administrator {
     'dateOfBirth': string;
     /**
      * 
+     * @type {string}
+     * @memberof Administrator
+     */
+    'address'?: string;
+    /**
+     * 
      * @type {User}
      * @memberof Administrator
      */
@@ -441,6 +447,12 @@ export interface Administrator {
     'provinceId': string;
     /**
      * 
+     * @type {string}
+     * @memberof Administrator
+     */
+    'wardId': string;
+    /**
+     * 
      * @type {Cadastral}
      * @memberof Administrator
      */
@@ -451,6 +463,12 @@ export interface Administrator {
      * @memberof Administrator
      */
     'district': Cadastral;
+    /**
+     * 
+     * @type {Cadastral}
+     * @memberof Administrator
+     */
+    'ward': Cadastral;
     /**
      * 
      * @type {Asset}
@@ -2242,6 +2260,37 @@ export interface CreateMedicineDto {
 /**
  * 
  * @export
+ * @interface CreateNewDto
+ */
+export interface CreateNewDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateNewDto
+     */
+    'title': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateNewDto
+     */
+    'content': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateNewDto
+     */
+    'status': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateNewDto
+     */
+    'backgroundId'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreatePrescriptionDto
  */
 export interface CreatePrescriptionDto {
@@ -3488,6 +3537,129 @@ export type MedicineUnit = typeof MedicineUnit[keyof typeof MedicineUnit];
 /**
  * 
  * @export
+ * @interface New
+ */
+export interface New {
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'title': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'content': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'backgroundId': string;
+    /**
+     * 
+     * @type {Asset}
+     * @memberof New
+     */
+    'avatar'?: Asset;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof New
+     */
+    'status': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof New
+     */
+    'deletedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface NewControllerGet200Response
+ */
+export interface NewControllerGet200Response {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof NewControllerGet200Response
+     */
+    'position': Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof NewControllerGet200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof NewControllerGet200Response
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof NewControllerGet200Response
+     */
+    'size': number;
+    /**
+     * 
+     * @type {Array<New>}
+     * @memberof NewControllerGet200Response
+     */
+    'content'?: Array<New>;
+}
+/**
+ * 
+ * @export
+ * @interface NewControllerGet200ResponseAllOf
+ */
+export interface NewControllerGet200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<New>}
+     * @memberof NewControllerGet200ResponseAllOf
+     */
+    'content'?: Array<New>;
+}
+/**
+ * 
+ * @export
  * @interface PaginationResponse
  */
 export interface PaginationResponse {
@@ -4176,6 +4348,12 @@ export interface UpdateClinicDto {
      * @memberof UpdateClinicDto
      */
     'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateClinicDto
+     */
+    'backgroundId'?: string;
 }
 /**
  * 
@@ -4227,16 +4405,16 @@ export interface UpdateClinicForAdminClinic {
     'categoryIds': Array<string>;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateClinicForAdminClinic
-     */
-    'backgroundId'?: string;
-    /**
-     * 
      * @type {Array<CreateWorkScheduleDto>}
      * @memberof UpdateClinicForAdminClinic
      */
     'workSchedules': Array<CreateWorkScheduleDto>;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateClinicForAdminClinic
+     */
+    'backgroundId'?: string;
 }
 /**
  * 
@@ -4316,6 +4494,12 @@ export interface UpdateCustomerDto {
      * @memberof UpdateCustomerDto
      */
     'districId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCustomerDto
+     */
+    'avatarId'?: string;
 }
 
 export const UpdateCustomerDtoGenderEnum = {
@@ -4622,6 +4806,37 @@ export interface UpdateMedicineDto {
 /**
  * 
  * @export
+ * @interface UpdateNewDto
+ */
+export interface UpdateNewDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateNewDto
+     */
+    'title': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateNewDto
+     */
+    'content': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateNewDto
+     */
+    'status': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateNewDto
+     */
+    'backgroundId'?: string;
+}
+/**
+ * 
+ * @export
  * @interface UpdatePasswordDto
  */
 export interface UpdatePasswordDto {
@@ -4816,6 +5031,18 @@ export interface User {
     'roles': Array<Role>;
     /**
      * 
+     * @type {DoctorSupport}
+     * @memberof User
+     */
+    'doctorSupport': DoctorSupport;
+    /**
+     * 
+     * @type {DoctorClinic}
+     * @memberof User
+     */
+    'doctorClinic': DoctorClinic;
+    /**
+     * 
      * @type {string}
      * @memberof User
      */
@@ -4850,6 +5077,56 @@ export interface User {
      * @memberof User
      */
     'deletedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface UserControllerGetAllDoctor200Response
+ */
+export interface UserControllerGetAllDoctor200Response {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof UserControllerGetAllDoctor200Response
+     */
+    'position': Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserControllerGetAllDoctor200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserControllerGetAllDoctor200Response
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserControllerGetAllDoctor200Response
+     */
+    'size': number;
+    /**
+     * 
+     * @type {Array<User>}
+     * @memberof UserControllerGetAllDoctor200Response
+     */
+    'content'?: Array<User>;
+}
+/**
+ * 
+ * @export
+ * @interface UserControllerGetAllDoctor200ResponseAllOf
+ */
+export interface UserControllerGetAllDoctor200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<User>}
+     * @memberof UserControllerGetAllDoctor200ResponseAllOf
+     */
+    'content'?: Array<User>;
 }
 /**
  * 
@@ -13542,6 +13819,492 @@ export class MedicineApi extends BaseAPI {
 
 
 /**
+ * NewsApi - axios parameter creator
+ * @export
+ */
+export const NewsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateNewDto} createNewDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerCreateNew: async (createNewDto: CreateNewDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createNewDto' is not null or undefined
+            assertParamExists('newControllerCreateNew', 'createNewDto', createNewDto)
+            const localVarPath = `/news`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createNewDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerDeleteNew: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('newControllerDeleteNew', 'id', id)
+            const localVarPath = `/news/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {boolean} [status] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerGet: async (page: number, size?: number, sort?: string, fullTextSearch?: string, status?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('newControllerGet', 'page', page)
+            const localVarPath = `/news`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerGetDetail: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('newControllerGetDetail', 'id', id)
+            const localVarPath = `/news/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateNewDto} updateNewDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerUpdateNew: async (id: string, updateNewDto: UpdateNewDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('newControllerUpdateNew', 'id', id)
+            // verify required parameter 'updateNewDto' is not null or undefined
+            assertParamExists('newControllerUpdateNew', 'updateNewDto', updateNewDto)
+            const localVarPath = `/news/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateNewDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerUpdateStatusNew: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('newControllerUpdateStatusNew', 'id', id)
+            const localVarPath = `/news/update-status/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * NewsApi - functional programming interface
+ * @export
+ */
+export const NewsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = NewsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateNewDto} createNewDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newControllerCreateNew(createNewDto: CreateNewDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerCreateNew(createNewDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newControllerDeleteNew(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerDeleteNew(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {boolean} [status] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NewControllerGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerGet(page, size, sort, fullTextSearch, status, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newControllerGetDetail(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<New>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerGetDetail(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateNewDto} updateNewDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newControllerUpdateNew(id: string, updateNewDto: UpdateNewDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<New>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerUpdateNew(id, updateNewDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newControllerUpdateStatusNew(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newControllerUpdateStatusNew(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * NewsApi - factory interface
+ * @export
+ */
+export const NewsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = NewsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateNewDto} createNewDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerCreateNew(createNewDto: CreateNewDto, options?: any): AxiosPromise<object> {
+            return localVarFp.newControllerCreateNew(createNewDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerDeleteNew(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.newControllerDeleteNew(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {boolean} [status] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: boolean, options?: any): AxiosPromise<NewControllerGet200Response> {
+            return localVarFp.newControllerGet(page, size, sort, fullTextSearch, status, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerGetDetail(id: string, options?: any): AxiosPromise<New> {
+            return localVarFp.newControllerGetDetail(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateNewDto} updateNewDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerUpdateNew(id: string, updateNewDto: UpdateNewDto, options?: any): AxiosPromise<New> {
+            return localVarFp.newControllerUpdateNew(id, updateNewDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newControllerUpdateStatusNew(id: string, options?: any): AxiosPromise<object> {
+            return localVarFp.newControllerUpdateStatusNew(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * NewsApi - object-oriented interface
+ * @export
+ * @class NewsApi
+ * @extends {BaseAPI}
+ */
+export class NewsApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateNewDto} createNewDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsApi
+     */
+    public newControllerCreateNew(createNewDto: CreateNewDto, options?: AxiosRequestConfig) {
+        return NewsApiFp(this.configuration).newControllerCreateNew(createNewDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsApi
+     */
+    public newControllerDeleteNew(id: string, options?: AxiosRequestConfig) {
+        return NewsApiFp(this.configuration).newControllerDeleteNew(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {boolean} [status] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsApi
+     */
+    public newControllerGet(page: number, size?: number, sort?: string, fullTextSearch?: string, status?: boolean, options?: AxiosRequestConfig) {
+        return NewsApiFp(this.configuration).newControllerGet(page, size, sort, fullTextSearch, status, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsApi
+     */
+    public newControllerGetDetail(id: string, options?: AxiosRequestConfig) {
+        return NewsApiFp(this.configuration).newControllerGetDetail(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {UpdateNewDto} updateNewDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsApi
+     */
+    public newControllerUpdateNew(id: string, updateNewDto: UpdateNewDto, options?: AxiosRequestConfig) {
+        return NewsApiFp(this.configuration).newControllerUpdateNew(id, updateNewDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsApi
+     */
+    public newControllerUpdateStatusNew(id: string, options?: AxiosRequestConfig) {
+        return NewsApiFp(this.configuration).newControllerUpdateStatusNew(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * PermissionsApi - axios parameter creator
  * @export
  */
@@ -14042,6 +14805,146 @@ export class RolesApi extends BaseAPI {
      */
     public roleControllerUpdate(id: string, updateRoleDto: UpdateRoleDto, options?: AxiosRequestConfig) {
         return RolesApiFp(this.configuration).roleControllerUpdate(id, updateRoleDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * UsersApi - axios parameter creator
+ * @export
+ */
+export const UsersApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [categoryId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        userControllerGetAllDoctor: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('userControllerGetAllDoctor', 'page', page)
+            const localVarPath = `/users/get-all-doctor`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (categoryId !== undefined) {
+                localVarQueryParameter['categoryId'] = categoryId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UsersApi - functional programming interface
+ * @export
+ */
+export const UsersApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [categoryId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserControllerGetAllDoctor200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * UsersApi - factory interface
+ * @export
+ */
+export const UsersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UsersApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [categoryId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, options?: any): AxiosPromise<UserControllerGetAllDoctor200Response> {
+            return localVarFp.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * UsersApi - object-oriented interface
+ * @export
+ * @class UsersApi
+ * @extends {BaseAPI}
+ */
+export class UsersApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {string} [categoryId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
