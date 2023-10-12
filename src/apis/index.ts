@@ -16,6 +16,7 @@ import {
   AdministratorClinicApi,
   AssetsApi,
   DoctorSupportApi,
+  NewsApi,
 } from './client-axios';
 
 const config = new Configuration({
@@ -50,6 +51,7 @@ const doctorClinicApi: DoctorClinicApi = new DoctorClinicApi(config, undefined, 
 const adminClinicApi = new AdministratorClinicApi(config, undefined, axiosInstance);
 const assetsApi = new AssetsApi(config, undefined, axiosInstance);
 const doctorSupportApi = new DoctorSupportApi(config, undefined, axiosInstance);
+const newsApi = new NewsApi(config, undefined, axiosInstance);
 
 export {
   authApi,
@@ -66,4 +68,5 @@ export {
   doctorClinicApi,
   assetsApi,
   doctorSupportApi,
+  newsApi,
 };

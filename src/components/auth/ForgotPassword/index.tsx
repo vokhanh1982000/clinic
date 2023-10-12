@@ -85,7 +85,14 @@ const ForgotPassComponent = (props: IForgotPassComponent) => {
             label={intl.formatMessage({ id: 'sigin.username' })}
             name={n('identifier')}
             className="mb-3"
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                len: 10,
+                pattern: /^0[1-9][0-9]{8}$/,
+                message: intl.formatMessage({ id: 'sigin.validate.phone' }),
+              },
+            ]}
           >
             <Input />
           </Form.Item>

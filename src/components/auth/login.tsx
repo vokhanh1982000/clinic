@@ -112,9 +112,12 @@ const SignInCommon = (props: ISignInCommon) => {
             name={n('username')}
             className="mb-3"
             rules={[
-              { required: true, message: intl.formatMessage({ id: 'sigin.validate.phone.require' }) },
-              { len: 10, message: intl.formatMessage({ id: 'sigin.validate.phone.length' }) },
-              { pattern: /^0[1-9][0-9]{8}$/, message: intl.formatMessage({ id: 'sigin.validate.phone.isPhone' }) },
+              {
+                required: true,
+                len: 10,
+                pattern: /^0[1-9][0-9]{8}$/,
+                message: intl.formatMessage({ id: 'sigin.validate.phone' }),
+              },
             ]}
           >
             <Input placeholder={intl.formatMessage({ id: 'sigin.username.placeholder' })} />
@@ -125,8 +128,13 @@ const SignInCommon = (props: ISignInCommon) => {
             label={intl.formatMessage({ id: 'sigin.password' })}
             name={n('password')}
             rules={[
-              { required: true, message: intl.formatMessage({ id: 'sigin.validate.password.require' }) },
-              { min: 8, max: 16, message: intl.formatMessage({ id: 'sigin.validate.password.length' }) },
+              {
+                required: true,
+                min: 8,
+                max: 16,
+                pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
+                message: intl.formatMessage({ id: 'sigin.validate.password' }),
+              },
             ]}
           >
             <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />

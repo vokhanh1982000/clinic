@@ -101,6 +101,7 @@ export const ScheduleSetting = (props: ScheduleSettingParams) => {
                     separator={'-'}
                     key={schedule.day}
                     format={'HH:mm'}
+                    minuteStep={15}
                     value={[dayjs(schedule.amFrom, 'HH:mm'), dayjs(schedule.amTo, 'HH:mm')]}
                     onChange={(value) => handleTimePickerChange(value, schedule, 'am')}
                   />
@@ -133,6 +134,7 @@ export const ScheduleSetting = (props: ScheduleSettingParams) => {
                     separator={'-'}
                     format={'HH:mm'}
                     value={[dayjs(schedule.pmFrom, 'HH:mm'), dayjs(schedule.pmTo, 'HH:mm')]}
+                    minuteStep={15}
                     onChange={(value) => handleTimePickerChange(value, schedule, 'pm')}
                   />
                 </Form.Item>

@@ -14,6 +14,7 @@ import { authApi, cadastralApi, categoryApi, doctorClinicApi } from '../../../ap
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
+import { ValidateLibrary } from '../../../validate';
 
 const DoctorProfile = () => {
   const intl = useIntl();
@@ -94,7 +95,7 @@ const DoctorProfile = () => {
     const doctor: DoctorClinic | undefined = doctorProfile?.data;
     form.setFieldsValue({
       ...doctor,
-      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth, FORMAT_DATE) : null,
+      dateOfBirth: doctor?.dateOfBirth ? dayjs(doctor.dateOfBirth) : null,
       status: doctor?.status ? Number(doctor.status) : 0,
       categoryIds: doctor?.categories?.map((item) => {
         return item.id;
@@ -149,7 +150,7 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.fullName',
                   })}
                   name={'fullName'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).name}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -159,7 +160,7 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.code',
                   })}
                   name={'code'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).userCode}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -171,7 +172,7 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.email',
                   })}
                   name={'emailAddress'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).email}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -181,7 +182,7 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.phone',
                   })}
                   name={'phoneNumber'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).phoneNumber}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -194,9 +195,15 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.dob',
                   })}
                   name={'dateOfBirth'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).dob}
                 >
-                  <DatePicker format={FORMAT_DATE} />
+                  <DatePicker
+                    format={FORMAT_DATE}
+                    disabledDate={(current) => {
+                      const today = dayjs();
+                      return current && dayjs(current).isAfter(today, 'day');
+                    }}
+                  />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item
@@ -205,7 +212,6 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.gender',
                   })}
                   name={'gender'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={[
@@ -253,7 +259,6 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.level',
                   })}
                   name={'level'}
-                  rules={[{ required: true }]}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -263,7 +268,6 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.status',
                   })}
                   name={'status'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={[
@@ -290,7 +294,6 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.province',
                   })}
                   name={'provinceId'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={listProvince?.data.map((item: Cadastral) => {
@@ -310,7 +313,6 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.district',
                   })}
                   name={'districtId'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={listDistrict?.data.map((item: Cadastral) => {
@@ -332,7 +334,6 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.ward',
                   })}
                   name={'wardId'}
-                  rules={[{ required: true }]}
                 >
                   <CustomSelect
                     options={listWard?.data?.map((item: Cadastral) => {
@@ -352,7 +353,6 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.address',
                   })}
                   name={'address'}
-                  rules={[{ required: true }]}
                 >
                   <CustomInput />
                 </Form.Item>

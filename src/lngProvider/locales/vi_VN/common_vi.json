@@ -33,5 +33,6 @@
   "common.noti.special": "Vui lòng không nhập kí tự đặc biệt",
   "common.noti.input": "Vui lòng nhập dữ liệu cho trường này",
   "common.noti.select": "Vui lòng chọn dữ liệu cho trường này",
-  "common.noti.role": "Tên vai trò có thể đã được sử dụng. Vui lòng thử lại"
+  "common.noti.role": "Tên vai trò có thể đã được sử dụng. Vui lòng thử lại",
+  "common.upload.fail": "Tải ảnh thất bại"
 }
