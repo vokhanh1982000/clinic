@@ -1,0 +1,6 @@
+{
+  "validate.required": "required",
+  "validate.min_4_char": "min 4 character",
+  "validate.space": "required",
+  "validate.phone": "invalid"
+}

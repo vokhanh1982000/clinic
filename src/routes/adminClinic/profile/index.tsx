@@ -14,6 +14,7 @@ import { adminClinicApi, authApi, cadastralApi } from '../../../apis';
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
+import { ValidateLibrary } from '../../../validate';
 
 const AdminClinicProfile = () => {
   const intl = useIntl();
@@ -84,7 +85,7 @@ const AdminClinicProfile = () => {
     const adminClinic: AdministratorClinic | undefined = adminClinicProfile?.data;
     form.setFieldsValue({
       ...adminClinic,
-      dateOfBirth: adminClinic?.dateOfBirth ? dayjs(adminClinic?.dateOfBirth, FORMAT_DATE) : null,
+      dateOfBirth: adminClinic?.dateOfBirth ? dayjs(adminClinic?.dateOfBirth) : null,
     });
     setSelectedProvince(adminClinic?.province);
     setSelectedDistrict(adminClinic?.district);
@@ -136,7 +137,7 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.fullName',
                   })}
                   name={'fullName'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).name}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -146,7 +147,7 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.code',
                   })}
                   name={'code'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).userCode}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -158,6 +159,7 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.email',
                   })}
                   name={'emailAddress'}
+                  rules={ValidateLibrary(intl).email}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -167,7 +169,7 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.phone',
                   })}
                   name={'phoneNumber'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).phoneNumber}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -180,6 +182,7 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.dob',
                   })}
                   name={'dateOfBirth'}
+                  rules={ValidateLibrary(intl).dob}
                 >
                   <DatePicker
                     format={FORMAT_DATE}
@@ -281,6 +284,7 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.address',
                   })}
                   name={'address'}
+                  rules={ValidateLibrary(intl).space}
                 >
                   <CustomInput />
                 </Form.Item>

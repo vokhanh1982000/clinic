@@ -21,6 +21,12 @@
       color: $text_white;
     }
   }
+  .custom-table {
+    .ant-table-thead > tr > th {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
 
   .customer-management__filter {
     display: flex;

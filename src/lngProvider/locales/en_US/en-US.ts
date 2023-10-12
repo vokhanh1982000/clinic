@@ -16,6 +16,7 @@ import doctorProfile from './doctor.profile.json';
 import adminClinicProfile from './admin.clinic.profile.json';
 import setting from './setting.json';
 import changePassword from './change-password.json';
+import validate from './validate.json';
 import news from './new.json';
 
 const EnLang = {
@@ -38,6 +39,7 @@ const EnLang = {
     ...setting,
     ...changePassword,
     ...news,
+    ...validate,
   },
   antd: antdEN,
   locale: 'en-US',

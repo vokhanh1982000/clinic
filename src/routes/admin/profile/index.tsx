@@ -13,6 +13,7 @@ import { UpdateAdminDto } from '../../../apis/client-axios';
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
+import { ValidateLibrary } from '../../../validate';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
@@ -83,6 +84,7 @@ const Profile = () => {
                     label={intl.formatMessage({
                       id: 'admin-profile.fullName',
                     })}
+                    rules={ValidateLibrary(intl).name}
                   >
                     <CustomInput />
                   </Form.Item>
@@ -92,6 +94,7 @@ const Profile = () => {
                     label={intl.formatMessage({
                       id: 'admin-profile.code',
                     })}
+                    rules={ValidateLibrary(intl).userCode}
                   >
                     <CustomInput />
                   </Form.Item>
@@ -103,6 +106,7 @@ const Profile = () => {
                     label={intl.formatMessage({
                       id: 'admin-profile.emailAddress',
                     })}
+                    rules={ValidateLibrary(intl).email}
                   >
                     <CustomInput />
                   </Form.Item>
@@ -112,6 +116,7 @@ const Profile = () => {
                     label={intl.formatMessage({
                       id: 'admin-profile.phoneNumber',
                     })}
+                    rules={ValidateLibrary(intl).phoneNumber}
                   >
                     <CustomInput />
                   </Form.Item>
@@ -123,6 +128,7 @@ const Profile = () => {
                     label={intl.formatMessage({
                       id: 'admin-profile.dateOfBirth',
                     })}
+                    rules={ValidateLibrary(intl).dob}
                   >
                     <DatePicker
                       format={FORMAT_DATE}
