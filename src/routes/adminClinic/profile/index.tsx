@@ -35,13 +35,13 @@ const AdminClinicProfile = () => {
 
   const { data: listDistrict } = useQuery({
     queryKey: ['listDistrict', selectedProvince],
-    queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvince(undefined, selectedProvince?.baseCode),
+    queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvinceId(selectedProvince?.id, undefined),
     enabled: !!selectedProvince,
   });
 
   const { data: listWard } = useQuery({
     queryKey: ['listWard', selectedDistrict],
-    queryFn: () => cadastralApi.cadastralControllerGetWardByCode(undefined, undefined, selectedDistrict?.baseCode),
+    queryFn: () => cadastralApi.cadastralControllerGetWardByDistrictId(undefined, selectedDistrict?.id),
     enabled: !!selectedDistrict,
   });
 

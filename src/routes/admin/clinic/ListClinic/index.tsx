@@ -46,13 +46,13 @@ const ListClinic = () => {
 
   const { data: listDistrict } = useQuery({
     queryKey: ['districtList', provinceSelected],
-    queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvince(undefined, provinceSelected?.code),
+    queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvinceId(provinceSelected?.id, undefined),
     enabled: !!provinceSelected,
   });
 
   const { data: listWard } = useQuery({
     queryKey: ['wardList', districtSelected],
-    queryFn: () => cadastralApi.cadastralControllerGetWardByCode(undefined, undefined, districtSelected?.code),
+    queryFn: () => cadastralApi.cadastralControllerGetWardByDistrictId(undefined, districtSelected?.id),
     enabled: !!districtSelected,
   });
 
