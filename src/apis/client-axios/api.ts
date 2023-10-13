@@ -2387,25 +2387,25 @@ export interface CreateWorkScheduleDto {
      * @type {string}
      * @memberof CreateWorkScheduleDto
      */
-    'amFrom': string;
+    'amFrom'?: string;
     /**
      * 
      * @type {string}
      * @memberof CreateWorkScheduleDto
      */
-    'amTo': string;
+    'amTo'?: string;
     /**
      * 
      * @type {string}
      * @memberof CreateWorkScheduleDto
      */
-    'pmFrom': string;
+    'pmFrom'?: string;
     /**
      * 
      * @type {string}
      * @memberof CreateWorkScheduleDto
      */
-    'pmTo': string;
+    'pmTo'?: string;
     /**
      * 
      * @type {string}
@@ -2830,10 +2830,10 @@ export interface DoctorClinic {
     'categories': Array<Category>;
     /**
      * 
-     * @type {Booking}
+     * @type {Array<Booking>}
      * @memberof DoctorClinic
      */
-    'bookings'?: Booking;
+    'bookings'?: Array<Booking>;
     /**
      * 
      * @type {string}
@@ -5184,25 +5184,25 @@ export interface WorkSchedule {
      * @type {string}
      * @memberof WorkSchedule
      */
-    'amFrom': string;
+    'amFrom'?: string;
     /**
      * 
      * @type {string}
      * @memberof WorkSchedule
      */
-    'amTo': string;
+    'amTo'?: string;
     /**
      * 
      * @type {string}
      * @memberof WorkSchedule
      */
-    'pmFrom': string;
+    'pmFrom'?: string;
     /**
      * 
      * @type {string}
      * @memberof WorkSchedule
      */
-    'pmTo': string;
+    'pmTo'?: string;
     /**
      * 
      * @type {string}
@@ -10719,7 +10719,7 @@ export const ClinicsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async clinicControllerCreateClinic(createClinicDto: CreateClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async clinicControllerCreateClinic(createClinicDto: CreateClinicDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.clinicControllerCreateClinic(createClinicDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -10841,7 +10841,7 @@ export const ClinicsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clinicControllerCreateClinic(createClinicDto: CreateClinicDto, options?: any): AxiosPromise<object> {
+        clinicControllerCreateClinic(createClinicDto: CreateClinicDto, options?: any): AxiosPromise<void> {
             return localVarFp.clinicControllerCreateClinic(createClinicDto, options).then((request) => request(axios, basePath));
         },
         /**
