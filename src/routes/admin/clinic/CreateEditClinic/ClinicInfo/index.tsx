@@ -170,7 +170,7 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
         >
           <CustomInput />
         </Form.Item>
-        <div className="clinic-info__content__rows">
+        {/* <div className="clinic-info__content__rows">
           <Form.Item
             className="workTime"
             label={intl.formatMessage({
@@ -204,7 +204,31 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
               ]}
             />
           </Form.Item>
-        </div>
+        </div> */}
+        <Form.Item
+          className="phone"
+          label={intl.formatMessage({
+            id: 'clinic.create.clinic.status',
+          })}
+          name={'status'}
+        >
+          <CustomSelect
+            options={[
+              {
+                value: 1,
+                label: intl.formatMessage({
+                  id: 'common.active',
+                }),
+              },
+              {
+                value: 0,
+                label: intl.formatMessage({
+                  id: 'common.inactive',
+                }),
+              },
+            ]}
+          />
+        </Form.Item>
       </div>
     </div>
   );
