@@ -97,7 +97,7 @@ const ListRole = () => {
           prefix={<IconSVG type="search" />}
           className="input-search"
         />
-        <DropdownCustom data={data?.data.position} position={position} setPosition={setPosition} />
+        <DropdownCustom position={position} setPosition={setPosition} />
       </Row>
       <div className="administrator-user">
         <TableWrap
