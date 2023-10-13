@@ -11,14 +11,13 @@ import { useState } from 'react';
 interface CustomDropdownProps extends DropDownProps {
   iconType?: string;
   className?: string;
-  data: string[] | undefined;
   position: string;
   setPosition: (text: string | null) => void;
 }
 
 const DropdownCustom = (props: CustomDropdownProps) => {
   const intl = useIntl();
-  const { iconType, className, data, position, setPosition } = props;
+  const { iconType, className, position, setPosition } = props;
 
   const [items, setItem] = useState<{ key: number; label: JSX.Element }[]>([
     {
