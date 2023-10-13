@@ -38,6 +38,13 @@
       cursor: pointer;
     }
   }
+  .administrator-user {
+    .ant-table-tbody {
+      tr > td {
+        max-width: 200px;
+      }
+    }
+  }
 }
 
 #create-role-management {
@@ -107,22 +114,22 @@
     }
   }
 }
-.table-title__name {
-  color: $table_title_name;
-  font-weight: 700;
-  font-size: 20px;
-}
-.ant-table-tbody {
-  font-family: Open-Sans !important;
-  font-weight: 400;
-  font-size: 16px;
-  color: $text_black_light;
-  .ant-table-cell {
-    max-width: 800px;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
+
+.ant-table-content {
+  .ant-table-thead {
+    span,
+    tr > th {
+      font-family: Open-Sans !important;
+      color: $table_title_name;
+      font-weight: 600;
+      font-size: 20px;
+    }
   }
-}
-.table-title__name.detail {
-  font-weight: 600;
+  .ant-table-tbody {
+    td {
+      font-weight: 400;
+      font-size: 16px;
+      color: $text_black_light;
+    }
+  }
 }

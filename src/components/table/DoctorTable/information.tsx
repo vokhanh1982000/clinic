@@ -175,6 +175,9 @@ const DoctorInfo = (props: DoctorTableProps) => {
               rules={[{ required: true }]}
             >
               <CustomSelect
+                placeholder={intl.formatMessage({
+                  id: 'admin.user.gender',
+                })}
                 options={[
                   {
                     value: UserGender.MALE,
