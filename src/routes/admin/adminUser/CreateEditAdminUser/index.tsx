@@ -286,10 +286,10 @@ const CreateAdmin = () => {
                       })}
                       rules={[
                         { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
-                        { len: 10, message: intl.formatMessage({ id: 'sigin.validate.phone.length' }) },
+                        // { len: 10, message: intl.formatMessage({ id: 'sigin.validate.phone' }) },
                         {
                           pattern: /^0[1-9][0-9]{8}$/,
-                          message: intl.formatMessage({ id: 'sigin.validate.phone.isPhone' }),
+                          message: intl.formatMessage({ id: 'sigin.validate.phone' }),
                         },
                       ]}
                       name={n('phoneNumber')}
