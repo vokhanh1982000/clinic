@@ -1,0 +1,15 @@
+{
+  "timeline.schedule": "Lịch khám",
+  "timeline.doctor": "Bác Sĩ",
+  "timeline.doctor.information": "Thông tin bác sĩ",
+  "timeline.doctor.schedule": "Lịch làm việc chi tiết",
+  "timeline.doctor.note": "Chú thích:",
+  "timeline.doctor.note.complete": "Hoàn thành",
+  "timeline.doctor.note.reviewed": "Đã xét duyệt",
+  "timeline.doctor.note.awaitingReview": "Chờ xét duyệt",
+  "timeline.doctor.note.canceled": "Đã hủy",
+  "timeline.doctor.note.dayOff": "Ngày nghỉ",
+  "timeline.control.search.placeholder": "Tìm kiếm",
+  "timeline.control.mode.date": "Ngày",
+  "timeline.control.mode.month": "Tháng"
+}
