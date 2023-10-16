@@ -112,6 +112,7 @@ const ListMedicine = () => {
       setClinicId((user as AdministratorClinic).clinicId);
     }
   }, [user]);
+
   const { mutate: UpdateClinic, status: statusUpdateClinic } = useMutation(
     (updateClinicForAdminClinic: UpdateClinicForAdminClinic) =>
       clinicsApi.clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic),

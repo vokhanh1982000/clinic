@@ -11960,16 +11960,17 @@ export const DoctorClinicApiAxiosParamCreator = function (configuration?: Config
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
-         * @param {string} [categoryId] 
+         * @param {Array<string>} [categoryId] 
          * @param {string} [clinicId] 
          * @param {number} [status] 
          * @param {string} [provinceId] 
          * @param {number} [priceMin] 
          * @param {number} [priceMax] 
+         * @param {Array<string>} [days] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerGetAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, clinicId?: string, status?: number, provinceId?: string, priceMin?: number, priceMax?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        doctorClinicControllerGetAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, clinicId?: string, status?: number, provinceId?: string, priceMin?: number, priceMax?: number, days?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('doctorClinicControllerGetAll', 'page', page)
             const localVarPath = `/doctor-clinic/get-all-doctor-clinic`;
@@ -12004,7 +12005,7 @@ export const DoctorClinicApiAxiosParamCreator = function (configuration?: Config
                 localVarQueryParameter['fullTextSearch'] = fullTextSearch;
             }
 
-            if (categoryId !== undefined) {
+            if (categoryId) {
                 localVarQueryParameter['categoryId'] = categoryId;
             }
 
@@ -12026,6 +12027,10 @@ export const DoctorClinicApiAxiosParamCreator = function (configuration?: Config
 
             if (priceMax !== undefined) {
                 localVarQueryParameter['priceMax'] = priceMax;
+            }
+
+            if (days) {
+                localVarQueryParameter['days'] = days;
             }
 
 
@@ -12229,17 +12234,18 @@ export const DoctorClinicApiFp = function(configuration?: Configuration) {
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
-         * @param {string} [categoryId] 
+         * @param {Array<string>} [categoryId] 
          * @param {string} [clinicId] 
          * @param {number} [status] 
          * @param {string} [provinceId] 
          * @param {number} [priceMin] 
          * @param {number} [priceMax] 
+         * @param {Array<string>} [days] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, clinicId?: string, status?: number, provinceId?: string, priceMin?: number, priceMax?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DoctorClinicControllerGetAll200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, provinceId, priceMin, priceMax, options);
+        async doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, clinicId?: string, status?: number, provinceId?: string, priceMin?: number, priceMax?: number, days?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DoctorClinicControllerGetAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, provinceId, priceMin, priceMax, days, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -12316,17 +12322,18 @@ export const DoctorClinicApiFactory = function (configuration?: Configuration, b
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
-         * @param {string} [categoryId] 
+         * @param {Array<string>} [categoryId] 
          * @param {string} [clinicId] 
          * @param {number} [status] 
          * @param {string} [provinceId] 
          * @param {number} [priceMin] 
          * @param {number} [priceMax] 
+         * @param {Array<string>} [days] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, clinicId?: string, status?: number, provinceId?: string, priceMin?: number, priceMax?: number, options?: any): AxiosPromise<DoctorClinicControllerGetAll200Response> {
-            return localVarFp.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, provinceId, priceMin, priceMax, options).then((request) => request(axios, basePath));
+        doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, clinicId?: string, status?: number, provinceId?: string, priceMin?: number, priceMax?: number, days?: Array<string>, options?: any): AxiosPromise<DoctorClinicControllerGetAll200Response> {
+            return localVarFp.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, provinceId, priceMin, priceMax, days, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -12402,18 +12409,19 @@ export class DoctorClinicApi extends BaseAPI {
      * @param {number} [size] 
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
-     * @param {string} [categoryId] 
+     * @param {Array<string>} [categoryId] 
      * @param {string} [clinicId] 
      * @param {number} [status] 
      * @param {string} [provinceId] 
      * @param {number} [priceMin] 
      * @param {number} [priceMax] 
+     * @param {Array<string>} [days] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DoctorClinicApi
      */
-    public doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, clinicId?: string, status?: number, provinceId?: string, priceMin?: number, priceMax?: number, options?: AxiosRequestConfig) {
-        return DoctorClinicApiFp(this.configuration).doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, provinceId, priceMin, priceMax, options).then((request) => request(this.axios, this.basePath));
+    public doctorClinicControllerGetAll(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, clinicId?: string, status?: number, provinceId?: string, priceMin?: number, priceMax?: number, days?: Array<string>, options?: AxiosRequestConfig) {
+        return DoctorClinicApiFp(this.configuration).doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status, provinceId, priceMin, priceMax, days, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -15615,10 +15623,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {string} [categoryId] 
+         * @param {Array<string>} [days] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        userControllerGetAllDoctor: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        userControllerGetAllDoctor: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, days?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('userControllerGetAllDoctor', 'page', page)
             const localVarPath = `/users/get-all-doctor`;
@@ -15657,6 +15666,10 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['categoryId'] = categoryId;
             }
 
+            if (days) {
+                localVarQueryParameter['days'] = days;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -15685,11 +15698,12 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {string} [categoryId] 
+         * @param {Array<string>} [days] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserControllerGetAllDoctor200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, options);
+        async userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, days?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserControllerGetAllDoctor200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -15709,11 +15723,12 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {string} [categoryId] 
+         * @param {Array<string>} [days] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, options?: any): AxiosPromise<UserControllerGetAllDoctor200Response> {
-            return localVarFp.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, options).then((request) => request(axios, basePath));
+        userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, days?: Array<string>, options?: any): AxiosPromise<UserControllerGetAllDoctor200Response> {
+            return localVarFp.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -15732,12 +15747,13 @@ export class UsersApi extends BaseAPI {
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
      * @param {string} [categoryId] 
+     * @param {Array<string>} [days] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, options).then((request) => request(this.axios, this.basePath));
+    public userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: string, days?: Array<string>, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
