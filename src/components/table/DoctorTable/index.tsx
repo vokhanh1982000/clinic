@@ -193,7 +193,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
         // isLoading={isLoading}
         page={page}
         size={size}
-        total={doctorType === DoctorType.DOCTOR ? doctorClinics?.data.total : doctorClinics?.data.total}
+        total={doctorType === DoctorType.DOCTOR ? doctorClinics?.data.total : doctorSupports?.data.total}
         setSize={setSize}
         setPage={setPage}
         showPagination={true}

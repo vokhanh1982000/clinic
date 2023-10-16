@@ -28,5 +28,6 @@
   "customer.edit.button.save": "Lưu thay đổi",
   "customer.edit.button.delete": "Xóa tài khoản",
   "customer.create.error": "Thêm mới thất bại. Mã hoặc vai trò đã được sử dụng!",
-  "customer.update.error": "Cập nhật thất bại!"
+  "customer.update.error": "Cập nhật thất bại!",
+  "customer.delete.success": "Xóa thành công"
 }

@@ -1,7 +1,8 @@
 {
   "validate.required": "required",
   "validate.min_4_char": "min 4 character",
-  "validate.space": "do not leave spaces",
+  "validate.space": "Leading white spaces at the beginning of a line are not allowed",
+  "validate.required.category-name": "Please enter medical specialty name",
   "validate.phone": "invalid phone",
   "validate.email": "invalid email",
   "validate.medicine.name.required": "Name is required",

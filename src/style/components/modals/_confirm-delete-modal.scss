@@ -3,6 +3,7 @@
   height: 168px;
   border-radius: 16px;
   font-family: Open-Sans;
+
   .title {
     font-size: 16px;
     font-weight: 400;
@@ -24,28 +25,27 @@
 
     .button-cancel {
       width: 146px;
-      border-color: $text_cancel_btn;
+      border-color: $text_cancel_btn !important;
+      color: $text_cancel_btn !important;
+
       span {
         font-weight: 600;
       }
-    }
-
-    .button-cancel:hover {
-      border-color: $border_button_color;
-      color: inherit;
     }
 
     .button-delete {
       width: 146px;
       background-color: $primary_color;
-      color: $text_white;
+      color: $text_white !important;
+      border-color: inherit !important;
+
       span {
         font-weight: 600;
       }
     }
 
-    .button-delete:hover {
-      border-color: inherit;
-    }
+    // .button-delete:hover {
+    //   border-color: inherit;
+    // }
   }
 }

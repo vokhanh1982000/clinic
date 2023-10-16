@@ -6,7 +6,7 @@ interface Validate {
 }
 
 const REGEX_URL = '';
-const REGEX_PHONE_NUMBER = /^[A-Za-z\d#$@!%&*?.]{8,16}$/;
+const REGEX_PHONE_NUMBER = /^0[1-9][0-9]{8}$/;
 const POSTAL_CODE = '';
 
 export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
@@ -109,6 +109,34 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.min_4_char' }),
       },
     ],
+    nameService: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.required' }),
+      },
+      {
+        min: 1,
+        message: intl.formatMessage({ id: 'validate.min_1_char' }),
+      },
+    ],
+    nameCategory: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.required.category-name' }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          if (value && value.trimStart() !== value) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.space',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
+      },
+    ],
     age: [
       {
         required: true,
@@ -125,6 +153,18 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       {
         required: true,
         message: intl.formatMessage({ id: 'validate.required' }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          if (value && value.trimStart() !== value) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.space',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
       },
     ],
     userCode: [

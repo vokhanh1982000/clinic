@@ -1,7 +1,8 @@
 {
   "validate.required": "Không được bỏ trống",
   "validate.min_4_char": "Ít nhất 4 kí tự",
-  "validate.space": "Không được để khoảng trắng",
+  "validate.space": "Không được nhập khoảng trắng đầu dòng",
+  "validate.required.category-name": "Vui lòng nhập Chuyên khoa",
   "validate.phone": "Không đúng định dạng",
   "validate.email": "Email không hợp lệ",
   "validate.medicine.name.required": "Vui lòng nhập tên thuốc",
