@@ -94,6 +94,13 @@
             align-items: center;
             gap: 15px;
             width: 100%;
+            .ant-form-item-label {
+              color: $text_black_light;
+              font-family: Open-sans;
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 22px;
+            }
 
             .block {
               width: 100%;
@@ -191,6 +198,9 @@
       box-shadow: unset;
       color: unset;
     }
+  }
+  .ant-select-selector {
+    align-items: center;
   }
 }
 

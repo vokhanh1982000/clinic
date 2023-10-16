@@ -7,6 +7,7 @@ import { authApi } from '../../../apis';
 import { FindUserByIdentifierDto, UpdatePasswordDtoTypeEnum } from '../../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../../constants/route';
 import ConfirmPassword from './confirm-password';
+import CustomInput from '../../input/CustomInput';
 
 export interface IForgotPassComponent {
   userType: UpdatePasswordDtoTypeEnum;
@@ -28,12 +29,12 @@ const ForgotPassComponent = (props: IForgotPassComponent) => {
     {
       onSuccess: ({ data }, findUserByIdentifierType): any => {
         const res: any = data;
-        if (!res?.result as any) return message.error(intl.formatMessage({ id: 'forgot.phoneInvalid' }));
+        if (!res?.result as any) return message.error(intl.formatMessage({ id: 'forgot.phoneInvalid.mess' }));
         setPass({ ...findUserByIdentifierType });
       },
       onError: (error) => {
         console.log(error);
-        message.error(intl.formatMessage({ id: 'forgot.phoneInvalid' }));
+        message.error(intl.formatMessage({ id: 'forgot.phoneInvalid.mess' }));
       },
     }
   );
@@ -94,7 +95,7 @@ const ForgotPassComponent = (props: IForgotPassComponent) => {
               },
             ]}
           >
-            <Input />
+            <CustomInput placeholder={intl.formatMessage({ id: 'forgot.phone.pla' })} />
           </Form.Item>
 
           <Form.Item>

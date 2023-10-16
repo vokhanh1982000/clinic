@@ -7,6 +7,19 @@ interface IIconProps extends Omit<IRestProps, 'restProps'> {
 
 const IconSVG: React.FC<IIconProps> = (props) => {
   switch (props.type) {
+    case 'check-success':
+      return (
+        <svg width="146" height="146" viewBox="0 0 146 146" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="146" height="146" rx="73" fill="#EE5824" fill-opacity="0.1" />
+          <path
+            d="M106 47L60.625 93L40 72.0909"
+            stroke="#EE5824"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      );
     case 'bokking':
       return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

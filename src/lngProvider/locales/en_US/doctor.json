@@ -34,11 +34,13 @@
   "doctor.create.info.status": "Status",
   "doctor.create.achievement.history.title": "Work History",
   "doctor.create.achievement.experiment.title": "Experiment",
+  "doctor.create.achievement.experiment.pla": "Experiment",
   "doctor.create.button.create": "Create",
   "doctor.create.button.cancel": "Cancel",
   "doctor.edit.button.save": "Save",
   "doctor.edit.button.delete": "Delete",
   "doctor.create.info.password": "Password",
   "doctor.status.true": "Working",
-  "doctor.status.false": "Has Retired"
+  "doctor.status.false": "Has Retired",
+  "doctor.create.error": "New creation failed. A code or phone number may already be in use. Please check again"
 }

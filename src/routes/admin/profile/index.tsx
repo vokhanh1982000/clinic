@@ -1,7 +1,7 @@
-import { Card, DatePicker, Form } from 'antd';
+import { Card, DatePicker, Form, message } from 'antd';
 import CustomInput from '../../../components/input/CustomInput';
 import CustomButton from '../../../components/buttons/CustomButton';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import IconSVG from '../../../components/icons/icons';
 import useIntl from '../../../util/useIntl';
 import { IntlShape } from 'react-intl';
@@ -14,19 +14,35 @@ import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
+import { CadastalCustom } from '../../../components/Cadastral';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
   const [form] = useForm();
   const queryClient: QueryClient = useQueryClient();
+  const [provinceId, setProvinceId] = useState<string>();
+  const [districtId, setDistrictId] = useState<string>();
+
   const { data, isLoading } = useQuery({
     queryKey: ['admin-profile'],
     queryFn: () => authApi.authControllerAdminMe(),
+    onSuccess: ({ data }) => {
+      console.log(data);
+      setProvinceId(data.provinceId);
+      setDistrictId(data.districtId);
+    },
   });
 
   const { mutate: UpdateAdmin, status: statusUpdateAdmin } = useMutation({
     mutationFn: (updateAdmin: UpdateAdminDto) => adminApi.administratorControllerUpdate(updateAdmin),
-    onSuccess: () => queryClient.invalidateQueries(['admin-profile']),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['admin-profile']);
+      message.success(intl.formatMessage({ id: 'admin-profile.save.success' }));
+    },
+    onError: () => {
+      queryClient.invalidateQueries(['admin-profile']);
+      message.success(intl.formatMessage({ id: 'admin-profile.save.fail' }));
+    },
   });
 
   useEffect(() => {
@@ -38,8 +54,12 @@ const Profile = () => {
         code: dt.code,
         emailAddress: dt.emailAddress,
         phoneNumber: dt.phoneNumber,
-        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth) : null,
+        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth, FORMAT_DATE) : null,
         gender: dt.gender,
+        provinceId: dt.provinceId,
+        districtId: dt.districtId,
+        wardId: dt.wardId,
+        address: dt.address,
       });
     }
   }, [data]);
@@ -163,6 +183,13 @@ const Profile = () => {
                     />
                   </Form.Item>
                 </div>
+                <CadastalCustom
+                  form={form}
+                  districtId={districtId}
+                  setDistrictId={setDistrictId}
+                  provinceId={provinceId}
+                  setProvinceId={setProvinceId}
+                ></CadastalCustom>
               </div>
             </div>
           </div>

@@ -40,12 +40,12 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
-  const [categoryId, setCategoryId] = useState<any>(undefined);
+  const [categoryId, setCategoryId] = useState<string[]>([]);
   const [status, setStatus] = useState<number>(-1);
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
 
   const { data: doctorClinics } = useQuery({
-    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status }],
+    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, undefined, status }],
     queryFn: () =>
       doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, undefined, status),
     enabled: doctorType === DoctorType.DOCTOR,
@@ -122,11 +122,11 @@ export const DoctorTable = (props: DoctorTableProps) => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="0" onClick={() => setCategoryId(undefined)}>
+      <Menu.Item key="0" onClick={() => setCategoryId([])}>
         All
       </Menu.Item>
       {category?.data.content?.map((item) => (
-        <Menu.Item key={item.id} onClick={() => setCategoryId(item.id)}>
+        <Menu.Item key={item.id} onClick={() => setCategoryId([item.id])}>
           {item.name}
         </Menu.Item>
       ))}
@@ -194,6 +194,9 @@ export const DoctorTable = (props: DoctorTableProps) => {
           })}
           dataIndex="code"
           width={'5%'}
+          render={(_, record) => {
+            return <>{_ ? String(_).toUpperCase() : ''}</>;
+          }}
         />
         <Column
           title={intl.formatMessage({

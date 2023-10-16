@@ -75,6 +75,9 @@
     align-items: center;
     gap: 15px;
     width: 100%;
+    .ant-select-selector {
+      align-items: center;
+    }
 
     .province,
     .district,
@@ -155,4 +158,10 @@
 .text-error {
   color: $text_error;
   font-size: 14px;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

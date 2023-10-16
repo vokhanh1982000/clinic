@@ -92,7 +92,7 @@ const CreateDoctor = () => {
       navigate(-1);
     },
     onError: (error) => {
-      message.error(intl.formatMessage({ id: 'common.message.err' }));
+      message.error(intl.formatMessage({ id: 'doctor.create.error' }));
     },
   });
 
@@ -106,14 +106,14 @@ const CreateDoctor = () => {
       createDocterClinic.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
+        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         clinicId: null,
       });
     } else {
       updateDoctorClinic.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
+        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         id: id,
       });
     }

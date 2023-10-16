@@ -34,11 +34,13 @@
   "doctor.create.info.status": "Trạng thái",
   "doctor.create.achievement.history.title": "Quá trình công tác",
   "doctor.create.achievement.experiment.title": "Kinh nghiệm",
+  "doctor.create.achievement.experiment.pla": "Kinh nghiệm làm việc",
   "doctor.create.button.create": "Thêm mới",
   "doctor.create.button.cancel": "Hủy",
   "doctor.edit.button.save": "Lưu thay đổi",
   "doctor.edit.button.delete": "Xóa tài khoản",
   "doctor.create.info.password": "Mật khẩu",
   "doctor.status.true": "Đang làm việc",
-  "doctor.status.false": "Đã nghỉ việc"
+  "doctor.status.false": "Đã nghỉ việc",
+  "doctor.create.error": "Tạo mới thất bại. Mã nhân sự hoặc số điện thoại có thể đã được sử dụng. Vui lòng kiểm tra lại"
 }
