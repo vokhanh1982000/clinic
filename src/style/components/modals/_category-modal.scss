@@ -8,6 +8,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 25px;
 
       &__title {
         font-size: 24px;
@@ -44,11 +45,12 @@
           width: 64px;
           height: 64px;
           border-radius: 50%;
-          border: 1px solid $border_input_color;
+          // border: 1px solid $border_input_color;
           margin: 10px auto;
           display: flex;
           align-items: center;
           justify-content: center;
+          background-color: $background_blue_light;
         }
 
         &__line {
@@ -97,7 +99,7 @@
     }
 
     &__action {
-      margin-top: 25px;
+      margin-top: 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;

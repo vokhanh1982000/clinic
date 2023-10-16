@@ -1,6 +1,7 @@
 {
   "validate.required": "Không được bỏ trống",
   "validate.min_4_char": "Ít nhất 4 kí tự",
-  "validate.space": "Không được bỏ trống",
-  "validate.phone": "Không đúng định dạng"
+  "validate.space": "Không được nhập khoảng trắng đầu dòng",
+  "validate.phone": "Không đúng định dạng",
+  "validate.required.category-name": "Vui lòng nhập Chuyên khoa"
 }

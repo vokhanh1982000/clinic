@@ -36,6 +36,7 @@ const ListUser = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['customerList']);
+        message.success(intl.formatMessage({ id: `customer.delete.success` }));
       },
       onError: (error: any) => {
         message.error(error.message);
@@ -87,6 +88,7 @@ const ListUser = () => {
             }
             debouncedUpdateInputValue(e.target.value);
           }}
+          allowClear
         />
         <CustomSelect
           className="select-status"
@@ -206,7 +208,7 @@ const ListUser = () => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
+              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.fullName })}>
                 <IconSVG type="delete" />
               </div>
             </div>

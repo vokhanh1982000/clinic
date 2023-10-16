@@ -18,6 +18,7 @@ import { MyUploadProps } from '../../../../constants/dto';
 import dayjs from 'dayjs';
 import UploadAvatar from '../../../../components/upload/UploadAvatar';
 import { FORMAT_DATE } from '../../../../constants/common';
+import { CadastalCustom } from '../../../../components/Cadastral';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -28,6 +29,8 @@ const CreateCustomer = () => {
   const [avatar, setAvatar] = useState<string>();
   const [isDeleteCustomer, setIsDeleteCustomer] = useState<boolean>(false);
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
+  const [provinceId, setProvinceId] = useState<string>();
+  const [districtId, setDistrictId] = useState<string>();
 
   const { data: datacustomer } = useQuery(
     ['getDetailCustomer', id],
@@ -43,6 +46,8 @@ const CreateCustomer = () => {
         if (response.data.avatar) {
           setAvatar(process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview);
         }
+        setProvinceId(response.data.provinceId ? response.data.provinceId : undefined);
+        setDistrictId(response.data.districtId ? response.data.districtId : undefined);
       },
       enabled: !!id,
       refetchOnWindowFocus: false,
@@ -254,6 +259,13 @@ const CreateCustomer = () => {
                   />
                 </Form.Item>
               </div>
+              <CadastalCustom
+                form={form}
+                provinceId={provinceId}
+                districtId={districtId}
+                setProvinceId={setProvinceId}
+                setDistrictId={setDistrictId}
+              ></CadastalCustom>
               <div className="customer-info__content__info__rows">
                 {/* disable -> phase2 */}
                 <Form.Item
