@@ -86,7 +86,11 @@ const Profile = () => {
                     })}
                     rules={ValidateLibrary(intl).fullName}
                   >
-                    <CustomInput />
+                    <CustomInput
+                      placeholder={intl.formatMessage({
+                        id: 'admin-profile.fullName',
+                      })}
+                    />
                   </Form.Item>
                   <Form.Item
                     name={'code'}
@@ -96,7 +100,11 @@ const Profile = () => {
                     })}
                     rules={ValidateLibrary(intl).staffCode}
                   >
-                    <CustomInput />
+                    <CustomInput
+                      placeholder={intl.formatMessage({
+                        id: 'admin-profile.code',
+                      })}
+                    />
                   </Form.Item>
                 </div>
                 <div className={'admin-profile__form__info__content__input__rows'}>
@@ -108,7 +116,11 @@ const Profile = () => {
                     })}
                     rules={ValidateLibrary(intl).email}
                   >
-                    <CustomInput />
+                    <CustomInput
+                      placeholder={intl.formatMessage({
+                        id: 'admin-profile.emailAddress',
+                      })}
+                    />
                   </Form.Item>
                   <Form.Item
                     name={'phoneNumber'}
@@ -118,7 +130,11 @@ const Profile = () => {
                     })}
                     rules={ValidateLibrary(intl).phoneNumber}
                   >
-                    <CustomInput />
+                    <CustomInput
+                      placeholder={intl.formatMessage({
+                        id: 'admin-profile.phoneNumber',
+                      })}
+                    />
                   </Form.Item>
                 </div>
                 <div className={'admin-profile__form__info__content__input__rows'}>
@@ -136,6 +152,9 @@ const Profile = () => {
                         const today = dayjs();
                         return current && dayjs(current).isAfter(today, 'day');
                       }}
+                      placeholder={intl.formatMessage({
+                        id: 'admin-profile.dateOfBirth',
+                      })}
                     />
                   </Form.Item>
                   <Form.Item
@@ -160,6 +179,9 @@ const Profile = () => {
                           }),
                         },
                       ]}
+                      placeholder={intl.formatMessage({
+                        id: 'admin-profile.gender',
+                      })}
                     />
                   </Form.Item>
                 </div>
