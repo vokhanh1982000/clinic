@@ -4,7 +4,7 @@ import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SidebarLogo from './SidebarLogo';
-import { ADMIN_ROUTE_PATH } from '../../constants/route';
+import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -65,6 +65,12 @@ const SidebarContent = (props: ISideBarContentProp) => {
     navigate(e.key);
   };
 
+  const excludePath: string[] = [
+    ADMIN_CLINIC_ROUTE_PATH.ADMIN_CLINIC_PROFILE,
+    ADMIN_ROUTE_PATH.ADMIN_PROFILE,
+    DOCTOR_CLINIC_ROUTE_PATH.DOCTOR_PROFILE,
+  ];
+
   useEffect(() => {
     if (location.pathname) {
       let step = 1;
@@ -76,6 +82,9 @@ const SidebarContent = (props: ISideBarContentProp) => {
           step++;
         }
       });
+      if (excludePath.includes(location.pathname)) {
+        setCurrent('');
+      }
     }
   }, [location.pathname]);
 
