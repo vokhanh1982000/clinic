@@ -20,7 +20,7 @@ export const ConfirmDeleteModal = (props: ConfirmDeleteModalProps) => {
         {intl.formatMessage({
           id: 'common.confirm-delete',
         })}{' '}
-        {subName} <span className="name">{name}</span> ?
+        {subName} <span className="name">{name}</span>?
       </div>
       <div className="action">
         <CustomButton className="button-cancel" onClick={onClose}>

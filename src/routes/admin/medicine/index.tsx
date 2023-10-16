@@ -55,7 +55,7 @@ const ListMedicine = () => {
         ? adminMedicineApi.medicineAdminControllerFindAll(page, size, sort, fullTextSearch, status, unit)
         : adminMedicineApi.medicineAdminControllerFindAll(page, size, sort, undefined, status, unit),
   });
-
+  console.log(page);
   const { mutate: CreateMedicine, status: statusCreateMedicine } = useMutation(
     (createMedicine: CreateMedicineDto) => adminMedicineApi.medicineAdminControllerCreate(createMedicine),
     {
@@ -116,6 +116,7 @@ const ListMedicine = () => {
   };
 
   const debouncedUpdateInputValue = debounce((value) => {
+    setPage(1);
     setFullTextSearch(value);
   }, 500);
 
@@ -153,6 +154,7 @@ const ListMedicine = () => {
               }
               debouncedUpdateInputValue(e.target.value);
             }}
+            allowClear={true}
           />
         </div>
         <TableWrap
@@ -198,18 +200,18 @@ const ListMedicine = () => {
               });
             }}
           />
-          <Column
-            title={intl.formatMessage({
-              id: 'medicine.list.table.status',
-            })}
-            dataIndex="status"
-            width={'15%'}
-            render={(value) => {
-              return intl.formatMessage({
-                id: `medicine.status.${value}`,
-              });
-            }}
-          />
+          {/*<Column*/}
+          {/*  title={intl.formatMessage({*/}
+          {/*    id: 'medicine.list.table.status',*/}
+          {/*  })}*/}
+          {/*  dataIndex="status"*/}
+          {/*  width={'15%'}*/}
+          {/*  render={(value) => {*/}
+          {/*    return intl.formatMessage({*/}
+          {/*      id: `medicine.status.${value}`,*/}
+          {/*    });*/}
+          {/*  }}*/}
+          {/*/>*/}
           <Column
             title={intl.formatMessage({
               id: 'medicine.list.table.action',
@@ -230,10 +232,6 @@ const ListMedicine = () => {
                     });
                     setIsShowModalUpdate({
                       id: record.id,
-                    });
-                    setIsShowModalDelete({
-                      id: record.id,
-                      name: record.name,
                     });
                   }}
                 >
@@ -276,8 +274,18 @@ const ListMedicine = () => {
               id: 'medicine.list.modal.update',
             })}
             onSubmit={handleUpdate}
-            onClose={() => setIsShowModalUpdate(undefined)}
-            onDelete={handleDelete}
+            onClose={() => {
+              setIsShowModalUpdate(undefined);
+              form.resetFields();
+            }}
+            onDelete={() => {
+              setIsShowModalUpdate(undefined);
+              setIsShowModalDelete({
+                id: form.getFieldValue('id'),
+                name: form.getFieldValue('name'),
+              });
+              form.resetFields();
+            }}
             isSuperAdmin={true}
           />
         )}
