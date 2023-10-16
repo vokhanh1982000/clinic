@@ -19,6 +19,7 @@ import { MyUploadProps } from '../../../../constants/dto';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { CadastalCustom } from '../../../../components/Cadastral';
+import { ValidateLibrary } from '../../../../validate';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -125,16 +126,18 @@ const CreateAdmin = () => {
       return message.error(intl.formatMessage({ id: 'admin.user.role.message' }));
 
     if (id) {
+      console.log(values);
       updateAdmin.mutate({
         ...values,
-        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
+        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         roleIds,
+        emailAddress: values.emailAddress ? values.emailAddress : '',
         userId: id,
       });
     } else {
       const data: CreateAdminDto = {
         ...values,
-        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
+        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         roleIds,
       };
       createAdmin.mutate(data);
@@ -219,22 +222,24 @@ const CreateAdmin = () => {
                         label={intl.formatMessage({
                           id: 'admin.user.fullName',
                         })}
-                        rules={[
-                          {
-                            required: true,
-                            message: intl.formatMessage({ id: 'common.noti.input' }),
-                          },
-                          {
-                            pattern: /^(?![\s])[\s\S]*/,
-                            message: intl.formatMessage({ id: 'common.noti.space' }),
-                          },
-                          {
-                            pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
-                            message: intl.formatMessage({
-                              id: 'common.noti.special',
-                            }),
-                          },
-                        ]}
+                        // rules={ValidateLibrary(intl).}
+
+                        // rules={[
+                        //   {
+                        //     required: true,
+                        //     message: intl.formatMessage({ id: 'common.noti.input' }),
+                        //   },
+                        //   {
+                        //     pattern: /^(?![\s])[\s\S]*/,
+                        //     message: intl.formatMessage({ id: 'common.noti.space' }),
+                        //   },
+                        //   {
+                        //     pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                        //     message: intl.formatMessage({
+                        //       id: 'common.noti.special',
+                        //     }),
+                        //   },
+                        // ]}
                         name={n('fullName')}
                       >
                         <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.fullName' })} />
@@ -352,6 +357,7 @@ const CreateAdmin = () => {
                         rules={[
                           { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
                           { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
+                          { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
                           { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
                           {
                             pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,

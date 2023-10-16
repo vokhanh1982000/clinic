@@ -1,4 +1,9 @@
-import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../constants/route';
+import {
+  ADMIN_CLINIC_ROUTE_NAME,
+  ADMIN_CLINIC_ROUTE_PATH,
+  ADMIN_ROUTE_PATH,
+  DOCTOR_CLINIC_ROUTE_PATH,
+} from '../constants/route';
 
 export const getMenuActiveIconName = (key: string, route: 'Admin' | 'AdminClinic' | 'Doctor'): string => {
   if (route === 'Admin') {
@@ -91,6 +96,10 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
         return 'menu.medicineManagement';
       case ADMIN_CLINIC_ROUTE_PATH.DOCTOR_MANAGEMENT:
         return 'menu.doctorManagement';
+      case ADMIN_CLINIC_ROUTE_PATH.CREATE_DOCTOR:
+        return 'menu.create.doctor';
+      case ADMIN_CLINIC_ROUTE_PATH.DETAIL_DOCTOR:
+        return 'menu.detail.doctor';
       case ADMIN_CLINIC_ROUTE_PATH.ADMIN_CLINIC_PROFILE:
         return 'menu.admin-clinic-profile';
       default:

@@ -15,6 +15,8 @@
   "menu.home": "Trang chủ",
   "menu.createRole": "Tạo vai trò mới",
   "menu.detailRole": "Chi Tiết Vai Trò",
+  "menu.create.doctor": "Thêm Bác Sĩ Mới",
+  "menu.detail.doctor": "Chi Tiết Bác Sĩ",
   "menu.admin-profile": "Thông tin tài khoản",
   "menu.admin-clinic-profile": "Thông tin tài khoản",
   "menu.doctor-clinic-profile": "Thông tin tài khoản",

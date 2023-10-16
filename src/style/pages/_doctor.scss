@@ -23,6 +23,13 @@
       width: 187px;
     }
   }
+  .ant-table-content {
+    .ant-table-thead {
+      tr > th {
+        font-weight: 700;
+      }
+    }
+  }
 }
 
 #create-doctor-management {
@@ -96,7 +103,7 @@
             width: 100%;
             .ant-form-item-label {
               color: $text_black_light;
-              font-family: Open-sans;
+              font-family: Open-sans !important;
               font-size: 14px;
               font-weight: 700;
               line-height: 22px;

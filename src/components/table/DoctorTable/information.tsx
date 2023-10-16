@@ -245,6 +245,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
               rules={[{ required: true, message: intl.formatMessage({ id: 'Vui lòng chọn dữ liệu cho trường này' }) }]}
             >
               <CustomSelect
+                maxTagCount={2}
                 mode="multiple"
                 options={category?.flatMap((item) => {
                   return { value: item.id, label: item.name } as DefaultOptionType;
@@ -266,6 +267,12 @@ const DoctorInfo = (props: DoctorTableProps) => {
                     {
                       pattern: /^(?![\s])[\s\S]*/,
                       message: intl.formatMessage({ id: 'common.noti.space' }),
+                    },
+                    {
+                      pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                      message: intl.formatMessage({
+                        id: 'common.noti.special',
+                      }),
                     },
                   ]}
                 >

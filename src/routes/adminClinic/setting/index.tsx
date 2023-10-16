@@ -50,10 +50,10 @@ for (let index = 0; index < 7; index++) {
   const item: Partial<WorkScheduleRange> = {
     day: index,
     status: false,
-    pmFrom: '08:00',
-    pmTo: '12:00',
-    amFrom: '13:00',
-    amTo: '17:00',
+    pmFrom: '13:00',
+    pmTo: '17:00',
+    amFrom: '08:00',
+    amTo: '12:00',
     am: [dayjs('08:00', 'HH:mm'), dayjs('12:00', 'HH:mm')],
     pm: [dayjs('13:00', 'HH:mm'), dayjs('17:00', 'HH:mm')],
   };
@@ -112,6 +112,7 @@ const ListMedicine = () => {
       setClinicId((user as AdministratorClinic).clinicId);
     }
   }, [user]);
+
   const { mutate: UpdateClinic, status: statusUpdateClinic } = useMutation(
     (updateClinicForAdminClinic: UpdateClinicForAdminClinic) =>
       clinicsApi.clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic),
