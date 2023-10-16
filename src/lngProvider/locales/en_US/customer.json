@@ -28,5 +28,6 @@
   "customer.edit.button.save": "Save",
   "customer.edit.button.delete": "Delete",
   "customer.create.error": "Create new is Fail. Code or customer name is Using!",
-  "customer.update.error": "Update is Fail!"
+  "customer.update.error": "Update is Fail!",
+  "customer.delete.success": "Delete success"
 }

@@ -1868,7 +1868,49 @@ export interface CreateCustomerDto {
      * @type {string}
      * @memberof CreateCustomerDto
      */
-    'email': string;
+    'provinceId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'districtId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'wardId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'fullName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'emailAddress'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'dateOfBirth'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'gender'?: CreateCustomerDtoGenderEnum;
     /**
      * 
      * @type {string}
@@ -1880,49 +1922,19 @@ export interface CreateCustomerDto {
      * @type {string}
      * @memberof CreateCustomerDto
      */
-    'password': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateCustomerDto
-     */
-    'confirmPassword'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateCustomerDto
-     */
-    'fullName'?: string;
-    /**
-     * 
-     * @type {Array<CreateUserRoleDto>}
-     * @memberof CreateCustomerDto
-     */
-    'roles'?: Array<CreateUserRoleDto>;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateCustomerDto
-     */
-    'address': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateCustomerDto
-     */
-    'dateOfBirth': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateCustomerDto
-     */
-    'gender'?: CreateCustomerDtoGenderEnum;
+    'code'?: string;
     /**
      * 
      * @type {boolean}
      * @memberof CreateCustomerDto
      */
     'status': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCustomerDto
+     */
+    'password': string;
     /**
      * 
      * @type {string}
@@ -2356,19 +2368,6 @@ export interface CreateRoleDto {
      * @memberof CreateRoleDto
      */
     'permissions': Array<string>;
-}
-/**
- * 
- * @export
- * @interface CreateUserRoleDto
- */
-export interface CreateUserRoleDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateUserRoleDto
-     */
-    'id': string;
 }
 /**
  * 
@@ -4491,16 +4490,16 @@ export interface UpdateCustomerDto {
     'code'?: string;
     /**
      * 
-     * @type {string}
+     * @type {boolean}
      * @memberof UpdateCustomerDto
      */
-    'proviceId': string;
+    'status'?: boolean;
     /**
      * 
      * @type {string}
      * @memberof UpdateCustomerDto
      */
-    'districId': string;
+    'password'?: string;
     /**
      * 
      * @type {string}

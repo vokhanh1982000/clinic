@@ -137,9 +137,13 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.fullName',
                   })}
                   name={'fullName'}
-                  rules={ValidateLibrary(intl).name}
+                  rules={ValidateLibrary(intl).fullName}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.fullName',
+                    })}
+                  />
                 </Form.Item>
                 <Form.Item
                   className="code"
@@ -147,9 +151,13 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.code',
                   })}
                   name={'code'}
-                  rules={ValidateLibrary(intl).userCode}
+                  rules={ValidateLibrary(intl).staffCode}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.code',
+                    })}
+                  />
                 </Form.Item>
               </div>
               <div className="admin-clinic-info__content__info__rows">
@@ -161,7 +169,11 @@ const AdminClinicProfile = () => {
                   name={'emailAddress'}
                   rules={ValidateLibrary(intl).email}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.email',
+                    })}
+                  />
                 </Form.Item>
                 <Form.Item
                   className="phone"
@@ -171,7 +183,11 @@ const AdminClinicProfile = () => {
                   name={'phoneNumber'}
                   rules={ValidateLibrary(intl).phoneNumber}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.phone',
+                    })}
+                  />
                 </Form.Item>
               </div>
 
@@ -190,6 +206,9 @@ const AdminClinicProfile = () => {
                       const today = dayjs();
                       return current && dayjs(current).isAfter(today, 'day');
                     }}
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.dob',
+                    })}
                   />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
@@ -215,6 +234,9 @@ const AdminClinicProfile = () => {
                         }),
                       },
                     ]}
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.gender',
+                    })}
                   />
                 </Form.Item>
               </div>
@@ -236,6 +258,9 @@ const AdminClinicProfile = () => {
                     })}
                     onChange={handleSelectProvince}
                     value={selectedProvince?.id}
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.province',
+                    })}
                   />
                 </Form.Item>
                 <Form.Item
@@ -255,6 +280,9 @@ const AdminClinicProfile = () => {
                     })}
                     onChange={handleSelectDistrict}
                     value={selectedDistrict?.id || undefined}
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.district',
+                    })}
                   />
                 </Form.Item>
               </div>
@@ -276,6 +304,9 @@ const AdminClinicProfile = () => {
                     })}
                     onChange={(value: string, option: any) => setSelectedWard(option.item)}
                     value={selectedWard?.id}
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.ward',
+                    })}
                   />
                 </Form.Item>
                 <Form.Item
@@ -286,7 +317,11 @@ const AdminClinicProfile = () => {
                   name={'address'}
                   rules={ValidateLibrary(intl).space}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'admin-clinic.form.address',
+                    })}
+                  />
                 </Form.Item>
               </div>
             </div>

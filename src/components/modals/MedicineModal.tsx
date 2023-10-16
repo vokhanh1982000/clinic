@@ -7,9 +7,10 @@ import CustomSelect from '../select/CustomSelect';
 import React, { useState } from 'react';
 import { Option } from 'antd/es/mentions';
 import IconSVG from '../icons/icons';
+import { ValidateLibrary } from '../../validate';
 
 interface MedicineModalProps {
-  form?: FormInstance;
+  form: FormInstance;
   visible: boolean;
   title: string;
   action: ActionUser;
@@ -55,51 +56,97 @@ export const MedicineModal = (props: MedicineModalProps) => {
       }),
     },
   ];
-
+  const onFinish = () => {
+    onSubmit();
+  };
   return (
     <Modal className="modal-medicine" open={visible} centered closable={false} maskClosable={false} footer={null}>
-      <div className="modal-medicine__content">
-        <div className="modal-medicine__content__title">
-          <span>{title}</span>
-          <span onClick={() => onClose()} className={'modal-medicine__content__title__button-close'}>
-            <IconSVG type="close" />
-          </span>
-        </div>
-        <div className="modal-medicine__content__rows">
+      <Form form={form} onFinish={onFinish} layout={'vertical'}>
+        <div className="modal-medicine__content">
+          <div className="modal-medicine__content__title">
+            <span>{title}</span>
+            <span onClick={onClose} className={'modal-medicine__content__title__button-close'}>
+              <IconSVG type="close" />
+            </span>
+          </div>
+          <div className="modal-medicine__content__rows">
+            <Form.Item
+              name="name"
+              className="name"
+              label={intl.formatMessage({
+                id: 'medicine.modal.create.name',
+              })}
+              rules={ValidateLibrary(intl).nameMedicine}
+            >
+              <CustomInput />
+            </Form.Item>
+          </div>
           <Form.Item
-            name="name"
-            className="name"
+            name="usage"
             label={intl.formatMessage({
-              id: 'medicine.modal.create.name',
+              id: 'medicine.modal.create.usage',
             })}
+            rules={ValidateLibrary(intl).usageMedicine}
           >
             <CustomInput />
           </Form.Item>
-        </div>
-        <Form.Item
-          name="usage"
-          label={intl.formatMessage({
-            id: 'medicine.modal.create.usage',
-          })}
-        >
-          <CustomInput />
-        </Form.Item>
-        <Form.Item
-          name="feature"
-          label={intl.formatMessage({
-            id: 'medicine.modal.create.feature',
-          })}
-        >
-          <CustomInput />
-        </Form.Item>
-        {!isSuperAdmin && (
-          <div className="modal-medicine__content__rows">
+          <Form.Item
+            name="feature"
+            label={intl.formatMessage({
+              id: 'medicine.modal.create.feature',
+            })}
+            rules={ValidateLibrary(intl).featureMedicine}
+          >
+            <CustomInput />
+          </Form.Item>
+          {!isSuperAdmin && (
+            <div className="modal-medicine__content__rows">
+              <Form.Item
+                name="unit"
+                className="unit"
+                label={intl.formatMessage({
+                  id: 'medicine.modal.create.unit',
+                })}
+                rules={ValidateLibrary(intl).unitMedicine}
+              >
+                <Select
+                  className={'ant-custom-select'}
+                  onSelect={(value): void => {
+                    form?.setFieldsValue({
+                      unit: value,
+                    });
+                  }}
+                  suffixIcon={<IconSVG type={'dropdown'} />}
+                >
+                  {dropDownUnits.map((item: any) => {
+                    return <Option value={item.key}>{item.label}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="status"
+                className="status"
+                label={intl.formatMessage({
+                  id: 'medicine.modal.create.status',
+                })}
+                rules={ValidateLibrary(intl).statusMedicine}
+              >
+                <Select className={'ant-custom-select'} suffixIcon={<IconSVG type={'dropdown'} />}>
+                  {dropDownStatus.map((item: any) => {
+                    return <Option value={item.key}>{item.label}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+            </div>
+          )}
+          {isSuperAdmin && (
             <Form.Item
               name="unit"
               className="unit"
               label={intl.formatMessage({
                 id: 'medicine.modal.create.unit',
               })}
+              rules={ValidateLibrary(intl).unitMedicine}
             >
               <Select
                 className={'ant-custom-select'}
@@ -108,81 +155,47 @@ export const MedicineModal = (props: MedicineModalProps) => {
                     unit: value,
                   });
                 }}
+                suffixIcon={<IconSVG type={'dropdown'} />}
               >
                 {dropDownUnits.map((item: any) => {
                   return <Option value={item.key}>{item.label}</Option>;
                 })}
               </Select>
             </Form.Item>
-            <Form.Item
-              name="status"
-              className="status"
-              label={intl.formatMessage({
-                id: 'medicine.modal.create.status',
-              })}
-            >
-              <Select className={'ant-custom-select'}>
-                {dropDownStatus.map((item: any) => {
-                  return <Option value={item.key}>{item.label}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-          </div>
-        )}
-        {isSuperAdmin && (
-          <Form.Item
-            name="unit"
-            className="unit"
-            label={intl.formatMessage({
-              id: 'medicine.modal.create.unit',
-            })}
-          >
-            <Select
-              className={'ant-custom-select'}
-              onSelect={(value): void => {
-                form?.setFieldsValue({
-                  unit: value,
-                });
-              }}
-            >
-              {dropDownUnits.map((item: any) => {
-                return <Option value={item.key}>{item.label}</Option>;
-              })}
-            </Select>
-          </Form.Item>
-        )}
-        <div className="modal-medicine__content__action">
-          {action === ActionUser.CREATE ? (
-            <>
-              <CustomButton className="button-submit" onClick={() => onSubmit({ data: 'ok' })}>
-                {intl.formatMessage({
-                  id: 'medicine.modal.create.button.create',
-                })}
-              </CustomButton>
-              <CustomButton className="button-cancel" onClick={onClose}>
-                {intl.formatMessage({
-                  id: 'medicine.modal.create.button.cancel',
-                })}
-              </CustomButton>
-            </>
-          ) : (
-            <>
-              <CustomButton className="button-submit" onClick={() => onSubmit({ data: 'ok' })}>
-                {intl.formatMessage({
-                  id: 'medicine.modal.create.button.save',
-                })}
-              </CustomButton>
-              {onDelete && (
-                <CustomButton className="button-delete" onClick={() => onDelete()}>
+          )}
+          <div className="modal-medicine__content__action">
+            {action === ActionUser.CREATE ? (
+              <>
+                <CustomButton className="button-submit" htmlType="submit">
                   {intl.formatMessage({
-                    id: 'medicine.modal.create.button.delete',
+                    id: 'medicine.modal.create.button.create',
                   })}
                 </CustomButton>
-              )}
-            </>
-          )}
+                <CustomButton className="button-cancel" onClick={onClose}>
+                  {intl.formatMessage({
+                    id: 'medicine.modal.create.button.cancel',
+                  })}
+                </CustomButton>
+              </>
+            ) : (
+              <>
+                <CustomButton className="button-submit" htmlType="submit">
+                  {intl.formatMessage({
+                    id: 'medicine.modal.create.button.save',
+                  })}
+                </CustomButton>
+                {onDelete && (
+                  <CustomButton className="button-delete" onClick={() => onDelete()}>
+                    {intl.formatMessage({
+                      id: 'medicine.modal.create.button.delete',
+                    })}
+                  </CustomButton>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </Form>
     </Modal>
   );
 };
