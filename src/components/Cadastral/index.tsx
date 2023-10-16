@@ -62,6 +62,7 @@ export const CadastalCustom = (props: cadastralProp) => {
           name={'provinceId'}
         >
           <CustomSelect
+            placeholder={intl.formatMessage({ id: 'common.province.name' })}
             options={
               listProvince && listProvince.data && listProvince.data.length > 0
                 ? listProvince.data.map((item) => ({
@@ -81,6 +82,7 @@ export const CadastalCustom = (props: cadastralProp) => {
           name={'districtId'}
         >
           <CustomSelect
+            placeholder={intl.formatMessage({ id: 'common.district.name' })}
             options={
               listDistrict && listDistrict.data && listDistrict.data.length > 0
                 ? listDistrict.data.map((item) => ({
@@ -102,6 +104,7 @@ export const CadastalCustom = (props: cadastralProp) => {
           name={'wardId'}
         >
           <CustomSelect
+            placeholder={intl.formatMessage({ id: 'common.ward.name' })}
             options={
               listWard && listWard.data && listWard.data.length > 0
                 ? listWard.data.map((item) => ({
@@ -118,8 +121,14 @@ export const CadastalCustom = (props: cadastralProp) => {
             id: 'clinic.create.clinic.address',
           })}
           name={'address'}
+          rules={[
+            {
+              pattern: /^(?![\s])[\s\S]*/,
+              message: intl.formatMessage({ id: 'common.noti.space' }),
+            },
+          ]}
         >
-          <CustomInput />
+          <CustomInput placeholder={intl.formatMessage({ id: 'common.address.name' })} />
         </Form.Item>
       </div>
     </div>

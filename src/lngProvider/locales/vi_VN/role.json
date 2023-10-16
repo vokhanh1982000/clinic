@@ -23,7 +23,6 @@
   "role.remove.cancel": "Hủy bỏ",
   "role.remove.confirm.prefix": "Bạn có chắc chắn muốn xóa phân quyền '",
   "role.remove.confirm.suffixes": "' ra khỏi hệ thống ?",
-  "role.name.err": "Tên vai trò chỉ bao gồm chữ hoa, thường và số từ 0 -> 9. Tối đa 30 kí tự",
   "role.input.err": "Vui lòng nhập vai trò",
   "role.delete.success": "Xóa vai trò thành công!"
 }

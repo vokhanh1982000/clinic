@@ -12,6 +12,10 @@
   .admin-management__body {
     margin-top: 20px;
     justify-content: space-between;
+    .ant-select-selection-placeholder {
+      display: flex;
+      align-items: center;
+    }
 
     .admin-management__body-info {
       .admin-management__info-header {
@@ -22,7 +26,6 @@
           font-size: 20px;
           font-weight: 700;
           color: $secondary_color;
-          font-family: 'Open-sans';
         }
 
         span {
@@ -45,7 +48,13 @@
 
         .admin-management__info-item {
           justify-content: space-between;
-
+          header {
+            color: $text_black_light;
+            font-family: 'Open-sans';
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 22px;
+          }
           .date-select {
             height: 48px;
             border-radius: 32px;
@@ -139,6 +148,20 @@
 
         .admin-submit-remove {
           color: $primary_color;
+        }
+      }
+    }
+  }
+
+  .ant-form-item {
+    .ant-form-item-row {
+      .ant-form-item-label {
+        label {
+          color: $text_black_light;
+          font-family: 'Open-sans';
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 22px;
         }
       }
     }

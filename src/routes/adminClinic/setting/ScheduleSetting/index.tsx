@@ -20,7 +20,20 @@ export const ScheduleSetting = (props: ScheduleSettingParams) => {
         [`${field}From`]: value[0].format('HH:mm'),
         [`${field}To`]: value[1].format('HH:mm'),
       };
-
+      const newData = scheduleData.map((item) => {
+        if (item.day === schedule.day) {
+          return updatedSchedule;
+        } else {
+          return item;
+        }
+      });
+      setWorkSchedule(newData);
+    } else {
+      const updatedSchedule = {
+        ...schedule,
+        [`${field}From`]: '',
+        [`${field}To`]: '',
+      };
       const newData = scheduleData.map((item) => {
         if (item.day === schedule.day) {
           return updatedSchedule;
@@ -47,6 +60,22 @@ export const ScheduleSetting = (props: ScheduleSettingParams) => {
       setWorkSchedule(newData);
     }
   };
+  const disabledPMHours = () => {
+    const hours = [];
+    for (let i = 13; i <= 23; i++) {
+      hours.push(i);
+    }
+    return hours;
+  };
+
+  const disabledAMHours = () => {
+    const hours = [];
+    for (let i = 0; i <= 11; i++) {
+      hours.push(i);
+    }
+    return hours;
+  };
+
   return (
     <div className="schedule-setting">
       <div className="schedule-setting__title">
@@ -97,13 +126,26 @@ export const ScheduleSetting = (props: ScheduleSettingParams) => {
                   valuePropName={'am'}
                 >
                   <TimePicker.RangePicker
+                    disabled={!schedule.status}
                     suffixIcon={false}
                     separator={'-'}
                     key={schedule.day}
                     format={'HH:mm'}
                     minuteStep={15}
-                    value={[dayjs(schedule.amFrom, 'HH:mm'), dayjs(schedule.amTo, 'HH:mm')]}
+                    value={[
+                      schedule.amFrom ? dayjs(schedule.amFrom, 'HH:mm') : null,
+                      schedule.amTo ? dayjs(schedule.amTo, 'HH:mm') : null,
+                    ]}
                     onChange={(value) => handleTimePickerChange(value, schedule, 'am')}
+                    disabledTime={(date) => {
+                      return {
+                        disabledHours: () => disabledPMHours(),
+                        disabledMinutes: (hour: number) => [],
+                        disabledSeconds: (hour: number, minute: number) => [],
+                      };
+                    }}
+                    allowEmpty={[true, true]}
+                    allowClear={true}
                   />
                 </Form.Item>
               </div>
@@ -130,12 +172,32 @@ export const ScheduleSetting = (props: ScheduleSettingParams) => {
                   className={'time-picker'}
                 >
                   <TimePicker.RangePicker
+                    disabledHours={() => {
+                      const disableTime = [];
+                      for (let i = 1; i <= 12; i++) {
+                        disableTime.push(i);
+                      }
+                      return disableTime;
+                    }}
+                    disabled={!schedule.status}
                     suffixIcon={false}
                     separator={'-'}
                     format={'HH:mm'}
-                    value={[dayjs(schedule.pmFrom, 'HH:mm'), dayjs(schedule.pmTo, 'HH:mm')]}
+                    value={[
+                      schedule.pmFrom ? dayjs(schedule.pmFrom, 'HH:mm') : null,
+                      schedule.pmTo ? dayjs(schedule.pmTo, 'HH:mm') : null,
+                    ]}
                     minuteStep={15}
                     onChange={(value) => handleTimePickerChange(value, schedule, 'pm')}
+                    disabledTime={(date) => {
+                      return {
+                        disabledHours: () => disabledAMHours(),
+                        disabledMinutes: (hour: number) => [],
+                        disabledSeconds: (hour: number, minute: number) => [],
+                      };
+                    }}
+                    allowEmpty={[true, true]}
+                    allowClear={true}
                   />
                 </Form.Item>
               </div>

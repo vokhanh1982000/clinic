@@ -1,6 +1,6 @@
 {
-  "admin.user.title": "Quản lý quản trị viên",
-  "admin.user.create": "Tạo mới",
+  "admin.user.title": "Quản Lý Quản Trị Viên",
+  "admin.user.create": "Tạo quản trị viên mới",
   "admin.user.search": "Tìm kiếm quản trị viên",
   "admin.user.fullName": "Quản trị viên",
   "admin.user.phone": "Số điện thoại",
@@ -14,12 +14,17 @@
   "admin.user.dateOfBirth": "Ngày sinh",
   "admin.user.change.pass": "Đổi mật khẩu",
   "admin.user.delete.confirm": "Bạn có chắc muốn xóa: ",
-  "admin.user.code": "Mã",
+  "admin.user.code": "Mã nhân sự",
   "admin.user.password": "Mật khẩu",
   "admin.user.position": "Bộ phận",
   "admin.user.role": "Vai trò",
   "admin.user.all": "Tất cả",
   "admin.user.role.message": "Vui lòng chọn vai trò!",
   "admin.user.phone.message": "Vui lòng nhập số điện thoại!",
-  "admin.user.email.message": "Vui lòng nhập email!"
+  "admin.user.email.message": "Trường này phải là email",
+  "admin.btn.create": "Thêm mới",
+  "admin.btn.save": "Lưu thay đổi",
+  "admin.btn.cancel": "Hủy",
+  "admin.delete.success": "Xóa quản trị viên thành công!",
+  "common.noti.phone.code": "Mã nhân sự hoặc số điện thoại đã được sử dụng. Vui lòng thử lại"
 }

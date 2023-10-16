@@ -18,6 +18,7 @@ import UploadAvatar from '../../../../components/upload/UploadAvatar';
 import { MyUploadProps } from '../../../../constants/dto';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import { CadastalCustom } from '../../../../components/Cadastral';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -33,6 +34,8 @@ const CreateAdmin = () => {
   const [avatar, setAvatar] = useState<string>();
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string | undefined; name: string | undefined }>();
+  const [provinceId, setProvinceId] = useState<string>();
+  const [districtId, setDistrictId] = useState<string>();
 
   const n = (key: keyof CreateAdminDto) => {
     return key;
@@ -40,7 +43,10 @@ const CreateAdmin = () => {
 
   const { data: roleData } = useQuery({
     queryKey: ['getRoles'],
-    queryFn: () => roleApi.roleControllerGet(1, 10, sort),
+    queryFn: () => roleApi.roleControllerGetAllRole(),
+    onSuccess: (reponse) => {
+      console.log(reponse);
+    },
   });
 
   const { data: detailAdmin } = useQuery(
@@ -50,6 +56,8 @@ const CreateAdmin = () => {
       onError: (error) => {},
       onSuccess: (response) => {
         setIsShowModalDelete({ id: undefined, name: response.data.fullName });
+        setProvinceId(response.data.provinceId);
+        setDistrictId(response.data.districtId);
         form.setFieldValue(n('roleIds'), Array.from(response.data.user.roles.map((item) => item.id)));
         form.setFieldsValue({
           ...response.data,
@@ -70,11 +78,12 @@ const CreateAdmin = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['getAdminUser']);
+        queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: ({ response }) => {
-        message.error(intl.formatMessage({ id: `${response.data.message}` }));
+        message.error(intl.formatMessage({ id: `common.noti.phone.code` }));
       },
     }
   );
@@ -83,12 +92,14 @@ const CreateAdmin = () => {
     (updateAdmin: UpdateAdminDto) => adminApi.administratorControllerUpdate(updateAdmin),
     {
       onSuccess: ({ data }) => {
+        queryClient.invalidateQueries(['getAdminUser']);
+        queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: ({ response }) => {
         console.log('err');
-        message.error(intl.formatMessage({ id: `${response.data.message}` }));
+        message.error(intl.formatMessage({ id: `common.noti.phone.code` }));
       },
     }
   );
@@ -178,12 +189,12 @@ const CreateAdmin = () => {
 
   return (
     <Card id="admin-management">
-      <Form form={form} onFinish={onFinish}>
+      <Form form={form} onFinish={onFinish} layout="vertical">
         <Row className="admin-management__header">
           <header>{intl.formatMessage({ id: 'admin.user.info' })}</header>
         </Row>
         <Row className="admin-management__body">
-          <Col span={14} className="admin-management__body-info">
+          <Col span={15} className="admin-management__body-info">
             <Card>
               <Row className="admin-management__info-header">
                 <div>
@@ -203,15 +214,52 @@ const CreateAdmin = () => {
                 </Col>
                 <Col span={14}>
                   <Row className="admin-management__info-item">
-                    <Col span={12}>
-                      <header>{intl.formatMessage({ id: 'admin.user.fullName' })}</header>
-                      <Form.Item rules={[{ required: true }]} name={n('fullName')}>
+                    <Col span={15}>
+                      <Form.Item
+                        label={intl.formatMessage({
+                          id: 'admin.user.fullName',
+                        })}
+                        rules={[
+                          {
+                            required: true,
+                            message: intl.formatMessage({ id: 'common.noti.input' }),
+                          },
+                          {
+                            pattern: /^(?![\s])[\s\S]*/,
+                            message: intl.formatMessage({ id: 'common.noti.space' }),
+                          },
+                          {
+                            pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                            message: intl.formatMessage({
+                              id: 'common.noti.special',
+                            }),
+                          },
+                        ]}
+                        name={n('fullName')}
+                      >
                         <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.fullName' })} />
                       </Form.Item>
                     </Col>
-                    <Col span={11}>
-                      <header>{intl.formatMessage({ id: 'admin.user.code' })}</header>
-                      <Form.Item rules={[{ required: true }]} name={n('code')}>
+                    <Col span={8}>
+                      <Form.Item
+                        label={intl.formatMessage({
+                          id: 'admin.user.code',
+                        })}
+                        rules={[
+                          {
+                            required: true,
+                            message: intl.formatMessage({ id: 'common.noti.input' }),
+                          },
+                          { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
+                          {
+                            pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                            message: intl.formatMessage({
+                              id: 'common.noti.special',
+                            }),
+                          },
+                        ]}
+                        name={n('code')}
+                      >
                         <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.code' })} />
                       </Form.Item>
                     </Col>
@@ -220,22 +268,28 @@ const CreateAdmin = () => {
                     <header>Email</header>
                     <Form.Item
                       rules={[
-                        { required: true },
+                        {
+                          pattern: /^(?![\s])[\s\S]*/,
+                          message: intl.formatMessage({ id: 'common.noti.space' }),
+                        },
                         { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
                       ]}
                       name={n('emailAddress')}
                     >
-                      <CustomInput name={n('emailAddress')} placeholder="email" />
+                      <CustomInput name={n('emailAddress')} placeholder="Email" />
                     </Form.Item>
                   </Row>
                   <Row className="admin-management__info-item">
-                    <header>{intl.formatMessage({ id: 'admin.user.phone' })}</header>
                     <Form.Item
+                      label={intl.formatMessage({
+                        id: 'admin.user.phone',
+                      })}
                       rules={[
-                        { required: true },
+                        { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
+                        // { len: 10, message: intl.formatMessage({ id: 'sigin.validate.phone' }) },
                         {
-                          pattern: regexPhone.current,
-                          message: intl.formatMessage({ id: 'admin.user.phone.message' }),
+                          pattern: /^0[1-9][0-9]{8}$/,
+                          message: intl.formatMessage({ id: 'sigin.validate.phone' }),
                         },
                       ]}
                       name={n('phoneNumber')}
@@ -244,23 +298,18 @@ const CreateAdmin = () => {
                     </Form.Item>
                   </Row>
                   <Row className="admin-management__info-item">
-                    <header>{intl.formatMessage({ id: 'admin.user.position' })}</header>
-                    <Form.Item rules={[{ required: true }]} name={n('position')}>
-                      <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.position' })} />
-                    </Form.Item>
-                  </Row>
-                  <Row className="admin-management__info-item">
                     <Col span={14}>
                       <header>{intl.formatMessage({ id: 'admin.user.dateOfBirth' })}</header>
-                      <Form.Item rules={[{ required: true }]} name={n('dateOfBirth')}>
+                      <Form.Item name={n('dateOfBirth')}>
                         <DatePickerCustom dateFormat={FORMAT_DATE} className="date-select"></DatePickerCustom>
                       </Form.Item>
                     </Col>
                     <Col span={9}>
                       <header>{intl.formatMessage({ id: 'admin.user.gender' })}</header>
-                      <Form.Item rules={[{ required: true }]} name={n('gender')}>
+                      <Form.Item name={n('gender')}>
                         <CustomSelect
                           className="admin-management__item-select"
+                          placeholder={intl.formatMessage({ id: 'admin.user.gender' })}
                           options={[
                             { value: UserGender.MALE, label: intl.formatMessage({ id: 'common.gender.male' }) },
                             { value: UserGender.FEMALE, label: intl.formatMessage({ id: 'common.gender.female' }) },
@@ -269,18 +318,48 @@ const CreateAdmin = () => {
                       </Form.Item>
                     </Col>
                   </Row>
+                  <CadastalCustom
+                    form={form}
+                    setProvinceId={setProvinceId}
+                    setDistrictId={setDistrictId}
+                    districtId={districtId}
+                    provinceId={provinceId}
+                  ></CadastalCustom>
+                  <Row className="admin-management__info-item">
+                    <header>{intl.formatMessage({ id: 'admin.user.position' })}</header>
+                    <Form.Item
+                      rules={[
+                        { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
+                        {
+                          pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                          message: intl.formatMessage({
+                            id: 'common.noti.special',
+                          }),
+                        },
+                      ]}
+                      name={n('position')}
+                    >
+                      <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.position' })} />
+                    </Form.Item>
+                  </Row>
                   {!id && (
                     <Row className="admin-management__info-item">
-                      <header>{intl.formatMessage({ id: 'admin.user.password' })}</header>
                       <Form.Item
                         name={n('password')}
+                        label={intl.formatMessage({
+                          id: 'admin.user.password',
+                        })}
                         rules={[
-                          { required: true },
+                          { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
                           { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
-                          { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
+                          { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
+                          {
+                            pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
+                            message: intl.formatMessage({ id: 'common.password.regex' }),
+                          },
                         ]}
                       >
-                        <CustomInput isPassword={true} />
+                        <CustomInput placeholder="********" isPassword={true} />
                       </Form.Item>
                     </Row>
                   )}
@@ -288,7 +367,7 @@ const CreateAdmin = () => {
               </Row>
             </Card>
           </Col>
-          <Col span={9} className="admin-management__body-role">
+          <Col span={8} className="admin-management__body-role">
             <Card className="admin-management__role-checkox">
               <Row className="admin-management__role-header">
                 <div>
@@ -297,16 +376,14 @@ const CreateAdmin = () => {
                 </div>
               </Row>
               <Row className="admin-management__role-checkboxGroup">
-                <Form.Item className="custom-checkbox">
-                  {roleData?.data.content?.map((item) => renderCheckbox(item))}
-                </Form.Item>
+                <Form.Item className="custom-checkbox">{roleData?.data.map((item) => renderCheckbox(item))}</Form.Item>
               </Row>
             </Card>
             <Row className="admin-management__role-submit">
               <Button type="primary" block onClick={() => form.submit()}>
-                {intl.formatMessage({ id: 'common.action.save' })}
+                {id ? intl.formatMessage({ id: 'admin.btn.save' }) : intl.formatMessage({ id: 'admin.btn.create' })}
               </Button>
-              {id && (
+              {id ? (
                 <Button
                   type="text"
                   block
@@ -314,6 +391,10 @@ const CreateAdmin = () => {
                   onClick={() => setIsShowModalDelete({ id: id, name: isShowModalDelete?.name })}
                 >
                   {intl.formatMessage({ id: 'admin.user.delete' })}
+                </Button>
+              ) : (
+                <Button type="text" block className="admin-submit-remove" onClick={() => navigate(-1)}>
+                  {intl.formatMessage({ id: 'admin.btn.cancel' })}
                 </Button>
               )}
             </Row>

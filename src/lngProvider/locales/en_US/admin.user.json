@@ -21,5 +21,9 @@
   "admin.user.all": "All",
   "admin.user.role.message": "Please select role!",
   "admin.user.phone.message": "Please input phone number!",
-  "admin.user.email.message": "Please input email address!"
+  "admin.user.email.message": "Please input email address!",
+  "admin.btn.create": "Create",
+  "admin.btn.save": "Save",
+  "admin.btn.cancel": "Cancel",
+  "admin.delete.success": "Delete Admin Success!"
 }

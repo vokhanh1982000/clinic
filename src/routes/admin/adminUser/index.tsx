@@ -23,6 +23,7 @@ const ListRole = () => {
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<any>(null);
+  const [position, setPosition] = useState<any>(null);
   const queryClient = useQueryClient();
   const [isShowListManager, setIsShowListManager] = useState<string>();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -31,19 +32,21 @@ const ListRole = () => {
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['getAdminUser']);
-      navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
+      // navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
+      message.error(intl.formatMessage({ id: `admin.delete.success` }));
     },
     onError: (error) => {
-      message.error(intl.formatMessage({ id: `${error}` }));
+      message.error(intl.formatMessage({ id: `common.message.err` }));
     },
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: ['getAdminUser', { page, size, sort, fullTextSearch }],
-    queryFn: () => adminApi.administratorControllerGet(page, size, sort, fullTextSearch),
+    queryKey: ['getAdminUser', { page, size, sort, fullTextSearch, position }],
+    queryFn: () => adminApi.administratorControllerGet(page, size, sort, fullTextSearch, position),
   });
 
   const handleDeleteAdmin = () => {
+    console.log(isShowModalDelete);
     if (isShowModalDelete && isShowModalDelete.id) {
       deleteAdmin.mutate(isShowModalDelete.id);
       setIsShowModalDelete(undefined);
@@ -52,6 +55,7 @@ const ListRole = () => {
 
   const debouncedUpdateInputValue = debounce((value) => {
     setFullTextSearch(value);
+    setPage(1);
   }, 500);
 
   const handleSearch = (e: any) => {
@@ -71,6 +75,7 @@ const ListRole = () => {
           })}
         </div>
         <CustomButton
+          style={{ width: '244px' }}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
@@ -84,6 +89,7 @@ const ListRole = () => {
       </div>
       <Row>
         <CustomInput
+          allowClear
           onChange={(e) => handleSearch(e)}
           placeholder={intl.formatMessage({
             id: 'admin.user.search',
@@ -91,50 +97,54 @@ const ListRole = () => {
           prefix={<IconSVG type="search" />}
           className="input-search"
         />
-        <DropdownCustom data={data?.data.position} iconType="specialized" setFilterSearch={setFullTextSearch} />
+        <DropdownCustom position={position} setPosition={setPosition} />
       </Row>
-      <TableWrap
-        className="custom-table"
-        data={data?.data.content}
-        isLoading={isLoading}
-        page={page}
-        size={size}
-        total={data?.data.total}
-        setSize={setSize}
-        setPage={setPage}
-        showPagination={true}
-      >
-        <Column
-          title={intl.formatMessage({
-            id: 'role.list.table.code',
-          })}
-          dataIndex="code"
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'admin.user.fullName',
-          })}
-          dataIndex="fullName"
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'Email',
-          })}
-          dataIndex="emailAddress"
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'admin.user.phone',
-          })}
-          dataIndex="phoneNumber"
-        />{' '}
-        <Column
-          title={intl.formatMessage({
-            id: 'admin.user.position',
-          })}
-          dataIndex="position"
-        />
-        {/* <Column
+      <div className="administrator-user">
+        <TableWrap
+          className="custom-table"
+          data={data?.data.content}
+          isLoading={isLoading}
+          page={page}
+          size={size}
+          total={data?.data.total}
+          setSize={setSize}
+          setPage={setPage}
+          showPagination={true}
+        >
+          <Column
+            title={intl.formatMessage({
+              id: 'role.list.table.code',
+            })}
+            dataIndex="code"
+            render={(_, record) => {
+              return <>{_ ? String(_).toUpperCase() : ''}</>;
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'admin.user.fullName',
+            })}
+            dataIndex="fullName"
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'Email',
+            })}
+            dataIndex="emailAddress"
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'admin.user.phone',
+            })}
+            dataIndex="phoneNumber"
+          />{' '}
+          <Column
+            title={intl.formatMessage({
+              id: 'admin.user.position',
+            })}
+            dataIndex="position"
+          />
+          {/* <Column
           title={intl.formatMessage({
             id: 'admin.user.role',
           })}
@@ -151,78 +161,79 @@ const ListRole = () => {
             );
           }}
         /> */}
-        <Column
-          title={intl.formatMessage({
-            id: 'admin.user.role',
-          })}
-          dataIndex="user"
-          width={'15%'}
-          render={(_, record: any) => {
-            const data = _.roles.map((item: any) => item.name);
-            if (data && data.length > 0) {
+          <Column
+            title={intl.formatMessage({
+              id: 'admin.user.role',
+            })}
+            dataIndex="user"
+            width={'15%'}
+            render={(_, record: any) => {
+              const data = _.roles.map((item: any) => item.name);
+              if (data && data.length > 0) {
+                return (
+                  <div id="clinic-management">
+                    <div className="manager-clinic">
+                      <div>{data[0]}</div>
+                      {data.length > 1 && (
+                        <div className="manager-clinic__more">
+                          <span onClick={() => setIsShowListManager(record.id)}>
+                            <IconSVG type="more" />
+                          </span>
+                          {isShowListManager === record.id && (
+                            <div
+                              className="manager-clinic__more__list"
+                              ref={isShowListManager === record.id ? wrapperRef : undefined}
+                            >
+                              <div className="manager-clinic__more__list__title">
+                                <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
+                                <span
+                                  onClick={() => {
+                                    setIsShowListManager(undefined);
+                                  }}
+                                >
+                                  <IconSVG type="close" />
+                                </span>
+                              </div>
+                              <div className="manager-clinic__more__list__content">
+                                {data.map((e: any) => {
+                                  return <div className="manager-clinic__more__list__content__item">{e}</div>;
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              } else {
+                return <></>;
+              }
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'role.list.table.action',
+            })}
+            dataIndex="user"
+            width={'15%'}
+            render={(_, record: any) => {
               return (
-                <div id="clinic-management">
-                  <div className="manager-clinic">
-                    <div>{data[0]}</div>
-                    {data.length > 1 && (
-                      <div className="manager-clinic__more">
-                        <span onClick={() => setIsShowListManager(record.id)}>
-                          <IconSVG type="more" />
-                        </span>
-                        {isShowListManager === record.id && (
-                          <div
-                            className="manager-clinic__more__list"
-                            ref={isShowListManager === record.id ? wrapperRef : undefined}
-                          >
-                            <div className="manager-clinic__more__list__title">
-                              <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
-                              <span
-                                onClick={() => {
-                                  setIsShowListManager(undefined);
-                                }}
-                              >
-                                <IconSVG type="close" />
-                              </span>
-                            </div>
-                            <div className="manager-clinic__more__list__content">
-                              {data.map((e: any) => {
-                                return <div className="manager-clinic__more__list__content__item">{e}</div>;
-                              })}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                <div className="action-role">
+                  <div onClick={() => navigate(`detail/${_.id}`)}>
+                    <IconSVG type="edit" />
+                  </div>
+                  <span className="divider"></span>
+                  <div onClick={() => setIsShowModalDelete({ id: record.user.id, name: record.fullName })}>
+                    <IconSVG type="delete" />
                   </div>
                 </div>
               );
-            } else {
-              return <></>;
-            }
-          }}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'role.list.table.action',
-          })}
-          dataIndex="user"
-          width={'15%'}
-          render={(_, record: any) => {
-            return (
-              <div className="action-role">
-                <div onClick={() => navigate(`detail/${_.id}`)}>
-                  <IconSVG type="edit" />
-                </div>
-                <span className="divider"></span>
-                <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.fullName })}>
-                  <IconSVG type="delete" />
-                </div>
-              </div>
-            );
-          }}
-          align="center"
-        />
-      </TableWrap>
+            }}
+            align="center"
+          />
+        </TableWrap>
+      </div>
       <ConfirmDeleteModal
         name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
         visible={!!isShowModalDelete}

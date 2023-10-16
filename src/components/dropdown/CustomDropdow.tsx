@@ -3,39 +3,55 @@ import IconSVG from '../icons/icons';
 import { useIntl } from 'react-intl';
 import { DownOutlined } from '@ant-design/icons';
 import { Administrator } from '../../apis/client-axios';
+import { type } from 'os';
+import { useQuery } from '@tanstack/react-query';
+import { adminApi } from '../../apis';
+import { useState } from 'react';
 
 interface CustomDropdownProps extends DropDownProps {
-  iconType: string;
+  iconType?: string;
   className?: string;
-  data: string[] | undefined;
-  setFilterSearch: (text: string | null) => void;
+  position: string;
+  setPosition: (text: string | null) => void;
 }
 
 const DropdownCustom = (props: CustomDropdownProps) => {
   const intl = useIntl();
-  const { iconType, className, data, setFilterSearch } = props;
-  const items = data?.map((item, index) => {
-    return {
-      key: index + 1,
-      label: <div onClick={() => setFilterSearch(item)}>{item}</div>,
-    };
-  });
+  const { iconType, className, position, setPosition } = props;
 
-  items?.unshift({
-    key: 0,
-    label: <div onClick={() => setFilterSearch(null)}>{intl.formatMessage({ id: 'admin.user.all' })}</div>,
+  const [items, setItem] = useState<{ key: number; label: JSX.Element }[]>([
+    {
+      key: Number(0),
+      label: <div onClick={() => setPosition(null)}>{intl.formatMessage({ id: 'admin.user.all' })}</div>,
+    },
+  ]);
+
+  const { data: allAdmin } = useQuery({
+    queryKey: ['getAllAdmin'],
+    queryFn: () => adminApi.administratorControllerGetAll(),
+    onSuccess: ({ data }) => {
+      const positionAll = data?.filter(
+        (item, index, self) => item.position !== null && self.findIndex((i) => i.position === item.position) === index
+      );
+      const positionItems = positionAll.map((item, index) => {
+        return {
+          key: index + 1,
+          label: <div onClick={() => setPosition(item.position)}>{item.position}</div>,
+        };
+      }) as { key: number; label: JSX.Element }[];
+      setItem([...items, ...positionItems]);
+    },
   });
-  console.log('item', items);
 
   return (
     <Dropdown className={`ant-custom-dopdown ${className}`} menu={{ items }} placement="bottomLeft" {...props}>
-      <Button style={{ height: '48px', textAlign: 'left', marginLeft: '15px', borderRadius: '32px' }}>
+      <Button style={{ width: '184px', height: '48px', textAlign: 'left', marginLeft: '15px', borderRadius: '32px' }}>
         <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Space>
-            <IconSVG type={iconType}></IconSVG>
+            {iconType && <IconSVG type={iconType}></IconSVG>}
             <div className="front-base" style={{ paddingRight: '15px' }}>
               {intl.formatMessage({
-                id: 'admin.user.position',
+                id: !position ? 'admin.user.position' : position,
               })}
             </div>
           </Space>
