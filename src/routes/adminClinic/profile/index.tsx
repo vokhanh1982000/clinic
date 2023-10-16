@@ -137,7 +137,7 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.fullName',
                   })}
                   name={'fullName'}
-                  rules={ValidateLibrary(intl).name}
+                  rules={ValidateLibrary(intl).fullName}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -147,7 +147,7 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.form.code',
                   })}
                   name={'code'}
-                  rules={ValidateLibrary(intl).userCode}
+                  rules={ValidateLibrary(intl).staffCode}
                 >
                   <CustomInput />
                 </Form.Item>

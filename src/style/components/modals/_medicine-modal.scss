@@ -57,12 +57,16 @@
           font-weight: 700;
           line-height: 22px;
           color: $text_black_light;
+
+          &:after {
+            content: none;
+          }
         }
       }
     }
 
     &__action {
-      margin-top: 15px;
+      margin-top: 25px;
       display: flex;
       flex-direction: column;
       justify-content: center;

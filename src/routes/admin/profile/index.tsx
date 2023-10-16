@@ -84,7 +84,7 @@ const Profile = () => {
                     label={intl.formatMessage({
                       id: 'admin-profile.fullName',
                     })}
-                    rules={ValidateLibrary(intl).name}
+                    rules={ValidateLibrary(intl).fullName}
                   >
                     <CustomInput />
                   </Form.Item>
@@ -94,7 +94,7 @@ const Profile = () => {
                     label={intl.formatMessage({
                       id: 'admin-profile.code',
                     })}
-                    rules={ValidateLibrary(intl).userCode}
+                    rules={ValidateLibrary(intl).staffCode}
                   >
                     <CustomInput />
                   </Form.Item>
