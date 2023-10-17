@@ -11,5 +11,6 @@
   "timeline.doctor.note.dayOff": "Ngày nghỉ",
   "timeline.control.search.placeholder": "Tìm kiếm",
   "timeline.control.mode.date": "Ngày",
-  "timeline.control.mode.month": "Tháng"
+  "timeline.control.mode.month": "Tháng",
+  "timeline.month.workingDay": "Ngày làm việc"
 }

@@ -1,9 +1,10 @@
 import { Col, Form, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import TimelineControl from '../../../components/TimelineControl';
 import TimelineDay from '../../../components/TimelineDay';
-import { useIntl } from 'react-intl';
+import TimelineMonth from '../../../components/TimelineMonth';
 
 export enum TimelineMode {
   DATE = 'date',
@@ -65,7 +66,7 @@ const ListBooking = () => {
           <TimelineControl form={form} />
         </Col>
 
-        <Col span={24}>{mode === TimelineMode.DATE ? <TimelineDay form={form} /> : <></>}</Col>
+        <Col span={24}>{mode === TimelineMode.DATE ? <TimelineDay form={form} /> : <TimelineMonth form={form} />}</Col>
 
         <Col span={24}>
           <Row align="middle" gutter={[0, 12]} wrap className="timeline-custom-note">

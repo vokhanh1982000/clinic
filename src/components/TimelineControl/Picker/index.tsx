@@ -2,9 +2,9 @@ import { Button, Col, DatePicker, Form, FormInstance, Row } from 'antd';
 import locale from 'antd/es/date-picker/locale/vi_VN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
-import 'moment/locale/vi';
 import { FC } from 'react';
 import { IFormData, TimelineMode, n } from '../../../routes/doctor/booking';
+import { DATE_FORMAT, MONTH_FORMAT } from '../../../util/constant';
 import IconSVG from '../../icons/icons';
 
 interface TimelineControlPickerProps {
@@ -21,7 +21,7 @@ const TimelineControlPicker: FC<TimelineControlPickerProps> = (props) => {
 
   const handleChangeDate = (amount: -1 | 1) => {
     if (time && amount) {
-      const newTime = dayjs(time).add(amount, 'days');
+      const newTime = dayjs(time).add(amount, mode === TimelineMode.DATE ? 'days' : TimelineMode.MONTH);
 
       form.setFieldValue(n('time'), newTime);
     }
@@ -42,7 +42,7 @@ const TimelineControlPicker: FC<TimelineControlPickerProps> = (props) => {
             inputReadOnly
             suffixIcon={null}
             locale={locale}
-            format={mode === 'date' ? 'dddd, DD/MM/YYYY' : 'MM/YYYY'}
+            format={mode === TimelineMode.DATE ? DATE_FORMAT : MONTH_FORMAT}
             popupClassName="timeline-custom-control-picker-form-popup"
           />
         </Form.Item>
