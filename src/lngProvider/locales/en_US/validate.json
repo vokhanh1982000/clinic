@@ -29,5 +29,7 @@
   "validate.phone.space": "Invalid phone number",
   "validate.address.space": "Invalid address",
   "validate.required.customer-name": "Customer name is required",
-  "validate.customer-code.required": "Customer code is required"
+  "validate.customer-code.required": "Customer code is required",
+  "validate.required.password": "Password is required",
+  "validate.password": "Invalid password"
 }

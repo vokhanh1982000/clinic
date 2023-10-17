@@ -12,6 +12,8 @@
   "common.delete": "Xóa",
   "common.active": "Đang hoạt động",
   "common.inactive": "Ngừng hoạt động",
+  "common.user.active": "Hoạt động",
+  "common.user.inactive": "Tài khoản đã bị khóa",
   "common.confirm-delete": "Bạn có chắc chắn muốn xóa",
   "common.action.save": "Lưu",
   "common.action.update": "Cập nhật",

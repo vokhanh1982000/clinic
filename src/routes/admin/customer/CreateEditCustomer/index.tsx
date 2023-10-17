@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, DatePicker, Form, Spin, Upload, message } from 'antd';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { assetsApi, customerApi } from '../../../../apis';
@@ -20,6 +20,7 @@ import UploadAvatar from '../../../../components/upload/UploadAvatar';
 import { FORMAT_DATE } from '../../../../constants/common';
 import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
+import { disabledFutureDate } from '../../../../constants/function';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -103,7 +104,7 @@ const CreateCustomer = () => {
     } else {
       CustomerCreate({
         ...values,
-        status: Boolean(Number(values.status)),
+        status: values.status ? Boolean(Number(values.status)) : true,
       });
     }
   };
@@ -137,6 +138,12 @@ const CreateCustomer = () => {
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };
+
+  useEffect(() => {
+    if (!id) {
+      form.setFieldValue('status', 1);
+    }
+  }, []);
 
   return (
     <Card id="create-customer-management">
@@ -191,7 +198,11 @@ const CreateCustomer = () => {
                   name={'fullName'}
                   rules={ValidateLibrary(intl).nameCustomer}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'customer.create.name',
+                    })}
+                  />
                 </Form.Item>
                 <Form.Item
                   className="code"
@@ -201,7 +212,11 @@ const CreateCustomer = () => {
                   name={'code'}
                   rules={ValidateLibrary(intl).customerCode}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'customer.create.code',
+                    })}
+                  />
                 </Form.Item>
               </div>
               <div className="customer-info__content__info__rows">
@@ -211,8 +226,13 @@ const CreateCustomer = () => {
                     id: 'customer.create.email',
                   })}
                   name={'emailAddress'}
+                  rules={ValidateLibrary(intl).email}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'customer.create.email',
+                    })}
+                  />
                 </Form.Item>
                 <Form.Item
                   className="phone"
@@ -222,7 +242,11 @@ const CreateCustomer = () => {
                   name={'phoneNumber'}
                   rules={ValidateLibrary(intl).phoneNumber}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'customer.create.phone',
+                    })}
+                  />
                 </Form.Item>
               </div>
 
@@ -234,7 +258,12 @@ const CreateCustomer = () => {
                   })}
                   name={'dateOfBirth'}
                 >
-                  <DatePicker />
+                  <DatePicker
+                    disabledDate={disabledFutureDate}
+                    placeholder={intl.formatMessage({
+                      id: 'customer.create.dob',
+                    })}
+                  />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
                 <Form.Item
@@ -245,6 +274,9 @@ const CreateCustomer = () => {
                   name={'gender'}
                 >
                   <CustomSelect
+                    placeholder={intl.formatMessage({
+                      id: 'customer.create.gender',
+                    })}
                     options={[
                       {
                         value: UserGender.MALE,
@@ -279,7 +311,12 @@ const CreateCustomer = () => {
                   name={'package'}
                   // rules={[{ required: true }]}
                 >
-                  <CustomSelect disabled />
+                  <CustomSelect
+                    disabled
+                    placeholder={intl.formatMessage({
+                      id: 'customer.create.package',
+                    })}
+                  />
                 </Form.Item>
                 <Form.Item
                   className="status"
@@ -289,17 +326,20 @@ const CreateCustomer = () => {
                   name={'status'}
                 >
                   <CustomSelect
+                    placeholder={intl.formatMessage({
+                      id: 'customer.create.status',
+                    })}
                     options={[
                       {
                         value: 1,
                         label: intl.formatMessage({
-                          id: `common.${Status.ACTIVE}`,
+                          id: `common.user.${Status.ACTIVE}`,
                         }),
                       },
                       {
                         value: 0,
                         label: intl.formatMessage({
-                          id: `common.${Status.INACTIVE}`,
+                          id: `common.user.${Status.INACTIVE}`,
                         }),
                       },
                     ]}
@@ -312,7 +352,7 @@ const CreateCustomer = () => {
                   label={intl.formatMessage({
                     id: 'customer.create.password',
                   })}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).password}
                 >
                   <CustomInput
                     isPassword={true}

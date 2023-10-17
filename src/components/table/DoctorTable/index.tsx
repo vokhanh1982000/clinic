@@ -14,6 +14,8 @@ import { useQuery } from '@tanstack/react-query';
 import { categoryApi, doctorClinicApi, doctorSupportApi } from '../../../apis';
 import { useAppSelector } from '../../../store';
 import { AdministratorClinic } from '../../../apis/client-axios';
+import CustomSelect from '../../select/CustomSelect';
+import { DefaultOptionType } from 'antd/es/select';
 
 interface DoctorTableProps {
   placeHolder?: string;
@@ -42,7 +44,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
-  const [categoryId, setCategoryId] = useState<any>(undefined);
+  const [categoryId, setCategoryId] = useState<any>([]);
   const [status, setStatus] = useState<number>(-1);
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [clinicId, setClinicId] = useState<string>();
@@ -83,39 +85,6 @@ export const DoctorTable = (props: DoctorTableProps) => {
     queryFn: () => categoryApi.categoryControllerFindCategory(1, 10, undefined, undefined),
   });
 
-  const statusDoctor: any = [
-    {
-      key: '0',
-      label: (
-        <div onClick={() => setStatus(-1)}>
-          {intl.formatMessage({
-            id: 'All',
-          })}
-        </div>
-      ),
-    },
-    {
-      key: '1',
-      label: (
-        <div onClick={() => setStatus(1)}>
-          {intl.formatMessage({
-            id: 'doctor.status.true',
-          })}
-        </div>
-      ),
-    },
-    {
-      key: '2',
-      label: (
-        <div onClick={() => setStatus(0)}>
-          {intl.formatMessage({
-            id: 'doctor.status.false',
-          })}
-        </div>
-      ),
-    },
-  ];
-
   const handleSearch = (e: any) => {
     if (!e.target.value.trim()) return setFullTextSearch('');
     setFullTextSearch(e.target.value);
@@ -130,19 +99,6 @@ export const DoctorTable = (props: DoctorTableProps) => {
     setIsShowModalDelete({ id: undefined, name: isShowModalDelete?.name });
   };
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="0" onClick={() => setCategoryId(undefined)}>
-        All
-      </Menu.Item>
-      {category?.data.content?.map((item) => (
-        <Menu.Item key={item.id} onClick={() => setCategoryId(item.id)}>
-          {item.name}
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
-
   return (
     <div className="doctor-table">
       <div className="doctor-table__filter">
@@ -153,38 +109,51 @@ export const DoctorTable = (props: DoctorTableProps) => {
           prefix={<IconSVG type="search" />}
           className="input-search"
           onChange={handleSearch}
+          allowClear
         />
-        <Dropdown overlay={menu} className="dropdown-location" placement="bottomLeft" trigger={['click']}>
-          <CustomButton className="button-location">
-            <IconSVG type="specialist"></IconSVG>
-            <div>
-              {specialistSelect
-                ? specialistSelect.label
-                : intl.formatMessage({
-                    id: 'doctor.list.filter.specialist',
-                  })}
-            </div>
-            <DownOutlined />
-          </CustomButton>
-        </Dropdown>
-        <Dropdown
-          className="dropdown-location"
-          menu={{ items: statusDoctor }}
-          placement="bottomLeft"
-          trigger={['click']}
-        >
-          <CustomButton className="button-location">
-            <IconSVG type="status"></IconSVG>
-            <div>
-              {specialistSelect
-                ? specialistSelect.label
-                : intl.formatMessage({
-                    id: 'doctor.list.filter.status',
-                  })}
-            </div>
-            <DownOutlined />
-          </CustomButton>
-        </Dropdown>
+        <CustomSelect
+          className="select-category"
+          placeholder={intl.formatMessage({
+            id: 'doctor.list.filter.specialist',
+          })}
+          onChange={(e) => {
+            setCategoryId(e);
+          }}
+          mode="multiple"
+          options={category?.data.content?.flatMap((item) => {
+            return { value: item.id, label: item.name } as DefaultOptionType;
+          })}
+        />
+        <CustomSelect
+          className="select-status"
+          placeholder={intl.formatMessage({
+            id: 'doctor.list.filter.status',
+          })}
+          value={status}
+          onChange={(e) => {
+            setStatus(Number(e));
+          }}
+          options={[
+            {
+              value: -1,
+              label: intl.formatMessage({
+                id: 'common.option.all',
+              }),
+            },
+            {
+              value: 1,
+              label: intl.formatMessage({
+                id: 'common.user.active',
+              }),
+            },
+            {
+              value: 0,
+              label: intl.formatMessage({
+                id: 'common.user.inactive',
+              }),
+            },
+          ]}
+        />
       </div>
 
       <TableWrap

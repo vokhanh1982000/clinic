@@ -112,13 +112,13 @@ const ListUser = () => {
             {
               value: 1,
               label: intl.formatMessage({
-                id: 'common.active',
+                id: 'common.user.active',
               }),
             },
             {
               value: 0,
               label: intl.formatMessage({
-                id: 'common.inactive',
+                id: 'common.user.inactive',
               }),
             },
           ]}
@@ -182,10 +182,12 @@ const ListUser = () => {
               <div className="status-customer">
                 {status ? (
                   <>
-                    <IconSVG type={status} />
+                    <span>
+                      <IconSVG type={status} />
+                    </span>
                     <div>
                       {intl.formatMessage({
-                        id: `common.${status}`,
+                        id: `common.user.${status}`,
                       })}
                     </div>
                   </>

@@ -29,5 +29,7 @@
   "validate.phone.space": "Số điện thoại không hợp lệ",
   "validate.address.space": "Địa chỉ không hợp lệ",
   "validate.required.customer-name": "Vui lòng nhập tên bệnh nhân",
-  "validate.customer-code.required": "Vui lòng nhập mã bệnh nhân"
+  "validate.customer-code.required": "Vui lòng nhập mã bệnh nhân",
+  "validate.required.password": "Vui lòng nhập mật khẩu",
+  "validate.password": "Mật khẩu không hợp lệ"
 }

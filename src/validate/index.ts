@@ -27,22 +27,22 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         }),
       },
     ],
-    // password: [
-    //   {
-    //     required: true,
-    //     message: intl.formatMessage({ id: 'validate.required' }),
-    //   },
-    //   {
-    //     validator: validator({
-    //       space: intl.formatMessage({
-    //         id: 'validate.space',
-    //       }),
-    //       password: intl.formatMessage({
-    //         id: 'validate.password',
-    //       }),
-    //     }),
-    //   },
-    // ],
+    password: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.required.password' }),
+      },
+      {
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.space',
+          }),
+          password: intl.formatMessage({
+            id: 'validate.password',
+          }),
+        }),
+      },
+    ],
     // editPassword: [
     //   {
     //     validator: validator({
@@ -61,28 +61,14 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.phone.required' }),
       },
       {
-        validator(_: RuleObject, value: string) {
-          if (value) {
-            if (value.trimStart() !== value) {
-              return Promise.reject(
-                intl.formatMessage({
-                  id: 'validate.space',
-                })
-              );
-            } else {
-              const regex = new RegExp(REGEX_PHONE_NUMBER);
-              if (!regex.test(value)) {
-                return Promise.reject(
-                  intl.formatMessage({
-                    id: 'validate.phone',
-                  })
-                );
-              }
-            }
-          }
-
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.space',
+          }),
+          phone: intl.formatMessage({
+            id: 'validate.phone',
+          }),
+        }),
       },
     ],
     dob: [

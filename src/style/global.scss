@@ -33,6 +33,9 @@
 
   .ant-table-thead > tr > th {
     background: $table_header_color;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
   }
 
   .ant-table-container table > thead > tr:first-child > *:first-child {
@@ -87,6 +90,7 @@
 
 .custom-checkbox {
   width: 100%;
+
   .ant-checkbox-wrapper {
     display: flex;
     align-items: center;
@@ -136,6 +140,7 @@
 .ant-form-item-required::after {
   content: unset !important;
 }
+
 //.ant-form-item {
 //  .ant-form-item-label {
 //    .ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
@@ -156,6 +161,7 @@
   color: $text_error;
   font-size: 14px;
 }
+
 @for $i from 1 through 64 {
   .font-size-#{$i} {
     font-size: #{$i}px !important;
@@ -206,4 +212,11 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+select[multiple] {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Các thuộc tính CSS khác */
 }
