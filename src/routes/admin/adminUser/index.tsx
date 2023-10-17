@@ -83,7 +83,7 @@ const ListRole = () => {
           }}
         >
           {intl.formatMessage({
-            id: 'admin.user.create',
+            id: 'admin.user.btn.create',
           })}
         </CustomButton>
       </div>

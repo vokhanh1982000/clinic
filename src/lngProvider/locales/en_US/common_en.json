@@ -34,6 +34,8 @@
   "common.noti.input": "Please enter data for this field",
   "common.noti.select": "Please select data for this field",
   "common.noti.role": "The role name may already be in use. Please try again",
-  "common.noti.phone.code": "The personnel code or phone number is already in use. Please try again",
-  "common.upload.fail": "Upload fail"
+  "common.noti.code": "The personnel code is already in use. Please try again",
+  "common.noti.phone": "The phone number is already in use. Please try again",
+  "common.upload.fail": "Upload fail",
+  "common.noti.fullName.limit": "Name is too long"
 }

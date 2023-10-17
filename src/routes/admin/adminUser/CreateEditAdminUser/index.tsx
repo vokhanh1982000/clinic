@@ -84,7 +84,11 @@ const CreateAdmin = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: ({ response }) => {
-        message.error(intl.formatMessage({ id: `common.noti.phone.code` }));
+        if (response.data.message === 'CODE_IS_EXITS') {
+          message.error(intl.formatMessage({ id: `common.noti.code` }));
+        } else if (response.data.message === 'PHONE_IS_EXITS') {
+          message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        }
       },
     }
   );
@@ -99,13 +103,17 @@ const CreateAdmin = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: ({ response }) => {
-        console.log('err');
-        message.error(intl.formatMessage({ id: `common.noti.phone.code` }));
+        if (response.data.message === 'CODE_IS_EXITS') {
+          message.error(intl.formatMessage({ id: `common.noti.code` }));
+        } else if (response.data.message === 'PHONE_IS_EXITS') {
+          message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        }
       },
     }
   );
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
+      message.error(intl.formatMessage({ id: `admin.delete.success` }));
       navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
     },
     onError: (error) => {
@@ -194,14 +202,14 @@ const CreateAdmin = () => {
     <Card id="admin-management">
       <Form form={form} onFinish={onFinish} layout="vertical">
         <Row className="admin-management__header">
-          <header>{intl.formatMessage({ id: 'admin.user.info' })}</header>
+          <header>{intl.formatMessage({ id: id ? 'admin.user.info' : 'admin.user.label.create' })}</header>
         </Row>
         <Row className="admin-management__body">
-          <Col span={15} className="admin-management__body-info">
+          <div className="admin-management__body-info">
             <Card>
               <Row className="admin-management__info-header">
                 <div>
-                  <header>{intl.formatMessage({ id: 'admin.user.info' })}</header>
+                  <header>{intl.formatMessage({ id: 'admin.user.label' })}</header>
                   <div className="line-element"></div>
                 </div>
                 {/* <Row>
@@ -210,42 +218,47 @@ const CreateAdmin = () => {
                 </Row> */}
               </Row>
               <Row className="admin-management__body-data">
-                <Col span={10}>
+                <div>
                   <div className="admin-management__body-data__avatar">
                     <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
                   </div>
-                </Col>
-                <Col span={14}>
+                </div>
+                <div>
                   <Row className="admin-management__info-item">
-                    <Col span={15}>
+                    <div className="fullName">
                       <Form.Item
                         label={intl.formatMessage({
                           id: 'admin.user.fullName',
                         })}
                         // rules={ValidateLibrary(intl).}
 
-                        // rules={[
-                        //   {
-                        //     required: true,
-                        //     message: intl.formatMessage({ id: 'common.noti.input' }),
-                        //   },
-                        //   {
-                        //     pattern: /^(?![\s])[\s\S]*/,
-                        //     message: intl.formatMessage({ id: 'common.noti.space' }),
-                        //   },
-                        //   {
-                        //     pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
-                        //     message: intl.formatMessage({
-                        //       id: 'common.noti.special',
-                        //     }),
-                        //   },
-                        // ]}
+                        rules={[
+                          {
+                            required: true,
+                            message: intl.formatMessage({ id: 'common.noti.input' }),
+                          },
+                          {
+                            max: 36,
+                            message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+                          },
+                          {
+                            pattern: /^(?![\s])[\s\S]*/,
+                            message: intl.formatMessage({ id: 'common.noti.space' }),
+                          },
+                          {
+                            pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                            message: intl.formatMessage({
+                              id: 'common.noti.special',
+                            }),
+                          },
+                        ]}
+                        // rules={ValidateLibrary(intl).fullName}
                         name={n('fullName')}
                       >
                         <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.fullName' })} />
                       </Form.Item>
-                    </Col>
-                    <Col span={8}>
+                    </div>
+                    <div className="code">
                       <Form.Item
                         label={intl.formatMessage({
                           id: 'admin.user.code',
@@ -263,11 +276,12 @@ const CreateAdmin = () => {
                             }),
                           },
                         ]}
+                        // rules={ValidateLibrary(intl).staffCode}
                         name={n('code')}
                       >
                         <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.code' })} />
                       </Form.Item>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="admin-management__info-item">
                     <header>Email</header>
@@ -279,6 +293,7 @@ const CreateAdmin = () => {
                         },
                         { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
                       ]}
+                      // rules={ValidateLibrary(intl).email}
                       name={n('emailAddress')}
                     >
                       <CustomInput name={n('emailAddress')} placeholder="Email" />
@@ -297,21 +312,22 @@ const CreateAdmin = () => {
                           message: intl.formatMessage({ id: 'sigin.validate.phone' }),
                         },
                       ]}
+                      // rules={ValidateLibrary(intl).phoneNumber}
                       name={n('phoneNumber')}
                     >
                       <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.phone' })} />
                     </Form.Item>
                   </Row>
-                  <Row className="admin-management__info-item">
-                    <Col span={14}>
+                  <div className="admin-management__info-item">
+                    <div className="admin-management__item-col">
                       <header>{intl.formatMessage({ id: 'admin.user.dateOfBirth' })}</header>
                       <Form.Item name={n('dateOfBirth')}>
                         <DatePickerCustom dateFormat={FORMAT_DATE} className="date-select"></DatePickerCustom>
                       </Form.Item>
-                    </Col>
-                    <Col span={9}>
+                    </div>
+                    <div className="admin-management__item-col">
                       <header>{intl.formatMessage({ id: 'admin.user.gender' })}</header>
-                      <Form.Item name={n('gender')}>
+                      <Form.Item name={n('gender')} rules={ValidateLibrary(intl).dbo}>
                         <CustomSelect
                           className="admin-management__item-select"
                           placeholder={intl.formatMessage({ id: 'admin.user.gender' })}
@@ -321,8 +337,8 @@ const CreateAdmin = () => {
                           ]}
                         />
                       </Form.Item>
-                    </Col>
-                  </Row>
+                    </div>
+                  </div>
                   <CadastalCustom
                     form={form}
                     setProvinceId={setProvinceId}
@@ -342,6 +358,7 @@ const CreateAdmin = () => {
                           }),
                         },
                       ]}
+                      // rules={ValidateLibrary(intl).space}
                       name={n('position')}
                     >
                       <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.position' })} />
@@ -364,16 +381,17 @@ const CreateAdmin = () => {
                             message: intl.formatMessage({ id: 'common.password.regex' }),
                           },
                         ]}
+                        // rules={ValidateLibrary(intl).password}
                       >
                         <CustomInput placeholder="********" isPassword={true} />
                       </Form.Item>
                     </Row>
                   )}
-                </Col>
+                </div>
               </Row>
             </Card>
-          </Col>
-          <Col span={8} className="admin-management__body-role">
+          </div>
+          <div className="admin-management__body-role">
             <Card className="admin-management__role-checkox">
               <Row className="admin-management__role-header">
                 <div>
@@ -404,7 +422,7 @@ const CreateAdmin = () => {
                 </Button>
               )}
             </Row>
-          </Col>
+          </div>
         </Row>
       </Form>
       <ConfirmDeleteModal
