@@ -68,6 +68,7 @@ const CreateRole = () => {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['getPermissions']);
       queryClient.invalidateQueries(['getRoleDetail', id]);
+      message.error(intl.formatMessage({ id: 'role.delete.success' }));
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
     onError: (error) => {

@@ -19,9 +19,10 @@ const ListDoctor = () => {
     onSuccess: ({ data }) => {
       console.log(data);
       queryClient.invalidateQueries(['getAdminUser']);
+      message.error(intl.formatMessage({ id: 'doctor.delete.success' }));
     },
     onError: (error) => {
-      message.error(intl.formatMessage({ id: `${error}` }));
+      message.error(intl.formatMessage({ id: `doctor.delete.fail` }));
     },
   });
 

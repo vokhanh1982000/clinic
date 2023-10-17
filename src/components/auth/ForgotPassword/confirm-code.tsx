@@ -6,6 +6,7 @@ import OTPInput from 'react-otp-input';
 import { authApi } from '../../../apis';
 import { FindUserByIdentifierDto, ForgotPasswordDto } from '../../../apis/client-axios';
 import ForgotSuccess from './forgot-success';
+import { isNumber } from 'lodash';
 
 const ConfirmCode = ({ data, userType }: any) => {
   const intl = useIntl();
@@ -25,13 +26,15 @@ const ConfirmCode = ({ data, userType }: any) => {
   const forgotPasswordMutation = useMutation(
     (updatePasswordData: ForgotPasswordDto) => authApi.authControllerForgotPassword(updatePasswordData),
     {
-      onSuccess: ({ data }) => {
-        if (!data) return message.error(intl.formatMessage({ id: 'forgot.phoneInvalid' }));
+      onSuccess: (respon) => {
+        if (!respon.data) return message.error(intl.formatMessage({ id: 'forgot.otp.fail' }));
+        const data: any = respon.data;
+        if (data.mes && data.mes.status === 400) return message.error(intl.formatMessage({ id: 'forgot.otp.fail' }));
         setPass(true);
       },
       onError: (error) => {
         console.log(error);
-        message.error(intl.formatMessage({ id: 'forgot.phoneInvalid' }));
+        message.error(intl.formatMessage({ id: 'forgot.otp.fail' }));
       },
     }
   );
@@ -48,6 +51,7 @@ const ConfirmCode = ({ data, userType }: any) => {
   );
 
   const handleResendOTP = () => {
+    if (time !== '00:00s') return message.error(intl.formatMessage({ id: 'forgot.otp.time' }));
     sendOTPMutation.mutate(data);
     startTimer(60 * 2);
   };
@@ -71,6 +75,10 @@ const ConfirmCode = ({ data, userType }: any) => {
       }
     }, 1000);
   };
+  const handleChangeOtp = (e: any) => {
+    console.log(e);
+    // console.log(isNumber(e.target.value));
+  };
 
   return pass ? (
     <ForgotSuccess userType={userType} />
@@ -83,7 +91,9 @@ const ConfirmCode = ({ data, userType }: any) => {
           </div>
           <div className="form-name">
             <header className="form-name-header">{intl.formatMessage({ id: 'forgot.code' })}</header>
-            <p>{intl.formatMessage({ id: 'forgot.requiredCode' })}</p>
+            <p>
+              {intl.formatMessage({ id: 'forgot.requiredCode' })} <span>{data.identifier}</span>{' '}
+            </p>
             <div></div>
           </div>
 
@@ -105,6 +115,7 @@ const ConfirmCode = ({ data, userType }: any) => {
                   value={otp}
                   inputStyle="inputStyle"
                   numInputs={6}
+                  inputType="number"
                   renderSeparator={<span></span>}
                   renderInput={(props) => <input {...props} className="otp-input" />}
                 />

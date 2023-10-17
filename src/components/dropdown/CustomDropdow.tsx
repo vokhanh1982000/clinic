@@ -13,11 +13,12 @@ interface CustomDropdownProps extends DropDownProps {
   className?: string;
   position: string;
   setPosition: (text: string | null) => void;
+  setPage: (page: number | 1) => void;
 }
 
 const DropdownCustom = (props: CustomDropdownProps) => {
   const intl = useIntl();
-  const { iconType, className, position, setPosition } = props;
+  const { iconType, className, position, setPosition, setPage } = props;
 
   const [items, setItem] = useState<{ key: number; label: JSX.Element }[]>([
     {
@@ -36,7 +37,16 @@ const DropdownCustom = (props: CustomDropdownProps) => {
       const positionItems = positionAll.map((item, index) => {
         return {
           key: index + 1,
-          label: <div onClick={() => setPosition(item.position)}>{item.position}</div>,
+          label: (
+            <div
+              onClick={() => {
+                setPage(1);
+                return setPosition(item.position);
+              }}
+            >
+              {item.position}
+            </div>
+          ),
         };
       }) as { key: number; label: JSX.Element }[];
       setItem([...items, ...positionItems]);

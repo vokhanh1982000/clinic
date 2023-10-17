@@ -7,5 +7,7 @@
   "admin-profile.dateOfBirth": "Birthday",
   "admin-profile.gender": "Gender",
   "admin-profile.save": "Save change",
-  "admin-profile.cancelled": "Cancel"
+  "admin-profile.cancelled": "Cancel",
+  "admin-profile.save.success": "Save profile success",
+  "admin-profile.save.fail": "Save profile fail. Please try again"
 }
