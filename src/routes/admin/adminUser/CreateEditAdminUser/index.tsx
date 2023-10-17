@@ -84,9 +84,9 @@ const CreateAdmin = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: ({ response }) => {
-        if (response.data.message === 'CODE_IS_EXITS') {
+        if (response.data.message === 'CODE_IS_EXIST') {
           message.error(intl.formatMessage({ id: `common.noti.code` }));
-        } else if (response.data.message === 'PHONE_IS_EXITS') {
+        } else if (response.data.message === 'PHONE_IS_EXIST') {
           message.error(intl.formatMessage({ id: `common.noti.phone` }));
         }
       },
@@ -103,9 +103,9 @@ const CreateAdmin = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: ({ response }) => {
-        if (response.data.message === 'CODE_IS_EXITS') {
+        if (response.data.message === 'CODE_IS_EXIST') {
           message.error(intl.formatMessage({ id: `common.noti.code` }));
-        } else if (response.data.message === 'PHONE_IS_EXITS') {
+        } else if (response.data.message === 'PHONE_IS_EXIST') {
           message.error(intl.formatMessage({ id: `common.noti.phone` }));
         }
       },
