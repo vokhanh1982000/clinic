@@ -152,7 +152,11 @@ const DoctorProfile = () => {
                   name={'fullName'}
                   rules={ValidateLibrary(intl).name}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.fullName',
+                    })}
+                  />
                 </Form.Item>
                 <Form.Item
                   className="code"
@@ -162,7 +166,11 @@ const DoctorProfile = () => {
                   name={'code'}
                   rules={ValidateLibrary(intl).userCode}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.code',
+                    })}
+                  />
                 </Form.Item>
               </div>
               <div className="doctor-info__content__info__rows">
@@ -174,7 +182,11 @@ const DoctorProfile = () => {
                   name={'emailAddress'}
                   rules={ValidateLibrary(intl).email}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.email',
+                    })}
+                  />
                 </Form.Item>
                 <Form.Item
                   className="phone"
@@ -184,7 +196,11 @@ const DoctorProfile = () => {
                   name={'phoneNumber'}
                   rules={ValidateLibrary(intl).phoneNumber}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.phone',
+                    })}
+                  />
                 </Form.Item>
               </div>
 
@@ -203,6 +219,9 @@ const DoctorProfile = () => {
                       const today = dayjs();
                       return current && dayjs(current).isAfter(today, 'day');
                     }}
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.dob',
+                    })}
                   />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
                 </Form.Item>
@@ -228,6 +247,9 @@ const DoctorProfile = () => {
                         }),
                       },
                     ]}
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.gender',
+                    })}
                   />
                 </Form.Item>
               </div>
@@ -248,6 +270,9 @@ const DoctorProfile = () => {
                         value: item.id,
                       };
                     })}
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.category',
+                    })}
                   />
                 </Form.Item>
               </div>
@@ -260,7 +285,11 @@ const DoctorProfile = () => {
                   })}
                   name={'level'}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.level',
+                    })}
+                  />
                 </Form.Item>
                 <Form.Item
                   className="status"
@@ -284,6 +313,9 @@ const DoctorProfile = () => {
                         }),
                       },
                     ]}
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.status',
+                    })}
                   />
                 </Form.Item>
               </div>
@@ -305,6 +337,9 @@ const DoctorProfile = () => {
                     })}
                     onChange={handleSelectProvince}
                     value={selectedProvince?.id}
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.province',
+                    })}
                   />
                 </Form.Item>
                 <Form.Item
@@ -324,6 +359,9 @@ const DoctorProfile = () => {
                     })}
                     onChange={handleSelectDistrict}
                     value={selectedDistrict?.id || undefined}
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.district',
+                    })}
                   />
                 </Form.Item>
               </div>
@@ -345,6 +383,9 @@ const DoctorProfile = () => {
                     })}
                     onChange={(value: string, option: any) => setSelectedWard(option.item)}
                     value={selectedWard?.id}
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.ward',
+                    })}
                   />
                 </Form.Item>
                 <Form.Item
@@ -354,7 +395,11 @@ const DoctorProfile = () => {
                   })}
                   name={'address'}
                 >
-                  <CustomInput />
+                  <CustomInput
+                    placeholder={intl.formatMessage({
+                      id: 'doctor-profile.form.address',
+                    })}
+                  />
                 </Form.Item>
               </div>
             </div>
@@ -373,7 +418,13 @@ const DoctorProfile = () => {
                 <div className="line-title"></div>
               </div>
               <Form.Item className="name" name={'overview'} rules={[{ required: true }]}>
-                <CustomArea rows={6} style={{ resize: 'none' }} />
+                <CustomArea
+                  rows={6}
+                  style={{ resize: 'none' }}
+                  placeholder={intl.formatMessage({
+                    id: 'doctor.create.achievement.history.title',
+                  })}
+                />
               </Form.Item>
             </div>
             <div className="achievement__experiment">
@@ -386,7 +437,13 @@ const DoctorProfile = () => {
                 <div className="line-title"></div>
               </div>
               <Form.Item className="name" name={'experience'} rules={[{ required: true }]}>
-                <CustomArea rows={6} style={{ resize: 'none' }} />
+                <CustomArea
+                  rows={6}
+                  style={{ resize: 'none' }}
+                  placeholder={intl.formatMessage({
+                    id: 'doctor.create.achievement.experiment.title',
+                  })}
+                />
               </Form.Item>
             </div>
           </div>
