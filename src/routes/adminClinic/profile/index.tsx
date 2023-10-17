@@ -56,9 +56,10 @@ const AdminClinicProfile = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['adminClinicProfile']);
+        message.success(intl.formatMessage({ id: 'message.update-profile.success' }));
       },
       onError: (error) => {
-        message.error(intl.formatMessage({ id: 'admin-clinic.update.error' }));
+        message.error(intl.formatMessage({ id: 'message.update-profile.fail' }));
       },
     }
   );
@@ -94,7 +95,7 @@ const AdminClinicProfile = () => {
 
   const onFinish = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format(FORMAT_DATE) : undefined;
+    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format(FORMAT_DATE) : null;
     updateAdminClinic(data);
   };
 
@@ -112,7 +113,7 @@ const AdminClinicProfile = () => {
             <div className="admin-clinic-info__header__title">
               <div className="admin-clinic-info__header__title__label">
                 {intl.formatMessage({
-                  id: 'admin-clinic.title',
+                  id: 'admin-clinic.form.title',
                 })}
               </div>
               <div className="line-title"></div>
@@ -355,16 +356,16 @@ const AdminClinicProfile = () => {
                     id: 'admin-clinic.button-save',
                   })}
                 </CustomButton>
-                <CustomButton
-                  className="button-cancel"
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                >
-                  {intl.formatMessage({
-                    id: 'admin-clinic.button-cancelled',
-                  })}
-                </CustomButton>
+                {/*<CustomButton*/}
+                {/*  className="button-cancel"*/}
+                {/*  onClick={() => {*/}
+                {/*    navigate(-1);*/}
+                {/*  }}*/}
+                {/*>*/}
+                {/*  {intl.formatMessage({*/}
+                {/*    id: 'admin-clinic.button-cancelled',*/}
+                {/*  })}*/}
+                {/*</CustomButton>*/}
               </div>
             )}
           </div>

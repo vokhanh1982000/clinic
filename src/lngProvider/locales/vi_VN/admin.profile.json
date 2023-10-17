@@ -1,5 +1,6 @@
 {
-  "admin-profile.table.title": "Thông tin tài khoảng",
+  "admin-profile.title": "Thông Tin Tài Khoản",
+  "admin-profile.table.title": "Thông tin tài khoản",
   "admin-profile.fullName": "Họ và tên",
   "admin-profile.code": "Mã nhân sự",
   "admin-profile.emailAddress": "Email",
