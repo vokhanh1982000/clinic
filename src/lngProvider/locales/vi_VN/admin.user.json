@@ -1,12 +1,15 @@
 {
   "admin.user.title": "Quản Lý Quản Trị Viên",
-  "admin.user.create": "Tạo quản trị viên mới",
+  "admin.user.create": "Quản lý Quản Trị Viên",
   "admin.user.search": "Tìm kiếm quản trị viên",
   "admin.user.fullName": "Quản trị viên",
   "admin.user.phone": "Số điện thoại",
   "admin.user.type": "Vai trò quản lý",
   "admin.user.action": "Thao tác",
-  "admin.user.info": "Thông tin quản trị viên",
+  "admin.user.info": "Chi Tiết Quản Trị Viên",
+  "admin.user.label.create": "Tạo Quản Trị Viên Mới",
+  "admin.user.btn.create": "Tạo Quản trị viên mới",
+  "admin.user.label": "Thông tin Quản Trị Viên",
   "admin.user.online": "Đang hoạt động",
   "admin.user.offline": "Tắt hoạt động",
   "admin.user.delete": "Xóa tài khoản",
@@ -25,6 +28,5 @@
   "admin.btn.create": "Thêm mới",
   "admin.btn.save": "Lưu thay đổi",
   "admin.btn.cancel": "Hủy",
-  "admin.delete.success": "Xóa quản trị viên thành công!",
-  "common.noti.phone.code": "Mã nhân sự hoặc số điện thoại đã được sử dụng. Vui lòng thử lại"
+  "admin.delete.success": "Xóa quản trị viên thành công!"
 }

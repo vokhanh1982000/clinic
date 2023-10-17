@@ -23,6 +23,13 @@
       width: 187px;
     }
   }
+  .ant-table-content {
+    .ant-table-thead {
+      tr > th {
+        font-weight: 700;
+      }
+    }
+  }
 }
 
 #create-doctor-management {
@@ -94,6 +101,13 @@
             align-items: center;
             gap: 15px;
             width: 100%;
+            .ant-form-item-label {
+              color: $text_black_light;
+              font-family: Open-sans !important;
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 22px;
+            }
 
             .block {
               width: 100%;
@@ -191,6 +205,9 @@
       box-shadow: unset;
       color: unset;
     }
+  }
+  .ant-select-selector {
+    align-items: center;
   }
 }
 

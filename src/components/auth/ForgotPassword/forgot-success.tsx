@@ -2,7 +2,9 @@ import { Button, Form, Result } from 'antd';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { UpdatePasswordDtoTypeEnum } from '../../../apis/client-axios';
+import { CheckOutlined } from '@ant-design/icons';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../../constants/route';
+import IconSVG from '../../icons/icons';
 const ForgotSuccess = ({ userType }: any) => {
   const intl = useIntl();
   const navigate = useNavigate();
@@ -26,6 +28,7 @@ const ForgotSuccess = ({ userType }: any) => {
           status="success"
           title={intl.formatMessage({ id: 'forgot.success.title' })}
           subTitle={intl.formatMessage({ id: 'forgot.success.messenger' })}
+          icon={<IconSVG type="check-success" />}
         />
         <div></div>
         <Form
@@ -40,7 +43,7 @@ const ForgotSuccess = ({ userType }: any) => {
           className="form-data"
         >
           <Form.Item>
-            <Button type="primary" htmlType="submit" shape="round" className="w-100">
+            <Button type="primary" htmlType="submit" shape="round" className="btn-fogot-success w-100">
               {intl.formatMessage({ id: 'sigin.submit' })}
             </Button>
           </Form.Item>

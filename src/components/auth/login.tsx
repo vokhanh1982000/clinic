@@ -140,8 +140,8 @@ const SignInCommon = (props: ISignInCommon) => {
             <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />
           </Form.Item>
 
-          <div className="d-flex justify-content-end txt-forgot" onClick={navigateToForgotPassword}>
-            {intl.formatMessage({ id: 'sigin.forgot' })}
+          <div className="d-flex justify-content-end txt-forgot">
+            <p onClick={navigateToForgotPassword}>{intl.formatMessage({ id: 'sigin.forgot' })}</p>
           </div>
 
           <Form.Item>

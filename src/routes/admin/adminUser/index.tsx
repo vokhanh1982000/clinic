@@ -83,7 +83,7 @@ const ListRole = () => {
           }}
         >
           {intl.formatMessage({
-            id: 'admin.user.create',
+            id: 'admin.user.btn.create',
           })}
         </CustomButton>
       </div>
@@ -97,7 +97,7 @@ const ListRole = () => {
           prefix={<IconSVG type="search" />}
           className="input-search"
         />
-        <DropdownCustom position={position} setPosition={setPosition} />
+        <DropdownCustom position={position} setPosition={setPosition} setPage={setPage} />
       </Row>
       <div className="administrator-user">
         <TableWrap

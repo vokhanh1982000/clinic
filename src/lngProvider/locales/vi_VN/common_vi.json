@@ -34,5 +34,8 @@
   "common.noti.input": "Vui lòng nhập dữ liệu cho trường này",
   "common.noti.select": "Vui lòng chọn dữ liệu cho trường này",
   "common.noti.role": "Tên vai trò có thể đã được sử dụng. Vui lòng thử lại",
-  "common.upload.fail": "Tải ảnh thất bại"
+  "common.upload.fail": "Tải ảnh thất bại",
+  "common.noti.code": "Mã nhân sự đã được sử dụng. Vui lòng thử lại với mã khác",
+  "common.noti.phone": "Số điện thoại đã được sử dụng. Vui lòng thử lại",
+  "common.noti.fullName.limit": "Tên quá dài"
 }

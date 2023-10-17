@@ -17,7 +17,7 @@ export const CadastalCustom = (props: cadastralProp) => {
   const intl = useIntl();
 
   const { provinceId, districtId, setProvinceId, setDistrictId, form } = props;
-  const { data: listProvince, isLoading } = useQuery({
+  const { data: listProvince } = useQuery({
     queryKey: ['listProvince'],
     queryFn: () => cadastralApi.cadastralControllerGetProvince(),
   });

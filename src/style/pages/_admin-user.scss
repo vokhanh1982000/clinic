@@ -11,13 +11,16 @@
 
   .admin-management__body {
     margin-top: 20px;
-    justify-content: space-between;
+    display: flex;
+    gap: 15px;
+    max-width: 100% !important;
     .ant-select-selection-placeholder {
       display: flex;
       align-items: center;
     }
 
     .admin-management__body-info {
+      flex: 1;
       .admin-management__info-header {
         justify-content: space-between;
 
@@ -39,6 +42,7 @@
 
       .admin-management__body-data {
         margin-top: 20px;
+        justify-content: space-between;
 
         &__avatar {
           width: 30%;
@@ -47,7 +51,20 @@
         }
 
         .admin-management__info-item {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          width: 524px;
           justify-content: space-between;
+          .fullName {
+            width: 326px;
+          }
+          .code {
+            width: 142px;
+          }
+          .admin-management__item-col {
+            width: 50%;
+          }
           header {
             color: $text_black_light;
             font-family: 'Open-sans';
@@ -93,6 +110,7 @@
     }
 
     .admin-management__body-role {
+      width: 529px;
       display: flex;
       flex-direction: column;
       justify-content: inherit;

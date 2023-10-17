@@ -17,5 +17,8 @@
   "menu.admin-profile": "Account information",
   "menu.dropdown.user.logout": "Logout",
   "menu.dropdown.user.profile": "Profile",
-  "menu.dropdown.user.change-password": "Change password"
+  "menu.dropdown.user.change-password": "Change password",
+  "menu.create.doctor": "Create Doctor",
+  "menu.detail.doctor": "Detail Doctor",
+  "doctor.delete.fail": "Fail. Please try again"
 }

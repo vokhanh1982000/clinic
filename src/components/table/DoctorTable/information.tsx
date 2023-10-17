@@ -13,6 +13,8 @@ import UploadAvatar from '../../upload/UploadAvatar';
 import { useMutation } from '@tanstack/react-query';
 import { MyUploadProps } from '../../../constants/dto';
 import { assetsApi } from '../../../apis';
+import DatePickerCustom from '../../date/datePicker';
+import { FORMAT_DATE } from '../../../constants/common';
 
 interface DoctorTableProps {
   form: FormInstance;
@@ -107,7 +109,22 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.name',
               })}
               name={n('fullName')}
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: intl.formatMessage({ id: 'common.noti.input' }),
+                },
+                {
+                  pattern: /^(?![\s])[\s\S]*/,
+                  message: intl.formatMessage({ id: 'common.noti.space' }),
+                },
+                {
+                  pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                  message: intl.formatMessage({
+                    id: 'common.noti.special',
+                  }),
+                },
+              ]}
             >
               <CustomInput />
             </Form.Item>
@@ -117,7 +134,19 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.code',
               })}
               name={n('code')}
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: intl.formatMessage({ id: 'common.noti.input' }),
+                },
+                { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
+                {
+                  pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                  message: intl.formatMessage({
+                    id: 'common.noti.special',
+                  }),
+                },
+              ]}
             >
               <CustomInput disabled={!id} />
             </Form.Item>
@@ -130,7 +159,10 @@ const DoctorInfo = (props: DoctorTableProps) => {
               })}
               name={n('emailAddress')}
               rules={[
-                { required: true },
+                {
+                  pattern: /^(?![\s])[\s\S]*/,
+                  message: intl.formatMessage({ id: 'common.noti.space' }),
+                },
                 { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
               ]}
             >
@@ -143,10 +175,10 @@ const DoctorInfo = (props: DoctorTableProps) => {
               })}
               name={n('phoneNumber')}
               rules={[
-                { required: true },
+                { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
                 {
-                  pattern: regexPhone.current,
-                  message: intl.formatMessage({ id: 'admin.user.phone.message' }),
+                  pattern: /^0[1-9][0-9]{8}$/,
+                  message: intl.formatMessage({ id: 'sigin.validate.phone' }),
                 },
               ]}
             >
@@ -161,9 +193,10 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.dob',
               })}
               name={n('dateOfBirth')}
-              rules={[{ required: true }]}
+              // rules={[{ required: true }]}
             >
-              <DatePicker />
+              <DatePickerCustom dateFormat={FORMAT_DATE} className="date-select"></DatePickerCustom>
+              {/* <DatePicker /> */}
               {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
             </Form.Item>
             <Form.Item
@@ -172,7 +205,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.gender',
               })}
               name={n('gender')}
-              rules={[{ required: true }]}
+              // rules={[{ required: true }]}
             >
               <CustomSelect
                 placeholder={intl.formatMessage({
@@ -209,9 +242,10 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.specialist',
               })}
               name={n('categoryIds')}
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: intl.formatMessage({ id: 'Vui lòng chọn dữ liệu cho trường này' }) }]}
             >
               <CustomSelect
+                maxTagCount={2}
                 mode="multiple"
                 options={category?.flatMap((item) => {
                   return { value: item.id, label: item.name } as DefaultOptionType;
@@ -219,57 +253,114 @@ const DoctorInfo = (props: DoctorTableProps) => {
               />
             </Form.Item>
           </div>
-          <div className="doctor-info__content__info__rows">
-            <Form.Item
-              className="level block"
-              label={intl.formatMessage({
-                id: 'doctor.create.info.level',
-              })}
-              name={n('level')}
-              rules={[{ required: true }]}
-            >
-              <CustomInput />
-            </Form.Item>
-          </div>
-          <div className="doctor-info__content__info__rows">
-            <Form.Item
-              className="status block"
-              label={intl.formatMessage({
-                id: 'doctor.create.info.status',
-              })}
-              name={n('status')}
-              rules={[{ required: true }]}
-            >
-              <CustomSelect
-                options={[
-                  {
-                    value: 1,
-                    label: intl.formatMessage({
-                      id: 'common.active',
-                    }),
-                  },
-                  {
-                    value: 0,
-                    label: intl.formatMessage({
-                      id: 'common.inactive',
-                    }),
-                  },
-                ]}
-              />
-            </Form.Item>
-            {doctorType === DoctorType.DOCTOR_SUPPORT && (
-              <Form.Item
-                className="request block"
-                label={intl.formatMessage({
-                  id: 'doctor.create.info.request',
-                })}
-                name={n('totalRequestReceniver')}
-                rules={[{ required: true }]}
-              >
-                <CustomInput />
-              </Form.Item>
-            )}
-          </div>
+          {doctorType === DoctorType.DOCTOR ? (
+            <>
+              <div className="doctor-info__content__info__rows">
+                <Form.Item
+                  className="level w-50"
+                  label={intl.formatMessage({
+                    id: 'doctor.create.info.level',
+                  })}
+                  name={n('level')}
+                  // rules={[{ required: true }]}
+                  rules={[
+                    {
+                      pattern: /^(?![\s])[\s\S]*/,
+                      message: intl.formatMessage({ id: 'common.noti.space' }),
+                    },
+                    {
+                      pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                      message: intl.formatMessage({
+                        id: 'common.noti.special',
+                      }),
+                    },
+                  ]}
+                >
+                  <CustomInput />
+                </Form.Item>
+                <Form.Item
+                  className="status w-50"
+                  label={intl.formatMessage({
+                    id: 'doctor.create.info.status',
+                  })}
+                  name={n('status')}
+                  // rules={[{ required: true }]}
+                >
+                  <CustomSelect
+                    defaultValue={1}
+                    options={[
+                      {
+                        value: 1,
+                        label: intl.formatMessage({
+                          id: 'common.active',
+                        }),
+                      },
+                      {
+                        value: 0,
+                        label: intl.formatMessage({
+                          id: 'common.inactive',
+                        }),
+                      },
+                    ]}
+                  />
+                </Form.Item>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="doctor-info__content__info__rows">
+                <Form.Item
+                  className="level block"
+                  label={intl.formatMessage({
+                    id: 'doctor.create.info.level',
+                  })}
+                  name={n('level')}
+                  // rules={[{ required: true }]}
+                >
+                  <CustomInput />
+                </Form.Item>
+              </div>
+              <div className="doctor-info__content__info__rows">
+                <Form.Item
+                  className="status block"
+                  label={intl.formatMessage({
+                    id: 'doctor.create.info.status',
+                  })}
+                  name={n('status')}
+                  // rules={[{ required: true }]}
+                >
+                  <CustomSelect
+                    options={[
+                      {
+                        value: 1,
+                        label: intl.formatMessage({
+                          id: 'common.active',
+                        }),
+                      },
+                      {
+                        value: 0,
+                        label: intl.formatMessage({
+                          id: 'common.inactive',
+                        }),
+                      },
+                    ]}
+                  />
+                </Form.Item>
+                {doctorType === DoctorType.DOCTOR_SUPPORT && (
+                  <Form.Item
+                    className="request block"
+                    label={intl.formatMessage({
+                      id: 'doctor.create.info.request',
+                    })}
+                    name={n('totalRequestReceniver')}
+                    rules={[{ required: true }]}
+                  >
+                    <CustomInput />
+                  </Form.Item>
+                )}
+              </div>
+            </>
+          )}
           {!id.id && (
             <div className="doctor-info__content__info__rows">
               <Form.Item
@@ -278,7 +369,15 @@ const DoctorInfo = (props: DoctorTableProps) => {
                   id: 'doctor.create.info.password',
                 })}
                 name={n('password')}
-                rules={[{ required: true }]}
+                rules={[
+                  { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
+                  { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
+                  { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
+                  {
+                    pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
+                    message: intl.formatMessage({ id: 'common.password.regex' }),
+                  },
+                ]}
               >
                 <CustomInput isPassword={true} />
               </Form.Item>
