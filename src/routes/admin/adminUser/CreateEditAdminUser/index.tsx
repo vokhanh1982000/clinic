@@ -268,6 +268,10 @@ const CreateAdmin = () => {
                             required: true,
                             message: intl.formatMessage({ id: 'common.noti.input' }),
                           },
+                          {
+                            max: 36,
+                            message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+                          },
                           { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
                           {
                             pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,

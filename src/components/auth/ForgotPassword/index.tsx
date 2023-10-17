@@ -34,13 +34,13 @@ const ForgotPassComponent = (props: IForgotPassComponent) => {
       },
       onError: (error) => {
         console.log(error);
-        message.warning(intl.formatMessage({ id: 'forgot.phoneInvalid.mess' }), 10000000);
+        message.error(intl.formatMessage({ id: 'forgot.phoneInvalid.mess' }));
       },
     }
   );
   const onFinish = (values: any) => {
     if (!regexPhone.current.test(values.identifier))
-      return message.warning(intl.formatMessage({ id: 'forgot.phoneInvalid' }));
+      return message.error(intl.formatMessage({ id: 'forgot.phoneInvalid' }));
     checkIdentifierMutation.mutate({
       ...values,
       type: userType,
