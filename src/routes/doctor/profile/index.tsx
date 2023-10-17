@@ -66,9 +66,10 @@ const DoctorProfile = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['doctorProfile']);
+        message.success(intl.formatMessage({ id: 'message.update-profile.success' }));
       },
       onError: (error) => {
-        message.error(intl.formatMessage({ id: 'doctor.update.error' }));
+        message.error(intl.formatMessage({ id: 'message.update-profile.fail' }));
       },
     }
   );
@@ -109,7 +110,6 @@ const DoctorProfile = () => {
   const onFinish = () => {
     const data = form.getFieldsValue();
     data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format(FORMAT_DATE) : null;
-    console.log(data);
     updateDoctorProfile(data);
   };
 
@@ -127,7 +127,7 @@ const DoctorProfile = () => {
             <div className="doctor-info__header__title">
               <div className="doctor-info__header__title__label">
                 {intl.formatMessage({
-                  id: 'doctor-profile.title',
+                  id: 'doctor-profile.form.title',
                 })}
               </div>
               <div className="line-title"></div>
@@ -473,16 +473,16 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.button-save',
                   })}
                 </CustomButton>
-                <CustomButton
-                  className="button-cancel"
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                >
-                  {intl.formatMessage({
-                    id: 'doctor-profile.button-cancelled',
-                  })}
-                </CustomButton>
+                {/*<CustomButton*/}
+                {/*  className="button-cancel"*/}
+                {/*  onClick={() => {*/}
+                {/*    navigate(-1);*/}
+                {/*  }}*/}
+                {/*>*/}
+                {/*  {intl.formatMessage({*/}
+                {/*    id: 'doctor-profile.button-cancelled',*/}
+                {/*  })}*/}
+                {/*</CustomButton>*/}
               </div>
             )}
           </div>
