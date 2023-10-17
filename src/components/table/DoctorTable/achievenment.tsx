@@ -39,8 +39,23 @@ const Achievement = (props: Props) => {
             </div>
             <div className="line-title"></div>
           </div>
-          <Form.Item className="name" name={n('overview')} rules={[{ required: true }]}>
-            <CustomArea rows={6} style={{ resize: 'none' }} />
+          <Form.Item
+            className="name"
+            name={n('overview')}
+            rules={[
+              {
+                pattern: /^(?![\s])[\s\S]*/,
+                message: intl.formatMessage({ id: 'common.noti.space' }),
+              },
+            ]}
+          >
+            <CustomArea
+              rows={6}
+              style={{ resize: 'none' }}
+              placeholder={intl.formatMessage({
+                id: 'doctor.create.achievement.history.title',
+              })}
+            />
           </Form.Item>
         </div>
         <div className="achievement__data__experiment">
@@ -52,8 +67,23 @@ const Achievement = (props: Props) => {
             </div>
             <div className="line-title"></div>
           </div>
-          <Form.Item className="name" name={n('experience')} rules={[{ required: true }]}>
-            <CustomArea rows={6} style={{ resize: 'none' }} />
+          <Form.Item
+            className="name"
+            name={n('experience')}
+            rules={[
+              {
+                pattern: /^(?![\s])[\s\S]*/,
+                message: intl.formatMessage({ id: 'common.noti.space' }),
+              },
+            ]}
+          >
+            <CustomArea
+              rows={6}
+              style={{ resize: 'none' }}
+              placeholder={intl.formatMessage({
+                id: 'doctor.create.achievement.experiment.pla',
+              })}
+            />
           </Form.Item>
         </div>
       </div>

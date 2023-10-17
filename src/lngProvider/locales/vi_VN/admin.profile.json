@@ -1,5 +1,6 @@
 {
-  "admin-profile.table.title": "Thông tin tài khoảng",
+  "admin-profile.title": "Thông Tin Tài Khoản",
+  "admin-profile.table.title": "Thông tin tài khoản",
   "admin-profile.fullName": "Họ và tên",
   "admin-profile.code": "Mã nhân sự",
   "admin-profile.emailAddress": "Email",
@@ -7,5 +8,7 @@
   "admin-profile.dateOfBirth": "Ngày sinh",
   "admin-profile.gender": "Giới tính",
   "admin-profile.save": "Lưu thay đổi",
-  "admin-profile.cancelled": "Huỷ"
+  "admin-profile.cancelled": "Huỷ",
+  "admin-profile.save.success": "Lưu thay đổi thành công",
+  "admin-profile.save.fail": "Lưu thay đổi thất bại. Vui lòng kiểm tra lại"
 }

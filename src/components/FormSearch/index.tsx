@@ -1,10 +1,9 @@
 import { Form, FormItemProps, Input, InputProps } from 'antd';
-import { NamePath } from 'antd/es/form/interface';
 import React, { FC } from 'react';
 import IconSVG from '../icons/icons';
 
 interface FormSearchProps {
-  name: string | NamePath<any>;
+  name: string;
   formItemProps?: FormItemProps;
   inputProps?: InputProps;
 }

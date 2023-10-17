@@ -57,9 +57,9 @@ export const DoctorTable = (props: DoctorTableProps) => {
   }, [user]);
 
   const { data: doctorClinics } = useQuery({
-    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status, clinicId }],
+    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status }],
     queryFn: () =>
-      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status),
+      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, undefined, status),
     enabled: !!(doctorType === DoctorType.DOCTOR && clinicId),
   });
 
@@ -173,6 +173,9 @@ export const DoctorTable = (props: DoctorTableProps) => {
           })}
           dataIndex="code"
           width={'5%'}
+          render={(_, record) => {
+            return <>{_ ? String(_).toUpperCase() : ''}</>;
+          }}
         />
         <Column
           title={intl.formatMessage({

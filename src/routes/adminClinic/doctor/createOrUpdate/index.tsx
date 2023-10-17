@@ -27,6 +27,7 @@ const CreateDoctor = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isDeleteDoctor, setIsDeleteDoctor] = useState<boolean>(false);
+  const [doctorName, setDoctorName] = useState<string>('');
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
   const [avatar, setAvatar] = useState<string>();
@@ -54,6 +55,7 @@ const CreateDoctor = () => {
       if (data.avatar) {
         setAvatar(process.env.REACT_APP_URL_IMG_S3 + data.avatar.preview);
       }
+      if (data.fullName) setDoctorName(data.fullName);
       data.provinceId && setProvinceId(data.provinceId);
       data.districtId && setDistrictId(data.districtId);
     },
@@ -92,7 +94,7 @@ const CreateDoctor = () => {
       navigate(-1);
     },
     onError: (error) => {
-      message.error(intl.formatMessage({ id: 'common.message.err' }));
+      message.error(intl.formatMessage({ id: 'doctor.create.error' }));
     },
   });
 
@@ -106,14 +108,14 @@ const CreateDoctor = () => {
       createDocterClinic.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
+        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         clinicId: null,
       });
     } else {
       updateDoctorClinic.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
+        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         id: id,
       });
     }
@@ -151,7 +153,7 @@ const CreateDoctor = () => {
         />
       </FormWrap>
       <ConfirmDeleteModal
-        name={''}
+        name={doctorName && doctorName}
         visible={isDeleteDoctor}
         onSubmit={() => handelDelete()}
         onClose={() => setIsDeleteDoctor(false)}

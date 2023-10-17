@@ -6,7 +6,7 @@ interface Validate {
 }
 
 const REGEX_URL = '';
-const REGEX_PHONE_NUMBER = /^0[1-9][0-9]{8}$/;
+const REGEX_PHONE_NUMBER = /^[A-Za-z\d#$@!%&*?.]{8,16}$/;
 const POSTAL_CODE = '';
 
 export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
@@ -19,10 +19,10 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       {
         validator: validator({
           space: intl.formatMessage({
-            id: 'validate.email.space',
+            id: 'validate.space',
           }),
           email: intl.formatMessage({
-            id: 'validate.email.space',
+            id: 'validate.email',
           }),
         }),
       },
@@ -162,18 +162,6 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         required: true,
         message: intl.formatMessage({ id: 'validate.required' }),
       },
-      {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
     ],
     userCode: [
       {
@@ -268,110 +256,6 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
               id: 'validate.postalCode',
             })
           );
-        },
-      },
-    ],
-
-    nameMedicine: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.medicine.name.required' }),
-      },
-      {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.medicine.name.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
-    ],
-    usageMedicine: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.medicine.usage.required' }),
-      },
-      {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.medicine.usage.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
-    ],
-    featureMedicine: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.medicine.feature.required' }),
-      },
-      {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.medicine.feature.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
-    ],
-    unitMedicine: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.medicine.unit.required' }),
-      },
-    ],
-    statusMedicine: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.medicine.status.required' }),
-      },
-    ],
-
-    fullName: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.full-name.required' }),
-      },
-      {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.full-name.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
-    ],
-    staffCode: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.staff-code.required' }),
-      },
-      {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.staff-code.space',
-              })
-            );
-          }
-          return Promise.resolve();
         },
       },
     ],

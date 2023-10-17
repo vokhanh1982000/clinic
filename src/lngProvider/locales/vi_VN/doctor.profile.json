@@ -1,5 +1,6 @@
 {
-  "doctor-profile.title": "Thông tin tài khoản",
+  "doctor-profile.title": "Thông Tin Tài Khoản",
+  "doctor-profile.form.title": "Thông tin tài khoản",
   "doctor-profile.form.fullName": "Họ và tên",
   "doctor-profile.form.code": "Mã nhân sự",
   "doctor-profile.form.email": "Email",
