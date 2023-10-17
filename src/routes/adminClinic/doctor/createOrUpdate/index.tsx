@@ -68,8 +68,13 @@ const CreateDoctor = () => {
       onSuccess: ({ data }) => {
         navigate(-1);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'doctor.create.error' }));
+      onError: ({ response }) => {
+        if (response.data.message === 'CODE_IS_EXIST') {
+          message.error(intl.formatMessage({ id: `common.noti.code` }));
+        } else if (response.data.message === 'PHONE_IS_EXIST') {
+          message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        }
+        // message.error(intl.formatMessage({ id: 'doctor.create.error' }));
       },
     }
   );
@@ -81,8 +86,12 @@ const CreateDoctor = () => {
       onSuccess: ({ data }) => {
         navigate(-1);
       },
-      onError: (error) => {
-        console.log(error);
+      onError: ({ response }) => {
+        if (response.data.message === 'CODE_IS_EXIST') {
+          message.error(intl.formatMessage({ id: `common.noti.code` }));
+        } else if (response.data.message === 'PHONE_IS_EXIST') {
+          message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        }
       },
     }
   );
@@ -109,6 +118,7 @@ const CreateDoctor = () => {
         ...values,
         status: !!values.status,
         dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
+        emailAddress: values.emailAddress ? values.emailAddress : '',
         clinicId: null,
       });
     } else {

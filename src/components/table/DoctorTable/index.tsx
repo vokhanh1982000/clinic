@@ -158,6 +158,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           })}
           prefix={<IconSVG type="search" />}
           className="input-search"
+          allowClear
           onChange={handleSearch}
         />
         <Dropdown overlay={menu} className="dropdown-location" placement="bottomLeft" trigger={['click']}>

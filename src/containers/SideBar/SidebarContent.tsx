@@ -104,8 +104,6 @@ const SidebarContent = (props: ISideBarContentProp) => {
     }
   }, [location.pathname]);
 
-  console.log('current: ', current);
-  console.log('defaultOpenKeys: ', defaultOpenKeys);
   return (
     <>
       <SidebarLogo />
