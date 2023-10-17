@@ -18,6 +18,7 @@ import setting from './setting.json';
 import changePassword from './change-password.json';
 import validate from './validate.json';
 import news from './new.json';
+import timeline from './timeline_en.json';
 
 const EnLang = {
   messages: {
@@ -40,6 +41,7 @@ const EnLang = {
     ...changePassword,
     ...news,
     ...validate,
+    ...timeline,
   },
   antd: antdEN,
   locale: 'en-US',

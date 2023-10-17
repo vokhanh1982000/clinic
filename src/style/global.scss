@@ -156,3 +156,54 @@
   color: $text_error;
   font-size: 14px;
 }
+@for $i from 1 through 64 {
+  .font-size-#{$i} {
+    font-size: #{$i}px !important;
+  }
+}
+
+.font-weight-normal {
+  font-weight: normal !important;
+}
+
+.font-weight-bold {
+  font-weight: bold !important;
+}
+
+.font-weight-300 {
+  font-weight: 300 !important;
+}
+
+.font-weight-400 {
+  font-weight: 400 !important;
+}
+
+.font-weight-500 {
+  font-weight: 500 !important;
+}
+
+.font-weight-600 {
+  font-weight: 600 !important;
+}
+
+.font-weight-700 {
+  font-weight: 700 !important;
+}
+
+.font-weight-800 {
+  font-weight: 800 !important;
+}
+
+.font-weight-900 {
+  font-weight: 900 !important;
+}
+
+@for $i from 0 through 500 {
+  .gap-#{$i} {
+    gap: #{$i}px !important;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
