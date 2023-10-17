@@ -183,11 +183,9 @@ export const DoctorTable = (props: DoctorTableProps) => {
           <CustomButton className="button-location">
             <IconSVG type="status"></IconSVG>
             <div>
-              {specialistSelect
-                ? specialistSelect.label
-                : intl.formatMessage({
-                    id: 'doctor.list.filter.status',
-                  })}
+              {intl.formatMessage({
+                id: 'doctor.list.filter.status',
+              })}
             </div>
             <DownOutlined />
           </CustomButton>
