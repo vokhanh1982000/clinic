@@ -19,6 +19,7 @@ import changePassword from './change-password.json';
 import validate from './validate.json';
 import news from './new.json';
 import timeline from './timeline_vi.json';
+import message from './message.json';
 
 const viLang = {
   messages: {
@@ -42,6 +43,7 @@ const viLang = {
     ...validate,
     ...news,
     ...timeline,
+    ...message,
   },
   antd: antdVI,
   locale: 'vi-VN',

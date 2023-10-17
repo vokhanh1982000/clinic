@@ -58,7 +58,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     phoneNumber: [
       {
         required: true,
-        message: intl.formatMessage({ id: 'validate.required' }),
+        message: intl.formatMessage({ id: 'validate.phone.required' }),
       },
       {
         validator(_: RuleObject, value: string) {
@@ -69,13 +69,13 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           if (value && value.trimStart() !== value) {
             return Promise.reject(
               intl.formatMessage({
-                id: 'validate.space',
+                id: 'validate.phone.space',
               })
             );
           }
           return Promise.reject(
             intl.formatMessage({
-              id: 'validate.phone',
+              id: 'validate.phone.space',
             })
           );
         },
