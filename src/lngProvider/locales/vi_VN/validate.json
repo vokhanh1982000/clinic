@@ -27,5 +27,7 @@
   "validate.staff-code.space": "Mã nhân viên không hợp lệ",
   "validate.email.space": "Email không hợp lệ",
   "validate.phone.space": "Số điện thoại không hợp lệ",
-  "validate.address.space": "Địa chỉ không hợp lệ"
+  "validate.address.space": "Địa chỉ không hợp lệ",
+  "validate.required.customer-name": "Vui lòng nhập tên bệnh nhân",
+  "validate.customer-code.required": "Vui lòng nhập mã bệnh nhân"
 }

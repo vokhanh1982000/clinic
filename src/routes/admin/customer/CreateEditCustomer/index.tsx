@@ -19,6 +19,7 @@ import dayjs from 'dayjs';
 import UploadAvatar from '../../../../components/upload/UploadAvatar';
 import { FORMAT_DATE } from '../../../../constants/common';
 import { CadastalCustom } from '../../../../components/Cadastral';
+import { ValidateLibrary } from '../../../../validate';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -188,6 +189,7 @@ const CreateCustomer = () => {
                     id: 'customer.create.name',
                   })}
                   name={'fullName'}
+                  rules={ValidateLibrary(intl).nameCustomer}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -197,6 +199,7 @@ const CreateCustomer = () => {
                     id: 'customer.create.code',
                   })}
                   name={'code'}
+                  rules={ValidateLibrary(intl).customerCode}
                 >
                   <CustomInput />
                 </Form.Item>
@@ -217,7 +220,7 @@ const CreateCustomer = () => {
                     id: 'customer.create.phone',
                   })}
                   name={'phoneNumber'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).phoneNumber}
                 >
                   <CustomInput />
                 </Form.Item>

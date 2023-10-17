@@ -2,7 +2,7 @@
   "validate.required": "required",
   "validate.min_4_char": "min 4 character",
   "validate.space": "Leading white spaces at the beginning of a line are not allowed",
-  "validate.required.category-name": "Please enter medical specialty name",
+  "validate.required.category-name": "Medical specialty name is required",
   "validate.phone": "invalid phone",
   "validate.email": "invalid email",
   "validate.medicine.name.required": "Name is required",
@@ -27,5 +27,7 @@
   "validate.staff-code.space": "Invalid staff-code",
   "validate.email.space": "Invalid email",
   "validate.phone.space": "Invalid phone number",
-  "validate.address.space": "Invalid address"
+  "validate.address.space": "Invalid address",
+  "validate.required.customer-name": "Customer name is required",
+  "validate.customer-code.required": "Customer code is required"
 }

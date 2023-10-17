@@ -58,26 +58,30 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     phoneNumber: [
       {
         required: true,
-        message: intl.formatMessage({ id: 'validate.required' }),
+        message: intl.formatMessage({ id: 'validate.phone.required' }),
       },
       {
         validator(_: RuleObject, value: string) {
-          const regex = new RegExp(REGEX_PHONE_NUMBER);
-          if (regex.test(value)) {
-            return Promise.resolve();
+          if (value) {
+            if (value.trimStart() !== value) {
+              return Promise.reject(
+                intl.formatMessage({
+                  id: 'validate.space',
+                })
+              );
+            } else {
+              const regex = new RegExp(REGEX_PHONE_NUMBER);
+              if (!regex.test(value)) {
+                return Promise.reject(
+                  intl.formatMessage({
+                    id: 'validate.phone',
+                  })
+                );
+              }
+            }
           }
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.reject(
-            intl.formatMessage({
-              id: 'validate.phone',
-            })
-          );
+
+          return Promise.resolve();
         },
       },
     ],
@@ -137,6 +141,24 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         },
       },
     ],
+    nameCustomer: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.required.customer-name' }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          if (value && value.trimStart() !== value) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.space',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
+      },
+    ],
     age: [
       {
         required: true,
@@ -171,6 +193,28 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       {
         required: true,
         message: intl.formatMessage({ id: 'validate.required' }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          if (value && value.trimStart() !== value) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.space',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
+      },
+      {
+        min: 4,
+        message: intl.formatMessage({ id: 'validate.min_4_char' }),
+      },
+    ],
+    customerCode: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.customer-code.required' }),
       },
       {
         validator(_: RuleObject, value: string) {
