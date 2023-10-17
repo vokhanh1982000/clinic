@@ -15,6 +15,7 @@ import { MedicineModal } from '../../../components/modals/MedicineModal';
 import { ActionUser, MedicineStatus, MedicineUnit } from '../../../constants/enum';
 import useForm from 'antd/es/form/hooks/useForm';
 import { CreateCategoryDto, CreateMedicineDto, UpdateCategoryDto, UpdateMedicineDto } from '../../../apis/client-axios';
+import { debounce } from 'lodash';
 
 interface Unit {
   id: string;
@@ -112,6 +113,11 @@ const ListMedicine = () => {
     UpdateMedicine(data);
     form.resetFields();
   };
+
+  const debouncedUpdateInputValue = debounce((value) => {
+    setPage(1);
+    setFullTextSearch(value);
+  }, 500);
 
   const dropDownUnits: any = [
     {
@@ -232,8 +238,12 @@ const ListMedicine = () => {
             })}
             prefix={<IconSVG type="search" />}
             onChange={(e) => {
-              setFullTextSearch(e.target.value);
+              if (debouncedUpdateInputValue.cancel) {
+                debouncedUpdateInputValue.cancel();
+              }
+              debouncedUpdateInputValue(e.target.value);
             }}
+            allowClear={true}
           />
           <Dropdown className={'dropdown-unit'} menu={{ items: dropDownUnits }}>
             <CustomButton className="button-unit">
@@ -341,10 +351,6 @@ const ListMedicine = () => {
                     setIsShowModalUpdate({
                       id: record.id,
                     });
-                    setIsShowModalDelete({
-                      id: record.id,
-                      name: record.name,
-                    });
                   }}
                 >
                   <IconSVG type="edit" />
@@ -362,7 +368,10 @@ const ListMedicine = () => {
           name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
           visible={!!isShowModalDelete}
           onSubmit={handleDelete}
-          onClose={() => setIsShowModalDelete(undefined)}
+          onClose={() => {
+            setIsShowModalDelete(undefined);
+            form.resetFields();
+          }}
         />
         {isShowModalCreate && (
           <MedicineModal
@@ -386,8 +395,18 @@ const ListMedicine = () => {
               id: 'medicine.list.modal.update',
             })}
             onSubmit={handleUpdate}
-            onClose={() => setIsShowModalUpdate(undefined)}
-            onDelete={handleDelete}
+            onClose={() => {
+              setIsShowModalUpdate(undefined);
+              form.resetFields();
+            }}
+            onDelete={() => {
+              setIsShowModalUpdate(undefined);
+              setIsShowModalDelete({
+                id: form.getFieldValue('id'),
+                name: form.getFieldValue('name'),
+              });
+              form.resetFields();
+            }}
             isSuperAdmin={false}
           />
         )}

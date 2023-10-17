@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TableWrap from '../../TableWrap';
 import IconSVG from '../../icons/icons';
 import { Column } from 'rc-table';
@@ -12,6 +12,8 @@ import { DoctorType, LanguageType, Status } from '../../../constants/enum';
 import { ConfirmDeleteModal } from '../../modals/ConfirmDeleteModal';
 import { useQuery } from '@tanstack/react-query';
 import { categoryApi, doctorClinicApi, doctorSupportApi } from '../../../apis';
+import { useAppSelector } from '../../../store';
+import { AdministratorClinic } from '../../../apis/client-axios';
 
 interface DoctorTableProps {
   placeHolder?: string;
@@ -43,12 +45,20 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const [categoryId, setCategoryId] = useState<any>(undefined);
   const [status, setStatus] = useState<number>(-1);
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
+  const [clinicId, setClinicId] = useState<string>();
+  const user = useAppSelector((state) => state.auth).authUser;
+
+  useEffect(() => {
+    if (user) {
+      setClinicId((user as AdministratorClinic).clinicId);
+    }
+  }, [user]);
 
   const { data: doctorClinics } = useQuery({
-    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status }],
+    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status, clinicId }],
     queryFn: () =>
-      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, undefined, status),
-    enabled: doctorType === DoctorType.DOCTOR,
+      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status),
+    enabled: !!(doctorType === DoctorType.DOCTOR && clinicId),
   });
 
   const { data: doctorSupports } = useQuery({
@@ -183,7 +193,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
         // isLoading={isLoading}
         page={page}
         size={size}
-        total={doctorType === DoctorType.DOCTOR ? doctorClinics?.data.total : doctorClinics?.data.total}
+        total={doctorType === DoctorType.DOCTOR ? doctorClinics?.data.total : doctorSupports?.data.total}
         setSize={setSize}
         setPage={setPage}
         showPagination={true}

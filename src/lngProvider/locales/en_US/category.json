@@ -11,5 +11,6 @@
   "category.modal.create.button.create": "Create",
   "category.modal.create.button.cancel": "Cancel",
   "category.modal.create.button.edit": "Save",
-  "category.modal.create.button.delete": "Delete"
+  "category.modal.create.button.delete": "Delete",
+  "category.modal.delete.subName": "medical specialty"
 }
