@@ -60,7 +60,6 @@ $font-family: Open-Sans;
           & .rct-sidebar-row {
             border-bottom: 1px solid $color-ccc;
             padding-left: 20px;
-            padding-right: 55px;
             color: $color-1A1A1A;
             background-color: $color-ffffff;
             font-family: $font-family;
@@ -405,6 +404,11 @@ $font-family: Open-Sans;
               }
 
               & .rbc-event {
+                background: transparent;
+                padding: 0;
+                outline: 0;
+                height: 100%;
+
                 &:focus,
                 &:hover {
                   outline: 0;

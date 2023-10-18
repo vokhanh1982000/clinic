@@ -19,6 +19,7 @@ import moment from 'moment';
 import { error } from 'console';
 import { isNumber, values } from 'lodash';
 import { FORMAT_DATE } from '../../../../constants/common';
+import dayjs from 'dayjs';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -50,7 +51,8 @@ const CreateDoctor = () => {
         ...data,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
-        dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, FORMAT_DATE) : null,
+        // dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth, FORMAT_DATE) : null,
+        dateOfBirth: data.dateOfBirth ? dayjs(moment(data.dateOfBirth).format(FORMAT_DATE)) : null,
       });
       if (data.avatar) {
         setAvatar(process.env.REACT_APP_URL_IMG_S3 + data.avatar.preview);
@@ -117,7 +119,7 @@ const CreateDoctor = () => {
       createDocterClinic.mutate({
         ...values,
         status: isNumber(values.status) ? !!values.status : true,
-        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
+        // dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         emailAddress: values.emailAddress ? values.emailAddress : '',
         clinicId: null,
       });
@@ -125,7 +127,7 @@ const CreateDoctor = () => {
       updateDoctorClinic.mutate({
         ...values,
         status: isNumber(values.status) ? !!values.status : true,
-        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
+        // dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         id: id,
       });
     }

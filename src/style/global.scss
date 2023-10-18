@@ -151,6 +151,9 @@
 .ant-form-item-required::after {
   content: unset !important;
 }
+.ant-layout-content {
+  overflow: unset !important;
+}
 
 //.ant-form-item {
 //  .ant-form-item-label {
