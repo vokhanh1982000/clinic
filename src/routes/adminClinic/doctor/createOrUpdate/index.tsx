@@ -103,6 +103,7 @@ const CreateDoctor = () => {
       console.log(data);
       queryClient.invalidateQueries(['getAdminUser']);
       navigate(-1);
+      message.error(intl.formatMessage({ id: 'doctor.delete.success' }));
     },
     onError: (error) => {
       message.error(intl.formatMessage({ id: 'doctor.create.error' }));

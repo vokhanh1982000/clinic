@@ -18,7 +18,7 @@ const ListDoctor = () => {
   const deleteAdmin = useMutation((id: string) => doctorClinicApi.doctorClinicControllerDelete(id), {
     onSuccess: ({ data }) => {
       console.log(data);
-      queryClient.invalidateQueries(['getAdminUser']);
+      queryClient.invalidateQueries(['getDoctorClinic']);
       message.error(intl.formatMessage({ id: 'doctor.delete.success' }));
     },
     onError: (error) => {

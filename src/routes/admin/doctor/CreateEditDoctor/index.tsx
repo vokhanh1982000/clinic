@@ -44,7 +44,7 @@ const CreateDoctor = () => {
         ...data,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
-        dateOfBirth: data.dateOfBirth ? dayjs(data.dateOfBirth, FORMAT_DATE) : null,
+        dateOfBirth: data.dateOfBirth ? dayjs(moment(data.dateOfBirth).format(FORMAT_DATE)) : null,
       });
       if (data.avatar) {
         setAvatar(process.env.REACT_APP_URL_IMG_S3 + data.avatar.preview);
@@ -102,14 +102,12 @@ const CreateDoctor = () => {
       createDoctorSupport.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
         clinicId: null,
       });
     } else {
       updateDoctorSupport.mutate({
         ...values,
         status: !!values.status,
-        dateOfBirth: moment(values.dateOfBirth).format(FORMAT_DATE),
         id: id,
       });
     }
