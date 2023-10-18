@@ -136,8 +136,10 @@ const ConfirmCode = ({ data, userType }: any) => {
                   </>
                 )} */}
               </div>
-              <p className="confirm-code-messenger" onClick={handleResendOTP}>
-                {intl.formatMessage({ id: 'forgot.confirmCodeMessenger' })} ({time})
+              <p className="confirm-code-messenger">
+                <span onClick={handleResendOTP}>
+                  {intl.formatMessage({ id: 'forgot.confirmCodeMessenger' })} ({time})
+                </span>
               </p>
             </div>
             <Form.Item>

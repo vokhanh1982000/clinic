@@ -39,5 +39,5 @@
   "common.noti.code": "The personnel code is already in use. Please try again",
   "common.noti.phone": "The phone number is already in use. Please try again",
   "common.upload.fail": "Upload fail",
-  "common.noti.fullName.limit": "Name is too long"
+  "common.noti.fullName.limit": "Exceeded the allowed number of characters"
 }
