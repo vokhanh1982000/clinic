@@ -66,10 +66,20 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           space: intl.formatMessage({
             id: 'validate.space',
           }),
-          phone: intl.formatMessage({
-            id: 'validate.phone',
-          }),
         }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          const regex = new RegExp(REGEX_PHONE_NUMBER);
+          if (regex.test(value)) {
+            return Promise.resolve();
+          }
+          return Promise.reject(
+            intl.formatMessage({
+              id: 'validate.phone',
+            })
+          );
+        },
       },
     ],
     dob: [
