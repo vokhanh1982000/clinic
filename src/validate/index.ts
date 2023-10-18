@@ -6,8 +6,9 @@ interface Validate {
 }
 
 const REGEX_URL = '';
-const REGEX_PHONE_NUMBER = /^[A-Za-z\d#$@!%&*?.]{8,16}$/;
+const REGEX_PHONE_NUMBER = /^0[1-9][0-9]{8}$/;
 const POSTAL_CODE = '';
+const START_SPACE = /^(?![\s])[\s\S]*/;
 
 export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
   return {
@@ -211,6 +212,141 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         },
       },
     ],
+    fullName: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'common.noti.input' }),
+      },
+      {
+        max: 36,
+        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+      },
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          const regex = new RegExp(START_SPACE);
+          if (regex.test(value)) {
+            return Promise.resolve();
+          }
+          return Promise.reject(
+            intl.formatMessage({
+              id: 'validate.space',
+            })
+          );
+        },
+      },
+    ],
+    code: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'common.noti.input' }),
+      },
+      {
+        max: 36,
+        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+      },
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+          space: intl.formatMessage({ id: 'validate.no.space' }),
+        }),
+      },
+    ],
+    position: [
+      {
+        max: 36,
+        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+      },
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          const regex = new RegExp(START_SPACE);
+          if (regex.test(value)) {
+            return Promise.resolve();
+          }
+          return Promise.reject(
+            intl.formatMessage({
+              id: 'validate.space',
+            })
+          );
+        },
+      },
+    ],
+    level: [
+      {
+        max: 36,
+        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+      },
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          const regex = new RegExp(START_SPACE);
+          if (regex.test(value)) {
+            return Promise.resolve();
+          }
+          return Promise.reject(
+            intl.formatMessage({
+              id: 'validate.space',
+            })
+          );
+        },
+      },
+    ],
+    address: [
+      {
+        max: 36,
+        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+      },
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          const regex = new RegExp(START_SPACE);
+          if (regex.test(value)) {
+            return Promise.resolve();
+          }
+          return Promise.reject(
+            intl.formatMessage({
+              id: 'validate.space',
+            })
+          );
+        },
+      },
+    ],
+    passwordCustom: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'common.noti.input' }),
+      },
+      {
+        min: 8,
+        message: intl.formatMessage({ id: 'validate.password.min' }),
+      },
+      {
+        max: 16,
+        message: intl.formatMessage({ id: 'validate.password.max' }),
+      },
+      {
+        validator: validator({
+          password: intl.formatMessage({ id: 'validate.password' }),
+        }),
+      },
+    ],
     nameMedicine: [
       {
         required: true,
@@ -278,24 +414,24 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       },
     ],
 
-    fullName: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.full-name.required' }),
-      },
-      {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.full-name.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
-    ],
+    // fullName: [
+    //   {
+    //     required: true,
+    //     message: intl.formatMessage({ id: 'validate.full-name.required' }),
+    //   },
+    //   {
+    //     validator(_: RuleObject, value: string) {
+    //       if (value && value.trimStart() !== value) {
+    //         return Promise.reject(
+    //           intl.formatMessage({
+    //             id: 'validate.full-name.space',
+    //           })
+    //         );
+    //       }
+    //       return Promise.resolve();
+    //     },
+    //   },
+    // ],
     staffCode: [
       {
         required: true,

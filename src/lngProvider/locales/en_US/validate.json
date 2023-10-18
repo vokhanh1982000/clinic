@@ -27,5 +27,9 @@
   "validate.staff-code.space": "Invalid staff-code",
   "validate.email.space": "Invalid email",
   "validate.phone.space": "Invalid phone number",
-  "validate.address.space": "Invalid address"
+  "validate.address.space": "Invalid address",
+  "validate.no.space": "Please no input space",
+  "validate.password": "Passwords only include lowercase letters, uppercase letters, numbers, and a few special characters like #$@!%&*?",
+  "validate.password.min": "Password minimum 16 character",
+  "validate.password.max": "Password maximum 16 character"
 }

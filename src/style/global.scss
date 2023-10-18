@@ -75,16 +75,24 @@
     align-items: center;
     gap: 15px;
     width: 100%;
-    .ant-select-selector {
-      align-items: center;
-    }
 
-    .province,
-    .district,
-    .ward,
-    .address {
-      width: 50%;
+    .ant-form-item-label {
+      font-size: 14px;
+      font-family: Open-sans !important;
+      font-weight: 700;
+      line-height: 22px;
     }
+  }
+
+  .ant-select-selector {
+    align-items: center;
+  }
+
+  .province,
+  .district,
+  .ward,
+  .address {
+    width: 50%;
   }
 }
 

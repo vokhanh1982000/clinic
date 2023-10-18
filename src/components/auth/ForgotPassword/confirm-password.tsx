@@ -89,12 +89,13 @@ const ConfirmPassword = ({ data, userType }: any) => {
                 label={intl.formatMessage({ id: 'forgot.confirmPassword' })}
                 name={n('confirmPass')}
                 rules={[
+                  { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
+                  { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
+                  { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
+                  { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
                   {
-                    required: true,
-                    min: 8,
-                    max: 16,
                     pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
-                    message: intl.formatMessage({ id: 'sigin.validate.password' }),
+                    message: intl.formatMessage({ id: 'common.password.regex' }),
                   },
                 ]}
               >
