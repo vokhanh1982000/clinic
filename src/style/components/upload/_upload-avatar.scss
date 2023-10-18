@@ -4,10 +4,9 @@
   align-items: center;
   background-color: $table_header_color;
   border-radius: 50%;
+  width: 214px;
+  height: 214px;
   border: 1px solid $primary_color;
-  height: 100%;
-  aspect-ratio: 1;
-  max-width: 214px;
 
   overflow: hidden;
 
@@ -19,7 +18,7 @@
     position: absolute;
     bottom: 0;
     margin-bottom: 0px;
-    left: 68%;
+    left: 150px;
 
     .icon-camera {
       width: 56px;
