@@ -1,24 +1,30 @@
 import { Form, FormInstance } from 'antd';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
-import { CSSProperties, FC, useMemo } from 'react';
-import { Calendar, CalendarProps, Culture, EventProps, Views, dayjsLocalizer } from 'react-big-calendar';
+import { FC, HTMLAttributes, useEffect, useMemo, useState } from 'react';
+import { Calendar, CalendarProps, Culture, Event, EventProps, Views, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useIntl } from 'react-intl';
+import { BookingByMonthDto } from '../../apis/client-axios';
 import { IFormData, n } from '../../routes/doctor/booking';
 import TimelineMonthEvent from './Event';
 
 interface TimelineMonthProps {
   form: FormInstance<IFormData>;
+  listBookingMonth: BookingByMonthDto[];
+}
+
+export interface TimelineEvent extends Event {
+  resource?: BookingByMonthDto;
 }
 
 const TimelineMonth: FC<TimelineMonthProps> = (props) => {
-  const { form } = props;
+  const { form, listBookingMonth } = props;
 
-  const intl = useIntl();
   const time = Form.useWatch(n('time'), form);
 
-  const { formats, view, localizer } = useMemo<CalendarProps<any>>(
+  const [events, setEvents] = useState<TimelineEvent[]>([]);
+
+  const { formats, view, localizer } = useMemo<CalendarProps<TimelineEvent>>(
     () => ({
       localizer: dayjsLocalizer(dayjs),
       formats: {
@@ -29,16 +35,35 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
     []
   );
 
-  const renderEvent = (props: EventProps<any>) => <TimelineMonthEvent eventProps={props} />;
+  useEffect(() => {
+    if (listBookingMonth.length >= 0) {
+      const events: TimelineEvent[] = [];
 
-  const renderEventPropGetter = (event: any): { className?: string; style?: CSSProperties } => {
+      for (const booking of listBookingMonth) {
+        const event: TimelineEvent = {
+          start: dayjs(booking.day).startOf('days').toDate(),
+          end: dayjs(booking.day).endOf('days').toDate(),
+          resource: booking,
+          title: null,
+        };
+
+        events.push(event);
+      }
+
+      setEvents(events);
+    }
+  }, [listBookingMonth]);
+
+  const renderEvent = (props: EventProps<TimelineEvent>) => <TimelineMonthEvent eventProps={props} />;
+
+  const renderDayPropGetter = (date: Date): HTMLAttributes<HTMLDivElement> => {
+    const findBooking = listBookingMonth.find((booking) =>
+      dayjs(booking.day).startOf('days').isSame(dayjs(date).startOf('days'))
+    );
+
     return {
       style: {
-        backgroundColor: 'transparent',
-        border: 0,
-        padding: 0,
-        width: '100%',
-        height: '100%',
+        background: findBooking ? (findBooking?.isWork ? '#ffffff' : '#F2F2F2') : '#e6e6e6',
       },
     };
   };
@@ -51,10 +76,10 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
         toolbar={false}
         formats={formats}
         date={dayjs(time).startOf('days').toDate()}
-        events={[]}
+        events={events}
         showMultiDayTimes
         className="timeline-custom-month"
-        eventPropGetter={renderEventPropGetter}
+        dayPropGetter={renderDayPropGetter}
         components={{
           event: renderEvent,
         }}

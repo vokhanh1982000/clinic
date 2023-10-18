@@ -1,7 +1,7 @@
 import { Col, FormInstance, Row } from 'antd';
 import { FC } from 'react';
 import { useIntl } from 'react-intl';
-import { IFormData } from '../../routes/doctor/booking';
+import { IFormData, n } from '../../routes/doctor/booking';
 import FormSearch from '../FormSearch';
 import FormWrap from '../FormWrap';
 import TimelineControlMode from './Mode';
@@ -25,7 +25,7 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
       <Row align="middle" justify="space-between" wrap gutter={[0, 10]}>
         <Col>
           <FormSearch
-            name="keyword"
+            name={n('keyword')}
             inputProps={{
               placeholder: intl.formatMessage({ id: 'timeline.control.search.placeholder' }),
             }}
