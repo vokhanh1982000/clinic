@@ -94,7 +94,7 @@ const VALIDATOR: any = {
       return;
     }
 
-    const isValid = !value.includes(' ');
+    const isValid = value === value.trimStart();
     if (!isValid) {
       throw new Error(getMessage(option));
     }
@@ -114,7 +114,7 @@ const VALIDATOR: any = {
       return;
     }
 
-    const isValid = isValidPhoneNumber(value, 'JP');
+    const isValid = isValidPhoneNumber(value, 'VN');
     if (!isValid) {
       throw new Error(getMessage(option));
     }
