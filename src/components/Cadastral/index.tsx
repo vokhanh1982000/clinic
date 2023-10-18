@@ -4,6 +4,7 @@ import CustomSelect from '../select/CustomSelect';
 import CustomInput from '../input/CustomInput';
 import { cadastralApi } from '../../apis';
 import { useQuery } from '@tanstack/react-query';
+import { ValidateLibrary } from '../../validate';
 
 export interface cadastralProp {
   form?: FormInstance;
@@ -121,12 +122,13 @@ export const CadastalCustom = (props: cadastralProp) => {
             id: 'clinic.create.clinic.address',
           })}
           name={'address'}
-          rules={[
-            {
-              pattern: /^(?![\s])[\s\S]*/,
-              message: intl.formatMessage({ id: 'common.noti.space' }),
-            },
-          ]}
+          // rules={[
+          //   {
+          //     pattern: /^(?![\s])[\s\S]*/,
+          //     message: intl.formatMessage({ id: 'common.noti.space' }),
+          //   },
+          // ]}
+          rules={ValidateLibrary(intl).address}
         >
           <CustomInput placeholder={intl.formatMessage({ id: 'common.address.name' })} />
         </Form.Item>

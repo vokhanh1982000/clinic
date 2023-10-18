@@ -10,7 +10,7 @@ import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
 import { DoctorType, LanguageType, Status } from '../../../constants/enum';
 import { ConfirmDeleteModal } from '../../modals/ConfirmDeleteModal';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { categoryApi, doctorClinicApi, doctorSupportApi } from '../../../apis';
 import { useAppSelector } from '../../../store';
 import { AdministratorClinic } from '../../../apis/client-axios';
@@ -47,6 +47,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [clinicId, setClinicId] = useState<string>();
   const user = useAppSelector((state) => state.auth).authUser;
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (user) {
@@ -87,7 +88,13 @@ export const DoctorTable = (props: DoctorTableProps) => {
     {
       key: '0',
       label: (
-        <div onClick={() => setStatus(-1)}>
+        <div
+          onClick={() => {
+            setStatus(-1);
+            setStatusSelect(undefined);
+            setPage(1);
+          }}
+        >
           {intl.formatMessage({
             id: 'All',
           })}
@@ -97,7 +104,18 @@ export const DoctorTable = (props: DoctorTableProps) => {
     {
       key: '1',
       label: (
-        <div onClick={() => setStatus(1)}>
+        <div
+          onClick={() => {
+            setStatus(1);
+            setStatusSelect({
+              id: '1',
+              label: `${intl.formatMessage({
+                id: 'doctor.status.true',
+              })}`,
+            });
+            setPage(1);
+          }}
+        >
           {intl.formatMessage({
             id: 'doctor.status.true',
           })}
@@ -107,7 +125,18 @@ export const DoctorTable = (props: DoctorTableProps) => {
     {
       key: '2',
       label: (
-        <div onClick={() => setStatus(0)}>
+        <div
+          onClick={() => {
+            setStatus(0);
+            setStatusSelect({
+              id: '1',
+              label: `${intl.formatMessage({
+                id: 'doctor.status.false',
+              })}`,
+            });
+            setPage(1);
+          }}
+        >
           {intl.formatMessage({
             id: 'doctor.status.false',
           })}
@@ -119,11 +148,15 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const handleSearch = (e: any) => {
     if (!e.target.value.trim()) return setFullTextSearch('');
     setFullTextSearch(e.target.value);
+    setPage(1);
   };
 
   const handleDelete = () => {
     if (deleteFc && isShowModalDelete?.id) deleteFc(isShowModalDelete.id);
     setIsShowModalDelete(undefined);
+    doctorType === DoctorType.DOCTOR
+      ? queryClient.invalidateQueries(['getDoctorClinic'])
+      : queryClient.invalidateQueries(['getDoctorSupport']);
   };
 
   const handleClose = () => {
@@ -132,7 +165,13 @@ export const DoctorTable = (props: DoctorTableProps) => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="0" onClick={() => setCategoryId([])}>
+      <Menu.Item
+        key="0"
+        onClick={() => {
+          setSpecialistSelect(undefined);
+          setCategoryId([]);
+        }}
+      >
         All
       </Menu.Item>
       {category?.data.content?.map((item) => (
@@ -141,6 +180,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           onClick={() => {
             setSpecialistSelect({ id: item.id, label: item.name });
             setCategoryId([item.id]);
+            setPage(1);
           }}
         >
           {item.name}
@@ -183,9 +223,11 @@ export const DoctorTable = (props: DoctorTableProps) => {
           <CustomButton className="button-location">
             <IconSVG type="status"></IconSVG>
             <div>
-              {intl.formatMessage({
-                id: 'doctor.list.filter.status',
-              })}
+              {statusSelect
+                ? statusSelect.label
+                : intl.formatMessage({
+                    id: 'doctor.list.filter.status',
+                  })}
             </div>
             <DownOutlined />
           </CustomButton>
@@ -290,12 +332,12 @@ export const DoctorTable = (props: DoctorTableProps) => {
           // )}
 
           render={(_, record: any) => {
-            let status = record.status ? Status.ACTIVE : Status.INACTIVE;
+            let statusType = record.status ? Status.ACTIVE : Status.INACTIVE;
             return (
               <div className="status-doctor">
                 {status ? (
                   <>
-                    <IconSVG type={status} />
+                    <IconSVG type={statusType} />
                     <div>
                       {intl.formatMessage({
                         id: `doctor.status.${record.status}`,

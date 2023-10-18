@@ -17,7 +17,7 @@ import {
 import { categoryApi, doctorClinicApi } from '../../../../apis';
 import moment from 'moment';
 import { error } from 'console';
-import { values } from 'lodash';
+import { isNumber, values } from 'lodash';
 import { FORMAT_DATE } from '../../../../constants/common';
 
 const CreateDoctor = () => {
@@ -116,7 +116,7 @@ const CreateDoctor = () => {
     if (!id) {
       createDocterClinic.mutate({
         ...values,
-        status: !!values.status,
+        status: isNumber(values.status) ? !!values.status : true,
         dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         emailAddress: values.emailAddress ? values.emailAddress : '',
         clinicId: null,
@@ -124,7 +124,7 @@ const CreateDoctor = () => {
     } else {
       updateDoctorClinic.mutate({
         ...values,
-        status: !!values.status,
+        status: isNumber(values.status) ? !!values.status : true,
         dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         id: id,
       });

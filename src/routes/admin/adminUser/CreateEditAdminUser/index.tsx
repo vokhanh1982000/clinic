@@ -232,27 +232,27 @@ const CreateAdmin = () => {
                         })}
                         // rules={ValidateLibrary(intl).}
 
-                        rules={[
-                          {
-                            required: true,
-                            message: intl.formatMessage({ id: 'common.noti.input' }),
-                          },
-                          {
-                            max: 36,
-                            message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
-                          },
-                          {
-                            pattern: /^(?![\s])[\s\S]*/,
-                            message: intl.formatMessage({ id: 'common.noti.space' }),
-                          },
-                          {
-                            pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
-                            message: intl.formatMessage({
-                              id: 'common.noti.special',
-                            }),
-                          },
-                        ]}
-                        // rules={ValidateLibrary(intl).fullName}
+                        // rules={[
+                        //   {
+                        //     required: true,
+                        //     message: intl.formatMessage({ id: 'common.noti.input' }),
+                        //   },
+                        //   {
+                        //     max: 36,
+                        //     message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+                        //   },
+                        //   {
+                        //     pattern: /^(?![\s])[\s\S]*/,
+                        //     message: intl.formatMessage({ id: 'common.noti.space' }),
+                        //   },
+                        //   {
+                        //     pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                        //     message: intl.formatMessage({
+                        //       id: 'common.noti.special',
+                        //     }),
+                        //   },
+                        // ]}
+                        rules={ValidateLibrary(intl).fullName}
                         name={n('fullName')}
                       >
                         <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.fullName' })} />
@@ -263,24 +263,24 @@ const CreateAdmin = () => {
                         label={intl.formatMessage({
                           id: 'admin.user.code',
                         })}
-                        rules={[
-                          {
-                            required: true,
-                            message: intl.formatMessage({ id: 'common.noti.input' }),
-                          },
-                          {
-                            max: 36,
-                            message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
-                          },
-                          { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
-                          {
-                            pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
-                            message: intl.formatMessage({
-                              id: 'common.noti.special',
-                            }),
-                          },
-                        ]}
-                        // rules={ValidateLibrary(intl).staffCode}
+                        // rules={[
+                        //   {
+                        //     required: true,
+                        //     message: intl.formatMessage({ id: 'common.noti.input' }),
+                        //   },
+                        //   {
+                        //     max: 36,
+                        //     message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+                        //   },
+                        //   { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
+                        //   {
+                        //     pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                        //     message: intl.formatMessage({
+                        //       id: 'common.noti.special',
+                        //     }),
+                        //   },
+                        // ]}
+                        rules={ValidateLibrary(intl).code}
                         name={n('code')}
                       >
                         <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.code' })} />
@@ -290,14 +290,14 @@ const CreateAdmin = () => {
                   <Row className="admin-management__info-item">
                     <header>Email</header>
                     <Form.Item
-                      rules={[
-                        {
-                          pattern: /^(?![\s])[\s\S]*/,
-                          message: intl.formatMessage({ id: 'common.noti.space' }),
-                        },
-                        { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
-                      ]}
-                      // rules={ValidateLibrary(intl).email}
+                      // rules={[
+                      //   {
+                      //     pattern: /^(?![\s])[\s\S]*/,
+                      //     message: intl.formatMessage({ id: 'common.noti.space' }),
+                      //   },
+                      //   { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
+                      // ]}
+                      rules={ValidateLibrary(intl).email}
                       name={n('emailAddress')}
                     >
                       <CustomInput name={n('emailAddress')} placeholder="Email" />
@@ -308,15 +308,15 @@ const CreateAdmin = () => {
                       label={intl.formatMessage({
                         id: 'admin.user.phone',
                       })}
-                      rules={[
-                        { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
-                        // { len: 10, message: intl.formatMessage({ id: 'sigin.validate.phone' }) },
-                        {
-                          pattern: /^0[1-9][0-9]{8}$/,
-                          message: intl.formatMessage({ id: 'sigin.validate.phone' }),
-                        },
-                      ]}
-                      // rules={ValidateLibrary(intl).phoneNumber}
+                      // rules={[
+                      //   { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
+                      //   // { len: 10, message: intl.formatMessage({ id: 'sigin.validate.phone' }) },
+                      //   {
+                      //     pattern: /^0[1-9][0-9]{8}$/,
+                      //     message: intl.formatMessage({ id: 'sigin.validate.phone' }),
+                      //   },
+                      // ]}
+                      rules={ValidateLibrary(intl).phoneNumber}
                       name={n('phoneNumber')}
                     >
                       <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.phone' })} />
@@ -353,16 +353,16 @@ const CreateAdmin = () => {
                   <Row className="admin-management__info-item">
                     <header>{intl.formatMessage({ id: 'admin.user.position' })}</header>
                     <Form.Item
-                      rules={[
-                        { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
-                        {
-                          pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
-                          message: intl.formatMessage({
-                            id: 'common.noti.special',
-                          }),
-                        },
-                      ]}
-                      // rules={ValidateLibrary(intl).space}
+                      // rules={[
+                      //   { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
+                      //   {
+                      //     pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                      //     message: intl.formatMessage({
+                      //       id: 'common.noti.special',
+                      //     }),
+                      //   },
+                      // ]}
+                      rules={ValidateLibrary(intl).position}
                       name={n('position')}
                     >
                       <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.position' })} />
@@ -375,17 +375,17 @@ const CreateAdmin = () => {
                         label={intl.formatMessage({
                           id: 'admin.user.password',
                         })}
-                        rules={[
-                          { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
-                          { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
-                          { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
-                          { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
-                          {
-                            pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
-                            message: intl.formatMessage({ id: 'common.password.regex' }),
-                          },
-                        ]}
-                        // rules={ValidateLibrary(intl).password}
+                        // rules={[
+                        //   { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
+                        //   { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
+                        //   { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
+                        //   { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
+                        //   {
+                        //     pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
+                        //     message: intl.formatMessage({ id: 'common.password.regex' }),
+                        //   },
+                        // ]}
+                        rules={ValidateLibrary(intl).passwordCustom}
                       >
                         <CustomInput placeholder="********" isPassword={true} />
                       </Form.Item>
