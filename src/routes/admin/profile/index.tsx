@@ -221,11 +221,11 @@ const Profile = () => {
                 id: 'admin-profile.save',
               })}
             </CustomButton>
-            <CustomButton className={'button-cancelled'}>
-              {intl.formatMessage({
-                id: 'admin-profile.cancelled',
-              })}
-            </CustomButton>
+            {/*<CustomButton className={'button-cancelled'}>*/}
+            {/*  {intl.formatMessage({*/}
+            {/*    id: 'admin-profile.cancelled',*/}
+            {/*  })}*/}
+            {/*</CustomButton>*/}
           </div>
         </div>
       </Form>
