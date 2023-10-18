@@ -10,7 +10,7 @@ import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
 import { DoctorType, LanguageType, Status } from '../../../constants/enum';
 import { ConfirmDeleteModal } from '../../modals/ConfirmDeleteModal';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { categoryApi, doctorClinicApi, doctorSupportApi } from '../../../apis';
 import { useAppSelector } from '../../../store';
 import { AdministratorClinic } from '../../../apis/client-axios';
@@ -49,6 +49,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [clinicId, setClinicId] = useState<string>();
   const user = useAppSelector((state) => state.auth).authUser;
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (user) {
@@ -88,11 +89,15 @@ export const DoctorTable = (props: DoctorTableProps) => {
   const handleSearch = (e: any) => {
     if (!e.target.value.trim()) return setFullTextSearch('');
     setFullTextSearch(e.target.value);
+    setPage(1);
   };
 
   const handleDelete = () => {
     if (deleteFc && isShowModalDelete?.id) deleteFc(isShowModalDelete.id);
     setIsShowModalDelete(undefined);
+    doctorType === DoctorType.DOCTOR
+      ? queryClient.invalidateQueries(['getDoctorClinic'])
+      : queryClient.invalidateQueries(['getDoctorSupport']);
   };
 
   const handleClose = () => {
@@ -108,8 +113,8 @@ export const DoctorTable = (props: DoctorTableProps) => {
           })}
           prefix={<IconSVG type="search" />}
           className="input-search"
-          onChange={handleSearch}
           allowClear
+          onChange={handleSearch}
         />
         <CustomSelect
           className="select-category"
@@ -254,12 +259,12 @@ export const DoctorTable = (props: DoctorTableProps) => {
           // )}
 
           render={(_, record: any) => {
-            let status = record.status ? Status.ACTIVE : Status.INACTIVE;
+            let statusType = record.status ? Status.ACTIVE : Status.INACTIVE;
             return (
               <div className="status-doctor">
                 {status ? (
                   <>
-                    <IconSVG type={status} />
+                    <IconSVG type={statusType} />
                     <div>
                       {intl.formatMessage({
                         id: `doctor.status.${record.status}`,

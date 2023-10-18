@@ -31,5 +31,8 @@
   "validate.required.customer-name": "Customer name is required",
   "validate.customer-code.required": "Customer code is required",
   "validate.required.password": "Password is required",
-  "validate.password": "Invalid password"
+  "validate.no.space": "Please no input space",
+  "validate.password": "Passwords only include lowercase letters, uppercase letters, numbers, and a few special characters like #$@!%&*?",
+  "validate.password.min": "Password minimum 16 character",
+  "validate.password.max": "Password maximum 16 character"
 }
