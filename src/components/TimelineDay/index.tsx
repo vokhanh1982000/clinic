@@ -46,14 +46,14 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             trigger={['click']}
             overlayClassName="timeline-custom-day-popover"
           >
-            <span className="font-size-16 font-weight-400 cursor-pointer">{booking.doctorClinic.fullName}</span>
+            <span className="font-size-16 font-weight-400 cursor-pointer">{booking?.doctorClinic?.fullName ?? ''}</span>
           </Popover>
         );
 
         const itemTitle = (
           <div className="d-flex flex-column justify-content-between">
-            <span className="font-size-12 font-weight-600">#{booking.order}</span>
-            <span className="font-size-14 font-weight-600">{booking.customer.fullName}</span>
+            <span className="font-size-12 font-weight-600">#{booking?.order ?? ''}</span>
+            <span className="font-size-14 font-weight-600">{booking?.customer?.fullName ?? ''}</span>
           </div>
         );
 
@@ -87,6 +87,22 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         groups.push({
           id: -1,
           title: '',
+        });
+      }
+
+      if (items.length === 0) {
+        items.push({
+          id: -1,
+          group: -1,
+          title: '',
+          start_time: moment(dayjs(time).toDate()).startOf('days'),
+          end_time: moment(dayjs(time).toDate()).endOf('days'),
+          itemProps: {
+            style: {
+              border: 0,
+              background: 'transparent',
+            },
+          },
         });
       }
 
