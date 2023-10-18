@@ -65,7 +65,7 @@ const Profile = () => {
   }, [data]);
   const handleUpdate = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth.format(FORMAT_DATE);
+    data.dateOfBirth = data.dateOfBirth ? data.dateOfBirth.format(FORMAT_DATE) : null;
     UpdateAdmin(data);
   };
   return (
@@ -221,11 +221,11 @@ const Profile = () => {
                 id: 'admin-profile.save',
               })}
             </CustomButton>
-            <CustomButton className={'button-cancelled'}>
-              {intl.formatMessage({
-                id: 'admin-profile.cancelled',
-              })}
-            </CustomButton>
+            {/*<CustomButton className={'button-cancelled'}>*/}
+            {/*  {intl.formatMessage({*/}
+            {/*    id: 'admin-profile.cancelled',*/}
+            {/*  })}*/}
+            {/*</CustomButton>*/}
           </div>
         </div>
       </Form>

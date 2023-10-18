@@ -12,6 +12,8 @@
   "common.delete": "Delete",
   "common.active": "Active",
   "common.inactive": "Inactive",
+  "common.user.active": "Active",
+  "common.user.inactive": "Account locked",
   "common.confirm-delete": "Are you sure you want to delete",
   "common.action.save": "Save",
   "common.action.update": "Update",

@@ -14,7 +14,7 @@
   "validate.medicine.usage.space": "Công dụng không hợp lệ",
   "validate.medicine.feature.space": "Đặc tính không hợp lệ",
   "validate.full-name.required": "Vui lòng nhập họ và tên",
-  "validate.staff-code.required": "Vui lòng nhập mã nhân viên",
+  "validate.staff-code.required": "Vui lòng nhập mã nhân sự",
   "validate.email.required": "Vui lòng nhập Email",
   "validate.phone.required": "Vui lòng nhập số điện thoại",
   "validate.dob.required": "Vui lòng nhập ngày sinh",
@@ -24,8 +24,15 @@
   "validate.ward.required": "Vui lòng nhập phường/xã",
   "validate.address.required": "Vui lòng nhập địa chỉ",
   "validate.full-name.space": "Họ và tên không hợp lệ",
-  "validate.staff-code.space": "Mã nhân viên không hợp lệ",
+  "validate.staff-code.space": "Mã nhân sự không hợp lệ",
   "validate.email.space": "Email không hợp lệ",
   "validate.phone.space": "Số điện thoại không hợp lệ",
-  "validate.address.space": "Địa chỉ không hợp lệ"
+  "validate.address.space": "Địa chỉ không hợp lệ",
+  "validate.required.customer-name": "Vui lòng nhập tên bệnh nhân",
+  "validate.customer-code.required": "Vui lòng nhập mã bệnh nhân",
+  "validate.required.password": "Vui lòng nhập mật khẩu",
+  "validate.no.space": "Vui lòng không nhập khoảng trắng",
+  "validate.password": "Mật khẩu chỉ bao gồm chữ thường , chữ in hoa, số, 1 vài kí tự đặc biệt như #$@!%&*?",
+  "validate.password.min": "Mật khẩu tối thiểu 8 kí tự",
+  "validate.password.max": "Mật khẩu tối đa 16 kí tự"
 }

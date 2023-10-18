@@ -1,5 +1,6 @@
 {
-  "admin-clinic.title": "Thông tin tài khoản",
+  "admin-clinic.title": "Thông Tin Tài Khoản",
+  "admin-clinic.form.title": "Thông tin tài khoản",
   "admin-clinic.form.fullName": "Họ và tên",
   "admin-clinic.form.code": "Mã nhân sự",
   "admin-clinic.form.email": "Email",

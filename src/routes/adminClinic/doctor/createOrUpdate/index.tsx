@@ -17,7 +17,7 @@ import {
 import { categoryApi, doctorClinicApi } from '../../../../apis';
 import moment from 'moment';
 import { error } from 'console';
-import { values } from 'lodash';
+import { isNumber, values } from 'lodash';
 import { FORMAT_DATE } from '../../../../constants/common';
 
 const CreateDoctor = () => {
@@ -68,8 +68,13 @@ const CreateDoctor = () => {
       onSuccess: ({ data }) => {
         navigate(-1);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'doctor.create.error' }));
+      onError: ({ response }) => {
+        if (response.data.message === 'CODE_IS_EXIST') {
+          message.error(intl.formatMessage({ id: `common.noti.code` }));
+        } else if (response.data.message === 'PHONE_IS_EXIST') {
+          message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        }
+        // message.error(intl.formatMessage({ id: 'doctor.create.error' }));
       },
     }
   );
@@ -81,8 +86,12 @@ const CreateDoctor = () => {
       onSuccess: ({ data }) => {
         navigate(-1);
       },
-      onError: (error) => {
-        console.log(error);
+      onError: ({ response }) => {
+        if (response.data.message === 'CODE_IS_EXIST') {
+          message.error(intl.formatMessage({ id: `common.noti.code` }));
+        } else if (response.data.message === 'PHONE_IS_EXIST') {
+          message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        }
       },
     }
   );
@@ -107,14 +116,15 @@ const CreateDoctor = () => {
     if (!id) {
       createDocterClinic.mutate({
         ...values,
-        status: !!values.status,
+        status: isNumber(values.status) ? !!values.status : true,
         dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
+        emailAddress: values.emailAddress ? values.emailAddress : '',
         clinicId: null,
       });
     } else {
       updateDoctorClinic.mutate({
         ...values,
-        status: !!values.status,
+        status: isNumber(values.status) ? !!values.status : true,
         dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
         id: id,
       });

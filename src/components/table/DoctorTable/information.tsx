@@ -15,6 +15,7 @@ import { MyUploadProps } from '../../../constants/dto';
 import { assetsApi } from '../../../apis';
 import DatePickerCustom from '../../date/datePicker';
 import { FORMAT_DATE } from '../../../constants/common';
+import { ValidateLibrary } from '../../../validate';
 
 interface DoctorTableProps {
   form: FormInstance;
@@ -109,24 +110,29 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.name',
               })}
               name={n('fullName')}
-              rules={[
-                {
-                  required: true,
-                  message: intl.formatMessage({ id: 'common.noti.input' }),
-                },
-                {
-                  pattern: /^(?![\s])[\s\S]*/,
-                  message: intl.formatMessage({ id: 'common.noti.space' }),
-                },
-                {
-                  pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
-                  message: intl.formatMessage({
-                    id: 'common.noti.special',
-                  }),
-                },
-              ]}
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: intl.formatMessage({ id: 'common.noti.input' }),
+              //   },
+              //   {
+              //     max: 36,
+              //     message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+              //   },
+              //   {
+              //     pattern: /^(?![\s])[\s\S]*/,
+              //     message: intl.formatMessage({ id: 'common.noti.space' }),
+              //   },
+              //   {
+              //     pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+              //     message: intl.formatMessage({
+              //       id: 'common.noti.special',
+              //     }),
+              //   },
+              // ]}
+              rules={ValidateLibrary(intl).fullName}
             >
-              <CustomInput />
+              <CustomInput placeholder={intl.formatMessage({ id: 'doctor.create.info.name' })} />
             </Form.Item>
             <Form.Item
               className="code"
@@ -134,21 +140,26 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.code',
               })}
               name={n('code')}
-              rules={[
-                {
-                  required: true,
-                  message: intl.formatMessage({ id: 'common.noti.input' }),
-                },
-                { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
-                {
-                  pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
-                  message: intl.formatMessage({
-                    id: 'common.noti.special',
-                  }),
-                },
-              ]}
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: intl.formatMessage({ id: 'common.noti.input' }),
+              //   },
+              //   {
+              //     max: 36,
+              //     message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+              //   },
+              //   { pattern: /^(?![\s])[\s\S]*/, message: intl.formatMessage({ id: 'common.noti.space' }) },
+              //   {
+              //     pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+              //     message: intl.formatMessage({
+              //       id: 'common.noti.special',
+              //     }),
+              //   },
+              // ]}
+              rules={ValidateLibrary(intl).code}
             >
-              <CustomInput disabled={!id} />
+              <CustomInput disabled={!id} placeholder={intl.formatMessage({ id: 'doctor.create.info.code' })} />
             </Form.Item>
           </div>
           <div className="doctor-info__content__info__rows">
@@ -158,15 +169,16 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.email',
               })}
               name={n('emailAddress')}
-              rules={[
-                {
-                  pattern: /^(?![\s])[\s\S]*/,
-                  message: intl.formatMessage({ id: 'common.noti.space' }),
-                },
-                { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
-              ]}
+              // rules={[
+              //   {
+              //     pattern: /^(?![\s])[\s\S]*/,
+              //     message: intl.formatMessage({ id: 'common.noti.space' }),
+              //   },
+              //   { type: 'email', message: intl.formatMessage({ id: 'admin.user.email.message' }) },
+              // ]}
+              rules={ValidateLibrary(intl).email}
             >
-              <CustomInput />
+              <CustomInput placeholder={intl.formatMessage({ id: 'doctor.create.info.email' })} />
             </Form.Item>
             <Form.Item
               className="phone"
@@ -174,15 +186,16 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.phone',
               })}
               name={n('phoneNumber')}
-              rules={[
-                { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
-                {
-                  pattern: /^0[1-9][0-9]{8}$/,
-                  message: intl.formatMessage({ id: 'sigin.validate.phone' }),
-                },
-              ]}
+              // rules={[
+              //   { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
+              //   {
+              //     pattern: /^0[1-9][0-9]{8}$/,
+              //     message: intl.formatMessage({ id: 'sigin.validate.phone' }),
+              //   },
+              // ]}
+              rules={ValidateLibrary(intl).phoneNumber}
             >
-              <CustomInput />
+              <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.phone' })} />
             </Form.Item>
           </div>
 
@@ -206,6 +219,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
               })}
               name={n('gender')}
               // rules={[{ required: true }]}
+              rules={ValidateLibrary(intl).dbo}
             >
               <CustomSelect
                 placeholder={intl.formatMessage({
@@ -245,6 +259,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
               rules={[{ required: true, message: intl.formatMessage({ id: 'Vui lòng chọn dữ liệu cho trường này' }) }]}
             >
               <CustomSelect
+                placeholder={intl.formatMessage({ id: 'doctor.create.info.specialist' })}
                 maxTagCount={2}
                 mode="multiple"
                 options={category?.flatMap((item) => {
@@ -263,23 +278,72 @@ const DoctorInfo = (props: DoctorTableProps) => {
                   })}
                   name={n('level')}
                   // rules={[{ required: true }]}
-                  rules={[
-                    {
-                      pattern: /^(?![\s])[\s\S]*/,
-                      message: intl.formatMessage({ id: 'common.noti.space' }),
-                    },
-                    {
-                      pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
-                      message: intl.formatMessage({
-                        id: 'common.noti.special',
-                      }),
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     pattern: /^(?![\s])[\s\S]*/,
+                  //     message: intl.formatMessage({ id: 'common.noti.space' }),
+                  //   },
+                  //   {
+                  //     max: 36,
+                  //     message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+                  //   },
+                  //   {
+                  //     pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
+                  //     message: intl.formatMessage({
+                  //       id: 'common.noti.special',
+                  //     }),
+                  //   },
+                  // ]}
+                  rules={ValidateLibrary(intl).level}
                 >
-                  <CustomInput />
+                  <CustomInput placeholder={intl.formatMessage({ id: 'doctor.list.table.level' })} />
                 </Form.Item>
                 <Form.Item
                   className="status w-50"
+                  label={intl.formatMessage({
+                    id: 'doctor.create.info.status',
+                  })}
+                  name={n('status')}
+                  // rules={[{ required: true }]}
+                >
+                  <CustomSelect
+                    defaultValue={1}
+                    options={[
+                      {
+                        value: 1,
+                        label: intl.formatMessage({
+                          id: 'doctor.status.true',
+                        }),
+                      },
+                      {
+                        value: 0,
+                        label: intl.formatMessage({
+                          id: 'doctor.status.false',
+                        }),
+                      },
+                    ]}
+                  />
+                </Form.Item>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="doctor-info__content__info__rows">
+                <Form.Item
+                  className="level block"
+                  label={intl.formatMessage({
+                    id: 'doctor.create.info.level',
+                  })}
+                  name={n('level')}
+                  // rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).level}
+                >
+                  <CustomInput placeholder={intl.formatMessage({ id: 'doctor.list.table.level' })} />
+                </Form.Item>
+              </div>
+              <div className="doctor-info__content__info__rows">
+                <Form.Item
+                  className="status block"
                   label={intl.formatMessage({
                     id: 'doctor.create.info.status',
                   })}
@@ -304,48 +368,6 @@ const DoctorInfo = (props: DoctorTableProps) => {
                     ]}
                   />
                 </Form.Item>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="doctor-info__content__info__rows">
-                <Form.Item
-                  className="level block"
-                  label={intl.formatMessage({
-                    id: 'doctor.create.info.level',
-                  })}
-                  name={n('level')}
-                  // rules={[{ required: true }]}
-                >
-                  <CustomInput />
-                </Form.Item>
-              </div>
-              <div className="doctor-info__content__info__rows">
-                <Form.Item
-                  className="status block"
-                  label={intl.formatMessage({
-                    id: 'doctor.create.info.status',
-                  })}
-                  name={n('status')}
-                  // rules={[{ required: true }]}
-                >
-                  <CustomSelect
-                    options={[
-                      {
-                        value: 1,
-                        label: intl.formatMessage({
-                          id: 'common.active',
-                        }),
-                      },
-                      {
-                        value: 0,
-                        label: intl.formatMessage({
-                          id: 'common.inactive',
-                        }),
-                      },
-                    ]}
-                  />
-                </Form.Item>
                 {doctorType === DoctorType.DOCTOR_SUPPORT && (
                   <Form.Item
                     className="request block"
@@ -353,9 +375,9 @@ const DoctorInfo = (props: DoctorTableProps) => {
                       id: 'doctor.create.info.request',
                     })}
                     name={n('totalRequestReceniver')}
-                    rules={[{ required: true }]}
+                    // rules={[{ required: true }]}
                   >
-                    <CustomInput />
+                    <CustomInput type="number" placeholder={intl.formatMessage({ id: 'doctor.create.info.request' })} />
                   </Form.Item>
                 )}
               </div>
@@ -369,17 +391,19 @@ const DoctorInfo = (props: DoctorTableProps) => {
                   id: 'doctor.create.info.password',
                 })}
                 name={n('password')}
-                rules={[
-                  { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
-                  { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
-                  { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
-                  {
-                    pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
-                    message: intl.formatMessage({ id: 'common.password.regex' }),
-                  },
-                ]}
+                // rules={[
+                //   { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
+                //   { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
+                //   { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
+                //   { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
+                //   {
+                //     pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
+                //     message: intl.formatMessage({ id: 'common.password.regex' }),
+                //   },
+                // ]}
+                rules={ValidateLibrary(intl).passwordCustom}
               >
-                <CustomInput isPassword={true} />
+                <CustomInput isPassword={true} placeholder="*****" />
               </Form.Item>
             </div>
           )}

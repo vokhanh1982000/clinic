@@ -131,9 +131,8 @@ const SignInCommon = (props: ISignInCommon) => {
               {
                 required: true,
                 min: 8,
-                max: 16,
-                pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
-                message: intl.formatMessage({ id: 'sigin.validate.password' }),
+                pattern: /^[A-Za-z\d#$@!%&*?.]{8,}$/,
+                message: intl.formatMessage({ id: 'common.password.min' }),
               },
             ]}
           >

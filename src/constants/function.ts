@@ -1,3 +1,5 @@
+import dayjs, { Dayjs } from 'dayjs';
+
 export function generateRandomId() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const length = 10;
@@ -10,3 +12,19 @@ export function generateRandomId() {
 
   return result;
 }
+
+export const disabledFutureDate = (current: Dayjs | undefined) => {
+  if (current) {
+    const today = dayjs();
+    return current && dayjs(current).isAfter(today, 'day');
+  }
+  return false;
+};
+
+export const disabledPastDate = (current: Dayjs | undefined) => {
+  if (current) {
+    const today = dayjs();
+    return current && dayjs(current).isBefore(today, 'day');
+  }
+  return false;
+};

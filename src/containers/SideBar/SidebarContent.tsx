@@ -23,6 +23,10 @@ export const getItem = (
     type,
   } as MenuItem;
 };
+const MANAGEMENT_TYPE = {
+  ADMIN: '/admin/',
+  ADMIN_CLINIC: '/admin-clinic/',
+};
 
 const sampleItems: MenuProps['items'] = [
   getItem('Navigation One', 'sub1', <MailOutlined />, [
@@ -74,14 +78,26 @@ const SidebarContent = (props: ISideBarContentProp) => {
   useEffect(() => {
     if (location.pathname) {
       let step = 1;
-      Object.values(ADMIN_ROUTE_PATH).forEach((route: any) => {
-        if (current.includes(`${route}`)) {
-          if (step == 2) {
-            setCurrent(route);
+      if (location.pathname.includes(MANAGEMENT_TYPE.ADMIN)) {
+        Object.values(ADMIN_ROUTE_PATH).forEach((route: any) => {
+          if (current.includes(`${route}`)) {
+            if (step == 2) {
+              setCurrent(route);
+            }
+            step++;
           }
-          step++;
-        }
-      });
+        });
+      } else if (location.pathname.includes(MANAGEMENT_TYPE.ADMIN_CLINIC)) {
+        Object.values(ADMIN_CLINIC_ROUTE_PATH).forEach((route: any) => {
+          if (current.includes(`${route}`)) {
+            if (step == 2) {
+              setCurrent(route);
+            }
+            step++;
+          }
+        });
+      }
+
       if (excludePath.includes(location.pathname)) {
         setCurrent('');
       }

@@ -21,6 +21,7 @@
       color: $text_white;
     }
   }
+
   .custom-table {
     .ant-table-thead > tr > th {
       font-size: 20px;
@@ -114,6 +115,26 @@
     gap: 15px;
     max-width: 100% !important;
 
+    .ant-form-item {
+      .ant-form-item-row {
+        .ant-form-item-label {
+          label {
+            color: $text_black_light;
+            font-family: 'Open-sans';
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 22px;
+          }
+        }
+
+        .ant-form-item-control-input-content {
+          input {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
     .customer-info {
       padding: 20px 15px;
       width: 70%;
@@ -164,7 +185,7 @@
 
           &__rows {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 15px;
             width: 100%;
           }

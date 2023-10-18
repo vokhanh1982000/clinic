@@ -32,7 +32,7 @@ type Validators = { [key in validateType]?: ValidatorOption };
 const regexEmoj = emojiRegex();
 const regexNormal = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 
-const regexPass = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.{8,})/;
+const regexPass = /^[A-Za-z\d#$@!%&*?.]{8,16}$/;
 
 const regexKana = /^([ァ-ン]|ー)+$/;
 const regexPosTalCode = /^\d{3}-\d{4}$/;
@@ -94,7 +94,7 @@ const VALIDATOR: any = {
       return;
     }
 
-    const isValid = !value.includes(' ');
+    const isValid = value === value.trimStart();
     if (!isValid) {
       throw new Error(getMessage(option));
     }
@@ -114,7 +114,7 @@ const VALIDATOR: any = {
       return;
     }
 
-    const isValid = isValidPhoneNumber(value, 'JP');
+    const isValid = isValidPhoneNumber(value, 'VN');
     if (!isValid) {
       throw new Error(getMessage(option));
     }
