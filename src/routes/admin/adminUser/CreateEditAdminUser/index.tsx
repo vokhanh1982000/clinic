@@ -63,7 +63,7 @@ const CreateAdmin = () => {
         form.setFieldsValue({
           ...response.data,
           roleIds: Array.from(response.data.user.roles.map((item) => item.id)),
-          dateOfBirth: response.data.dateOfBirth ? dayjs(response.data.dateOfBirth, FORMAT_DATE) : null,
+          dateOfBirth: response.data.dateOfBirth ? dayjs(moment(response.data.dateOfBirth).format(FORMAT_DATE)) : null,
         });
         if (response.data.avatar) {
           setAvatar(process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview);
@@ -134,10 +134,9 @@ const CreateAdmin = () => {
       return message.error(intl.formatMessage({ id: 'admin.user.role.message' }));
 
     if (id) {
-      console.log(values);
       updateAdmin.mutate({
         ...values,
-        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
+        // dateOfBirth: values.dateOfBirth ? dayjs(values.dateOfBirth).format(FORMAT_DATE) : null,
         roleIds,
         emailAddress: values.emailAddress ? values.emailAddress : '',
         userId: id,
@@ -145,7 +144,7 @@ const CreateAdmin = () => {
     } else {
       const data: CreateAdminDto = {
         ...values,
-        dateOfBirth: values.dateOfBirth ? moment(values.dateOfBirth).format(FORMAT_DATE) : null,
+        // dateOfBirth: values.dateOfBirth ? dayjs(values.dateOfBirth).format(FORMAT_DATE) : null,
         roleIds,
       };
       createAdmin.mutate(data);
@@ -224,7 +223,7 @@ const CreateAdmin = () => {
                   </div>
                 </div>
                 <div>
-                  <Row className="admin-management__info-item">
+                  <Row className="admin-management__info-item" style={{ flexWrap: 'nowrap' }}>
                     <div className="fullName">
                       <Form.Item
                         label={intl.formatMessage({

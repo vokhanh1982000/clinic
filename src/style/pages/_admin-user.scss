@@ -12,6 +12,7 @@
   .admin-management__body {
     margin-top: 20px;
     display: flex;
+    flex-wrap: nowrap;
     gap: 15px;
     max-width: 100% !important;
     .ant-select-selection-placeholder {
@@ -44,8 +45,8 @@
         margin-top: 20px;
         justify-content: space-between;
 
+        flex-wrap: nowrap;
         &__avatar {
-          width: 30%;
           height: fit-content;
           position: relative;
         }
@@ -54,13 +55,13 @@
           display: flex;
           align-items: center;
           gap: 15px;
-          width: 524px;
+          max-width: 524px;
           justify-content: space-between;
           .fullName {
-            width: 326px;
+            max-width: 326px;
           }
           .code {
-            width: 142px;
+            max-width: 142px;
           }
           .admin-management__item-col {
             width: 50%;
@@ -110,7 +111,7 @@
     }
 
     .admin-management__body-role {
-      width: 529px;
+      max-width: 529px;
       display: flex;
       flex-direction: column;
       justify-content: inherit;

@@ -59,7 +59,7 @@ const DropdownCustom = (props: CustomDropdownProps) => {
         <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Space>
             {iconType && <IconSVG type={iconType}></IconSVG>}
-            <div className="front-base" style={{ paddingRight: '15px' }}>
+            <div className="front-base" style={{ paddingRight: '15px', maxWidth: '100px', overflow: 'hidden' }}>
               {intl.formatMessage({
                 id: !position ? 'admin.user.position' : position,
               })}
