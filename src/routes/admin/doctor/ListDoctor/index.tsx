@@ -46,7 +46,7 @@ const ListDoctor = () => {
       <div className="doctor-management__header">
         <div className="doctor-management__header__title">
           {intl.formatMessage({
-            id: 'doctor.list.title',
+            id: 'doctor-support.list.title',
           })}
         </div>
         <CustomButton

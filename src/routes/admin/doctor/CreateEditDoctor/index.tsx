@@ -13,6 +13,7 @@ import DoctorInfo from '../../../../components/table/DoctorTable/information';
 import { DoctorType } from '../../../../constants/enum';
 import dayjs from 'dayjs';
 import { FORMAT_DATE } from '../../../../constants/common';
+import { CustomHandleError } from '../../../../components/response';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -60,10 +61,9 @@ const CreateDoctor = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
-        console.log(data);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'doctor.create.error' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -74,10 +74,9 @@ const CreateDoctor = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
-        console.log(data);
       },
-      onError: (error) => {
-        console.log(error);
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -119,10 +118,10 @@ const CreateDoctor = () => {
       <div className="create-doctor-title">
         {id
           ? intl.formatMessage({
-              id: 'doctor.clinic.edit.title',
+              id: 'doctor-support.clinic.edit.title',
             })
           : intl.formatMessage({
-              id: 'doctor.clinic.create.title',
+              id: 'doctor-support.clinic.create.title',
             })}
       </div>
       <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-doctor">
@@ -142,7 +141,9 @@ const CreateDoctor = () => {
           deleteFc={(id: string) => deleteAdmin.mutate(id)}
           n={n}
           setIsDeleteDoctor={setIsDeleteDoctor}
-          onSubmit={() => form.submit()}
+          onSubmit={() => {
+            form.submit();
+          }}
         />
       </FormWrap>
       <ConfirmDeleteModal

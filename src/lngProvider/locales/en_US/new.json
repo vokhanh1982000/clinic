@@ -17,6 +17,7 @@
   "new.edit.button.save": "Save",
   "new.edit.button.delete": "Delete",
   "new.create.error.content": "Please enter information for the content field",
+  "new.create.error.image": "Please upload image",
   "new.create.error.title": "Please enter information for the title field",
   "new.create.error": "Create fail",
   "new.update.error": "Update fail"

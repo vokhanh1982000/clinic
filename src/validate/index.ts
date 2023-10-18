@@ -395,6 +395,20 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         }),
       },
     ],
+    realNumber: [
+      {
+        validator(_: RuleObject, value: number) {
+          if (value && value < 1) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.number',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
+      },
+    ],
     nameMedicine: [
       {
         required: true,

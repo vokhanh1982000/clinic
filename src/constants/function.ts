@@ -1,5 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs';
 
+export function handleInputChangeUpperCase(e: any) {
+  e.target.value = e.target.value.toUpperCase();
+}
+
 export function generateRandomId() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const length = 10;
