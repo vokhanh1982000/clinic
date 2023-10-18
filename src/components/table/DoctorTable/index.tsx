@@ -263,20 +263,14 @@ export const DoctorTable = (props: DoctorTableProps) => {
             let statusType = record.status ? Status.ACTIVE : Status.INACTIVE;
             return (
               <div className="status-doctor">
-                {status ? (
-                  <>
-                    <span>
-                      <IconSVG type={statusType} />
-                    </span>
-                    <div>
-                      {intl.formatMessage({
-                        id: `doctor.status.${record.status}`,
-                      })}
-                    </div>
-                  </>
-                ) : (
-                  <></>
-                )}
+                <span>
+                  <IconSVG type={statusType} />
+                </span>
+                <div>
+                  {intl.formatMessage({
+                    id: `doctor.status.${record.status}`,
+                  })}
+                </div>
               </div>
             );
           }}
