@@ -36,5 +36,6 @@
   "validate.password": "Passwords only include lowercase letters, uppercase letters, numbers, and a few special characters like #$@!%&*?",
   "validate.password.min": "Password minimum 16 character",
   "validate.password.max": "Password maximum 16 character",
-  "validate.number": "Number must be greater than 0"
+  "validate.number": "Number must be greater than 0",
+  "validate.specialist": "Please select data for specialist"
 }

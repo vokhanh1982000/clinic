@@ -267,7 +267,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.specialist',
               })}
               name={n('categoryIds')}
-              rules={[{ required: true, message: intl.formatMessage({ id: 'common.noti.select' }) }]}
+              rules={ValidateLibrary(intl).specialist}
             >
               <CustomSelect
                 placeholder={intl.formatMessage({ id: 'doctor.create.info.specialist' })}
