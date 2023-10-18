@@ -222,7 +222,7 @@ const CreateAdmin = () => {
                     <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
                   </div>
                 </div>
-                <div>
+                <div className="admin-management__info-form">
                   <Row className="admin-management__info-item" style={{ flexWrap: 'nowrap' }}>
                     <div className="fullName">
                       <Form.Item

@@ -75,7 +75,7 @@ const ListRole = () => {
           })}
         </div>
         <CustomButton
-          style={{ maxWidth: '244px' }}
+          style={{ width: '244px' }}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
