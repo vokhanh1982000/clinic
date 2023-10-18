@@ -136,8 +136,9 @@
       }
     }
 
-    .title-error {
-      border: 1px solid $text_error;
+    .title-error,
+    .image-error {
+      border: 1px solid $text_error !important;
     }
 
     .right-container {
@@ -162,16 +163,20 @@
 
           &__display {
             position: relative;
+            height: 100%;
+            display: flex;
 
             img {
               max-height: 100%;
               max-width: 100%;
+              margin: auto;
             }
 
             span {
               position: absolute;
               right: 5px;
               top: 5px;
+              cursor: pointer;
             }
           }
 
@@ -210,6 +215,10 @@
             line-height: 22px;
           }
         }
+      }
+
+      .custom-label {
+        margin-top: -10px;
       }
 
       &__action {

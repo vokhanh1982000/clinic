@@ -148,13 +148,13 @@ export const DoctorTable = (props: DoctorTableProps) => {
             {
               value: 1,
               label: intl.formatMessage({
-                id: 'common.user.active',
+                id: 'doctor.status.true',
               }),
             },
             {
               value: 0,
               label: intl.formatMessage({
-                id: 'common.user.inactive',
+                id: 'doctor.status.false',
               }),
             },
           ]}
@@ -213,7 +213,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           width={'12%'}
           render={(_, record: any) => {
             const specialist = _.map((item: any) => item.name);
-            return <div>{specialist.join(',')}</div>;
+            return <div>{specialist.join(', ')}</div>;
           }}
         />
         <Column
@@ -264,7 +264,9 @@ export const DoctorTable = (props: DoctorTableProps) => {
               <div className="status-doctor">
                 {status ? (
                   <>
-                    <IconSVG type={statusType} />
+                    <span>
+                      <IconSVG type={statusType} />
+                    </span>
                     <div>
                       {intl.formatMessage({
                         id: `doctor.status.${record.status}`,

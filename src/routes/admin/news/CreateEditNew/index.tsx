@@ -92,7 +92,7 @@ const CreateNew = () => {
 
   const onFinish = () => {
     setIsSubmit(true);
-    if (title === '' || dataEditor === '') {
+    if (title.trim() === '' || dataEditor === '' || !avatar || avatar.id === '') {
       return;
     }
     if (id) {
@@ -223,7 +223,11 @@ const CreateNew = () => {
         </div>
         <div className="right-container">
           <div className="right-container__content">
-            <div className="right-container__content__image">
+            <div
+              className={`right-container__content__image ${
+                isSubmit && (!avatar || avatar?.src === '') && 'image-error'
+              }`}
+            >
               {loadingImg ? (
                 <Spin />
               ) : avatar && avatar.src ? (
@@ -257,6 +261,13 @@ const CreateNew = () => {
                 </div>
               )}
             </div>
+            {isSubmit && (!avatar || avatar?.src === '') && (
+              <span className="text-error custom-label">
+                {intl.formatMessage({
+                  id: 'new.create.error.image',
+                })}
+              </span>
+            )}
             <div className="right-container__content__title">
               <div className="right-container__content__title__label">
                 {intl.formatMessage({
@@ -267,8 +278,9 @@ const CreateNew = () => {
                 value={title}
                 className={`${isSubmit && title === '' && 'title-error'}`}
                 onChange={(e) => setTitle(e.target.value)}
+                maxLength={255}
               />
-              {isSubmit && title === '' && (
+              {isSubmit && title.trim() === '' && (
                 <span className="text-error">
                   {intl.formatMessage({
                     id: 'new.create.error.title',

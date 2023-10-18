@@ -1,6 +1,7 @@
 {
   "validate.required": "required",
   "validate.min_4_char": "min 4 character",
+  "validate.min_1_char": "min 1 character",
   "validate.space": "Leading white spaces at the beginning of a line are not allowed",
   "validate.required.category-name": "Medical specialty name is required",
   "validate.phone": "invalid phone",
@@ -34,5 +35,6 @@
   "validate.no.space": "Please no input space",
   "validate.password": "Passwords only include lowercase letters, uppercase letters, numbers, and a few special characters like #$@!%&*?",
   "validate.password.min": "Password minimum 16 character",
-  "validate.password.max": "Password maximum 16 character"
+  "validate.password.max": "Password maximum 16 character",
+  "validate.number": "Number must be greater than 0"
 }

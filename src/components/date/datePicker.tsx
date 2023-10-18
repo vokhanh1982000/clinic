@@ -1,5 +1,6 @@
 import { DatePicker, DatePickerProps } from 'antd';
 import moment from 'moment';
+import { disabledFutureDate } from '../../constants/function';
 
 interface CustomDateProps {
   dateFormat?: string;
@@ -14,10 +15,7 @@ const DatePickerCustom = (props: CustomDateProps) => {
       className={`ant-custom-area ${className}`}
       format={dateFormat}
       {...props}
-      disabledDate={(current) => {
-        let customDate = moment().format('YYYY-MM-DD');
-        return current && current > moment(customDate, 'YYYY-MM-DD');
-      }}
+      disabledDate={disabledFutureDate}
     />
   );
 };

@@ -91,7 +91,12 @@ const Achievement = (props: Props) => {
         <div className="button-action">
           {id ? (
             <div className="more-action">
-              <CustomButton className="button-save" onClick={() => onSubmit()}>
+              <CustomButton
+                className="button-save"
+                onClick={() => {
+                  onSubmit();
+                }}
+              >
                 {intl.formatMessage({
                   id: 'doctor.edit.button.save',
                 })}

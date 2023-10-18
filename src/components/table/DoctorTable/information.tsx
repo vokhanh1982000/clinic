@@ -1,5 +1,5 @@
 import { DatePicker, Form, FormInstance, Switch, message } from 'antd';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import IconSVG from '../../icons/icons';
 import CustomInput from '../../input/CustomInput';
@@ -16,6 +16,7 @@ import { assetsApi } from '../../../apis';
 import DatePickerCustom from '../../date/datePicker';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
+import { handleInputChangeUpperCase } from '../../../constants/function';
 
 interface DoctorTableProps {
   form: FormInstance;
@@ -60,7 +61,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
   const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
   const [statusSelect, setStatusSelect] = useState<OptionStatus>();
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
-  const id = useParams();
+  const { id } = useParams();
   const regexPhone = useRef(/^0[1-9][0-9]{8}$/);
 
   const { mutate: UploadImage, status: statusUploadImage } = useMutation(
@@ -85,6 +86,12 @@ const DoctorInfo = (props: DoctorTableProps) => {
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };
+
+  useEffect(() => {
+    if (!id) {
+      form.setFieldValue('status', 1);
+    }
+  }, []);
 
   return (
     <div className="doctor-info">
@@ -132,7 +139,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
               // ]}
               rules={ValidateLibrary(intl).fullName}
             >
-              <CustomInput placeholder={intl.formatMessage({ id: 'doctor.create.info.name' })} />
+              <CustomInput maxLength={255} placeholder={intl.formatMessage({ id: 'doctor.create.info.name' })} />
             </Form.Item>
             <Form.Item
               className="code"
@@ -159,7 +166,11 @@ const DoctorInfo = (props: DoctorTableProps) => {
               // ]}
               rules={ValidateLibrary(intl).code}
             >
-              <CustomInput disabled={!id} placeholder={intl.formatMessage({ id: 'doctor.create.info.code' })} />
+              <CustomInput
+                maxLength={36}
+                onInput={handleInputChangeUpperCase}
+                placeholder={intl.formatMessage({ id: 'doctor.create.info.code' })}
+              />
             </Form.Item>
           </div>
           <div className="doctor-info__content__info__rows">
@@ -256,11 +267,10 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 id: 'doctor.create.info.specialist',
               })}
               name={n('categoryIds')}
-              rules={[{ required: true, message: intl.formatMessage({ id: 'Vui lòng chọn dữ liệu cho trường này' }) }]}
+              rules={[{ required: true, message: intl.formatMessage({ id: 'common.noti.select' }) }]}
             >
               <CustomSelect
                 placeholder={intl.formatMessage({ id: 'doctor.create.info.specialist' })}
-                maxTagCount={2}
                 mode="multiple"
                 options={category?.flatMap((item) => {
                   return { value: item.id, label: item.name } as DefaultOptionType;
@@ -307,7 +317,6 @@ const DoctorInfo = (props: DoctorTableProps) => {
                   // rules={[{ required: true }]}
                 >
                   <CustomSelect
-                    defaultValue={1}
                     options={[
                       {
                         value: 1,
@@ -351,39 +360,41 @@ const DoctorInfo = (props: DoctorTableProps) => {
                   // rules={[{ required: true }]}
                 >
                   <CustomSelect
-                    defaultValue={1}
                     options={[
                       {
                         value: 1,
                         label: intl.formatMessage({
-                          id: 'common.active',
+                          id: 'doctor.status.true',
                         }),
                       },
                       {
                         value: 0,
                         label: intl.formatMessage({
-                          id: 'common.inactive',
+                          id: 'doctor.status.false',
                         }),
                       },
                     ]}
                   />
                 </Form.Item>
-                {doctorType === DoctorType.DOCTOR_SUPPORT && (
-                  <Form.Item
-                    className="request block"
-                    label={intl.formatMessage({
-                      id: 'doctor.create.info.request',
-                    })}
-                    name={n('totalRequestReceniver')}
-                    // rules={[{ required: true }]}
-                  >
-                    <CustomInput type="number" placeholder={intl.formatMessage({ id: 'doctor.create.info.request' })} />
-                  </Form.Item>
-                )}
+
+                <Form.Item
+                  className="request block"
+                  label={intl.formatMessage({
+                    id: 'doctor.create.info.request',
+                  })}
+                  name={n('totalRequestReceniver')}
+                  rules={ValidateLibrary(intl).realNumber}
+                >
+                  <CustomInput
+                    type="number"
+                    min={1}
+                    placeholder={intl.formatMessage({ id: 'doctor.create.info.request' })}
+                  />
+                </Form.Item>
               </div>
             </>
           )}
-          {!id.id && (
+          {!id && (
             <div className="doctor-info__content__info__rows">
               <Form.Item
                 className="password block"

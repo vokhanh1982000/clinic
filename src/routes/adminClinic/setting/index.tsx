@@ -63,7 +63,7 @@ for (let index = 0; index < 7; index++) {
 const firstItem = initSchedule.shift();
 initSchedule.push(firstItem as WorkScheduleRange);
 
-const ListMedicine = () => {
+const Setting = () => {
   const intl: IntlShape = useIntl();
   const queryClient: QueryClient = useQueryClient();
   const [provinceId, setProvinceId] = useState<string>();
@@ -165,4 +165,4 @@ const ListMedicine = () => {
     </Card>
   );
 };
-export default ListMedicine;
+export default Setting;

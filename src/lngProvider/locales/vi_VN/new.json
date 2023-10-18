@@ -16,8 +16,9 @@
   "new.create.button.cancel": "Hủy",
   "new.edit.button.save": "Lưu thay đổi",
   "new.edit.button.delete": "Xóa bài viết",
-  "new.create.error.content": "Hãy nhập thông tin cho trường nội dung",
-  "new.create.error.title": "Hãy nhập thông tin cho trường tiêu đề",
+  "new.create.error.content": "Vui lòng nhập nội dung",
+  "new.create.error.image": "Vui lòng tải lên hình ảnh",
+  "new.create.error.title": "Vui lòng nhập tiêu đề",
   "new.create.error": "Thêm mới thất bại.",
   "new.update.error": "Cập nhật thất bại!"
 }
