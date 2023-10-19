@@ -31,11 +31,10 @@ type Validators = { [key in validateType]?: ValidatorOption };
 
 const regexEmoj = emojiRegex();
 const regexNormal = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-
 const regexPass = /^[A-Za-z\d#$@!%&*?.]{8,16}$/;
-
 const regexKana = /^([ァ-ン]|ー)+$/;
 const regexPosTalCode = /^\d{3}-\d{4}$/;
+const REGEX_PHONE_NUMBER = /^0[1-9][0-9]{8}$/;
 
 const getMessage = (option: ValidatorOption): string => {
   return typeof option === 'object' ? option.message : (option as string);
@@ -113,8 +112,7 @@ const VALIDATOR: any = {
     if (!value) {
       return;
     }
-
-    const isValid = isValidPhoneNumber(value, 'VN');
+    const isValid = REGEX_PHONE_NUMBER.test(value);
     if (!isValid) {
       throw new Error(getMessage(option));
     }

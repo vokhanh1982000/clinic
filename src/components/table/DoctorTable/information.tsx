@@ -271,6 +271,8 @@ const DoctorInfo = (props: DoctorTableProps) => {
             >
               <CustomSelect
                 placeholder={intl.formatMessage({ id: 'doctor.create.info.specialist' })}
+                maxTagCount={2}
+                showSearch={false}
                 mode="multiple"
                 options={category?.flatMap((item) => {
                   return { value: item.id, label: item.name } as DefaultOptionType;

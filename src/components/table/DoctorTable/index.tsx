@@ -124,6 +124,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           onChange={(e) => {
             setCategoryId(e);
           }}
+          showSearch={false}
           maxTagCount={2}
           mode="multiple"
           options={category?.data.content?.flatMap((item) => {
