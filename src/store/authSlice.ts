@@ -1,13 +1,13 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import { axiosInstance } from '../apis';
-import { Administrator, AdministratorClinic, Customer, LoginResponseDto } from '../apis/client-axios';
+import { Administrator, AdministratorClinic, Customer, DoctorClinic, LoginResponseDto } from '../apis/client-axios';
 
 export interface AuthState {
   loading: boolean;
   error: string;
   userType?: 'administrator' | 'customer';
-  authUser?: Administrator | Customer | AdministratorClinic;
+  authUser?: Administrator | Customer | AdministratorClinic | DoctorClinic;
 }
 
 export const authSlice = createSlice({
