@@ -263,7 +263,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     fullName: [
       {
         required: true,
-        message: intl.formatMessage({ id: 'common.noti.input' }),
+        message: intl.formatMessage({ id: 'validate.full-name.required' }),
       },
       {
         max: 36,
