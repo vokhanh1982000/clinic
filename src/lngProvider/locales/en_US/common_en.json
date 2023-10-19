@@ -39,5 +39,12 @@
   "common.noti.code": "The personnel code is already in use. Please try again",
   "common.noti.phone": "The phone number is already in use. Please try again",
   "common.upload.fail": "Upload fail",
-  "common.noti.fullName.limit": "Exceeded the allowed number of characters"
+  "common.noti.fullName.limit": "Exceeded the allowed number of characters",
+  "common.timeline.sunday": "Sunday",
+  "common.timeline.monday": "Monday",
+  "common.timeline.tuesday": "Tuesday",
+  "common.timeline.wednesday": "Wednesday",
+  "common.timeline.thursday": "Thursday",
+  "common.timeline.friday": "Friday",
+  "common.timeline.saturday": "Saturday"
 }

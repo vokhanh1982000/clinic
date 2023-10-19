@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * PROJECT_NAME
+ * iHealth
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -2236,6 +2236,12 @@ export interface CreateHolidayScheduleDto {
      * @memberof CreateHolidayScheduleDto
      */
     'date': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateHolidayScheduleDto
+     */
+    'clinicId'?: string;
 }
 /**
  * 
@@ -4918,6 +4924,12 @@ export interface UpdateHolidayScheduleDto {
      * @memberof UpdateHolidayScheduleDto
      */
     'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateHolidayScheduleDto
+     */
+    'clinicId'?: string;
 }
 /**
  * 
@@ -13910,7 +13922,7 @@ export const HolidayScheduleApiAxiosParamCreator = function (configuration?: Con
         holidayScheduleControllerCreate: async (createHolidayScheduleDto: CreateHolidayScheduleDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'createHolidayScheduleDto' is not null or undefined
             assertParamExists('holidayScheduleControllerCreate', 'createHolidayScheduleDto', createHolidayScheduleDto)
-            const localVarPath = `/holiday-schedule/create`;
+            const localVarPath = `/holiday-schedule/create-holiday-schedule`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -14047,7 +14059,7 @@ export const HolidayScheduleApiAxiosParamCreator = function (configuration?: Con
         holidayScheduleControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('holidayScheduleControllerRemove', 'id', id)
-            const localVarPath = `/holiday-schedule/{id}`
+            const localVarPath = `/holiday-schedule/update-holiday-schedule-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14077,14 +14089,18 @@ export const HolidayScheduleApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
+         * @param {string} id 
          * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        holidayScheduleControllerUpdate: async (updateHolidayScheduleDto: UpdateHolidayScheduleDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        holidayScheduleControllerUpdate: async (id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('holidayScheduleControllerUpdate', 'id', id)
             // verify required parameter 'updateHolidayScheduleDto' is not null or undefined
             assertParamExists('holidayScheduleControllerUpdate', 'updateHolidayScheduleDto', updateHolidayScheduleDto)
-            const localVarPath = `/holiday-schedule/update/{id}`;
+            const localVarPath = `/holiday-schedule/update-holiday-schedule-by-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -14168,12 +14184,13 @@ export const HolidayScheduleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} id 
          * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async holidayScheduleControllerUpdate(updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HolidaySchedule>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.holidayScheduleControllerUpdate(updateHolidayScheduleDto, options);
+        async holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HolidaySchedule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -14226,12 +14243,13 @@ export const HolidayScheduleApiFactory = function (configuration?: Configuration
         },
         /**
          * 
+         * @param {string} id 
          * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        holidayScheduleControllerUpdate(updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: any): AxiosPromise<HolidaySchedule> {
-            return localVarFp.holidayScheduleControllerUpdate(updateHolidayScheduleDto, options).then((request) => request(axios, basePath));
+        holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: any): AxiosPromise<HolidaySchedule> {
+            return localVarFp.holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -14291,13 +14309,14 @@ export class HolidayScheduleApi extends BaseAPI {
 
     /**
      * 
+     * @param {string} id 
      * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HolidayScheduleApi
      */
-    public holidayScheduleControllerUpdate(updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig) {
-        return HolidayScheduleApiFp(this.configuration).holidayScheduleControllerUpdate(updateHolidayScheduleDto, options).then((request) => request(this.axios, this.basePath));
+    public holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig) {
+        return HolidayScheduleApiFp(this.configuration).holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

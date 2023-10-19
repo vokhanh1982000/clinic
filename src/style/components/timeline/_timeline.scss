@@ -5,9 +5,32 @@ $color-ffffff: #ffffff;
 $color-808080: #808080;
 $color-ee5824: #ee5824;
 $color-333333: #333333;
+$color-E5E5E5: #e5e5e5;
 $font-family: Open-Sans;
 
 .timeline-custom {
+  &-container {
+    max-height: calc(100vh - 244px);
+    overflow-y: auto;
+    padding-bottom: 10px;
+    margin-bottom: -10px;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $color-E5E5E5;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-702A14;
+      border-radius: 8px;
+    }
+  }
+
   &-day {
     &.react-calendar-timeline {
       overflow: auto;
@@ -20,7 +43,7 @@ $font-family: Open-Sans;
       }
 
       &::-webkit-scrollbar-track {
-        background: #e5e5e5;
+        background: $color-E5E5E5;
         border-radius: 8px;
       }
 
@@ -87,6 +110,8 @@ $font-family: Open-Sans;
               justify-content: center;
               gap: 2px;
               line-height: normal !important;
+              border-width: 1px !important;
+              border-image: none 100% 1 0 stretch !important;
 
               & > .rct-item-content {
                 padding: 4px 0 4px 8px;
@@ -110,6 +135,15 @@ $font-family: Open-Sans;
             }
           }
         }
+      }
+    }
+
+    &-current {
+      background: #feefea;
+      border-bottom: 1px solid $color-ccc;
+
+      &-header {
+        background-color: rgba(238, 88, 36, 0.2) !important;
       }
     }
 
@@ -193,6 +227,12 @@ $font-family: Open-Sans;
         margin-bottom: 0;
         width: auto;
 
+        &-week {
+          z-index: 1;
+          opacity: 0;
+          position: relative;
+        }
+
         &-popup {
           & .ant-picker-month-btn,
           & .ant-picker-year-btn {
@@ -201,9 +241,29 @@ $font-family: Open-Sans;
             }
           }
 
+          & .ant-picker-week-panel-row-selected {
+            & > .ant-picker-cell {
+              &.ant-picker-cell-week {
+                &::before {
+                  background: $color-ee5824;
+                }
+              }
+
+              &.ant-picker-cell-in-view {
+                &::before {
+                  background: $color-ee5824;
+                }
+              }
+            }
+          }
+
           & .ant-picker-cell {
             & > .ant-picker-cell-inner {
               font-family: $font-family !important;
+            }
+
+            &.ant-picker-cell-in-view {
+              color: $color-1A1A1A;
             }
 
             &.ant-picker-cell-today {
@@ -224,6 +284,10 @@ $font-family: Open-Sans;
           & .ant-picker-today-btn {
             color: $color-ee5824 !important;
           }
+        }
+
+        &-label {
+          left: -11.5px;
         }
 
         & .ant-col {
@@ -347,8 +411,7 @@ $font-family: Open-Sans;
       overflow-y: auto;
 
       & > .rbc-month-view {
-        border-color: $color-ccc;
-        border-radius: 20px;
+        border: 0;
 
         & > .rbc-month-header {
           & > .rbc-header {
@@ -359,13 +422,17 @@ $font-family: Open-Sans;
             align-items: center;
             justify-content: center;
             background: rgba(238, 88, 36, 0.1);
+            border-top: 1px solid $color-ccc;
+            border-bottom: 1px solid $color-ccc;
 
             &:first-child {
               border-top-left-radius: 20px;
+              border-left: 1px solid $color-ccc;
             }
 
             &:last-child {
               border-top-right-radius: 20px;
+              border-right: 1px solid $color-ccc;
             }
 
             & > span {
@@ -379,9 +446,33 @@ $font-family: Open-Sans;
         }
 
         & > .rbc-month-row {
+          &:last-child {
+            & > .rbc-row-bg {
+              & > .rbc-day-bg {
+                border-bottom: 1px solid $color-ccc;
+
+                &:first-child {
+                  border-radius: 0 0 0 20px;
+                }
+
+                &:last-child {
+                  border-radius: 0 0 20px 0;
+                }
+              }
+            }
+          }
+
           & > .rbc-row-bg {
             & > .rbc-day-bg {
               background: transparent;
+
+              &:first-child {
+                border-left: 1px solid $color-ccc;
+              }
+
+              &:last-child {
+                border-right: 1px solid $color-ccc;
+              }
             }
           }
 
@@ -408,6 +499,7 @@ $font-family: Open-Sans;
                 padding: 0;
                 outline: 0;
                 height: 100%;
+                cursor: default;
 
                 &:focus,
                 &:hover {

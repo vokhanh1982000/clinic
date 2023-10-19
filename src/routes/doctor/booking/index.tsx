@@ -1,59 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { Col, Form, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { doctorClinicBookingApi } from '../../../apis';
-import { BookingStatusEnum } from '../../../apis/client-axios';
+import { doctorClinicBookingApi, holidayScheduleApi } from '../../../apis';
+import { DoctorClinic } from '../../../apis/client-axios';
 import TimelineControl from '../../../components/TimelineControl';
-import TimelineDay from '../../../components/TimelineDay';
+import { IFormData, NOTES, TimelineMode, n } from '../../../components/TimelineControl/constants';
 import TimelineMonth from '../../../components/TimelineMonth';
+import TimelineWeek from '../../../components/TimelineWeek';
+import { useAppSelector } from '../../../store';
 import { DATE_TIME_FORMAT } from '../../../util/constant';
-
-export enum TimelineMode {
-  DATE = 'date',
-  MONTH = 'month',
-}
-
-export interface IFormData {
-  time?: Dayjs;
-  mode?: TimelineMode;
-  keyword?: string;
-}
-
-export const n = (key: keyof IFormData) => key;
-
-export const NOTES = [
-  {
-    borderColor: '#20BF6B',
-    backgroundColor: 'rgba(32, 191, 107, 0.20)',
-    messageId: 'timeline.doctor.note.complete',
-    status: BookingStatusEnum.Completed,
-  },
-  {
-    borderColor: '#3867D6',
-    backgroundColor: 'rgba(56, 103, 214, 0.20)',
-    messageId: 'timeline.doctor.note.reviewed',
-    status: BookingStatusEnum.Approved,
-  },
-  {
-    borderColor: '#F7B731',
-    backgroundColor: 'rgba(247, 183, 49, 0.20)',
-    messageId: 'timeline.doctor.note.awaitingReview',
-    status: BookingStatusEnum.Pending,
-  },
-  {
-    borderColor: '#FC5C65',
-    backgroundColor: 'rgba(252, 92, 101, 0.20)',
-    messageId: 'timeline.doctor.note.canceled',
-    status: BookingStatusEnum.Cancelled,
-  },
-  {
-    borderColor: '#E5E5E5',
-    backgroundColor: '#F2F2F2',
-    messageId: 'timeline.doctor.note.dayOff',
-  },
-];
 
 const ListBooking = () => {
   const intl = useIntl();
@@ -63,25 +20,27 @@ const ListBooking = () => {
   const time = Form.useWatch(n('time'), form) as Dayjs | undefined;
   const keyword = Form.useWatch(n('keyword'), form) as string | undefined;
 
+  const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
+
   useEffect(() => {
     form.setFieldsValue({
       [n('time')]: dayjs(),
-      [n('mode')]: TimelineMode.DATE,
+      [n('mode')]: TimelineMode.WEEK,
     });
   }, []);
 
-  const { data: listBookingDay } = useQuery({
-    queryKey: ['doctorBookingDay', time, keyword, mode],
+  const { data: listBookingWeek } = useQuery({
+    queryKey: ['doctorClinicBookingWeek', time, mode],
     queryFn: () =>
-      doctorClinicBookingApi.doctorClinicBookingControllerGetBookingByDay(
-        dayjs(time).format(DATE_TIME_FORMAT),
+      doctorClinicBookingApi.doctorClinicBookingControllerGetBookingByWeek(
+        dayjs(time).startOf('week').format(DATE_TIME_FORMAT),
         keyword
       ),
-    enabled: !!time && mode === TimelineMode.DATE,
+    enabled: !!time && mode === TimelineMode.WEEK,
   });
 
-  const { data: listBookingMonth } = useQuery({
-    queryKey: ['doctorBookingMonth', time, keyword, mode],
+  const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
+    queryKey: ['doctorClinicBookingMonth', time, mode],
     queryFn: () =>
       doctorClinicBookingApi.doctorClinicBookingControllerGetBookingByMonth(
         dayjs(time).format(DATE_TIME_FORMAT),
@@ -90,19 +49,55 @@ const ListBooking = () => {
     enabled: !!time && mode === TimelineMode.MONTH,
   });
 
+  const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
+    queryKey: ['doctorClinicHolidayMonth', time, mode],
+    queryFn: () =>
+      holidayScheduleApi.holidayScheduleControllerGetMonth(
+        user.clinicId,
+        dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
+      ),
+    enabled: !!time && mode === TimelineMode.MONTH,
+  });
+
+  const handleRefetchMonth = () => {
+    onRefetchBookingMonth();
+    onRefetchHolidayMonth();
+  };
+
+  const renderTimeline = (mode?: TimelineMode) => {
+    let currentScreen: ReactNode = null;
+
+    switch (mode) {
+      case TimelineMode.WEEK:
+        currentScreen = <TimelineWeek form={form} listBookingWeek={listBookingWeek?.data || []} user={user} />;
+        break;
+      case TimelineMode.MONTH:
+        currentScreen = (
+          <TimelineMonth
+            form={form}
+            listBookingMonth={listBookingMonth?.data || []}
+            listHolidayMonth={listHolidayMonth?.data || []}
+            onRefetchMonth={handleRefetchMonth}
+            user={user}
+          />
+        );
+        break;
+      default:
+        break;
+    }
+
+    return currentScreen;
+  };
+
   return (
     <>
       <Row gutter={[0, 10]}>
         <Col span={24}>
-          <TimelineControl form={form} />
+          <TimelineControl form={form} user={user} />
         </Col>
 
-        <Col span={24}>
-          {mode === TimelineMode.DATE ? (
-            <TimelineDay form={form} listBookingDay={listBookingDay?.data || []} />
-          ) : (
-            <TimelineMonth form={form} listBookingMonth={listBookingMonth?.data || []} />
-          )}
+        <Col span={24} className="timeline-custom-container">
+          {renderTimeline(mode)}
         </Col>
 
         <Col span={24}>

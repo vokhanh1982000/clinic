@@ -1,18 +1,20 @@
 import { Col, FormInstance, Row } from 'antd';
 import { FC } from 'react';
 import { useIntl } from 'react-intl';
-import { IFormData, n } from '../../routes/doctor/booking';
+import { Administrator, AdministratorClinic, Customer, DoctorClinic } from '../../apis/client-axios';
 import FormSearch from '../FormSearch';
 import FormWrap from '../FormWrap';
 import TimelineControlMode from './Mode';
 import TimelineControlPicker from './Picker';
+import { IFormData, n } from './constants';
 
 interface TimelineControlProps {
   form: FormInstance<IFormData>;
+  user: Administrator | Customer | AdministratorClinic | DoctorClinic;
 }
 
 const TimelineControl: FC<TimelineControlProps> = (props) => {
-  const { form } = props;
+  const { form, user } = props;
 
   const intl = useIntl();
 
@@ -35,7 +37,7 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
           <TimelineControlPicker form={form} />
         </Col>
         <Col>
-          <TimelineControlMode />
+          <TimelineControlMode user={user} />
         </Col>
       </Row>
     </FormWrap>
