@@ -21,6 +21,7 @@ import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteM
 import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
 import { handleInputChangeUpperCase } from '../../../../constants/function';
+import { CustomHandleError } from '../../../../components/response';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -84,12 +85,13 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getDetailAdmin', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
-      onError: ({ response }) => {
-        if (response.data.message === 'CODE_IS_EXIST') {
-          message.error(intl.formatMessage({ id: `common.noti.code` }));
-        } else if (response.data.message === 'PHONE_IS_EXIST') {
-          message.error(intl.formatMessage({ id: `common.noti.phone` }));
-        }
+      onError: (error: any) => {
+        // if (response.data.message === 'CODE_IS_EXIST') {
+        //   message.error(intl.formatMessage({ id: `common.noti.code` }));
+        // } else if (response.data.message === 'PHONE_IS_EXIST') {
+        //   message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        // }
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -103,12 +105,13 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getDetailAdmin', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
-      onError: ({ response }) => {
-        if (response.data.message === 'CODE_IS_EXIST') {
-          message.error(intl.formatMessage({ id: `common.noti.code` }));
-        } else if (response.data.message === 'PHONE_IS_EXIST') {
-          message.error(intl.formatMessage({ id: `common.noti.phone` }));
-        }
+      onError: (error: any) => {
+        // if (response.data.message === 'CODE_IS_EXIST') {
+        //   message.error(intl.formatMessage({ id: `common.noti.code` }));
+        // } else if (response.data.message === 'PHONE_IS_EXIST') {
+        //   message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        // }
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

@@ -20,6 +20,7 @@ import { error } from 'console';
 import { isNumber, values } from 'lodash';
 import { FORMAT_DATE } from '../../../../constants/common';
 import dayjs from 'dayjs';
+import { CustomHandleError } from '../../../../components/response';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -70,12 +71,13 @@ const CreateDoctor = () => {
       onSuccess: ({ data }) => {
         navigate(-1);
       },
-      onError: ({ response }) => {
-        if (response.data.message === 'CODE_IS_EXIST') {
-          message.error(intl.formatMessage({ id: `common.noti.code` }));
-        } else if (response.data.message === 'PHONE_IS_EXIST') {
-          message.error(intl.formatMessage({ id: `common.noti.phone` }));
-        }
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
+        // if (response.data.message === 'CODE_IS_EXIST') {
+        //   message.error(intl.formatMessage({ id: `common.noti.code` }));
+        // } else if (response.data.message === 'PHONE_IS_EXIST') {
+        //   message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        // }
         // message.error(intl.formatMessage({ id: 'doctor.create.error' }));
       },
     }
@@ -88,12 +90,13 @@ const CreateDoctor = () => {
       onSuccess: ({ data }) => {
         navigate(-1);
       },
-      onError: ({ response }) => {
-        if (response.data.message === 'CODE_IS_EXIST') {
-          message.error(intl.formatMessage({ id: `common.noti.code` }));
-        } else if (response.data.message === 'PHONE_IS_EXIST') {
-          message.error(intl.formatMessage({ id: `common.noti.phone` }));
-        }
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
+        // if (response.data.message === 'CODE_IS_EXIST') {
+        //   message.error(intl.formatMessage({ id: `common.noti.code` }));
+        // } else if (response.data.message === 'PHONE_IS_EXIST') {
+        //   message.error(intl.formatMessage({ id: `common.noti.phone` }));
+        // }
       },
     }
   );

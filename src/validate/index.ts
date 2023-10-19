@@ -6,7 +6,6 @@ interface Validate {
 }
 
 const REGEX_URL = '';
-const REGEX_PHONE_NUMBER = /^0[1-9][0-9]{8}$/;
 const POSTAL_CODE = '';
 const START_SPACE = /^(?![\s])[\s\S]*/;
 
@@ -546,16 +545,9 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       //   message: intl.formatMessage({ id: 'validate.staff-code.required' }),
       // },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.staff-code.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({ id: 'validate.space' }),
+        }),
       },
     ],
   };

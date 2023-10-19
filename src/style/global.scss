@@ -248,3 +248,37 @@ select[multiple] {
   text-overflow: ellipsis;
   /* Các thuộc tính CSS khác */
 }
+
+.color-1A1A1A {
+  color: #1a1a1a !important;
+}
+
+.font-family-primary {
+  font-family: Open-Sans;
+}
+
+@for $i from 0 through 2000 {
+  .width-#{$i} {
+    width: #{$i}px !important;
+  }
+
+  .height-#{$i} {
+    height: #{$i}px !important;
+  }
+
+  .min-width-#{$i} {
+    min-width: #{$i}px !important;
+  }
+
+  .min-height-#{$i} {
+    min-height: #{$i}px !important;
+  }
+
+  .max-width-#{$i} {
+    max-width: #{$i}px !important;
+  }
+
+  .max-height-#{$i} {
+    max-height: #{$i}px !important;
+  }
+}

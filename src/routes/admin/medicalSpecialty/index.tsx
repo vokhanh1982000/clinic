@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { categoryApi } from '../../../apis';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../../apis/client-axios';
 import { debounce } from 'lodash';
+import { CustomHandleError } from '../../../components/response';
 
 const ListMedicalSpecialty = () => {
   const intl = useIntl();
@@ -39,10 +40,17 @@ const ListMedicalSpecialty = () => {
     (createCategory: CreateCategoryDto) => categoryApi.categoryControllerCreateCategory(createCategory),
     {
       onSuccess: (data) => {
+        console.log('success: ', data);
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        // if(response?.data.message === 'NAME_IS_EXIST'){
+        //   message.error(intl.formatMessage({ id: 'category.noti.create.fail' }));
+        // }else{
+        //   message.error(intl.formatMessage({ id: 'category.noti.fail' }));
+        // }
+
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -54,7 +62,14 @@ const ListMedicalSpecialty = () => {
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        // if(response?.data.message === 'NAME_IS_EXIST'){
+        //   message.error(intl.formatMessage({ id: 'category.noti.create.fail' }));
+        // }else if(response?.data.message === 'CATEGORY_NOT_FOUND'){
+        //   message.error(intl.formatMessage({ id: 'category.noti.not.found' }));
+        // }else{
+        //   message.error(intl.formatMessage({ id: 'category.noti.fail' }));
+        // }
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

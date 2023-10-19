@@ -12,5 +12,8 @@
   "category.modal.create.button.cancel": "Hủy",
   "category.modal.create.button.edit": "Lưu thông tin",
   "category.modal.create.button.delete": "Xóa chuyên khoa",
-  "category.modal.delete.subName": "chuyên khoa"
+  "category.modal.delete.subName": "chuyên khoa",
+  "category.noti.create.fail": "Tên chuyên khoa có thể đã được sử dụng. Vui lòng thử lại",
+  "category.noti.fail": "Đã có lỗi xảy ra vui lòng thử lại",
+  "category.noti.not.found": "Không tìm thấy chuyên khoa. chuyên khoa có thể đã bị xóa. Vui lòng thử lại"
 }
