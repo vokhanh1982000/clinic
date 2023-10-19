@@ -19,6 +19,13 @@
   background-color: $primary_color;
 }
 
+.custom-switch {
+  .ant-switch-checked,
+  .ant-switch-checked:hover {
+    background: $primary_color !important;
+  }
+}
+
 .custom-table {
   .ant-table {
     border-radius: 12px;
@@ -151,6 +158,7 @@
 .ant-form-item-required::after {
   content: unset !important;
 }
+
 .ant-layout-content {
   overflow: unset !important;
 }

@@ -27,7 +27,7 @@
   "common.password.regex": "Mật khẩu chỉ bao gồm chữ thường , chữ in hoa, số, 1 vài kí tự đặc biệt như #$@!%&*?",
   "common.upload": "Tải ảnh",
   "common.message.err": "Đã có lỗi xảy ra. Vui lòng thử lại",
-  "common.province.name": "Tỉnh thành",
+  "common.province.name": "Tỉnh/Thành phố",
   "common.district.name": "Quận/Huyện",
   "common.ward.name": "Xã/Phường",
   "common.address.name": "Địa chỉ",
@@ -39,5 +39,6 @@
   "common.upload.fail": "Tải ảnh thất bại",
   "common.noti.code": "Mã nhân sự đã được sử dụng. Vui lòng thử lại với mã khác",
   "common.noti.phone": "Số điện thoại đã được sử dụng. Vui lòng thử lại",
-  "common.noti.fullName.limit": "Quá số lượng kí tự cho phép"
+  "common.noti.fullName.limit": "Tối đa 36 kí tự",
+  "common.place-holder.dob": "Chọn ngày sinh"
 }

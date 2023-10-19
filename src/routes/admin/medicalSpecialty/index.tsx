@@ -142,6 +142,7 @@ const ListMedicalSpecialty = () => {
             }
             debouncedUpdateInputValue(e.target.value);
           }}
+          allowClear
         />
       </div>
 

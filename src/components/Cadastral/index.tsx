@@ -10,8 +10,8 @@ export interface cadastralProp {
   form?: FormInstance;
   provinceId?: string;
   districtId?: string;
-  setProvinceId: (id: string) => void;
-  setDistrictId: (id: string) => void;
+  setProvinceId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setDistrictId: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 export const CadastalCustom = (props: cadastralProp) => {
@@ -37,6 +37,7 @@ export const CadastalCustom = (props: cadastralProp) => {
 
   const handleChangeProvince = (value: string) => {
     setProvinceId(value);
+    setDistrictId(undefined);
     if (form)
       form.setFieldsValue({
         districtId: undefined,

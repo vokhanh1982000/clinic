@@ -95,7 +95,12 @@ export const CategoryModal = (props: CategoryModalProps) => {
               })}
               rules={ValidateLibrary(intl).nameCategory}
             >
-              <CustomInput maxLength={255} />
+              <CustomInput
+                maxLength={255}
+                placeholder={intl.formatMessage({
+                  id: 'category.modal.create.name',
+                })}
+              />
             </Form.Item>
           </div>
 

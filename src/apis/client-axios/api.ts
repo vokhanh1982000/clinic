@@ -2230,6 +2230,12 @@ export interface CreateHolidayScheduleDto {
      * @memberof CreateHolidayScheduleDto
      */
     'date': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateHolidayScheduleDto
+     */
+    'clinicId'?: string;
 }
 /**
  * 
@@ -2579,6 +2585,50 @@ export const CustomerGenderEnum = {
 
 export type CustomerGenderEnum = typeof CustomerGenderEnum[keyof typeof CustomerGenderEnum];
 
+/**
+ * 
+ * @export
+ * @interface CustomerBookingControllerGetPaginatedBooking200Response
+ */
+export interface CustomerBookingControllerGetPaginatedBooking200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomerBookingControllerGetPaginatedBooking200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomerBookingControllerGetPaginatedBooking200Response
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomerBookingControllerGetPaginatedBooking200Response
+     */
+    'size': number;
+    /**
+     * 
+     * @type {Array<Booking>}
+     * @memberof CustomerBookingControllerGetPaginatedBooking200Response
+     */
+    'content'?: Array<Booking>;
+}
+/**
+ * 
+ * @export
+ * @interface CustomerBookingControllerGetPaginatedBooking200ResponseAllOf
+ */
+export interface CustomerBookingControllerGetPaginatedBooking200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<Booking>}
+     * @memberof CustomerBookingControllerGetPaginatedBooking200ResponseAllOf
+     */
+    'content'?: Array<Booking>;
+}
 /**
  * 
  * @export
@@ -4795,6 +4845,12 @@ export interface UpdateHolidayScheduleDto {
      * @memberof UpdateHolidayScheduleDto
      */
     'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateHolidayScheduleDto
+     */
+    'clinicId'?: string;
 }
 /**
  * 
@@ -5841,7 +5897,7 @@ export const AdminBookingApiAxiosParamCreator = function (configuration?: Config
         adminBookingControllerFindOne: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminBookingControllerFindOne', 'id', id)
-            const localVarPath = `/admin-booking/get-booking/{id}`
+            const localVarPath = `/admin-booking/get-booking-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5988,7 +6044,7 @@ export const AdminBookingApiAxiosParamCreator = function (configuration?: Config
         adminBookingControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminBookingControllerRemove', 'id', id)
-            const localVarPath = `/admin-booking/delete-booking/{id}`
+            const localVarPath = `/admin-booking/delete-booking-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6028,7 +6084,7 @@ export const AdminBookingApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('adminBookingControllerUpdate', 'id', id)
             // verify required parameter 'adminUpdateBookingDto' is not null or undefined
             assertParamExists('adminBookingControllerUpdate', 'adminUpdateBookingDto', adminUpdateBookingDto)
-            const localVarPath = `/admin-booking/update-booking/{id}`
+            const localVarPath = `/admin-booking/update-booking-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6406,7 +6462,7 @@ export const AdminClinicBookingApiAxiosParamCreator = function (configuration?: 
         adminClinicBookingControllerFindOne: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminClinicBookingControllerFindOne', 'id', id)
-            const localVarPath = `/admin-clinic-booking/{id}`
+            const localVarPath = `/admin-clinic-booking/get-booking-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6593,7 +6649,7 @@ export const AdminClinicBookingApiAxiosParamCreator = function (configuration?: 
         adminClinicBookingControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminClinicBookingControllerRemove', 'id', id)
-            const localVarPath = `/admin-clinic-booking/{id}`
+            const localVarPath = `/admin-clinic-booking/delete-booking-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6633,7 +6689,7 @@ export const AdminClinicBookingApiAxiosParamCreator = function (configuration?: 
             assertParamExists('adminClinicBookingControllerUpdate', 'id', id)
             // verify required parameter 'adminClinicUpdateBookingDto' is not null or undefined
             assertParamExists('adminClinicBookingControllerUpdate', 'adminClinicUpdateBookingDto', adminClinicUpdateBookingDto)
-            const localVarPath = `/admin-clinic-booking/update-booking/{id}`
+            const localVarPath = `/admin-clinic-booking/update-booking-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11250,6 +11306,66 @@ export const CustomerBookingApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [customerId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        customerBookingControllerGetPaginatedBooking: async (page: number, size?: number, sort?: string, fullTextSearch?: string, customerId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('customerBookingControllerGetPaginatedBooking', 'page', page)
+            const localVarPath = `/customer-booking/get-paginated-booking`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (customerId !== undefined) {
+                localVarQueryParameter['customerId'] = customerId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {UpdateStatusBookingDto} updateStatusBookingDto 
          * @param {*} [options] Override http request option.
@@ -11335,6 +11451,20 @@ export const CustomerBookingApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [customerId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async customerBookingControllerGetPaginatedBooking(page: number, size?: number, sort?: string, fullTextSearch?: string, customerId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerBookingControllerGetPaginatedBooking200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.customerBookingControllerGetPaginatedBooking(page, size, sort, fullTextSearch, customerId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {UpdateStatusBookingDto} updateStatusBookingDto 
          * @param {*} [options] Override http request option.
@@ -11382,6 +11512,19 @@ export const CustomerBookingApiFactory = function (configuration?: Configuration
          */
         customerBookingControllerGetBookingById(id: string, options?: any): AxiosPromise<Booking> {
             return localVarFp.customerBookingControllerGetBookingById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {string} [customerId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        customerBookingControllerGetPaginatedBooking(page: number, size?: number, sort?: string, fullTextSearch?: string, customerId?: string, options?: any): AxiosPromise<CustomerBookingControllerGetPaginatedBooking200Response> {
+            return localVarFp.customerBookingControllerGetPaginatedBooking(page, size, sort, fullTextSearch, customerId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -11436,6 +11579,21 @@ export class CustomerBookingApi extends BaseAPI {
      */
     public customerBookingControllerGetBookingById(id: string, options?: AxiosRequestConfig) {
         return CustomerBookingApiFp(this.configuration).customerBookingControllerGetBookingById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {string} [customerId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomerBookingApi
+     */
+    public customerBookingControllerGetPaginatedBooking(page: number, size?: number, sort?: string, fullTextSearch?: string, customerId?: string, options?: AxiosRequestConfig) {
+        return CustomerBookingApiFp(this.configuration).customerBookingControllerGetPaginatedBooking(page, size, sort, fullTextSearch, customerId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -13685,7 +13843,7 @@ export const HolidayScheduleApiAxiosParamCreator = function (configuration?: Con
         holidayScheduleControllerCreate: async (createHolidayScheduleDto: CreateHolidayScheduleDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'createHolidayScheduleDto' is not null or undefined
             assertParamExists('holidayScheduleControllerCreate', 'createHolidayScheduleDto', createHolidayScheduleDto)
-            const localVarPath = `/holiday-schedule/create`;
+            const localVarPath = `/holiday-schedule/create-holiday-schedule`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -13822,7 +13980,7 @@ export const HolidayScheduleApiAxiosParamCreator = function (configuration?: Con
         holidayScheduleControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('holidayScheduleControllerRemove', 'id', id)
-            const localVarPath = `/holiday-schedule/{id}`
+            const localVarPath = `/holiday-schedule/update-holiday-schedule-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -13852,14 +14010,18 @@ export const HolidayScheduleApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
+         * @param {string} id 
          * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        holidayScheduleControllerUpdate: async (updateHolidayScheduleDto: UpdateHolidayScheduleDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        holidayScheduleControllerUpdate: async (id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('holidayScheduleControllerUpdate', 'id', id)
             // verify required parameter 'updateHolidayScheduleDto' is not null or undefined
             assertParamExists('holidayScheduleControllerUpdate', 'updateHolidayScheduleDto', updateHolidayScheduleDto)
-            const localVarPath = `/holiday-schedule/update/{id}`;
+            const localVarPath = `/holiday-schedule/update-holiday-schedule-by-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -13943,12 +14105,13 @@ export const HolidayScheduleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} id 
          * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async holidayScheduleControllerUpdate(updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HolidaySchedule>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.holidayScheduleControllerUpdate(updateHolidayScheduleDto, options);
+        async holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HolidaySchedule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -14001,12 +14164,13 @@ export const HolidayScheduleApiFactory = function (configuration?: Configuration
         },
         /**
          * 
+         * @param {string} id 
          * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        holidayScheduleControllerUpdate(updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: any): AxiosPromise<HolidaySchedule> {
-            return localVarFp.holidayScheduleControllerUpdate(updateHolidayScheduleDto, options).then((request) => request(axios, basePath));
+        holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: any): AxiosPromise<HolidaySchedule> {
+            return localVarFp.holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -14066,13 +14230,14 @@ export class HolidayScheduleApi extends BaseAPI {
 
     /**
      * 
+     * @param {string} id 
      * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HolidayScheduleApi
      */
-    public holidayScheduleControllerUpdate(updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig) {
-        return HolidayScheduleApiFp(this.configuration).holidayScheduleControllerUpdate(updateHolidayScheduleDto, options).then((request) => request(this.axios, this.basePath));
+    public holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig) {
+        return HolidayScheduleApiFp(this.configuration).holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
