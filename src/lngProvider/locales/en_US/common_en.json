@@ -40,6 +40,7 @@
   "common.noti.phone": "The phone number is already in use. Please try again",
   "common.upload.fail": "Upload fail",
   "common.noti.fullName.limit": "Maximum 36 characters",
+  "common.place-holder.dob": "Choose day of birth",
   "common.timeline.sunday": "Sunday",
   "common.timeline.monday": "Monday",
   "common.timeline.tuesday": "Tuesday",
