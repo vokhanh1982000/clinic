@@ -19,6 +19,13 @@
   background-color: $primary_color;
 }
 
+.custom-switch {
+  .ant-switch-checked,
+  .ant-switch-checked:hover {
+    background: $primary_color !important;
+  }
+}
+
 .custom-table {
   .ant-table {
     border-radius: 12px;
@@ -152,6 +159,10 @@
   content: unset !important;
 }
 
+.ant-layout-content {
+  overflow: unset !important;
+}
+
 //.ant-form-item {
 //  .ant-form-item-label {
 //    .ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
@@ -250,18 +261,23 @@ select[multiple] {
   .width-#{$i} {
     width: #{$i}px !important;
   }
+
   .height-#{$i} {
     height: #{$i}px !important;
   }
+
   .min-width-#{$i} {
     min-width: #{$i}px !important;
   }
+
   .min-height-#{$i} {
     min-height: #{$i}px !important;
   }
+
   .max-width-#{$i} {
     max-width: #{$i}px !important;
   }
+
   .max-height-#{$i} {
     max-height: #{$i}px !important;
   }

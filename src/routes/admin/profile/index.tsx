@@ -107,6 +107,7 @@ const Profile = () => {
                     rules={ValidateLibrary(intl).fullName}
                   >
                     <CustomInput
+                      maxLength={36}
                       placeholder={intl.formatMessage({
                         id: 'admin-profile.fullName',
                       })}

@@ -61,7 +61,7 @@ const ListRole = () => {
   }, 500);
 
   const handleSearch = (e: any) => {
-    if (debouncedUpdateInputValue.caller) {
+    if (debouncedUpdateInputValue.cancel) {
       debouncedUpdateInputValue.cancel();
     }
     debouncedUpdateInputValue(e.target.value);
@@ -88,7 +88,6 @@ const ListRole = () => {
         </CustomButton>
       </div>
       <CustomInput
-        value={fullTextSearch}
         onChange={(e) => handleSearch(e)}
         placeholder={intl.formatMessage({
           id: 'role.list.search',

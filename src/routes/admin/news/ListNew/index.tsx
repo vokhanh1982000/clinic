@@ -105,6 +105,7 @@ const ListNew = () => {
             }
             debouncedUpdateInputValue(e.target.value);
           }}
+          allowClear
         />
         <CustomSelect
           className="select-status"
@@ -142,7 +143,7 @@ const ListNew = () => {
         />
       </div>
       <TableWrap
-        className="custom-table"
+        className="custom-table table-new"
         data={data?.data.content}
         // isLoading={isLoading}
         page={page}
@@ -156,8 +157,8 @@ const ListNew = () => {
           title={intl.formatMessage({
             id: 'new.list.table.image',
           })}
-          dataIndex="fullName"
-          width={'15%'}
+          dataIndex="image"
+          width={'25%'}
           render={(_, record: any) => {
             if (record.avatar && record.avatar.preview) {
               return <img className="image-new" src={process.env.REACT_APP_URL_IMG_S3 + record.avatar.preview} />;
@@ -169,7 +170,10 @@ const ListNew = () => {
             id: 'new.list.table.title',
           })}
           dataIndex="title"
-          width={'20%'}
+          width={'30%'}
+          render={(_, record: any) => {
+            return <div className="title-new">{record.title}</div>;
+          }}
         />
         <Column
           title={intl.formatMessage({
@@ -181,7 +185,7 @@ const ListNew = () => {
             return <div>{moment(record.createdOnDate).format(FORMAT_DATE_VN)}</div>;
           }}
         />
-        <Column
+        {/* <Column
           title={intl.formatMessage({
             id: 'new.list.table.content',
           })}
@@ -190,7 +194,7 @@ const ListNew = () => {
           render={(_, record: any) => {
             return <div className="content-new" dangerouslySetInnerHTML={{ __html: record.content }}></div>;
           }}
-        />
+        /> */}
         <Column
           title={intl.formatMessage({
             id: 'new.list.table.status',
@@ -199,12 +203,14 @@ const ListNew = () => {
           width={'10%'}
           render={(_, record: any) => {
             return (
-              <Switch
-                checked={record.status}
-                onChange={() => {
-                  UpdateStatusNew(record.id);
-                }}
-              />
+              <div className="item-center custom-switch">
+                <Switch
+                  checked={record.status}
+                  onChange={() => {
+                    UpdateStatusNew(record.id);
+                  }}
+                />
+              </div>
             );
           }}
         />
@@ -213,7 +219,7 @@ const ListNew = () => {
             id: 'new.list.table.action',
           })}
           dataIndex="action"
-          width={'15%'}
+          width={'20%'}
           render={(_, record: any) => (
             <div className="action-new">
               <div onClick={() => navigate(`detail/${record.id}`)}>

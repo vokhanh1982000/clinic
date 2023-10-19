@@ -187,7 +187,7 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
                       setIsDeleteManager({ id: manager.id, name: manager.fullName || manager.phoneNumber });
                     }}
                   >
-                    <IconSVG type="close" />
+                    <IconSVG type="close-black-light" />
                   </div>
                 </div>
               );
@@ -233,7 +233,10 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
         })}
         visible={!!isDeleteManager}
         onSubmit={handleDelete}
-        onClose={() => setIsDeleteManager(undefined)}
+        onClose={() => {
+          setIsDeleteManager(undefined);
+          form.resetFields();
+        }}
       />
     </div>
   );

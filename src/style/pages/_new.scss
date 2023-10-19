@@ -58,6 +58,36 @@
     }
   }
 
+  .table-new {
+    .ant-table-tbody {
+      tr {
+        height: 135px;
+
+        .ant-table-cell {
+          height: 135px;
+          max-height: 135px;
+          word-break: break-all;
+
+          .title-new {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+          }
+
+          img {
+            margin: auto;
+          }
+        }
+
+        td:first-child {
+          display: flex;
+        }
+      }
+    }
+  }
+
   .image-new {
     max-width: 100%;
     max-height: 100%;
@@ -105,7 +135,7 @@
 #create-new-management {
   .container-new {
     display: flex;
-    gap: 15px;
+    gap: 25px;
 
     .left-container {
       width: 60%;
@@ -113,6 +143,14 @@
 
       .ck-editor__editable {
         height: 75vh;
+      }
+
+      .ck-toolbar {
+        border-radius: 6px 6px 0 0;
+      }
+
+      .ck-content {
+        border-radius: 0 0 6px 6px;
       }
     }
 
@@ -147,7 +185,7 @@
       &__content {
         border: 1px solid $border_input_color;
         border-radius: 24px;
-        padding: 15px 10px 25px 10px;
+        padding: 15px 20px 25px 20px;
         display: flex;
         flex-direction: column;
         gap: 15px;

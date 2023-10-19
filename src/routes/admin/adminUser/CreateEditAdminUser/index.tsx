@@ -20,6 +20,7 @@ import CustomSelect from '../../../../components/select/CustomSelect';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
+import { handleInputChangeUpperCase } from '../../../../constants/function';
 import { CustomHandleError } from '../../../../components/response';
 
 const CreateAdmin = () => {
@@ -257,7 +258,7 @@ const CreateAdmin = () => {
                         rules={ValidateLibrary(intl).fullName}
                         name={n('fullName')}
                       >
-                        <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.fullName' })} />
+                        <CustomInput maxLength={36} placeholder={intl.formatMessage({ id: 'admin.user.fullName' })} />
                       </Form.Item>
                     </div>
                     <div className="code">
@@ -285,7 +286,11 @@ const CreateAdmin = () => {
                         rules={ValidateLibrary(intl).code}
                         name={n('code')}
                       >
-                        <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.code' })} />
+                        <CustomInput
+                          placeholder={intl.formatMessage({ id: 'admin.user.code' })}
+                          maxLength={36}
+                          onInput={handleInputChangeUpperCase}
+                        />
                       </Form.Item>
                     </div>
                   </Row>
@@ -328,7 +333,13 @@ const CreateAdmin = () => {
                     <div className="admin-management__item-col">
                       <header>{intl.formatMessage({ id: 'admin.user.dateOfBirth' })}</header>
                       <Form.Item name={n('dateOfBirth')}>
-                        <DatePickerCustom dateFormat={FORMAT_DATE} className="date-select"></DatePickerCustom>
+                        <DatePickerCustom
+                          dateFormat={FORMAT_DATE}
+                          className="date-select"
+                          placeHolder={intl.formatMessage({
+                            id: 'common.place-holder.dob',
+                          })}
+                        ></DatePickerCustom>
                       </Form.Item>
                     </div>
                     <div className="admin-management__item-col">
@@ -389,7 +400,7 @@ const CreateAdmin = () => {
                         // ]}
                         rules={ValidateLibrary(intl).passwordCustom}
                       >
-                        <CustomInput placeholder="********" isPassword={true} />
+                        <CustomInput placeholder="********" isPassword={true} maxLength={16} />
                       </Form.Item>
                     </Row>
                   )}

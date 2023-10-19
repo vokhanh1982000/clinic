@@ -288,7 +288,7 @@ const CreateNew = () => {
                 </span>
               )}
             </div>
-            <div className="right-container__content__status">
+            <div className="right-container__content__status custom-switch">
               <div className="right-container__content__status__label">
                 {intl.formatMessage({
                   id: 'new.create.status',
