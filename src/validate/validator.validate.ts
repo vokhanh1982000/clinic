@@ -4,7 +4,7 @@ import isEmail from 'validator/lib/isEmail';
 import isFloat from 'validator/lib/isFloat';
 import isLength from 'validator/lib/isLength';
 import isURL from 'validator/lib/isURL';
-import { isValidPhoneNumber } from 'libphonenumber-js';
+import { isPossiblePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 
 type Optịon = {
   message: string;
@@ -115,7 +115,9 @@ const VALIDATOR: any = {
     }
 
     const isValid = isValidPhoneNumber(value, 'VN');
-    if (!isValid) {
+    const possible = isPossiblePhoneNumber(value, 'VN');
+    const regex = /^0[1-9][0-9]{8}$/;
+    if (!isValid || !possible || !regex.test(value)) {
       throw new Error(getMessage(option));
     }
   },
