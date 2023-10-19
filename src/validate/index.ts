@@ -66,10 +66,20 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           space: intl.formatMessage({
             id: 'validate.space',
           }),
-          phone: intl.formatMessage({
-            id: 'validate.phone',
-          }),
         }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          const regex = new RegExp(REGEX_PHONE_NUMBER);
+          if (regex.test(value)) {
+            return Promise.resolve();
+          }
+          return Promise.reject(
+            intl.formatMessage({
+              id: 'validate.phone',
+            })
+          );
+        },
       },
     ],
     dob: [
@@ -291,7 +301,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     code: [
       {
         required: true,
-        message: intl.formatMessage({ id: 'common.noti.input' }),
+        message: intl.formatMessage({ id: 'validate.staff-code.required' }),
       },
       {
         max: 36,
@@ -352,6 +362,12 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         },
       },
     ],
+    specialist: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.specialist' }),
+      },
+    ],
     address: [
       {
         max: 36,
@@ -379,7 +395,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     passwordCustom: [
       {
         required: true,
-        message: intl.formatMessage({ id: 'common.noti.input' }),
+        message: intl.formatMessage({ id: 'validate.required.password' }),
       },
       {
         min: 8,
