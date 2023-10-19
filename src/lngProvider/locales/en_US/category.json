@@ -12,5 +12,8 @@
   "category.modal.create.button.cancel": "Cancel",
   "category.modal.create.button.edit": "Save",
   "category.modal.create.button.delete": "Delete",
-  "category.modal.delete.subName": "medical specialty"
+  "category.modal.delete.subName": "medical specialty",
+  "category.noti.create.fail": "The category name may already be in use. Please try again",
+  "category.noti.fail": "An error occurred, please try again",
+  "category.noti.not.found": "Expert not found. Expert may have been removed. Please try again"
 }

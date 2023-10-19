@@ -4,7 +4,7 @@
   "validate.min_1_char": "Ít nhất 1 kí tự",
   "validate.space": "Không được nhập khoảng trắng đầu dòng",
   "validate.required.category-name": "Vui lòng nhập Chuyên khoa",
-  "validate.phone": "Không đúng định dạng",
+  "validate.phone": "Số điện thoại bao gồm 10 ký tự số và bắt đầu bằng số 0",
   "validate.email": "Email không hợp lệ",
   "validate.medicine.name.required": "Vui lòng nhập tên thuốc",
   "validate.medicine.usage.required": "Vui lòng nhập công dụng",
