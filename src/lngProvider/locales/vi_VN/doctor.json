@@ -44,5 +44,6 @@
   "doctor.status.false": "Đã nghỉ việc",
   "doctor.create.error": "Tạo mới thất bại. Mã nhân sự hoặc số điện thoại có thể đã được sử dụng. Vui lòng kiểm tra lại",
   "doctor.delete.success": "Xóa bác sĩ thành công",
-  "doctor.delete.fail": "Đã có lỗi xảy ra. Vui lòng thử lại sau"
+  "doctor.delete.fail": "Đã có lỗi xảy ra. Vui lòng thử lại sau",
+  "doctor.language": "Ngôn ngữ"
 }

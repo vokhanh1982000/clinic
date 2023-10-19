@@ -44,6 +44,7 @@ const CreateDoctor = () => {
         ...data,
         status: +data.status,
         categoryIds: data.categories.flatMap((item) => item.id),
+        languageIds: data.languages?.flatMap((item) => item.id),
         dateOfBirth: data.dateOfBirth ? dayjs(moment(data.dateOfBirth).format(FORMAT_DATE)) : null,
       });
       if (data.avatar) {
@@ -98,6 +99,7 @@ const CreateDoctor = () => {
   };
 
   const onFinish = (values: any) => {
+    console.log(values);
     if (!id) {
       createDoctorSupport.mutate({
         ...values,

@@ -18,6 +18,7 @@ import {
   DoctorSupportApi,
   NewsApi,
   DoctorClinicBookingApi,
+  LanguageApi,
 } from './client-axios';
 
 const config = new Configuration({
@@ -54,6 +55,7 @@ const adminClinicApi = new AdministratorClinicApi(config, undefined, axiosInstan
 const assetsApi = new AssetsApi(config, undefined, axiosInstance);
 const doctorSupportApi = new DoctorSupportApi(config, undefined, axiosInstance);
 const newsApi = new NewsApi(config, undefined, axiosInstance);
+const languageApi = new LanguageApi(config, undefined, axiosInstance);
 
 export {
   authApi,
@@ -72,4 +74,5 @@ export {
   assetsApi,
   doctorSupportApi,
   newsApi,
+  languageApi,
 };
