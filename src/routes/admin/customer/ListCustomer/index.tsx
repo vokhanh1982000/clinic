@@ -52,7 +52,12 @@ const ListUser = () => {
   };
 
   const debouncedUpdateInputValue = debounce((value) => {
-    setFullTextSearch(value);
+    if (!value.trim()) {
+      setFullTextSearch('');
+    } else {
+      setFullTextSearch(value);
+    }
+    setPage(1);
   }, 500);
 
   return (
@@ -101,6 +106,7 @@ const ListUser = () => {
             } else {
               setStatus(Boolean(Number(e)));
             }
+            setPage(1);
           }}
           options={[
             {

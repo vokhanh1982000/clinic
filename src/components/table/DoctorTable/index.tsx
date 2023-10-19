@@ -16,6 +16,7 @@ import { useAppSelector } from '../../../store';
 import { AdministratorClinic } from '../../../apis/client-axios';
 import CustomSelect from '../../select/CustomSelect';
 import { DefaultOptionType } from 'antd/es/select';
+import { debounce } from 'lodash';
 
 interface DoctorTableProps {
   placeHolder?: string;
@@ -87,10 +88,20 @@ export const DoctorTable = (props: DoctorTableProps) => {
   });
 
   const handleSearch = (e: any) => {
-    if (!e.target.value.trim()) return setFullTextSearch('');
-    setFullTextSearch(e.target.value);
-    setPage(1);
+    if (debouncedUpdateInputValue.cancel) {
+      debouncedUpdateInputValue.cancel();
+    }
+    debouncedUpdateInputValue(e.target.value);
   };
+
+  const debouncedUpdateInputValue = debounce((value) => {
+    if (!value.trim()) {
+      setFullTextSearch('');
+    } else {
+      setFullTextSearch(value);
+    }
+    setPage(1);
+  }, 500);
 
   const handleDelete = () => {
     if (deleteFc && isShowModalDelete?.id) deleteFc(isShowModalDelete.id);
@@ -122,6 +133,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
             id: 'doctor.list.filter.specialist',
           })}
           onChange={(e) => {
+            setPage(1);
             setCategoryId(e);
           }}
           showSearch={false}
@@ -138,6 +150,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           })}
           value={status}
           onChange={(e) => {
+            setPage(1);
             setStatus(Number(e));
           }}
           options={[

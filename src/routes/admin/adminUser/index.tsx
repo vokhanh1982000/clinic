@@ -54,12 +54,15 @@ const ListRole = () => {
   };
 
   const debouncedUpdateInputValue = debounce((value) => {
-    setFullTextSearch(value);
+    if (!value.trim()) {
+      setFullTextSearch(null);
+    } else {
+      setFullTextSearch(value);
+    }
     setPage(1);
   }, 500);
 
   const handleSearch = (e: any) => {
-    if (e.target.value.trim() === '') return setFullTextSearch(null);
     if (debouncedUpdateInputValue.cancel) {
       debouncedUpdateInputValue.cancel();
     }
