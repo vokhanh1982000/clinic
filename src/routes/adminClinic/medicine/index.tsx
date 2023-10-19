@@ -115,8 +115,12 @@ const ListMedicine = () => {
   };
 
   const debouncedUpdateInputValue = debounce((value) => {
+    if (!value.trim()) {
+      setFullTextSearch('');
+    } else {
+      setFullTextSearch(value);
+    }
     setPage(1);
-    setFullTextSearch(value);
   }, 500);
 
   const dropDownUnits: any = [

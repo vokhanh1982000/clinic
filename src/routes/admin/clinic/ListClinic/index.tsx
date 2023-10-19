@@ -97,19 +97,27 @@ const ListClinic = () => {
     setProvinceSelected({ id: option.value, code: option.code });
     setDistrictSelected(undefined);
     setWardSelected(undefined);
+    setPage(1);
   };
 
   const handleChangeDistrict = (value: any, option: any) => {
     setDistrictSelected({ id: option.value, code: option.code });
     setWardSelected(undefined);
+    setPage(1);
   };
 
   const handleChangeWard = (value: any, option: any) => {
     setWardSelected({ id: option.value, code: option.code });
+    setPage(1);
   };
 
   const debouncedUpdateInputValue = debounce((value) => {
-    setFullTextSearch(value);
+    if (!value.trim()) {
+      setFullTextSearch('');
+    } else {
+      setFullTextSearch(value);
+    }
+    setPage(1);
   }, 500);
 
   useEffect(() => {
