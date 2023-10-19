@@ -52,19 +52,21 @@ const ListRole = () => {
   });
 
   const debouncedUpdateInputValue = debounce((value) => {
-    setFullTextSearch(value);
+    if (!value.trim()) {
+      setFullTextSearch(null);
+    } else {
+      setFullTextSearch(value);
+    }
     setPage(1);
-  });
+  }, 500);
 
   const handleSearch = (e: any) => {
-    if (e.target.value.trim() === '') return setFullTextSearch(null);
     if (debouncedUpdateInputValue.caller) {
       debouncedUpdateInputValue.cancel();
     }
     debouncedUpdateInputValue(e.target.value);
   };
 
-  console.log(data);
   return (
     <Card id="role-management">
       <div className="role-management__header">
