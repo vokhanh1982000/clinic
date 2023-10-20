@@ -375,7 +375,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       {
         validator: validator({
           normal: intl.formatMessage({ id: 'common.noti.special' }),
-          space: intl.formatMessage({ id: 'validate.no.space' }),
+          space: intl.formatMessage({ id: 'validate.space' }),
         }),
       },
     ],

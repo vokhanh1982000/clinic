@@ -59,9 +59,9 @@ export const DoctorTable = (props: DoctorTableProps) => {
   }, [user]);
 
   const { data: doctorClinics } = useQuery({
-    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status }],
+    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, clinicId, status }],
     queryFn: () =>
-      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, undefined, status),
+      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status),
     enabled: !!(doctorType === DoctorType.DOCTOR && clinicId),
   });
 
@@ -82,6 +82,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
     enabled: doctorType === DoctorType.DOCTOR_SUPPORT,
   });
 
+  console.log('doctor support: ', doctorSupports);
   const { data: category } = useQuery({
     queryKey: ['category'],
     queryFn: () => categoryApi.categoryControllerFindCategory(1, 10, undefined, undefined),

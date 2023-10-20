@@ -113,9 +113,9 @@ const VALIDATOR: any = {
       return;
     }
 
-    const isValid = isValidPhoneNumber(value, 'VN');
-    const possible = isPossiblePhoneNumber(value, 'VN');
-    if (!isValid || !possible || !REGEX_PHONE_NUMBER.test(value)) {
+    // const isValid = isValidPhoneNumber(value, 'VN');
+    // const possible = isPossiblePhoneNumber(value, 'VN');
+    if (/* !isValid || !possible || */ !REGEX_PHONE_NUMBER.test(value)) {
       throw new Error(getMessage(option));
     }
   },
