@@ -9,5 +9,6 @@
   "error.CUSTOMER_CODE_IS_EXISTED": "Mã bệnh nhân đã tồn tại",
   "error.CLINIC_CODE_IS_EXISTED": "Mã phòng khám đã tồn tại",
   "error.ADMIN_CODE_IS_EXISTED": "Mã quản trị viên đã tồn tại",
-  "error.CODE_IS_EXISTED": "Mã nhân sự đã tồn tại"
+  "error.CODE_IS_EXISTED": "Mã nhân sự đã tồn tại",
+  "error.LANGUAGE_IS_EXIST": "Ngôn ngữ có thể đã được sử dụng. Vui lòng thử lại"
 }

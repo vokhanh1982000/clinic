@@ -44,5 +44,6 @@
   "doctor.status.true": "Working",
   "doctor.status.false": "Has Retired",
   "doctor.create.error": "New creation failed. A code or phone number may already be in use. Please check again",
-  "doctor.delete.success": "Delete doctor success"
+  "doctor.delete.success": "Delete doctor success",
+  "doctor.language": "Language"
 }

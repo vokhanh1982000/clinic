@@ -10,9 +10,9 @@ import { Category, CreateCategoryDto, CreateDoctorClinicDto } from '../../../api
 import { DefaultOptionType } from 'antd/es/select';
 import { CadastalCustom } from '../../Cadastral';
 import UploadAvatar from '../../upload/UploadAvatar';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { MyUploadProps } from '../../../constants/dto';
-import { assetsApi } from '../../../apis';
+import { assetsApi, languageApi } from '../../../apis';
 import DatePickerCustom from '../../date/datePicker';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
@@ -80,6 +80,12 @@ const DoctorInfo = (props: DoctorTableProps) => {
       },
     }
   );
+
+  const { data: language } = useQuery({
+    queryKey: ['language'],
+    queryFn: () => languageApi.languageControllerGetAllLanguage(),
+    enabled: doctorType === DoctorType.DOCTOR_SUPPORT,
+  });
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
@@ -357,6 +363,23 @@ const DoctorInfo = (props: DoctorTableProps) => {
                   rules={ValidateLibrary(intl).level}
                 >
                   <CustomInput placeholder={intl.formatMessage({ id: 'doctor.list.table.level' })} />
+                </Form.Item>
+                <Form.Item
+                  className="specialist block"
+                  label={intl.formatMessage({
+                    id: 'doctor.language',
+                  })}
+                  name={n('languageIds')}
+                >
+                  <CustomSelect
+                    placeholder={intl.formatMessage({ id: 'doctor.language' })}
+                    maxTagCount={2}
+                    showSearch={false}
+                    mode="multiple"
+                    options={language?.data.flatMap((item) => {
+                      return { value: item.id, label: item.name } as DefaultOptionType;
+                    })}
+                  />
                 </Form.Item>
               </div>
               <div className="doctor-info__content__info__rows">

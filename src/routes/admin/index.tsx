@@ -68,6 +68,11 @@ const Admin = () => {
       ADMIN_ROUTE_PATH.MEDICINE_MANAGEMENT,
       <img src="/assets/icons/admin/medicineManagementIconInactive.svg" />
     ),
+    getItem(
+      intl.formatMessage({ id: 'menu.languageManagement' }),
+      ADMIN_ROUTE_PATH.LANGUAGE_MANAGEMENT,
+      <img src="/assets/icons/admin/languageManagement.svg" />
+    ),
   ];
   const [menu, setMenu] = useState(defaultMenu);
 

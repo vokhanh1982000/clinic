@@ -9,5 +9,6 @@
   "error.CUSTOMER_CODE_IS_EXISTED": "Customer code is existed",
   "error.CLINIC_CODE_IS_EXISTED": "Clinic code is existed",
   "error.ADMIN_CODE_IS_EXISTED": "Admin code is existed",
-  "error.CODE_IS_EXISTED": "User code is existed"
+  "error.CODE_IS_EXISTED": "User code is existed",
+  "error.LANGUAGE_IS_EXIST": "The language name may already be in use. Please try again"
 }

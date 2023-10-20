@@ -17,6 +17,7 @@ import { userInfo } from 'os';
 import IconSVG from '../../components/icons/icons';
 import useIntl from '../../util/useIntl';
 import { IntlShape } from 'react-intl';
+import { DownOutlined } from '@ant-design/icons';
 
 const AccountInfo = (props: { infoDropdownItems?: MenuProps['items'] }) => {
   const { authUser } = useSelector((state: RootState) => state.auth);
@@ -85,6 +86,7 @@ const AccountInfo = (props: { infoDropdownItems?: MenuProps['items'] }) => {
         <div>
           <Avatar className="my-auto" icon={<UserOutlined />} />
           <span className="ms-1 font-base">{width < TAB_SIZE ? '' : getFullName()}</span>
+          <DownOutlined style={{ padding: '0 15px' }} />
         </div>
       </Dropdown>
     </div>

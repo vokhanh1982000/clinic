@@ -28,6 +28,8 @@ export const getMenuActiveIconName = (key: string, route: 'Admin' | 'AdminClinic
         return 'statisticsManagementIconActive';
       case ADMIN_ROUTE_PATH.MEDICINE_MANAGEMENT:
         return 'medicineManagementIconActive';
+      case ADMIN_ROUTE_PATH.LANGUAGE_MANAGEMENT:
+        return 'languageManagement';
       default:
         return '';
     }
@@ -79,6 +81,8 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
         return 'menu.doctorSupportManagement';
       case ADMIN_ROUTE_PATH.MEDICAL_SPECIALTY_MANAGEMENT:
         return 'menu.medicalSpecialtyManagement';
+      case ADMIN_ROUTE_PATH.LANGUAGE_MANAGEMENT:
+        return 'menu.languageManagement';
       case ADMIN_ROUTE_PATH.NEWS_MANAGEMENT:
         return 'menu.newsManagement';
       case ADMIN_ROUTE_PATH.STATISTIC:
