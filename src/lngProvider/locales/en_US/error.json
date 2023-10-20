@@ -5,5 +5,6 @@
   "error.PHONE_NUMBER_IS_EXISTED": "PHONE NUMBER IS EXISTED",
   "error.CODE_IS_EXIST": "The HR code is already in use. Please try again with another code",
   "error.PHONE_IS_EXIST": "Phone number is already in use. Please try again",
-  "error.NAME_IS_EXIST": "The specialty name may already be in use. Please try again"
+  "error.NAME_IS_EXIST": "The specialty name may already be in use. Please try again",
+  "error.LANGUAGE_IS_EXIST": "The language name may already be in use. Please try again"
 }

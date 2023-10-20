@@ -16,7 +16,6 @@ import { getLabelBreadcrum } from '../../util/menu';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { getRootPath } from '../../util/logout';
-import { DownOutlined } from '@ant-design/icons';
 const { Header } = Layout;
 
 const Topbar = (props: {
@@ -88,7 +87,6 @@ const Topbar = (props: {
         {/* <DarkModeSwitch /> */}
         <LanguageDropdown />
         <AccountInfo infoDropdownItems={props.infoDropdownItems} />
-        <DownOutlined style={{ paddingRight: '60px' }} />
       </Row>
     </Header>
   );

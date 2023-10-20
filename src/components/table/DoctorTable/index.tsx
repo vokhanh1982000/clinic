@@ -252,8 +252,12 @@ export const DoctorTable = (props: DoctorTableProps) => {
             title={intl.formatMessage({
               id: 'doctor.list.language',
             })}
+            dataIndex="languages"
             width={'12%'}
-            render={() => <div>{LanguageType.VN + ', ' + LanguageType.ENG}</div>}
+            render={(_, record: any) => {
+              const language = _?.flatMap((item: any) => item.name);
+              return <div>{language && language.join(',')}</div>;
+            }}
           />
         )}
         <Column

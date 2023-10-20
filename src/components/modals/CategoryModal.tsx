@@ -1,7 +1,7 @@
 import { Button, Form, FormInstance, Modal, Spin, Upload, message } from 'antd';
 import { useIntl } from 'react-intl';
 import CustomInput from '../input/CustomInput';
-import { ActionUser } from '../../constants/enum';
+import { ActionUser, MENU_ITEM_TYPE } from '../../constants/enum';
 import CustomButton from '../buttons/CustomButton';
 import CustomSelect from '../select/CustomSelect';
 import IconSVG from '../icons/icons';
@@ -22,10 +22,11 @@ interface CategoryModalProps {
   onClose: () => void;
   avatar: string | undefined;
   setAvatar: React.Dispatch<React.SetStateAction<string | undefined>>;
+  showType?: MENU_ITEM_TYPE;
 }
 
 export const CategoryModal = (props: CategoryModalProps) => {
-  const { form, visible, title, action, onSubmit, onDelete, onClose, avatar, setAvatar } = props;
+  const { form, visible, title, action, onSubmit, onDelete, onClose, avatar, setAvatar, showType } = props;
   const intl = useIntl();
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
 
@@ -68,38 +69,57 @@ export const CategoryModal = (props: CategoryModalProps) => {
             </div>
           </div>
           <div className="modal-category__content__rows">
-            <div className="icon">
-              <div className="icon__display">
-                {loadingImg ? <Spin /> : avatar ? <img src={avatar} /> : <IconSVG type="specialist" />}
+            {showType === MENU_ITEM_TYPE.LANGUAGE ? (
+              <></>
+            ) : (
+              <div className="icon">
+                <div className="icon__display">
+                  {loadingImg ? <Spin /> : avatar ? <img src={avatar} /> : <IconSVG type="specialist" />}
+                </div>
+                <hr className="icon__line" />
+                <Form.Item name="iconId" className="icon__upload">
+                  <Upload
+                    name="avatar"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    customRequest={customRequest}
+                  >
+                    <div className="icon__text">
+                      <span>
+                        {intl.formatMessage({
+                          id: 'common.upload',
+                        })}
+                      </span>
+                      <IconSVG type="upload" />
+                    </div>
+                  </Upload>
+                </Form.Item>
               </div>
-              <hr className="icon__line" />
-              <Form.Item name="iconId" className="icon__upload">
-                <Upload name="avatar" className="avatar-uploader" showUploadList={false} customRequest={customRequest}>
-                  <div className="icon__text">
-                    <span>
-                      {intl.formatMessage({
-                        id: 'common.upload',
-                      })}
-                    </span>
-                    <IconSVG type="upload" />
-                  </div>
-                </Upload>
-              </Form.Item>
-            </div>
+            )}
 
             <Form.Item
               name="name"
               className="name"
               label={intl.formatMessage({
-                id: 'category.modal.create.name',
+                id: showType === MENU_ITEM_TYPE.LANGUAGE ? 'language.form.title' : 'category.modal.create.name',
               })}
-              rules={ValidateLibrary(intl).nameCategory}
+              rules={
+                showType === MENU_ITEM_TYPE.LANGUAGE
+                  ? ValidateLibrary(intl).languageName
+                  : ValidateLibrary(intl).nameCategory
+              }
             >
               <CustomInput
                 maxLength={255}
-                placeholder={intl.formatMessage({
-                  id: 'category.modal.create.name',
-                })}
+                placeholder={
+                  showType === MENU_ITEM_TYPE.LANGUAGE
+                    ? intl.formatMessage({
+                        id: 'language.form.title',
+                      })
+                    : intl.formatMessage({
+                        id: 'category.modal.create.name',
+                      })
+                }
               />
             </Form.Item>
           </div>
@@ -128,7 +148,10 @@ export const CategoryModal = (props: CategoryModalProps) => {
                 {onDelete && (
                   <CustomButton className="button-delete" onClick={() => onDelete()}>
                     {intl.formatMessage({
-                      id: 'category.modal.create.button.delete',
+                      id:
+                        showType === MENU_ITEM_TYPE.LANGUAGE
+                          ? 'language.form.btn.delete'
+                          : 'category.modal.create.button.delete',
                     })}
                   </CustomButton>
                 )}

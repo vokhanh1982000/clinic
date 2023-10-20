@@ -339,6 +339,34 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         },
       },
     ],
+    languageName: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.full-name.required' }),
+      },
+      {
+        max: 36,
+        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
+      },
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          const regex = new RegExp(START_SPACE);
+          if (regex.test(value)) {
+            return Promise.resolve();
+          }
+          return Promise.reject(
+            intl.formatMessage({
+              id: 'validate.space',
+            })
+          );
+        },
+      },
+    ],
     code: [
       // {
       //   required: true,
