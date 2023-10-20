@@ -21,6 +21,8 @@ import { FORMAT_DATE } from '../../../../constants/common';
 import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
 import { disabledFutureDate } from '../../../../constants/function';
+import { CustomHandleError } from '../../../../components/response';
+import DatePickerCustom from '../../../../components/date/datePicker';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -64,7 +66,7 @@ const CreateCustomer = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -76,8 +78,8 @@ const CreateCustomer = () => {
         queryClient.invalidateQueries(['getUsers']);
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'customer.create.error' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -89,8 +91,8 @@ const CreateCustomer = () => {
         queryClient.invalidateQueries(['getcustomerDetail', id]);
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'customer.update.error' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -258,9 +260,8 @@ const CreateCustomer = () => {
                   })}
                   name={'dateOfBirth'}
                 >
-                  <DatePicker
-                    disabledDate={disabledFutureDate}
-                    placeholder={intl.formatMessage({
+                  <DatePickerCustom
+                    placeHolder={intl.formatMessage({
                       id: 'common.place-holder.dob',
                     })}
                   />

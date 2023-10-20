@@ -3,7 +3,11 @@
   "error.403": "Xin lỗi, bạn không có quyền truy cập vào tài nguyên hoặc hành động này",
   "error.401": "Bạn cần đăng nhập để truy cập tài nguyên hoặc hành động này",
   "error.PHONE_NUMBER_IS_EXISTED": "Số điện thoại đã tồn tại",
-  "error.CODE_IS_EXIST": "Mã nhân sự đã được sử dụng. Vui lòng thử lại với mã khác",
   "error.PHONE_IS_EXIST": "Số điện thoại đã được sử dụng. Vui lòng thử lại",
-  "error.NAME_IS_EXIST": "Tên chuyên khoa có thể đã được sử dụng. Vui lòng thử lại"
+  "error.NAME_IS_EXIST": "Tên chuyên khoa có thể đã được sử dụng. Vui lòng thử lại",
+  "error.DOCTOR_CODE_IS_EXISTED": "Mã bác sĩ đã tồn tại",
+  "error.CUSTOMER_CODE_IS_EXISTED": "Mã bệnh nhân đã tồn tại",
+  "error.CLINIC_CODE_IS_EXISTED": "Mã phòng khám đã tồn tại",
+  "error.ADMIN_CODE_IS_EXISTED": "Mã quản trị viên đã tồn tại",
+  "error.CODE_IS_EXISTED": "Mã nhân sự đã tồn tại"
 }

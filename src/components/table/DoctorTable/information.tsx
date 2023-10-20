@@ -137,7 +137,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
               //     }),
               //   },
               // ]}
-              rules={ValidateLibrary(intl).fullName}
+              rules={ValidateLibrary(intl).nameDoctor}
             >
               <CustomInput maxLength={36} placeholder={intl.formatMessage({ id: 'doctor.create.info.name' })} />
             </Form.Item>
@@ -276,8 +276,9 @@ const DoctorInfo = (props: DoctorTableProps) => {
               rules={ValidateLibrary(intl).specialist}
             >
               <CustomSelect
+                className="select-multiple"
                 placeholder={intl.formatMessage({ id: 'doctor.create.info.specialist' })}
-                maxTagCount={2}
+                // maxTagCount={2}
                 showSearch={false}
                 mode="multiple"
                 options={category?.flatMap((item) => {

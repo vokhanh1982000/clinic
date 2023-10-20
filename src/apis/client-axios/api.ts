@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * iHealth
+ * PROJECT_NAME
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -2173,6 +2173,12 @@ export interface CreateDoctorSupport {
     'categoryIds': Array<string>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof CreateDoctorSupport
+     */
+    'languageIds': Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof CreateDoctorSupport
      */
@@ -2236,6 +2242,19 @@ export interface CreateHolidayScheduleDto {
      * @memberof CreateHolidayScheduleDto
      */
     'clinicId'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateLanguageDto
+ */
+export interface CreateLanguageDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateLanguageDto
+     */
+    'name': string;
 }
 /**
  * 
@@ -3173,6 +3192,12 @@ export interface DoctorSupport {
     'categories': Array<Category>;
     /**
      * 
+     * @type {Array<DoctorSupport>}
+     * @memberof DoctorSupport
+     */
+    'languages'?: Array<DoctorSupport>;
+    /**
+     * 
      * @type {string}
      * @memberof DoctorSupport
      */
@@ -3399,6 +3424,111 @@ export interface HolidaySchedule {
      * @memberof HolidaySchedule
      */
     'deletedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface Language
+ */
+export interface Language {
+    /**
+     * 
+     * @type {string}
+     * @memberof Language
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Language
+     */
+    'country': string;
+    /**
+     * 
+     * @type {Array<DoctorSupport>}
+     * @memberof Language
+     */
+    'doctorsSupport'?: Array<DoctorSupport>;
+    /**
+     * 
+     * @type {string}
+     * @memberof Language
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Language
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Language
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Language
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Language
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Language
+     */
+    'deletedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface LanguageControllerGetAllLanguageByPagination200Response
+ */
+export interface LanguageControllerGetAllLanguageByPagination200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof LanguageControllerGetAllLanguageByPagination200Response
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LanguageControllerGetAllLanguageByPagination200Response
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LanguageControllerGetAllLanguageByPagination200Response
+     */
+    'size': number;
+    /**
+     * 
+     * @type {Array<Language>}
+     * @memberof LanguageControllerGetAllLanguageByPagination200Response
+     */
+    'content'?: Array<Language>;
+}
+/**
+ * 
+ * @export
+ * @interface LanguageControllerGetAllLanguageByPagination200ResponseAllOf
+ */
+export interface LanguageControllerGetAllLanguageByPagination200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<Language>}
+     * @memberof LanguageControllerGetAllLanguageByPagination200ResponseAllOf
+     */
+    'content'?: Array<Language>;
 }
 /**
  * 
@@ -4795,6 +4925,12 @@ export interface UpdateDoctorSupport {
     'categoryIds'?: Array<string>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof UpdateDoctorSupport
+     */
+    'languageIds'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof UpdateDoctorSupport
      */
@@ -4851,6 +4987,25 @@ export interface UpdateHolidayScheduleDto {
      * @memberof UpdateHolidayScheduleDto
      */
     'clinicId'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateLanguageDto
+ */
+export interface UpdateLanguageDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateLanguageDto
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateLanguageDto
+     */
+    'id': string;
 }
 /**
  * 
@@ -14238,6 +14393,557 @@ export class HolidayScheduleApi extends BaseAPI {
      */
     public holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig) {
         return HolidayScheduleApiFp(this.configuration).holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * LanguageApi - axios parameter creator
+ * @export
+ */
+export const LanguageApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateLanguageDto} createLanguageDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerCreateLanguage: async (createLanguageDto: CreateLanguageDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createLanguageDto' is not null or undefined
+            assertParamExists('languageControllerCreateLanguage', 'createLanguageDto', createLanguageDto)
+            const localVarPath = `/language/create-language`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createLanguageDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerDeleteLanguage: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('languageControllerDeleteLanguage', 'id', id)
+            const localVarPath = `/language/delete-language/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerGetAllLanguage: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/language/get-all-language`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerGetAllLanguageByPagination: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('languageControllerGetAllLanguageByPagination', 'page', page)
+            const localVarPath = `/language/get-all-by-pagination`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerGetAllLanguageByPaginationForCustomer: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('languageControllerGetAllLanguageByPaginationForCustomer', 'page', page)
+            const localVarPath = `/language/get-all-by-pagination-for-customer`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerGetAllLanguageForCustomer: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/language/get-all-language-for-customer`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {UpdateLanguageDto} updateLanguageDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerUpdateLanguage: async (updateLanguageDto: UpdateLanguageDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateLanguageDto' is not null or undefined
+            assertParamExists('languageControllerUpdateLanguage', 'updateLanguageDto', updateLanguageDto)
+            const localVarPath = `/language/update-language`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateLanguageDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * LanguageApi - functional programming interface
+ * @export
+ */
+export const LanguageApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = LanguageApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateLanguageDto} createLanguageDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async languageControllerCreateLanguage(createLanguageDto: CreateLanguageDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.languageControllerCreateLanguage(createLanguageDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async languageControllerDeleteLanguage(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.languageControllerDeleteLanguage(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async languageControllerGetAllLanguage(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Language>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.languageControllerGetAllLanguage(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async languageControllerGetAllLanguageByPagination(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LanguageControllerGetAllLanguageByPagination200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.languageControllerGetAllLanguageByPagination(page, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async languageControllerGetAllLanguageByPaginationForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LanguageControllerGetAllLanguageByPagination200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.languageControllerGetAllLanguageByPaginationForCustomer(page, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async languageControllerGetAllLanguageForCustomer(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Language>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.languageControllerGetAllLanguageForCustomer(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {UpdateLanguageDto} updateLanguageDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async languageControllerUpdateLanguage(updateLanguageDto: UpdateLanguageDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.languageControllerUpdateLanguage(updateLanguageDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * LanguageApi - factory interface
+ * @export
+ */
+export const LanguageApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = LanguageApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateLanguageDto} createLanguageDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerCreateLanguage(createLanguageDto: CreateLanguageDto, options?: any): AxiosPromise<void> {
+            return localVarFp.languageControllerCreateLanguage(createLanguageDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerDeleteLanguage(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.languageControllerDeleteLanguage(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerGetAllLanguage(options?: any): AxiosPromise<Array<Language>> {
+            return localVarFp.languageControllerGetAllLanguage(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerGetAllLanguageByPagination(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<LanguageControllerGetAllLanguageByPagination200Response> {
+            return localVarFp.languageControllerGetAllLanguageByPagination(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerGetAllLanguageByPaginationForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<LanguageControllerGetAllLanguageByPagination200Response> {
+            return localVarFp.languageControllerGetAllLanguageByPaginationForCustomer(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerGetAllLanguageForCustomer(options?: any): AxiosPromise<Array<Language>> {
+            return localVarFp.languageControllerGetAllLanguageForCustomer(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UpdateLanguageDto} updateLanguageDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        languageControllerUpdateLanguage(updateLanguageDto: UpdateLanguageDto, options?: any): AxiosPromise<void> {
+            return localVarFp.languageControllerUpdateLanguage(updateLanguageDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * LanguageApi - object-oriented interface
+ * @export
+ * @class LanguageApi
+ * @extends {BaseAPI}
+ */
+export class LanguageApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateLanguageDto} createLanguageDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LanguageApi
+     */
+    public languageControllerCreateLanguage(createLanguageDto: CreateLanguageDto, options?: AxiosRequestConfig) {
+        return LanguageApiFp(this.configuration).languageControllerCreateLanguage(createLanguageDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LanguageApi
+     */
+    public languageControllerDeleteLanguage(id: string, options?: AxiosRequestConfig) {
+        return LanguageApiFp(this.configuration).languageControllerDeleteLanguage(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LanguageApi
+     */
+    public languageControllerGetAllLanguage(options?: AxiosRequestConfig) {
+        return LanguageApiFp(this.configuration).languageControllerGetAllLanguage(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LanguageApi
+     */
+    public languageControllerGetAllLanguageByPagination(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return LanguageApiFp(this.configuration).languageControllerGetAllLanguageByPagination(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LanguageApi
+     */
+    public languageControllerGetAllLanguageByPaginationForCustomer(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return LanguageApiFp(this.configuration).languageControllerGetAllLanguageByPaginationForCustomer(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LanguageApi
+     */
+    public languageControllerGetAllLanguageForCustomer(options?: AxiosRequestConfig) {
+        return LanguageApiFp(this.configuration).languageControllerGetAllLanguageForCustomer(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UpdateLanguageDto} updateLanguageDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LanguageApi
+     */
+    public languageControllerUpdateLanguage(updateLanguageDto: UpdateLanguageDto, options?: AxiosRequestConfig) {
+        return LanguageApiFp(this.configuration).languageControllerUpdateLanguage(updateLanguageDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

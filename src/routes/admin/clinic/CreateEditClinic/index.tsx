@@ -13,6 +13,7 @@ import { ClinicInfo } from './ClinicInfo';
 import { DoctorList } from './DoctorList';
 import { ManagerInfo } from './ManagerInfo';
 import { CategoryCheckbox } from '../../../../components/categoryCheckbox';
+import { CustomHandleError } from '../../../../components/response';
 
 const CreateClinic = () => {
   const intl = useIntl();
@@ -54,7 +55,7 @@ const CreateClinic = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -66,7 +67,7 @@ const CreateClinic = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -78,7 +79,7 @@ const CreateClinic = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

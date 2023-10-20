@@ -26,9 +26,25 @@
   }
 }
 
+.select-multiple {
+  min-height: 48px;
+  height: auto !important;
+
+  .ant-select-selector {
+    min-height: 48px;
+  }
+
+  .ant-select-selection-overflow {
+    padding: 0px 15px;
+    flex-wrap: wrap;
+    overflow: unset !important;
+  }
+}
+
 .custom-table {
   .ant-table {
     border-radius: 12px;
+    overflow-x: auto;
   }
 
   .ant-table-container {
