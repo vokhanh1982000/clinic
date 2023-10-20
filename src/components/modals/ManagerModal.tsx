@@ -1,10 +1,13 @@
-import { DatePicker, Form, FormInstance, Modal } from 'antd';
+import { Form, FormInstance, Modal } from 'antd';
 import { useIntl } from 'react-intl';
 import { useParams } from 'react-router-dom';
 import { FORMAT_DATE } from '../../constants/common';
 import { ActionUser, UserGender } from '../../constants/enum';
+import { handleInputChangeUpperCase } from '../../constants/function';
+import { ValidateLibrary } from '../../validate';
 import FormWrap from '../FormWrap';
 import CustomButton from '../buttons/CustomButton';
+import DatePickerCustom from '../date/datePicker';
 import IconSVG from '../icons/icons';
 import CustomInput from '../input/CustomInput';
 import CustomSelect from '../select/CustomSelect';
@@ -47,8 +50,9 @@ export const ManagerModal = (props: ManagerModalProps) => {
               label={intl.formatMessage({
                 id: 'manager.modal.create.fullName',
               })}
+              rules={ValidateLibrary(intl).fullName}
             >
-              <CustomInput />
+              <CustomInput maxLength={36} placeholder={intl.formatMessage({ id: 'manager.modal.create.fullName' })} />
             </Form.Item>
             <Form.Item
               name="code"
@@ -56,8 +60,13 @@ export const ManagerModal = (props: ManagerModalProps) => {
               label={intl.formatMessage({
                 id: 'manager.modal.create.code',
               })}
+              rules={ValidateLibrary(intl).code}
             >
-              <CustomInput />
+              <CustomInput
+                maxLength={36}
+                onInput={handleInputChangeUpperCase}
+                placeholder={intl.formatMessage({ id: 'manager.modal.create.code' })}
+              />
             </Form.Item>
           </div>
           <Form.Item
@@ -65,17 +74,26 @@ export const ManagerModal = (props: ManagerModalProps) => {
             label={intl.formatMessage({
               id: 'manager.modal.create.email',
             })}
+            rules={ValidateLibrary(intl).email}
           >
-            <CustomInput />
+            <CustomInput
+              placeholder={intl.formatMessage({
+                id: 'manager.modal.create.email',
+              })}
+            />
           </Form.Item>
           <Form.Item
             name="phoneNumber"
             label={intl.formatMessage({
               id: 'manager.modal.create.phone',
             })}
-            rules={[{ required: true }]}
+            rules={ValidateLibrary(intl).phoneNumber}
           >
-            <CustomInput />
+            <CustomInput
+              placeholder={intl.formatMessage({
+                id: 'manager.modal.create.phone',
+              })}
+            />
           </Form.Item>
           <div className="modal-manager__content__rows">
             <Form.Item
@@ -85,7 +103,13 @@ export const ManagerModal = (props: ManagerModalProps) => {
                 id: 'manager.modal.create.dob',
               })}
             >
-              <DatePicker format={FORMAT_DATE} />
+              <DatePickerCustom
+                dateFormat={FORMAT_DATE}
+                className="date-select"
+                placeHolder={intl.formatMessage({
+                  id: 'common.place-holder.dob',
+                })}
+              ></DatePickerCustom>
             </Form.Item>
             <Form.Item
               name="gender"
@@ -95,6 +119,9 @@ export const ManagerModal = (props: ManagerModalProps) => {
               })}
             >
               <CustomSelect
+                placeholder={intl.formatMessage({
+                  id: 'manager.modal.create.gender',
+                })}
                 options={[
                   {
                     value: UserGender.MALE,
@@ -120,8 +147,15 @@ export const ManagerModal = (props: ManagerModalProps) => {
               label={intl.formatMessage({
                 id: 'manager.modal.create.password',
               })}
+              rules={ValidateLibrary(intl).passwordCustom}
             >
-              <CustomInput isPassword />
+              <CustomInput
+                isPassword
+                placeholder={intl.formatMessage({
+                  id: 'manager.modal.create.password',
+                })}
+                maxLength={16}
+              />
             </Form.Item>
           )}
           <div className="modal-manager__content__action">

@@ -71,6 +71,18 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         }),
       },
     ],
+    phoneClinic: [
+      {
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.space',
+          }),
+          phone: intl.formatMessage({
+            id: 'validate.phone',
+          }),
+        }),
+      },
+    ],
     dob: [
       // {
       //   required: true,
@@ -145,6 +157,24 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         },
       },
     ],
+    nameClinic: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.required.clinic-name' }),
+      },
+      {
+        validator(_: RuleObject, value: string) {
+          if (value && value.trimStart() !== value) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.space',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
+      },
+    ],
     age: [
       {
         required: true,
@@ -164,10 +194,10 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       },
     ],
     userCode: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.required' }),
-      },
+      // {
+      //   required: true,
+      //   message: intl.formatMessage({ id: 'validate.required' }),
+      // },
       {
         validator(_: RuleObject, value: string) {
           if (value && value.trimStart() !== value) {
@@ -186,10 +216,32 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       },
     ],
     customerCode: [
+      // {
+      //   required: true,
+      //   message: intl.formatMessage({ id: 'validate.customer-code.required' }),
+      // },
       {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.customer-code.required' }),
+        validator(_: RuleObject, value: string) {
+          if (value && value.trimStart() !== value) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.space',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
       },
+      {
+        min: 4,
+        message: intl.formatMessage({ id: 'validate.min_4_char' }),
+      },
+    ],
+    clinicCode: [
+      // {
+      //   required: true,
+      //   message: intl.formatMessage({ id: 'validate.required.clinic-code' }),
+      // },
       {
         validator(_: RuleObject, value: string) {
           if (value && value.trimStart() !== value) {
@@ -316,14 +368,10 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       },
     ],
     code: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.staff-code.required' }),
-      },
-      {
-        max: 36,
-        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
-      },
+      // {
+      //   required: true,
+      //   message: intl.formatMessage({ id: 'validate.staff-code.required' }),
+      // },
       {
         validator: validator({
           normal: intl.formatMessage({ id: 'common.noti.special' }),
@@ -413,14 +461,6 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       {
         required: true,
         message: intl.formatMessage({ id: 'validate.required.password' }),
-      },
-      {
-        min: 8,
-        message: intl.formatMessage({ id: 'validate.password.min' }),
-      },
-      {
-        max: 16,
-        message: intl.formatMessage({ id: 'validate.password.max' }),
       },
       {
         validator: validator({
@@ -528,10 +568,10 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     //   },
     // ],
     staffCode: [
-      {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.staff-code.required' }),
-      },
+      // {
+      //   required: true,
+      //   message: intl.formatMessage({ id: 'validate.staff-code.required' }),
+      // },
       {
         validator: validator({
           space: intl.formatMessage({ id: 'validate.space' }),

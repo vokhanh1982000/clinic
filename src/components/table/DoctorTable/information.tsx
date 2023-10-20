@@ -24,8 +24,8 @@ interface DoctorTableProps {
   provinceId?: string;
   districtId?: string;
   setAvatar: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setProvinceId: (id: string) => void;
-  setDistrictId: (id: string) => void;
+  setProvinceId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setDistrictId: React.Dispatch<React.SetStateAction<string | undefined>>;
   placeHolder?: string;
   doctorType: DoctorType;
   n: any;
@@ -145,7 +145,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
               // ]}
               rules={ValidateLibrary(intl).fullName}
             >
-              <CustomInput maxLength={255} placeholder={intl.formatMessage({ id: 'doctor.create.info.name' })} />
+              <CustomInput maxLength={36} placeholder={intl.formatMessage({ id: 'doctor.create.info.name' })} />
             </Form.Item>
             <Form.Item
               className="code"
@@ -225,7 +225,13 @@ const DoctorInfo = (props: DoctorTableProps) => {
               name={n('dateOfBirth')}
               // rules={[{ required: true }]}
             >
-              <DatePickerCustom dateFormat={FORMAT_DATE} className="date-select"></DatePickerCustom>
+              <DatePickerCustom
+                dateFormat={FORMAT_DATE}
+                className="date-select"
+                placeHolder={intl.formatMessage({
+                  id: 'common.place-holder.dob',
+                })}
+              ></DatePickerCustom>
               {/* <DatePicker /> */}
               {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
             </Form.Item>
@@ -439,7 +445,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 // ]}
                 rules={ValidateLibrary(intl).passwordCustom}
               >
-                <CustomInput isPassword={true} placeholder="*****" />
+                <CustomInput isPassword={true} placeholder="*****" maxLength={16} />
               </Form.Item>
             </div>
           )}

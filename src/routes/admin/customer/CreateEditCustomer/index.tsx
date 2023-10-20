@@ -261,7 +261,7 @@ const CreateCustomer = () => {
                   <DatePicker
                     disabledDate={disabledFutureDate}
                     placeholder={intl.formatMessage({
-                      id: 'customer.create.dob',
+                      id: 'common.place-holder.dob',
                     })}
                   />
                   {/* <TimePicker.RangePicker format={FORMAT_TIME} /> */}
@@ -359,6 +359,7 @@ const CreateCustomer = () => {
                     placeholder={intl.formatMessage({
                       id: 'sigin.password',
                     })}
+                    maxLength={16}
                   />
                 </Form.Item>
               )}

@@ -141,6 +141,7 @@ const AdminClinicProfile = () => {
                   rules={ValidateLibrary(intl).fullName}
                 >
                   <CustomInput
+                    maxLength={36}
                     placeholder={intl.formatMessage({
                       id: 'admin-clinic.form.fullName',
                     })}

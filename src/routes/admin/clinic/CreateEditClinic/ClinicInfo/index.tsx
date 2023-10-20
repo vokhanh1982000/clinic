@@ -5,8 +5,11 @@ import { FORMAT_TIME } from '../../../../../constants/common';
 import CustomSelect from '../../../../../components/select/CustomSelect';
 import { useQuery } from '@tanstack/react-query';
 import { cadastralApi } from '../../../../../apis';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CadastalCustom } from '../../../../../components/Cadastral';
+import { ValidateLibrary } from '../../../../../validate';
+import { useParams } from 'react-router-dom';
+import { handleInputChangeUpperCase } from '../../../../../constants/function';
 
 interface ClinicInfoParams {
   form: FormInstance;
@@ -19,38 +22,13 @@ interface ClinicInfoParams {
 export const ClinicInfo = (props: ClinicInfoParams) => {
   const { form, provinceId, setProvinceId, districtId, setDistrictId } = props;
   const intl = useIntl();
+  const { id } = useParams();
 
-  const { data: listProvince, isLoading } = useQuery({
-    queryKey: ['listProvince'],
-    queryFn: () => cadastralApi.cadastralControllerGetProvince(),
-  });
-
-  const { data: listDistrict } = useQuery({
-    queryKey: ['listDistrict', provinceId],
-    queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvinceId(provinceId, undefined),
-    enabled: !!provinceId,
-  });
-
-  const { data: listWard } = useQuery({
-    queryKey: ['listWard', districtId],
-    queryFn: () => cadastralApi.cadastralControllerGetWardByDistrictId(undefined, districtId),
-    enabled: !!districtId,
-  });
-
-  const handleChangeProvince = (value: any) => {
-    setProvinceId(value);
-    form.setFieldsValue({
-      districtId: undefined,
-      wardId: undefined,
-    });
-  };
-
-  const handleChangeDistrict = (value: any) => {
-    setDistrictId(value);
-    form.setFieldsValue({
-      wardId: undefined,
-    });
-  };
+  useEffect(() => {
+    if (!id) {
+      form.setFieldValue('status', 1);
+    }
+  }, []);
 
   return (
     <div className="clinic-info">
@@ -70,9 +48,14 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
               id: 'clinic.create.clinic.name',
             })}
             name={'fullName'}
-            rules={[{ required: true }]}
+            rules={ValidateLibrary(intl).nameClinic}
           >
-            <CustomInput />
+            <CustomInput
+              placeholder={intl.formatMessage({
+                id: 'clinic.create.clinic.name',
+              })}
+              maxLength={255}
+            />
           </Form.Item>
           <Form.Item
             className="code"
@@ -80,8 +63,15 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
               id: 'clinic.create.clinic.code',
             })}
             name={'code'}
+            rules={ValidateLibrary(intl).clinicCode}
           >
-            <CustomInput />
+            <CustomInput
+              placeholder={intl.formatMessage({
+                id: 'clinic.create.clinic.code',
+              })}
+              maxLength={36}
+              onInput={handleInputChangeUpperCase}
+            />
           </Form.Item>
         </div>
         <CadastalCustom
@@ -91,120 +81,20 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
           setProvinceId={setProvinceId}
           setDistrictId={setDistrictId}
         ></CadastalCustom>
-        {/* <div className="clinic-info__content__rows">
-          <Form.Item
-            className="province"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.province',
-            })}
-            name={'provinceId'}
-          >
-            <CustomSelect
-              options={
-                listProvince && listProvince.data && listProvince.data.length > 0
-                  ? listProvince.data.map((item) => ({
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : []
-              }
-              onChange={handleChangeProvince}
-            />
-          </Form.Item>
-          <Form.Item
-            className="district"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.district',
-            })}
-            name={'districtId'}
-          >
-            <CustomSelect
-              options={
-                listDistrict && listDistrict.data && listDistrict.data.length > 0
-                  ? listDistrict.data.map((item) => ({
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : []
-              }
-              onChange={handleChangeDistrict}
-            />
-          </Form.Item>
-        </div>
-        <div className="clinic-info__content__rows">
-          <Form.Item
-            className="ward"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.ward',
-            })}
-            name={'wardId'}
-          >
-            <CustomSelect
-              options={
-                listWard && listWard.data && listWard.data.length > 0
-                  ? listWard.data.map((item) => ({
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : []
-              }
-            />
-          </Form.Item>
-          <Form.Item
-            className="address"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.address',
-            })}
-            name={'address'}
-          >
-            <CustomInput />
-          </Form.Item>
-        </div> */}
-
         <Form.Item
           className="phone"
           label={intl.formatMessage({
             id: 'clinic.create.clinic.phone',
           })}
           name={'phoneClinic'}
+          rules={ValidateLibrary(intl).phoneClinic}
         >
-          <CustomInput />
+          <CustomInput
+            placeholder={intl.formatMessage({
+              id: 'clinic.create.clinic.phone',
+            })}
+          />
         </Form.Item>
-        {/* <div className="clinic-info__content__rows">
-          <Form.Item
-            className="workTime"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.workTime',
-            })}
-            name={'workTime'}
-          >
-            <TimePicker.RangePicker format={FORMAT_TIME} />
-          </Form.Item>
-          <Form.Item
-            className="status"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.status',
-            })}
-            name={'status'}
-          >
-            <CustomSelect
-              options={[
-                {
-                  value: 1,
-                  label: intl.formatMessage({
-                    id: 'common.active',
-                  }),
-                },
-                {
-                  value: 0,
-                  label: intl.formatMessage({
-                    id: 'common.inactive',
-                  }),
-                },
-              ]}
-            />
-          </Form.Item>
-        </div> */}
         <Form.Item
           className="phone"
           label={intl.formatMessage({

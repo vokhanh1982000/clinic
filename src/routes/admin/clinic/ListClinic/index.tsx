@@ -168,6 +168,7 @@ const ListClinic = () => {
             }
             debouncedUpdateInputValue(e.target.value);
           }}
+          allowClear
         />
         <CustomSelect
           className="select-province"

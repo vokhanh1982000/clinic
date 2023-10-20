@@ -66,7 +66,6 @@
 
     &__more {
       position: relative;
-      cursor: pointer;
 
       &__list {
         position: absolute;
@@ -91,6 +90,10 @@
             font-size: 18px;
             font-weight: 700;
             line-height: 28px;
+          }
+
+          span {
+            cursor: pointer;
           }
         }
 
@@ -152,6 +155,25 @@
       border: 1px solid $border_input_color;
       border-radius: 24px;
 
+      .ant-form-item {
+        .ant-form-item-row {
+          .ant-form-item-label {
+            label {
+              color: $text_black_light;
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 22px;
+            }
+          }
+
+          .ant-form-item-control-input-content {
+            input {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+
       .clinic-info {
         display: flex;
         justify-content: space-between;
@@ -169,7 +191,7 @@
 
           &__rows {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 15px;
             width: 100%;
           }
@@ -266,6 +288,20 @@
 
               &__info {
                 word-break: break-all;
+
+                &__name {
+                  font-weight: 600;
+                  font-size: 16px;
+                  line-height: 24px;
+                  color: $text_black_light;
+                }
+
+                &__email {
+                  font-weight: 400;
+                  font-size: 14px;
+                  line-height: 22px;
+                  color: $text_disabled;
+                }
               }
 
               &__delete {
