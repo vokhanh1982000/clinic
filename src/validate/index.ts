@@ -35,7 +35,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       {
         validator: validator({
           space: intl.formatMessage({
-            id: 'validate.space',
+            id: 'validate.required.password',
           }),
           password: intl.formatMessage({
             id: 'validate.password',
@@ -95,16 +95,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.required' }),
       },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.required',
+          }),
+        }),
       },
       {
         min: 4,
@@ -127,16 +122,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.required.category-name' }),
       },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.required.category-name',
+          }),
+        }),
       },
     ],
     nameCustomer: [
@@ -145,16 +135,24 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.required.customer-name' }),
       },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.required.customer-name',
+          }),
+        }),
+      },
+    ],
+    nameDoctor: [
+      {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.required.doctor-name' }),
+      },
+      {
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.required.doctor-name',
+          }),
+        }),
       },
     ],
     nameClinic: [
@@ -163,16 +161,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.required.clinic-name' }),
       },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.required.clinic-name',
+          }),
+        }),
       },
     ],
     age: [
@@ -199,20 +192,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       //   message: intl.formatMessage({ id: 'validate.required' }),
       // },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
-      {
-        min: 4,
-        message: intl.formatMessage({ id: 'validate.min_4_char' }),
+        validator: validator({
+          min4: intl.formatMessage({
+            id: 'validate.min_4_char',
+          }),
+        }),
       },
     ],
     customerCode: [
@@ -221,20 +205,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       //   message: intl.formatMessage({ id: 'validate.customer-code.required' }),
       // },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
-      {
-        min: 4,
-        message: intl.formatMessage({ id: 'validate.min_4_char' }),
+        validator: validator({
+          min4: intl.formatMessage({
+            id: 'validate.min_4_char',
+          }),
+        }),
       },
     ],
     clinicCode: [
@@ -243,34 +218,20 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       //   message: intl.formatMessage({ id: 'validate.required.clinic-code' }),
       // },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
-      },
-      {
-        min: 4,
-        message: intl.formatMessage({ id: 'validate.min_4_char' }),
+        validator: validator({
+          min4: intl.formatMessage({
+            id: 'validate.min_4_char',
+          }),
+        }),
       },
     ],
     space: [
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.required.clinic-name',
+          }),
+        }),
       },
     ],
     url: [
@@ -315,10 +276,6 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       {
         required: true,
         message: intl.formatMessage({ id: 'validate.full-name.required' }),
-      },
-      {
-        max: 36,
-        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
       },
       {
         validator: validator({
@@ -374,8 +331,9 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       // },
       {
         validator: validator({
-          normal: intl.formatMessage({ id: 'common.noti.special' }),
-          space: intl.formatMessage({ id: 'validate.no.space' }),
+          min4: intl.formatMessage({
+            id: 'validate.min_4_char',
+          }),
         }),
       },
     ],
@@ -488,16 +446,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.medicine.name.required' }),
       },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.medicine.name.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.medicine.name.required',
+          }),
+        }),
       },
     ],
     usageMedicine: [
@@ -506,16 +459,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.medicine.usage.required' }),
       },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.medicine.usage.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.medicine.usage.required',
+          }),
+        }),
       },
     ],
     featureMedicine: [
@@ -524,16 +472,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         message: intl.formatMessage({ id: 'validate.medicine.feature.required' }),
       },
       {
-        validator(_: RuleObject, value: string) {
-          if (value && value.trimStart() !== value) {
-            return Promise.reject(
-              intl.formatMessage({
-                id: 'validate.medicine.feature.space',
-              })
-            );
-          }
-          return Promise.resolve();
-        },
+        validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.medicine.feature.required',
+          }),
+        }),
       },
     ],
     unitMedicine: [
@@ -574,7 +517,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       // },
       {
         validator: validator({
-          space: intl.formatMessage({ id: 'validate.space' }),
+          space: intl.formatMessage({ id: 'validate.staff-code.required' }),
         }),
       },
     ],

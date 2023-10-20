@@ -13,7 +13,6 @@
     }
 
     .button-add {
-      width: 244px;
       border: unset;
       display: flex;
       align-items: center;
@@ -21,6 +20,10 @@
       color: $text_white;
       justify-content: center;
       width: 187px;
+
+      span {
+        font-weight: 600;
+      }
     }
   }
 
