@@ -1,0 +1,15 @@
+{
+  "language.title": "Quản Lý Ngôn Ngữ",
+  "language.search": "Tìm kiếm Ngôn Ngữ",
+  "language.table.title": "Ngôn ngữ",
+  "language.table.action": "Thao tác",
+  "language.btn.create": "Tạo Ngôn ngữ mới",
+  "language.detail.title": "Chi Tiết Ngôn Ngữ",
+  "language.form.title": "Ngôn ngữ",
+  "language.form.btn.save": "Lưu thông tin",
+  "language.form.btn.delete": "Xóa ngôn ngữ",
+  "language.form.btn.create": "Tạo mới",
+  "language.form.btn.cancel": "Hủy",
+  "language.noti.delete": "Xóa ngôn ngữ thành công",
+  "language.noti.fail": "Đã có lỗi xảy ra vui lòng thử lại"
+}

@@ -8,6 +8,11 @@ export enum DoctorType {
   DOCTOR_SUPPORT = 'doctor-support',
 }
 
+export enum MENU_ITEM_TYPE {
+  CATEGORY = 'category',
+  LANGUAGE = 'language',
+}
+
 export enum Status {
   ACTIVE = 'active',
   INACTIVE = 'inactive',

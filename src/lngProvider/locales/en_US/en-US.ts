@@ -21,6 +21,7 @@ import news from './new.json';
 import timeline from './timeline_en.json';
 import message from './message.json';
 import error from './error.json';
+import language from './language.json';
 
 const EnLang = {
   messages: {
@@ -46,6 +47,7 @@ const EnLang = {
     ...timeline,
     ...message,
     ...error,
+    ...language,
   },
   antd: antdEN,
   locale: 'en-US',

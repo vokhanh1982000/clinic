@@ -21,6 +21,7 @@ import news from './new.json';
 import timeline from './timeline_vi.json';
 import message from './message.json';
 import error from './error.json';
+import language from './language.json';
 
 const viLang = {
   messages: {
@@ -46,6 +47,7 @@ const viLang = {
     ...timeline,
     ...message,
     ...error,
+    ...language,
   },
   antd: antdVI,
   locale: 'vi-VN',

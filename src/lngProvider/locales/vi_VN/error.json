@@ -5,5 +5,6 @@
   "error.PHONE_NUMBER_IS_EXISTED": "Số điện thoại đã tồn tại",
   "error.CODE_IS_EXIST": "Mã nhân sự đã được sử dụng. Vui lòng thử lại với mã khác",
   "error.PHONE_IS_EXIST": "Số điện thoại đã được sử dụng. Vui lòng thử lại",
-  "error.NAME_IS_EXIST": "Tên chuyên khoa có thể đã được sử dụng. Vui lòng thử lại"
+  "error.NAME_IS_EXIST": "Tên chuyên khoa có thể đã được sử dụng. Vui lòng thử lại",
+  "error.LANGUAGE_IS_EXIST": "Ngôn ngữ có thể đã được sử dụng. Vui lòng thử lại"
 }

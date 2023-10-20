@@ -23,6 +23,7 @@ const CreateNew = React.lazy(() => import('./news/CreateEditNew'));
 const Statistic = React.lazy(() => import('./statistic/index'));
 const CreateAdmin = React.lazy(() => import('./adminUser/CreateEditAdminUser'));
 const ListMedicine = React.lazy(() => import('./medicine/index'));
+const LanguageManagement = React.lazy(() => import('./languageManagement'));
 const AdminProfile = React.lazy(() => import('./profile/index'));
 export const AdminRoutes = () => (
   <Routes>
@@ -64,6 +65,7 @@ export const AdminRoutes = () => (
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateRole />} />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<ListMedicine />} />
+      <Route path={ADMIN_ROUTE_NAME.LANGUAGE_MANAGEMENT} element={<LanguageManagement />} />
       <Route path={ADMIN_ROUTE_NAME.ADMIN_PROFILE} element={<AdminProfile />} />
       <Route path={ADMIN_ROUTE_NAME.CHANGE_PASSWORD} element={<ChangePasswordAdmin />} />
     </Route>

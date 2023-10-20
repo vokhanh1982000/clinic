@@ -1,0 +1,15 @@
+{
+  "language.title": "Language Manager",
+  "language.search": "Language Search",
+  "language.table.title": "Language",
+  "language.table.action": "Action",
+  "language.btn.create": "Create new language",
+  "language.detail.title": "Language Details",
+  "language.form.title": "Language",
+  "language.form.btn.save": "Save information",
+  "language.form.btn.delete": "Delete specialty",
+  "language.form.btn.create": "Create new",
+  "language.form.btn.cancel": "Cancel",
+  "language.noti.delete": "Delete language success",
+  "language.noti.fail": "An error occurred, please try again"
+}

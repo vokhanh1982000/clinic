@@ -255,9 +255,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
             dataIndex="languages"
             width={'12%'}
             render={(_, record: any) => {
-              console.log(_);
-              const language = _.flatMap((item: any) => item.name);
-              console.log(language.join(','));
+              const language = _?.flatMap((item: any) => item.name);
               return <div>{language && language.join(',')}</div>;
             }}
           />
