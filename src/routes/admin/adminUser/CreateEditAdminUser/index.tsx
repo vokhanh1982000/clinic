@@ -182,7 +182,11 @@ const CreateAdmin = () => {
       },
       onError: (error: any) => {
         setLoadingImg(false);
-        message.error(error.message);
+        message.error(
+          intl.formatMessage({
+            id: 'error.IMAGE_INVALID',
+          })
+        );
       },
     }
   );

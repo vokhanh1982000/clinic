@@ -47,7 +47,11 @@ export const CategoryModal = (props: CategoryModalProps) => {
       },
       onError: (error: any) => {
         setLoadingImg(false);
-        message.error(error.message);
+        message.error(
+          intl.formatMessage({
+            id: 'error.IMAGE_INVALID',
+          })
+        );
       },
     }
   );

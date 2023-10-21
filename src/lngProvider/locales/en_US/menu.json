@@ -21,5 +21,7 @@
   "menu.dropdown.user.change-password": "Change password",
   "menu.create.doctor": "Create Doctor",
   "menu.detail.doctor": "Detail Doctor",
-  "doctor.delete.fail": "Fail. Please try again"
+  "doctor.delete.fail": "Fail. Please try again",
+  "menu.createClinic": "Create Clinic",
+  "menu.detailClinic": "Detail Clinic"
 }

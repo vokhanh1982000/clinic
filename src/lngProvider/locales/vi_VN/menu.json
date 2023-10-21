@@ -23,5 +23,7 @@
   "menu.doctor-clinic-profile": "Thông tin tài khoản",
   "menu.dropdown.user.logout": "Đăng xuất",
   "menu.dropdown.user.profile": "Thông Tin Tài Khoản",
-  "menu.dropdown.user.change-password": "Thay đổi mật khẩu"
+  "menu.dropdown.user.change-password": "Thay đổi mật khẩu",
+  "menu.createClinic": "Tạo Phòng Khám Mới",
+  "menu.detailClinic": "Chi Tiết Phòng Khám"
 }
