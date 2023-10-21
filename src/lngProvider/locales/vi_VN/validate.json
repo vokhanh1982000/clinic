@@ -34,11 +34,16 @@
   "validate.customer-code.required": "Vui lòng nhập mã bệnh nhân",
   "validate.required.password": "Vui lòng nhập mật khẩu",
   "validate.no.space": "Vui lòng không nhập khoảng trắng",
+<<<<<<< HEAD
   "validate.password": "Mật khẩu từ 8-16 ký tự, không có khoảng trắng",
+=======
+  "validate.password": "Mật khẩu từ 8 - 16 ký tự, không có khoảng trắng",
+>>>>>>> b97c4bdc8b3b0c6152085a7a94c28fdc6892d8e7
   "validate.password.min": "Mật khẩu tối thiểu 8 kí tự",
   "validate.password.max": "Mật khẩu tối đa 16 kí tự",
   "validate.number": "Số phải lớn hơn 0",
   "validate.specialist": "Vui lòng chọn chuyên khoa",
   "validate.required.clinic-name": "Vui lòng nhập tên Phòng khám",
-  "validate.required.clinic-code": "Vui lòng nhập mã Phòng khám"
+  "validate.required.clinic-code": "Vui lòng nhập mã Phòng khám",
+  "validate.required.doctor-name": "Vui lòng nhập tên bác sĩ"
 }

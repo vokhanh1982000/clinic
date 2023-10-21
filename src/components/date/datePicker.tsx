@@ -1,6 +1,7 @@
 import { DatePicker, DatePickerProps } from 'antd';
 import moment from 'moment';
 import { disabledFutureDate } from '../../constants/function';
+import IconSVG from '../icons/icons';
 
 interface CustomDateProps {
   dateFormat?: string;
@@ -14,6 +15,7 @@ const DatePickerCustom = (props: CustomDateProps) => {
   return (
     <DatePicker
       className={`ant-custom-area ${className}`}
+      suffixIcon={<IconSVG type="date-picker" />}
       format={dateFormat}
       placeholder={placeHolder}
       {...props}

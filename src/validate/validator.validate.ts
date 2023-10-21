@@ -24,7 +24,8 @@ type validateType =
   | 'kana'
   | 'space'
   | 'postalCode'
-  | 'password';
+  | 'password'
+  | 'min4';
 
 type ValidatorOption = string | boolean | Optịon;
 type Validators = { [key in validateType]?: ValidatorOption };
@@ -92,8 +93,7 @@ const VALIDATOR: any = {
     if (!value) {
       return;
     }
-
-    const isValid = value === value.trimStart();
+    const isValid = value.trim() !== '';
     if (!isValid) {
       throw new Error(getMessage(option));
     }
@@ -148,6 +148,15 @@ const VALIDATOR: any = {
 
     const isValid = regexPosTalCode.test(value);
     if (!isValid) {
+      throw new Error(getMessage(option));
+    }
+  },
+  min4: (value: string, option: Optịon) => {
+    if (!value) {
+      return;
+    }
+
+    if (value.trim().length < 4) {
       throw new Error(getMessage(option));
     }
   },
