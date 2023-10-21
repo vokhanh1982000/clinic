@@ -48,13 +48,19 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         const groupTitle = (
           <Popover
             placement="right"
-            content={<SidebarHeaderContent />}
+            content={<SidebarHeaderContent doctorClinicId={booking.doctorClinicId} />}
             title={null}
             arrow={false}
             trigger={['click']}
             overlayClassName="timeline-custom-day-popover"
           >
-            <span className="font-size-16 font-weight-400 cursor-pointer">{booking?.doctorClinic?.fullName ?? ''}</span>
+            <span className="font-size-16 font-weight-400 cursor-pointer">
+              {booking?.doctorClinic?.fullName
+                ? booking?.doctorClinic?.deletedAt
+                  ? `${booking?.doctorClinic?.fullName} ${intl.formatMessage({ id: 'timeline.doctor.deleted' })}`
+                  : booking?.doctorClinic?.fullName
+                : ''}
+            </span>
           </Popover>
         );
 
@@ -117,7 +123,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
       setItems(items);
       setGroups([...(new Map(groups.map((group) => [group.id, group])).values() as any)]);
     }
-  }, [listBookingDay, time]);
+  }, [listBookingDay, time, intl]);
 
   const updateBookingMutation = useMutation(
     (payload: { id: string; dto: AdminClinicUpdateBookingDto }) =>
