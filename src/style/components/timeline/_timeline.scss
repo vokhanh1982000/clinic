@@ -9,8 +9,55 @@ $color-E5E5E5: #e5e5e5;
 $font-family: Open-Sans;
 
 .timeline-custom {
+  &-header {
+    &-button {
+      gap: 4px;
+      border-radius: 24px !important;
+      border-color: $color-ee5824;
+
+      &:hover,
+      &:active {
+        border-color: $color-ee5824 !important;
+        color: $color-ffffff !important;
+        outline: none;
+      }
+
+      & > span {
+        &:first-child {
+          margin-inline-end: 0 !important;
+        }
+      }
+    }
+  }
+
+  &-schedule {
+    &-avatar {
+      border: 2px solid $color-ee5824;
+      border-radius: 50%;
+      background-color: #f4f8fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      & > svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      & > .ant-image {
+        border-radius: 50%;
+
+        & > .ant-image-img {
+          width: 40px;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+
   &-container {
-    max-height: calc(100vh - 244px);
+    max-height: calc(100vh - 362px);
     overflow-y: auto;
     padding-bottom: 10px;
     margin-bottom: -10px;

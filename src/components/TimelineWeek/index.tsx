@@ -1,4 +1,5 @@
-import { Form, FormInstance } from 'antd';
+import { useMutation } from '@tanstack/react-query';
+import { Form, FormInstance, message } from 'antd';
 import dayjs from 'dayjs';
 import moment, { Moment } from 'moment';
 import { FC, useEffect, useState } from 'react';
@@ -13,7 +14,15 @@ import Timeline, {
 } from 'react-calendar-timeline';
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useIntl } from 'react-intl';
-import { Administrator, AdministratorClinic, Booking, Customer, DoctorClinic } from '../../apis/client-axios';
+import { adminClinicBookingApi } from '../../apis';
+import {
+  AdminClinicUpdateBookingDto,
+  Administrator,
+  AdministratorClinic,
+  Booking,
+  Customer,
+  DoctorClinic,
+} from '../../apis/client-axios';
 import { SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
 import { IFormData, NOTES, n } from '../TimelineControl/constants';
 
@@ -123,6 +132,19 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     }
   }, [listBookingWeek, time]);
 
+  const updateBookingMutation = useMutation(
+    (payload: { id: string; dto: AdminClinicUpdateBookingDto }) =>
+      adminClinicBookingApi.adminClinicBookingControllerUpdate(payload.id, payload.dto),
+    {
+      onError: ({ response }) => {
+        message.error(response?.data?.message);
+      },
+      onSettled: () => {
+        // onRefetchDay();
+      },
+    }
+  );
+
   const handleTimeChange = (
     visibleTimeStart: number,
     visibleTimeEnd: number,
@@ -189,6 +211,49 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     );
   };
 
+  const handleItemMove = (itemId: string, dragTime: number, newGroupOrder: number) => {
+    const findGroup = groups[newGroupOrder];
+    const findBooking = listBookingWeek.find((booking) => booking.id === itemId);
+
+    const newTime = moment(
+      `${findGroup.id.toString()} ${moment(dragTime).format(TIME_FORMAT)}`,
+      `${SHORT_DATE_FORMAT} ${TIME_FORMAT}`
+    );
+
+    updateBookingMutation.mutate({
+      id: itemId,
+      dto: {
+        doctorClinicId: findBooking?.doctorClinicId,
+        id: itemId,
+        appointmentStartTime: moment(newTime).toISOString(),
+        appointmentEndTime: moment(newTime).add(30, 'minutes').toISOString(),
+        clinicId: findBooking?.clinicId,
+      },
+    });
+  };
+
+  const handleItemResize = (itemId: string, endTimeOrStartTime: number, edge: 'left' | 'right') => {
+    //change canResize from false to "both" at line 280 to using this resize function
+    const findBooking = listBookingWeek.find((booking) => booking.id === itemId);
+
+    updateBookingMutation.mutate({
+      id: itemId,
+      dto: {
+        doctorClinicId: findBooking?.doctorClinicId,
+        id: itemId,
+        appointmentStartTime:
+          edge === 'right'
+            ? moment(findBooking?.appointmentStartTime).toISOString()
+            : moment(endTimeOrStartTime).toISOString(),
+        appointmentEndTime:
+          edge === 'left'
+            ? moment(findBooking?.appointmentEndTime).toISOString()
+            : moment(endTimeOrStartTime).toISOString(),
+        clinicId: findBooking?.clinicId,
+      },
+    });
+  };
+
   return (
     <>
       {groups.length > 0 && items.length > 0 && (
@@ -213,9 +278,11 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
           maxZoom={4 * 60 * 60 * 1000}
           onTimeChange={handleTimeChange}
           canResize={false}
-          canMove={false}
-          canChangeGroup={false}
+          canMove={user?.user?.type !== 'doctor_clinic'}
+          canChangeGroup={user?.user?.type !== 'doctor_clinic'}
           verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
+          onItemMove={handleItemMove}
+          onItemResize={handleItemResize}
         >
           <TimelineHeaders>
             <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
