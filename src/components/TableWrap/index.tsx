@@ -12,6 +12,7 @@ export interface ITableWrapProps<T> {
   setSize?: (size: number) => void;
   setPage?: (page: number) => void;
   showPagination: boolean;
+  onRow?: any;
 }
 
 function TableWrap<T extends object>(props: ITableWrapProps<T>) {
@@ -24,6 +25,7 @@ function TableWrap<T extends object>(props: ITableWrapProps<T>) {
         pagination={false}
         rowKey={props.rowKey || 'id'}
         bordered
+        onRow={props.onRow}
       >
         {props.children}
       </Table>

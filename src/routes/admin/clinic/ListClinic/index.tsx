@@ -94,7 +94,11 @@ const ListClinic = () => {
   };
 
   const handleChangeProvince = (value: any, option: any) => {
-    setProvinceSelected({ id: option.value, code: option.code });
+    if (option) {
+      setProvinceSelected({ id: option.value, code: option.code });
+    } else {
+      setProvinceSelected(undefined);
+    }
     setDistrictSelected(undefined);
     setWardSelected(undefined);
     setPage(1);
