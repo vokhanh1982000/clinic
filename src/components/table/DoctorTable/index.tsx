@@ -59,9 +59,9 @@ export const DoctorTable = (props: DoctorTableProps) => {
   }, [user]);
 
   const { data: doctorClinics } = useQuery({
-    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status }],
+    queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status, clinicId }],
     queryFn: () =>
-      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, undefined, status),
+      doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status),
     enabled: !!(doctorType === DoctorType.DOCTOR && clinicId),
   });
 

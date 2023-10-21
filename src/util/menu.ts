@@ -77,6 +77,10 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
         return 'menu.bookingManagement';
       case ADMIN_ROUTE_PATH.CLINIC_MANAGEMENT:
         return 'menu.clinicManagement';
+      case ADMIN_ROUTE_PATH.CREATE_CLINIC:
+        return 'menu.createClinic';
+      case ADMIN_ROUTE_PATH.DETAIL_CLINIC:
+        return 'menu.detailClinic';
       case ADMIN_ROUTE_PATH.DOCTOR_MANAGEMENT:
         return 'menu.doctorSupportManagement';
       case ADMIN_ROUTE_PATH.MEDICAL_SPECIALTY_MANAGEMENT:

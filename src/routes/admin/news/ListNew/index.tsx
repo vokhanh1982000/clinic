@@ -143,7 +143,7 @@ const ListNew = () => {
         />
       </div>
       <TableWrap
-        className="custom-table table-new"
+        className={`custom-table ${data?.data.content && data?.data.content?.length > 0 && 'table-new'}`}
         data={data?.data.content}
         // isLoading={isLoading}
         page={page}

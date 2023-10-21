@@ -38,6 +38,20 @@
     padding: 0px 15px;
     flex-wrap: wrap;
     overflow: unset !important;
+
+    .ant-select-selection-item {
+      overflow: unset;
+      text-overflow: unset;
+      white-space: unset;
+      height: unset;
+
+      .ant-select-selection-item-content {
+        overflow: unset;
+        text-overflow: unset;
+        white-space: unset;
+        word-break: break-all;
+      }
+    }
   }
 }
 

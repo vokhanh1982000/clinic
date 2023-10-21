@@ -13,10 +13,11 @@ interface Props {
   n: any;
   deleteFc?: (id: string) => void;
   setIsDeleteDoctor: (value: boolean) => void;
+  disabled?: Boolean;
 }
 
 const Achievement = (props: Props) => {
-  const { form, onSubmit, setIsDeleteDoctor, n, deleteFc } = props;
+  const { form, onSubmit, setIsDeleteDoctor, n, deleteFc, disabled } = props;
   const { id } = useParams();
   const intl = useIntl();
   const navigate = useNavigate();
@@ -87,47 +88,49 @@ const Achievement = (props: Props) => {
           </Form.Item>
         </div>
       </div>
-      <div className="achievement__button">
-        <div className="button-action">
-          {id ? (
-            <div className="more-action">
-              <CustomButton
-                className="button-save"
-                onClick={() => {
-                  onSubmit();
-                }}
-              >
-                {intl.formatMessage({
-                  id: 'doctor.edit.button.save',
-                })}
-              </CustomButton>
-              <CustomButton className="button-delete" onClick={() => handleDelete()}>
-                {intl.formatMessage({
-                  id: 'doctor.edit.button.delete',
-                })}
-              </CustomButton>
-            </div>
-          ) : (
-            <div className="more-action">
-              <CustomButton className="button-create" onClick={() => onSubmit()}>
-                {intl.formatMessage({
-                  id: 'doctor.create.button.create',
-                })}
-              </CustomButton>
-              <CustomButton
-                className="button-cancel"
-                onClick={() => {
-                  navigate(-1);
-                }}
-              >
-                {intl.formatMessage({
-                  id: 'doctor.create.button.cancel',
-                })}
-              </CustomButton>
-            </div>
-          )}
+      {!disabled && (
+        <div className="achievement__button">
+          <div className="button-action">
+            {id ? (
+              <div className="more-action">
+                <CustomButton
+                  className="button-save"
+                  onClick={() => {
+                    onSubmit();
+                  }}
+                >
+                  {intl.formatMessage({
+                    id: 'doctor.edit.button.save',
+                  })}
+                </CustomButton>
+                <CustomButton className="button-delete" onClick={() => handleDelete()}>
+                  {intl.formatMessage({
+                    id: 'doctor.edit.button.delete',
+                  })}
+                </CustomButton>
+              </div>
+            ) : (
+              <div className="more-action">
+                <CustomButton className="button-create" onClick={() => onSubmit()}>
+                  {intl.formatMessage({
+                    id: 'doctor.create.button.create',
+                  })}
+                </CustomButton>
+                <CustomButton
+                  className="button-cancel"
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  {intl.formatMessage({
+                    id: 'doctor.create.button.cancel',
+                  })}
+                </CustomButton>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
