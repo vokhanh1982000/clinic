@@ -1,0 +1,84 @@
+#create-booking-management {
+  .create-booking-header {
+    color: $text_black_light;
+    margin-bottom: 10px;
+
+    &__title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 36px;
+    }
+    &__code {
+      margin-left: 10px;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 32px;
+    }
+    &__copy {
+      svg {
+        margin-bottom: 9px;
+      }
+    }
+    &__select-status {
+      margin-left: 20px;
+      width: 141px !important;
+      height: 40px !important;
+      .ant-select-selector {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        border: 1px solid #20bf6b;
+        background-color: #d2f2e1;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: $text_black_grey;
+        .ant-select-selection-item {
+          width: 89px;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+  .form-create-booking {
+    display: flex;
+    gap: 15px;
+    max-width: 100% !important;
+
+    .left-container {
+      padding: 24px;
+      width: 60%;
+      border: 1px solid $border_input_color;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    .right-container {
+      width: 40%;
+      .schedule-info-area {
+        padding: 20px 15px;
+        width: 100%;
+        border: 1px solid $border_input_color;
+        border-radius: 24px;
+      }
+
+      .action-area {
+        .rows {
+          .checkbox {
+            margin-top: 10px;
+            margin-bottom: 0;
+          }
+          .button-save {
+            margin-top: 30px;
+            width: 100%;
+            background-color: $primary_color;
+            color: $text_white;
+            border: unset;
+          }
+        }
+      }
+    }
+  }
+}

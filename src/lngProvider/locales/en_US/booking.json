@@ -1,0 +1,13 @@
+{
+  "booking.create.title": "Create booking",
+  "booking.edit.title": "Booking detail",
+  "booking.doctor.title": "Doctor info",
+  "booking.customer.title": "Customer info",
+  "booking.create.customerNote": "customer note",
+  "booking.create.prescription": "prescription info",
+  "booking.create.prescription.diagnostic-result": "diagnostic result",
+  "booking.create.schedule-info": "Appointment info",
+  "booking.create.day": "Select day",
+  "booking.create.is-prioritize": "Is prioritize",
+  "booking.create.has-booked-assistant": "Is booking assistant"
+}

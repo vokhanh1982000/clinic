@@ -1,0 +1,13 @@
+{
+  "booking.create.title": "Tạo lịch khám",
+  "booking.edit.title": "Chi tiết lịch khám",
+  "booking.doctor.title": "Thông tin bác sĩ",
+  "booking.customer.title": "Thông tin bệnh nhân",
+  "booking.create.customerNote": "Ghi chú của bệnh nhân",
+  "booking.create.prescription": "Thông tin kê đơn",
+  "booking.create.prescription.diagnostic-result": "Kết quả chuẩn đoán",
+  "booking.create.schedule-info": "Thông tin đặt lịch",
+  "booking.create.day": "Chọn ngày",
+  "booking.create.is-prioritize": " Dịch vụ ưu tiên",
+  "booking.create.has-booked-assistant": "Thư kí y khoa"
+}

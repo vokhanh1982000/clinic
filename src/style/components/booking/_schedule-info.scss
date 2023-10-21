@@ -1,0 +1,109 @@
+.form-create-booking {
+  .right-container {
+    .schedule-info-area {
+      .schedule-info {
+        display: flex;
+        flex-direction: column;
+        &__header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          &__title {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 32px;
+            color: $secondary_color;
+          }
+
+          &__switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            &__label {
+              color: $secondary_color;
+              font-size: 16px;
+              font-weight: 600;
+              line-height: 24px;
+            }
+          }
+        }
+        &__content {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          &__rows {
+            .hour {
+              width: 100%;
+              .ant-picker {
+                width: 100%;
+                height: 48px;
+                border-radius: 24px;
+              }
+            }
+          }
+          #custom-popup-date-picker {
+            margin-bottom: 18px;
+            .schedule {
+              //height: 30px;
+              .ant-form-item-label {
+                //opacity: 0;
+              }
+              .ant-picker {
+                opacity: 0;
+                width: 100%;
+                height: 1px;
+              }
+              .ant-form-item-row {
+                width: 100%;
+                .ant-form-item-control {
+                  height: 1px;
+                }
+
+                .ant-form-item-control-input {
+                  margin-top: -20px;
+                }
+              }
+            }
+            .ant-form-item {
+              display: flex;
+              justify-content: flex-end;
+              padding: unset !important;
+              margin: unset !important;
+            }
+            .ant-dropdown {
+              z-index: 9999;
+              top: 0 !important;
+              left: 0 !important;
+              right: auto !important;
+              bottom: auto !important;
+              transform: none !important;
+            }
+          }
+        }
+      }
+
+      .ant-form-item {
+        margin-bottom: 10px;
+
+        .ant-form-item-row {
+          flex-direction: column;
+        }
+
+        .ant-form-item-label {
+          text-align: start;
+          padding: unset;
+
+          label {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 22px;
+            color: $text_black_light;
+          }
+        }
+      }
+    }
+  }
+}

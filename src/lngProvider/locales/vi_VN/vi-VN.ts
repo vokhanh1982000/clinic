@@ -22,7 +22,7 @@ import timeline from './timeline_vi.json';
 import message from './message.json';
 import error from './error.json';
 import language from './language.json';
-
+import booking from './booking.json';
 const viLang = {
   messages: {
     ...common,
@@ -48,6 +48,7 @@ const viLang = {
     ...message,
     ...error,
     ...language,
+    ...booking,
   },
   antd: antdVI,
   locale: 'vi-VN',
