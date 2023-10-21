@@ -59,6 +59,7 @@ const CreateNew = () => {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['newList']);
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
+        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
       },
       onError: (error: any) => {
         message.error(error.message);
@@ -71,6 +72,7 @@ const CreateNew = () => {
     {
       onSuccess: ({ data }) => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
       },
       onError: (error) => {
         message.error(intl.formatMessage({ id: 'new.create.error' }));
@@ -83,6 +85,7 @@ const CreateNew = () => {
     {
       onSuccess: ({ data }) => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
       },
       onError: (error) => {
         message.error(intl.formatMessage({ id: 'new.update.error' }));

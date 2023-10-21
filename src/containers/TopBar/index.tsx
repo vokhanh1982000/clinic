@@ -76,16 +76,16 @@ const Topbar = (props: {
           icon={props.collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={() => props.onCollapsed && props.onCollapsed()}
           style={{
-            fontSize: '16px',
+            font-size: '14px';,
             width: 64,
             height: 64,
           }}
         /> */}
         {props.children}
       </Row>
-      <Row style={{ fontFamily: 'Open Sans', fontWeight: '600', fontSize: '16px' }}>
+      <Row style={{ fontFamily: 'Open Sans', fontWeight: '600', fontSize: '14px' }}>
         {/* <DarkModeSwitch /> */}
-        <LanguageDropdown />
+        {/* <LanguageDropdown /> */}
         <AccountInfo infoDropdownItems={props.infoDropdownItems} />
       </Row>
     </Header>

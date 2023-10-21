@@ -1,4 +1,5 @@
 #admin-management {
+  overflow: auto;
   .admin-management__header {
     header {
       font-weight: 700;
@@ -27,7 +28,7 @@
 
         header {
           font-family: 'Open-sans';
-          font-size: 20px;
+          font-size: '14px';
           font-weight: 700;
           color: $secondary_color;
         }
@@ -35,7 +36,7 @@
         span {
           margin-right: 4px;
           font-weight: 600;
-          font-size: 16px;
+          font-size: 14px;
           color: $secondary_color;
           font-family: 'Open-sans';
         }
@@ -127,7 +128,7 @@
 
         .admin-management__role-header {
           font-family: 'Open-sans';
-          font-size: 20px;
+          font-size: '14px';
           font-weight: 700;
           color: $secondary_color;
         }
@@ -152,7 +153,7 @@
           //   .ant-checkbox-wrapper {
           //     width: 50%;
           //     margin-top: 15px;
-          //     font-size: 16px;
+          //     font-size: 14px;
           //     font-family: 'Open-Sans' !important;
           //   }
           // }
@@ -167,7 +168,7 @@
         button {
           border-radius: 32px;
           height: 48px;
-          font-size: 16px;
+          font-size: 14px;
           font-family: 'Open-sans';
         }
 

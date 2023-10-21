@@ -33,7 +33,7 @@ const ListRole = () => {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['getAdminUser']);
       // navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
-      message.error(intl.formatMessage({ id: `admin.delete.success` }));
+      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
     },
     onError: (error) => {
       message.error(intl.formatMessage({ id: `common.message.err` }));

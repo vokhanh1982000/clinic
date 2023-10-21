@@ -66,7 +66,7 @@ $font-family: Open-Sans;
               background-color: rgba(238, 88, 36, 0.1);
 
               & > span {
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 600;
                 color: #702a14;
                 font-family: $font-family;
@@ -369,7 +369,7 @@ $font-family: Open-Sans;
 
             & > span {
               &:last-child {
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 600;
               }
             }
@@ -437,7 +437,7 @@ $font-family: Open-Sans;
 
             & > span {
               font-family: $font-family;
-              font-size: 16px;
+              font-size: 14px;
               font-weight: 600;
               color: $color-702A14;
               text-transform: capitalize;

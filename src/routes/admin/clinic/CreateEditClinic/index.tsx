@@ -52,6 +52,7 @@ const CreateClinic = () => {
     (createclinic: CreateClinicDto) => clinicsApi.clinicControllerCreateClinic(createclinic),
     {
       onSuccess: ({ data }) => {
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -64,6 +65,7 @@ const CreateClinic = () => {
     (updateClinic: UpdateClinicDto) => clinicsApi.clinicControllerUpdateClinic(updateClinic),
     {
       onSuccess: ({ data }) => {
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -76,6 +78,7 @@ const CreateClinic = () => {
     (id: string) => clinicsApi.clinicControllerDeleteClinic(id),
     {
       onSuccess: (data) => {
+        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {
