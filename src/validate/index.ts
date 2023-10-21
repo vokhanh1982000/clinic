@@ -299,7 +299,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     languageName: [
       {
         required: true,
-        message: intl.formatMessage({ id: 'validate.full-name.required' }),
+        message: intl.formatMessage({ id: 'validate.language.required' }),
       },
       {
         max: 36,
@@ -318,7 +318,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           }
           return Promise.reject(
             intl.formatMessage({
-              id: 'validate.space',
+              id: 'validate.language.required',
             })
           );
         },
