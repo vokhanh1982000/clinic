@@ -88,8 +88,8 @@ const CreateDoctor = () => {
       queryClient.invalidateQueries(['getDoctorSupport']);
       navigate(-1);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'common.message.err' }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 

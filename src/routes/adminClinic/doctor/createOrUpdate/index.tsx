@@ -73,12 +73,6 @@ const CreateDoctor = () => {
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
-        // if (response.data.message === 'CODE_IS_EXIST') {
-        //   message.error(intl.formatMessage({ id: `common.noti.code` }));
-        // } else if (response.data.message === 'PHONE_IS_EXIST') {
-        //   message.error(intl.formatMessage({ id: `common.noti.phone` }));
-        // }
-        // message.error(intl.formatMessage({ id: 'doctor.create.error' }));
       },
     }
   );
@@ -92,11 +86,6 @@ const CreateDoctor = () => {
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
-        // if (response.data.message === 'CODE_IS_EXIST') {
-        //   message.error(intl.formatMessage({ id: `common.noti.code` }));
-        // } else if (response.data.message === 'PHONE_IS_EXIST') {
-        //   message.error(intl.formatMessage({ id: `common.noti.phone` }));
-        // }
       },
     }
   );
