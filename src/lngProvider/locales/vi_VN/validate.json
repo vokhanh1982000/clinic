@@ -35,6 +35,7 @@
   "validate.required.password": "Vui lòng nhập mật khẩu",
   "validate.no.space": "Vui lòng không nhập khoảng trắng",
   "validate.password": "Mật khẩu từ 8-16 ký tự, không có khoảng trắng",
+  "validate.password": "Mật khẩu từ 8-16 ký tự, không có khoảng trắng",
   "validate.password.min": "Mật khẩu tối thiểu 8 kí tự",
   "validate.password.max": "Mật khẩu tối đa 16 kí tự",
   "validate.number": "Số phải lớn hơn 0",
