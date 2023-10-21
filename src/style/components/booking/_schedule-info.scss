@@ -29,6 +29,13 @@
             }
           }
         }
+        &__break-line {
+          width: 100%;
+          border-bottom: 1px solid $border_input_color;
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+          margin-top: 10px;
+        }
         &__content {
           width: 100%;
           display: flex;

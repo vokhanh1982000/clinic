@@ -19,6 +19,7 @@ const ScheduleInfo = () => {
           <div className="line-title"></div>
         </div>
       </div>
+      <div className={'schedule-info__break-line'}></div>
       <div className={'schedule-info__content'}>
         <div className={'schedule-info__content_rows'} id={'custom-popup-date-picker'}>
           <Form.Item
