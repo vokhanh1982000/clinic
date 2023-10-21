@@ -70,6 +70,7 @@ const CreateDoctor = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -83,6 +84,7 @@ const CreateDoctor = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -95,7 +97,7 @@ const CreateDoctor = () => {
       console.log(data);
       queryClient.invalidateQueries(['getAdminUser']);
       navigate(-1);
-      message.error(intl.formatMessage({ id: 'doctor.delete.success' }));
+      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
     },
     onError: (error) => {
       message.error(intl.formatMessage({ id: 'doctor.create.error' }));

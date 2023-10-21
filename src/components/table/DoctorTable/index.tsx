@@ -82,7 +82,6 @@ export const DoctorTable = (props: DoctorTableProps) => {
     enabled: doctorType === DoctorType.DOCTOR_SUPPORT,
   });
 
-  console.log('doctor support: ', doctorSupports);
   const { data: category } = useQuery({
     queryKey: ['category'],
     queryFn: () => categoryApi.categoryControllerFindCategory(1, 10, undefined, undefined),

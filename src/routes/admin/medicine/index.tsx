@@ -61,6 +61,7 @@ const ListMedicine = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['adminMedicineList']);
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
       },
       onError: (error: any): void => {
         message.error(error.message);
@@ -75,6 +76,7 @@ const ListMedicine = () => {
       onSuccess: (data) => {
         setIsShowModalUpdate(undefined);
         setIsShowModalDelete(undefined);
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         queryClient.invalidateQueries(['adminMedicineList']);
       },
       onError: (error: any): void => {
@@ -90,6 +92,7 @@ const ListMedicine = () => {
         setIsShowModalDelete(undefined);
         setIsShowModalUpdate(undefined);
         queryClient.invalidateQueries(['adminMedicineList']);
+        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
       },
       onError: (error: any): void => {
         message.error(error.message);

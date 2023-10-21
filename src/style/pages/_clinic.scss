@@ -1,4 +1,5 @@
 #clinic-management {
+  overflow: auto;
   .clinic-management__header {
     display: flex;
     justify-content: space-between;
@@ -105,7 +106,7 @@
           &__item {
             color: $secondary_color;
             margin: 5px 0px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             line-height: 24px;
           }
@@ -168,7 +169,7 @@
 
           .ant-form-item-control-input-content {
             input {
-              font-size: 16px;
+              font-size: 14px;
             }
           }
         }
@@ -179,7 +180,7 @@
         justify-content: space-between;
 
         &__title {
-          font-size: 20px;
+          font-size: '14px';
           font-weight: 700;
           line-height: 32px;
           color: $secondary_color;
@@ -247,7 +248,7 @@
             justify-content: space-between;
 
             &__title {
-              font-size: 20px;
+              font-size: '14px';
               font-weight: 700;
               line-height: 32px;
               color: $secondary_color;
@@ -291,7 +292,7 @@
 
                 &__name {
                   font-weight: 600;
-                  font-size: 16px;
+                  font-size: 14px;
                   line-height: 24px;
                   color: $text_black_light;
                 }
@@ -380,7 +381,7 @@
     margin-top: 15px;
 
     &__title {
-      font-size: 20px;
+      font-size: '14px';
       font-weight: 700;
       line-height: 32px;
       color: $secondary_color;

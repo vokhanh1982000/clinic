@@ -119,6 +119,7 @@ const Setting = () => {
     {
       onSuccess: ({ data }) => {
         // queryClient.invalidateQueries(['getDetailClinic']);
+        message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
       },
       onError: (error: any) => {
         message.error(error.message);

@@ -36,7 +36,8 @@ const ListUser = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['customerList']);
-        message.success(intl.formatMessage({ id: `customer.delete.success` }));
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        // message.success(intl.formatMessage({ id: `customer.delete.success` }));
       },
       onError: (error: any) => {
         message.error(error.message);

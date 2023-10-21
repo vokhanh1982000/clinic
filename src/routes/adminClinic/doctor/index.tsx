@@ -19,7 +19,7 @@ const ListDoctor = () => {
     onSuccess: ({ data }) => {
       console.log(data);
       queryClient.invalidateQueries(['getDoctorClinic']);
-      message.error(intl.formatMessage({ id: 'doctor.delete.success' }));
+      message.success(intl.formatMessage({ id: 'doctor.delete.success' }));
     },
     onError: (error) => {
       message.error(intl.formatMessage({ id: `doctor.delete.fail` }));
