@@ -29,7 +29,7 @@ export const getMenuActiveIconName = (key: string, route: 'Admin' | 'AdminClinic
       case ADMIN_ROUTE_PATH.MEDICINE_MANAGEMENT:
         return 'medicineManagementIconActive';
       case ADMIN_ROUTE_PATH.LANGUAGE_MANAGEMENT:
-        return 'languageManagement';
+        return 'languageManagementActive';
       default:
         return '';
     }

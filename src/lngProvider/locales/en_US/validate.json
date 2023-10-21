@@ -15,6 +15,7 @@
   "validate.medicine.usage.space": "Invalid usage",
   "validate.medicine.feature.space": "Invalid Feature",
   "validate.full-name.required": "Full-name is required",
+  "validate.language.required": "Language is required",
   "validate.staff-code.required": "Staff-code is required",
   "validate.email.required": "Email is required",
   "validate.phone.required": "Phone number is required",
