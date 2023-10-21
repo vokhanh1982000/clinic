@@ -15,6 +15,7 @@
     flex-wrap: nowrap;
     gap: 15px;
     max-width: 100% !important;
+
     .ant-select-selection-placeholder {
       display: flex;
       align-items: center;
@@ -22,6 +23,8 @@
 
     .admin-management__body-info {
       flex: 1;
+      width: 70%;
+
       .admin-management__info-header {
         justify-content: space-between;
 
@@ -44,32 +47,39 @@
       .admin-management__body-data {
         margin-top: 20px;
         justify-content: space-between;
-
+        gap: 15px;
         flex-wrap: nowrap;
+
         &__avatar {
           height: fit-content;
           position: relative;
         }
+
         .admin-management__info-form {
           flex: 1;
-          max-width: 524px;
+          width: 70%;
+
           .admin-management__info-item {
             display: flex;
             align-items: center;
             gap: 15px;
-            max-width: 524px;
+
             justify-content: space-between;
+
             .fullName {
               width: 70%;
               max-width: 326px;
             }
+
             .code {
               width: 30%;
               max-width: 142px;
             }
+
             .admin-management__item-col {
               width: 50%;
             }
+
             header {
               color: $text_black_light;
               font-family: 'Open-sans';
@@ -77,6 +87,7 @@
               font-weight: 700;
               line-height: 22px;
             }
+
             .date-select {
               height: 48px;
               border-radius: 32px;
@@ -116,8 +127,8 @@
     }
 
     .admin-management__body-role {
-      width: 38%;
-      max-width: 529px;
+      width: 30%;
+
       display: flex;
       flex-direction: column;
       justify-content: inherit;
