@@ -23,11 +23,12 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
-      dispatch(updateWindowWidth(window.innerWidth));
-    });
+    // window.addEventListener('resize', () => {
+    //   dispatch(updateWindowWidth(window.innerWidth));
+    // });
   }, []);
 
+  console.log('load');
   return (
     <QueryClientProvider client={queryClient}>
       <ConfigProvider

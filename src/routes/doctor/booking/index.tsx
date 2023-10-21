@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Col, Form, Row } from 'antd';
+import { Card, Col, Form, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, useEffect } from 'react';
 import { useIntl } from 'react-intl';
@@ -29,7 +29,7 @@ const ListBooking = () => {
     });
   }, []);
 
-  const { data: listBookingWeek } = useQuery({
+  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
     queryKey: ['doctorClinicBookingWeek', time, mode],
     queryFn: () =>
       doctorClinicBookingApi.doctorClinicBookingControllerGetBookingByWeek(
@@ -64,6 +64,10 @@ const ListBooking = () => {
     onRefetchHolidayMonth();
   };
 
+  const handleRefetchWeek = () => {
+    onRefetchBookingWeek();
+  };
+
   const renderTimeline = (mode?: TimelineMode) => {
     let currentScreen: ReactNode = null;
 
@@ -90,10 +94,21 @@ const ListBooking = () => {
   };
 
   return (
-    <>
-      <Row gutter={[0, 10]}>
+    <Card className="custom-card">
+      <Row gutter={[0, 10]} className="timeline-custom-box">
+        <Col span={24} className="m-b-22">
+          <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary m-b-0">
+            {intl.formatMessage({ id: 'menu.bookingManagement' })}
+          </h3>
+        </Col>
+
         <Col span={24}>
-          <TimelineControl form={form} user={user} />
+          <TimelineControl
+            form={form}
+            user={user}
+            onRefetchMonth={handleRefetchMonth}
+            onRefetchWeek={handleRefetchWeek}
+          />
         </Col>
 
         <Col span={24} className="timeline-custom-container">
@@ -123,7 +138,7 @@ const ListBooking = () => {
           </Row>
         </Col>
       </Row>
-    </>
+    </Card>
   );
 };
 export default ListBooking;

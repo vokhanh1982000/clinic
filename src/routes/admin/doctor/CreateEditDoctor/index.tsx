@@ -61,6 +61,7 @@ const CreateDoctor = () => {
       doctorSupportApi.doctorSupportControllerCreateDoctorSupport(createDoctorSupport),
     {
       onSuccess: ({ data }) => {
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
         navigate(-1);
       },
       onError: (error: any) => {
@@ -74,6 +75,7 @@ const CreateDoctor = () => {
       doctorSupportApi.doctorSupportControllerUpdateDoctorSupportForAdmin(updateDoctorSupport),
     {
       onSuccess: ({ data }) => {
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         navigate(-1);
       },
       onError: (error: any) => {
@@ -84,8 +86,8 @@ const CreateDoctor = () => {
 
   const deleteAdmin = useMutation((id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id), {
     onSuccess: ({ data }) => {
-      console.log(data);
       queryClient.invalidateQueries(['getDoctorSupport']);
+      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
       navigate(-1);
     },
     onError: (error: any) => {

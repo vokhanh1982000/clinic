@@ -40,7 +40,7 @@ const ListMedicalSpecialty = () => {
     (createCategory: CreateCategoryDto) => categoryApi.categoryControllerCreateCategory(createCategory),
     {
       onSuccess: (data) => {
-        console.log('success: ', data);
+        message.success(intl.formatMessage({ id: 'common.createSuccess' }));
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {
@@ -59,6 +59,7 @@ const ListMedicalSpecialty = () => {
     (updateCategory: UpdateCategoryDto) => categoryApi.categoryControllerUpdateCategory(updateCategory),
     {
       onSuccess: (data) => {
+        message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {
@@ -78,6 +79,7 @@ const ListMedicalSpecialty = () => {
     (id: string) => categoryApi.categoryControllerDeleteCategory(id),
     {
       onSuccess: (data) => {
+        message.error(intl.formatMessage({ id: 'common.deleteeSuccess' }));
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {

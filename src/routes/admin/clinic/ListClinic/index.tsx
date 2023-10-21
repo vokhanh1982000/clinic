@@ -74,6 +74,7 @@ const ListClinic = () => {
     (id: string) => clinicsApi.clinicControllerDeleteClinic(id),
     {
       onSuccess: (data) => {
+        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
         queryClient.invalidateQueries(['getClinics']);
       },
       onError: (error: any) => {

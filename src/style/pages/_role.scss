@@ -1,5 +1,5 @@
 #role-management {
-  overflow-x: scroll;
+  overflow: auto;
   font-family: Open-Sans !important;
 
   .ant-card-body {
@@ -135,14 +135,14 @@
       font-family: Open-Sans !important;
       color: $table_title_name;
       font-weight: 600;
-      font-size: 20px;
+      font-size: '14px';
     }
   }
 
   .ant-table-tbody {
     td {
       font-weight: 400;
-      font-size: 16px;
+      font-size: 14px;
       color: $text_black_light;
     }
   }

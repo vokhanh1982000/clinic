@@ -8,6 +8,7 @@
   "menu.medicalSpecialtyManagement": "Medical Specialty Management",
   "menu.languageManagement": "Language Management",
   "menu.bookingManagement": "Booking Management",
+  "menu.bookingManagement.empty": "The doctor's appointment has not been received yet",
   "menu.newsManagement": "News and Articles Management",
   "menu.statisticsManagement": "Statistics Management",
   "menu.medicineManagement": "Medicine Management",
@@ -23,5 +24,6 @@
   "menu.detail.doctor": "Detail Doctor",
   "doctor.delete.fail": "Fail. Please try again",
   "menu.createClinic": "Create Clinic",
-  "menu.detailClinic": "Detail Clinic"
+  "menu.detailClinic": "Detail Clinic",
+  "menu.schedule.doctor": "Doctor Schedule"
 }

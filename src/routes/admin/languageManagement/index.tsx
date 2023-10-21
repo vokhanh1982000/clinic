@@ -41,6 +41,7 @@ const LanguageManagement = () => {
     {
       onSuccess: (data) => {
         console.log('success: ', data);
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
         queryClient.invalidateQueries(['languageList']);
       },
       onError: (error: any) => {
@@ -59,6 +60,7 @@ const LanguageManagement = () => {
     (updateLanguage: UpdateLanguageDto) => languageApi.languageControllerUpdateLanguage(updateLanguage),
     {
       onSuccess: (data) => {
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         queryClient.invalidateQueries(['languageList']);
       },
       onError: (error: any) => {
@@ -79,7 +81,7 @@ const LanguageManagement = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['languageList']);
-        message.error(intl.formatMessage({ id: 'language.noti.delete' }));
+        message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
       },
       onError: (error: any) => {
         message.error(intl.formatMessage({ id: 'language.noti.fail' }));
@@ -94,7 +96,6 @@ const LanguageManagement = () => {
       return;
     }
     if (isShowModalDelete && isShowModalDelete.id) {
-      console.log('delete: ', isShowModalDelete);
       DeleteLanguage(isShowModalDelete.id);
     }
     setIsShowModalDelete(undefined);

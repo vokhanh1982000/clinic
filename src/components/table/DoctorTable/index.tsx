@@ -17,6 +17,7 @@ import { AdministratorClinic } from '../../../apis/client-axios';
 import CustomSelect from '../../select/CustomSelect';
 import { DefaultOptionType } from 'antd/es/select';
 import { debounce } from 'lodash';
+import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
 
 interface DoctorTableProps {
   placeHolder?: string;
@@ -82,7 +83,6 @@ export const DoctorTable = (props: DoctorTableProps) => {
     enabled: doctorType === DoctorType.DOCTOR_SUPPORT,
   });
 
-  console.log('doctor support: ', doctorSupports);
   const { data: category } = useQuery({
     queryKey: ['category'],
     queryFn: () => categoryApi.categoryControllerFindCategory(1, 10, undefined, undefined),
@@ -304,7 +304,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
             <div className="action-doctor">
               {doctorType === DoctorType.DOCTOR && (
                 <>
-                  <div onClick={() => navigate(`detail/${record.id}`)}>
+                  <div onClick={() => navigate(`${ADMIN_CLINIC_ROUTE_NAME.SCHEDULE}/${record.id}`)}>
                     <IconSVG type="bokking" />
                   </div>
                   <span className="divider"></span>

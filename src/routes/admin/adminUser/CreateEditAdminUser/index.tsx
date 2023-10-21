@@ -84,6 +84,7 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
+        message.success(intl.formatMessage({ id: `common.createSucces` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -99,6 +100,7 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -108,8 +110,8 @@ const CreateAdmin = () => {
   );
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
-      message.error(intl.formatMessage({ id: `admin.delete.success` }));
       navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
+      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
     },
     onError: (error) => {
       message.error(intl.formatMessage({ id: 'Fail' }));

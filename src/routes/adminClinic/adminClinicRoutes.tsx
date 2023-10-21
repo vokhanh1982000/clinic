@@ -6,6 +6,8 @@ import AdminClinicProfile from './profile';
 import ChangePasswordAdminClinic from './auth/ChangePassword';
 import CreateDoctor from './doctor/createOrUpdate';
 import CreateOrUpDateBooking from './booking/CreateOrUpdate';
+import DoctorSchedule from './doctor/Schedule';
+import ListBookingEmpty from './booking/Empty';
 
 const AdminClinic = React.lazy(() => import('.'));
 const SignIn = React.lazy(() => import('./auth/SignIn'));
@@ -29,6 +31,8 @@ export const AdminClinicRoutes = () => (
           path={`${ADMIN_CLINIC_ROUTE_NAME.DETAIL}/:id`}
           element={<SuspenseWrapper component={<CreateOrUpDateBooking />} />}
         />
+        <Route path="" element={<SuspenseWrapper component={<ListBooking />} />} />
+        <Route path={ADMIN_CLINIC_ROUTE_NAME.BOOKING_EMPTY} element={<ListBookingEmpty />} />
       </Route>
       <Route path={ADMIN_CLINIC_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<ListMedicine />} />
       <Route path={ADMIN_CLINIC_ROUTE_NAME.DOCTOR_MANAGEMENT}>
@@ -38,6 +42,7 @@ export const AdminClinicRoutes = () => (
           path={`${ADMIN_CLINIC_ROUTE_NAME.DETAIL}/:id`}
           element={<SuspenseWrapper component={<CreateDoctor />} />}
         />
+        <Route path={`${ADMIN_CLINIC_ROUTE_NAME.SCHEDULE}/:id`} element={<DoctorSchedule />} />
       </Route>
       <Route path={ADMIN_CLINIC_ROUTE_NAME.SETTING} element={<Setting />} />
       <Route path={ADMIN_CLINIC_ROUTE_NAME.ADMIN_CLINIC_PROFILE} element={<AdminClinicProfile />} />

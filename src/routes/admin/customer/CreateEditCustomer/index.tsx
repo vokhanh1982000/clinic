@@ -64,6 +64,7 @@ const CreateCustomer = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['customerList']);
+        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -77,6 +78,7 @@ const CreateCustomer = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['getUsers']);
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -90,6 +92,7 @@ const CreateCustomer = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['getcustomerDetail', id]);
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
       onError: (error: any) => {

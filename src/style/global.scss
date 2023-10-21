@@ -55,6 +55,16 @@
   }
 }
 
+.custom-card {
+  background: $color-ffffff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 35px 0px rgba(0, 0, 0, 0.05);
+
+  & > .ant-card-body {
+    padding: 20px;
+  }
+}
+
 .custom-table {
   .ant-table {
     border-radius: 12px;
@@ -70,7 +80,7 @@
 
   .ant-table-thead > tr > th {
     background: $table_header_color;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     line-height: 24px;
   }
@@ -189,9 +199,9 @@
   content: unset !important;
 }
 
-.ant-layout-content {
-  overflow: unset !important;
-}
+// .ant-layout-content {
+//   overflow: unset !important;
+// }
 
 //.ant-form-item {
 //  .ant-form-item-label {
@@ -263,6 +273,78 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 @for $i from 0 through 500 {
+  .m-t-#{$i} {
+    margin-top: #{$i}px;
+  }
+  .m-b-#{$i} {
+    margin-bottom: #{$i}px;
+  }
+  .m-l-#{$i} {
+    margin-left: #{$i}px;
+  }
+  .m-r-#{$i} {
+    margin-right: #{$i}px;
+  }
+  .m-#{$i} {
+    margin: #{$i}px;
+  }
+  .m-t-b-#{$i} {
+    margin-top: #{$i}px;
+    margin-bottom: #{$i}px;
+  }
+  .m-l-r-#{$i} {
+    margin-left: #{$i}px;
+    margin-right: #{$i}px;
+  }
+
+  .p-t-#{$i} {
+    padding-top: #{$i}px !important;
+  }
+  .p-b-#{$i} {
+    padding-bottom: #{$i}px !important;
+  }
+  .p-l-#{$i} {
+    padding-left: #{$i}px !important;
+  }
+  .p-r-#{$i} {
+    padding-right: #{$i}px !important;
+  }
+  .p-#{$i} {
+    padding: #{$i}px;
+  }
+  .p-t-b-#{$i} {
+    padding-top: #{$i}px;
+    padding-bottom: #{$i}px;
+  }
+  .p-l-r-#{$i} {
+    padding-left: #{$i}px;
+    padding-right: #{$i}px;
+  }
+
+  .m-t-#{$i}-n {
+    margin-top: -#{$i}px;
+  }
+  .m-b-#{$i}-n {
+    margin-bottom: -#{$i}px;
+  }
+  .m-l-#{$i}-n {
+    margin-left: -#{$i}px;
+  }
+  .m-r-#{$i}-n {
+    margin-right: -#{$i}px;
+  }
+  .m-#{$i}-n {
+    margin: -#{$i}px;
+  }
+  .m-t-b-#{$i}-n {
+    margin-top: -#{$i}px;
+    margin-bottom: -#{$i}px;
+  }
+  .m-l-r-#{$i}-n {
+    margin-left: -#{$i}px;
+    margin-right: -#{$i}px;
+  }
+
   .gap-#{$i} {
     gap: #{$i}px !important;
   }
@@ -283,8 +365,20 @@ select[multiple] {
   color: #1a1a1a !important;
 }
 
+.color-ffffff {
+  color: #ffffff !important;
+}
+
+.background-color-primary {
+  background-color: #ee5824 !important;
+}
+
 .font-family-primary {
   font-family: Open-Sans;
+}
+
+.border-radius-circle {
+  border-radius: 50%;
 }
 
 @for $i from 0 through 2000 {

@@ -1,59 +1,64 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Form, Row } from 'antd';
+import { Col, Form, Image, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
-import { adminClinicBookingApi, holidayScheduleApi } from '../../../apis';
-import { DoctorClinic } from '../../../apis/client-axios';
-import TimelineControl from '../../../components/TimelineControl';
-import { IFormData, NOTES, TimelineMode, n } from '../../../components/TimelineControl/constants';
-import TimelineDay from '../../../components/TimelineDay';
-import TimelineMonth from '../../../components/TimelineMonth';
-import CustomButton from '../../../components/buttons/CustomButton';
-import IconSVG from '../../../components/icons/icons';
-import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
-import { useAppSelector } from '../../../store';
-import { DATE_TIME_FORMAT } from '../../../util/constant';
+import { useNavigate, useParams } from 'react-router-dom';
+import { adminClinicBookingApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
+import { DoctorClinic } from '../../../../apis/client-axios';
+import TimelineControl from '../../../../components/TimelineControl';
+import { IFormData, NOTES, TimelineMode, n } from '../../../../components/TimelineControl/constants';
+import TimelineMonth from '../../../../components/TimelineMonth';
+import TimelineWeek from '../../../../components/TimelineWeek';
+import IconSVG from '../../../../components/icons/icons';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { useAppSelector } from '../../../../store';
+import { DATE_TIME_FORMAT } from '../../../../util/constant';
 
-const ListBooking = () => {
+const DoctorSchedule = () => {
   const intl = useIntl();
 
   const [form] = Form.useForm<IFormData>();
   const mode: TimelineMode | undefined = Form.useWatch(n('mode'), form) as TimelineMode | undefined;
   const time = Form.useWatch(n('time'), form) as Dayjs | undefined;
-  const keyword = Form.useWatch(n('keyword'), form) as string | undefined;
 
-  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     form.setFieldsValue({
       [n('time')]: dayjs(),
-      [n('mode')]: TimelineMode.DATE,
+      [n('mode')]: TimelineMode.WEEK,
     });
   }, []);
 
-  const { data: listBookingDay, refetch: onRefetchBookingDay } = useQuery({
-    queryKey: ['adminClinicBookingDay', time, mode],
+  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
+    queryKey: ['adminClinicScheduleBookingWeek', time, mode],
     queryFn: () =>
-      adminClinicBookingApi.adminClinicBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword),
-    enabled: !!time && mode === TimelineMode.DATE,
+      adminClinicBookingApi.adminClinicBookingControllerGetBookingByWeek(
+        dayjs(time).startOf('week').format(DATE_TIME_FORMAT),
+        undefined,
+        id
+      ),
+    enabled: !!time && mode === TimelineMode.WEEK,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
-    queryKey: ['adminClinicBookingMonth', time, mode],
+    queryKey: ['adminClinicScheduleBookingMonth', time, mode],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByMonth(
         dayjs(time).format(DATE_TIME_FORMAT),
-        keyword
+        undefined,
+        id
       ),
     enabled: !!time && mode === TimelineMode.MONTH,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['adminClinicHolidayMonth', time, mode],
+    queryKey: ['doctorClinicHolidayMonth', time, mode],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
         user.clinicId,
@@ -62,23 +67,27 @@ const ListBooking = () => {
     enabled: !!time && mode === TimelineMode.MONTH,
   });
 
+  const { data: doctorClinicInformation } = useQuery({
+    queryKey: ['scheduleDoctorClinicInformation', id],
+    queryFn: () => doctorClinicApi.doctorClinicControllerGetById(id as string),
+    enabled: !!id,
+  });
+
   const handleRefetchMonth = () => {
     onRefetchBookingMonth();
     onRefetchHolidayMonth();
   };
 
-  const handleRefetchDay = () => {
-    onRefetchBookingDay();
+  const handleRefetchWeek = () => {
+    onRefetchBookingWeek();
   };
 
   const renderTimeline = (mode?: TimelineMode) => {
     let currentScreen: ReactNode = null;
 
     switch (mode) {
-      case TimelineMode.DATE:
-        currentScreen = (
-          <TimelineDay form={form} listBookingDay={listBookingDay?.data || []} onRefetchDay={handleRefetchDay} />
-        );
+      case TimelineMode.WEEK:
+        currentScreen = <TimelineWeek form={form} listBookingWeek={listBookingWeek?.data || []} user={user} />;
         break;
       case TimelineMode.MONTH:
         currentScreen = (
@@ -99,41 +108,32 @@ const ListBooking = () => {
   };
 
   return (
-    <Card className="custom-card">
+    <>
       <Row gutter={[0, 10]}>
         <Col span={24} className="m-b-22">
           <Row justify="space-between" align="middle" wrap>
             <Col>
-              <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary m-b-0 text-capitalize">
-                {intl.formatMessage({ id: 'menu.bookingManagement' })}
+              <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary m-b-0">
+                {intl.formatMessage({ id: 'menu.schedule.doctor' })}
               </h3>
             </Col>
 
             <Col>
-              <Row align="middle" gutter={12} wrap>
-                <Col>
-                  <CustomButton
-                    icon={<IconSVG type="category" />}
-                    className="width-283 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
-                    onClick={() => navigate(ADMIN_CLINIC_ROUTE_NAME.BOOKING_EMPTY)}
-                  >
-                    <span className="font-weight-600 color-ffffff">
-                      {intl.formatMessage({ id: 'menu.bookingManagement.empty' })}
-                    </span>
-                  </CustomButton>
-                </Col>
-
-                <Col>
-                  <CustomButton
-                    icon={<IconSVG type="create" />}
-                    className="width-176 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
-                  >
-                    <span className="font-weight-600 color-ffffff">
-                      {intl.formatMessage({ id: 'timeline.admin.button.create' })}
-                    </span>
-                  </CustomButton>
-                </Col>
-              </Row>
+              <div
+                className="width-52 height-52 timeline-custom-schedule-avatar cursor-pointer"
+                onClick={() => navigate(`${ADMIN_CLINIC_ROUTE_PATH.DETAIL_DOCTOR}/${id}`)}
+              >
+                {doctorClinicInformation?.data.avatar ? (
+                  <Image
+                    width={40}
+                    height={40}
+                    src={process.env.REACT_APP_URL_IMG_S3 + doctorClinicInformation?.data.avatar.preview}
+                    alt={doctorClinicInformation?.data.fullName || ''}
+                  />
+                ) : (
+                  <IconSVG type="avatar-default" />
+                )}
+              </div>
             </Col>
           </Row>
         </Col>
@@ -143,7 +143,7 @@ const ListBooking = () => {
             form={form}
             user={user}
             onRefetchMonth={handleRefetchMonth}
-            onRefetchDay={handleRefetchDay}
+            onRefetchWeek={handleRefetchWeek}
           />
         </Col>
 
@@ -174,7 +174,7 @@ const ListBooking = () => {
           </Row>
         </Col>
       </Row>
-    </Card>
+    </>
   );
 };
-export default ListBooking;
+export default DoctorSchedule;
