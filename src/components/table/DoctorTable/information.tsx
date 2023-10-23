@@ -208,7 +208,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
             >
               <CustomInput
                 placeholder={intl.formatMessage({ id: 'doctor.create.info.email' })}
-                defaultValue={'example@gmail.com'}
+                // defaultValue={'example@gmail.com'}
               />
             </Form.Item>
             <Form.Item
