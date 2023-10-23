@@ -199,6 +199,7 @@ const ListClinic = () => {
               : []
           }
           onChange={handleChangeProvince}
+          allowClear
         />
         <CustomSelect
           className="select-district"
@@ -216,6 +217,7 @@ const ListClinic = () => {
               : []
           }
           onChange={handleChangeDistrict}
+          allowClear
         />
         <CustomSelect
           className="select-ward"
@@ -233,6 +235,7 @@ const ListClinic = () => {
               : []
           }
           onChange={handleChangeWard}
+          allowClear
         />
       </div>
 

@@ -1,5 +1,117 @@
 #admin-management {
   overflow: auto;
+
+  .ant-card-body {
+    min-height: 85vh;
+  }
+
+  .admin-management__list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    &__title {
+      font-family: Open-Sans !important;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 36px;
+      color: $text_black_light;
+    }
+
+    .button-add {
+      width: 177px;
+      border: unset;
+      display: flex;
+      align-items: center;
+      background-color: $primary_color;
+      color: $text_white;
+    }
+  }
+
+  .input-search {
+    width: 350px;
+    margin-bottom: 15px;
+  }
+
+  .administrator-user {
+    .ant-table {
+      overflow: visible;
+    }
+
+    .ant-table-tbody {
+      tr > td {
+        max-width: 200px;
+      }
+    }
+
+    .manager-clinic {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &__more {
+        position: relative;
+
+        &__list {
+          position: absolute;
+          min-width: 408px;
+          top: 30px;
+          right: 0;
+          z-index: 100;
+          background: $text_white;
+          // border: 1px solid $border_input_color;
+          border-radius: 16px;
+          width: 250px;
+          box-shadow: 0px 4px 24px 0px #00000029;
+
+          &__title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid $border_input_color;
+            padding: 10px;
+
+            &__label {
+              font-size: 18px;
+              font-weight: 700;
+              line-height: 28px;
+            }
+
+            span {
+              cursor: pointer;
+            }
+          }
+
+          &__content {
+            padding: 10px;
+            max-height: 400px;
+            overflow: auto;
+
+            &__item {
+              color: $secondary_color;
+              margin: 5px 0px;
+              font-size: 14px;
+              font-weight: 600;
+              line-height: 24px;
+            }
+          }
+        }
+      }
+    }
+
+    .action-admin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      svg {
+        cursor: pointer;
+      }
+    }
+  }
+
   .admin-management__header {
     header {
       font-weight: 700;

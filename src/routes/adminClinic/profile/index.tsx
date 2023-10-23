@@ -10,11 +10,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FormWrap from '../../../components/FormWrap';
 import CustomButton from '../../../components/buttons/CustomButton';
 import { AdministratorClinic, Cadastral, UpdateAdminClinicDto } from '../../../apis/client-axios';
-import { adminClinicApi, authApi, cadastralApi } from '../../../apis';
+import { adminClinicApi, assetsApi, authApi, cadastralApi } from '../../../apis';
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
+import UploadAvatar from '../../../components/upload/UploadAvatar';
+import { MyUploadProps } from '../../../constants/dto';
+import { regexImage } from '../../../validate/validator.validate';
 
 const AdminClinicProfile = () => {
   const intl = useIntl();
@@ -27,6 +30,7 @@ const AdminClinicProfile = () => {
   const [selectedProvince, setSelectedProvince] = useState<Cadastral>();
   const [selectedDistrict, setSelectedDistrict] = useState<Cadastral>();
   const [selectedWard, setSelectedWard] = useState<Cadastral>();
+  const [loadingImg, setLoadingImg] = useState<boolean>(false);
 
   const { data: listProvince } = useQuery({
     queryKey: ['listProvince'],
@@ -56,7 +60,6 @@ const AdminClinicProfile = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['adminClinicProfile']);
-        message.success(intl.formatMessage({ id: 'message.update-profile.success' }));
         message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
       },
       onError: (error) => {
@@ -89,6 +92,9 @@ const AdminClinicProfile = () => {
       ...adminClinic,
       dateOfBirth: adminClinic?.dateOfBirth ? dayjs(adminClinic?.dateOfBirth) : null,
     });
+    if (adminClinic?.avatar) {
+      setAvatar(process.env.REACT_APP_URL_IMG_S3 + adminClinic?.avatar.preview);
+    }
     setSelectedProvince(adminClinic?.province);
     setSelectedDistrict(adminClinic?.district);
     setSelectedWard(adminClinic?.ward);
@@ -98,6 +104,41 @@ const AdminClinicProfile = () => {
     const data = form.getFieldsValue();
     data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format(FORMAT_DATE) : null;
     updateAdminClinic(data);
+  };
+
+  const { mutate: UploadImage, status: statusUploadImage } = useMutation(
+    (uploadProps: MyUploadProps) =>
+      assetsApi.assetControllerUploadFile(uploadProps.file, undefined, uploadProps.s3FilePath),
+    {
+      onSuccess: ({ data }) => {
+        const newData = data as any;
+        form.setFieldValue('avatarId', newData.id);
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + newData.preview);
+        setLoadingImg(false);
+      },
+      onError: (error: any) => {
+        setLoadingImg(false);
+        message.error(
+          intl.formatMessage({
+            id: 'error.IMAGE_INVALID',
+          })
+        );
+      },
+    }
+  );
+
+  const customRequest = async (options: any) => {
+    const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.name)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
+    setLoadingImg(true);
+    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };
 
   return (
@@ -121,16 +162,7 @@ const AdminClinicProfile = () => {
             </div>
           </div>
           <div className="admin-clinic-info__content">
-            <div className="admin-clinic-info__content__avatar">
-              <span className="admin-clinic-info__content__avatar__img">
-                <Upload name={'avatar'}>
-                  {avatar ? <img src={avatar} /> : <IconSVG type="avatar-default" />}
-                  <span className="admin-clinic-info__content__avatar__camera">
-                    <IconSVG type="camera" />
-                  </span>
-                </Upload>
-              </span>
-            </div>
+            <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
             <div className="admin-clinic-info__content__info">
               <div className="admin-clinic-info__content__info__rows">
                 <Form.Item

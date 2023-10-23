@@ -253,7 +253,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
               })}
               name={n('gender')}
               // rules={[{ required: true }]}
-              rules={ValidateLibrary(intl).dbo}
+              rules={ValidateLibrary(intl).dob}
             >
               <CustomSelect
                 placeholder={intl.formatMessage({

@@ -10,11 +10,15 @@ import FormWrap from '../../../components/FormWrap';
 import CustomButton from '../../../components/buttons/CustomButton';
 import CustomArea from '../../../components/input/CustomArea';
 import { Cadastral, Category, DoctorClinic, UpdateDoctorClinicDto } from '../../../apis/client-axios';
-import { authApi, cadastralApi, categoryApi, doctorClinicApi } from '../../../apis';
+import { assetsApi, authApi, cadastralApi, categoryApi, doctorClinicApi } from '../../../apis';
 import dayjs from 'dayjs';
 import { UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
+import { MyUploadProps } from '../../../constants/dto';
+import { regexImage } from '../../../validate/validator.validate';
+import UploadAvatar from '../../../components/upload/UploadAvatar';
+import { CadastalCustom } from '../../../components/Cadastral';
 
 const DoctorProfile = () => {
   const intl = useIntl();
@@ -24,30 +28,13 @@ const DoctorProfile = () => {
   const queryClient = useQueryClient();
   const [isDeleteDoctor, setIsDeleteDoctor] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>();
+  const [loadingImg, setLoadingImg] = useState<boolean>(false);
   // const [provinceList, setProvinceList] = useState<Cadastral>();
   // const [districtList, setDistrictList] = useState<Cadastral>();
   // const [wardList, setWardList] = useState<Cadastral>();
 
-  const [selectedProvince, setSelectedProvince] = useState<Cadastral>();
-  const [selectedDistrict, setSelectedDistrict] = useState<Cadastral>();
-  const [selectedWard, setSelectedWard] = useState<Cadastral>();
-
-  const { data: listProvince } = useQuery({
-    queryKey: ['listProvince'],
-    queryFn: () => cadastralApi.cadastralControllerGetProvince(),
-  });
-
-  const { data: listDistrict } = useQuery({
-    queryKey: ['listDistrict', selectedProvince],
-    queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvinceId(selectedProvince?.id, undefined),
-    enabled: !!selectedProvince,
-  });
-
-  const { data: listWard } = useQuery({
-    queryKey: ['listWard', selectedDistrict],
-    queryFn: () => cadastralApi.cadastralControllerGetWardByDistrictId(undefined, selectedDistrict?.id),
-    enabled: !!selectedDistrict,
-  });
+  const [provinceId, setProvinceId] = useState<string>();
+  const [districtId, setDistrictId] = useState<string>();
 
   const { data: listCategory } = useQuery({
     queryKey: ['listCategory'],
@@ -74,24 +61,6 @@ const DoctorProfile = () => {
     }
   );
 
-  const handleSelectProvince = (value: any, option: any) => {
-    setSelectedProvince(option.item);
-    setSelectedDistrict(undefined);
-    setSelectedWard(undefined);
-    form.setFieldsValue({
-      districtId: undefined,
-      wardId: undefined,
-    });
-  };
-
-  const handleSelectDistrict = (value: any, option: any) => {
-    setSelectedDistrict(option.item);
-    setSelectedWard(undefined);
-    form.setFieldsValue({
-      wardId: undefined,
-    });
-  };
-
   useEffect(() => {
     const doctor: DoctorClinic | undefined = doctorProfile?.data;
     form.setFieldsValue({
@@ -102,15 +71,55 @@ const DoctorProfile = () => {
         return item.id;
       }),
     });
-    setSelectedProvince(doctor?.province);
-    setSelectedDistrict(doctor?.district);
-    setSelectedWard(doctor?.ward);
+    setProvinceId(doctor?.provinceId);
+    setDistrictId(doctor?.districtId);
+    if (doctor?.avatar) {
+      setAvatar(process.env.REACT_APP_URL_IMG_S3 + doctor?.avatar.preview);
+    }
   }, [doctorProfile]);
 
   const onFinish = () => {
     const data = form.getFieldsValue();
-    data.dateOfBirth = data.dateOfBirth ? dayjs(data.dateOfBirth).format(FORMAT_DATE) : null;
-    updateDoctorProfile(data);
+    updateDoctorProfile({
+      ...data,
+      dateOfBirth: data.dateOfBirth ? dayjs(data.dateOfBirth).format(FORMAT_DATE) : null,
+      status: !!data.status,
+    });
+  };
+
+  const { mutate: UploadImage, status: statusUploadImage } = useMutation(
+    (uploadProps: MyUploadProps) =>
+      assetsApi.assetControllerUploadFile(uploadProps.file, undefined, uploadProps.s3FilePath),
+    {
+      onSuccess: ({ data }) => {
+        const newData = data as any;
+        form.setFieldValue('avatarId', newData.id);
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + newData.preview);
+        setLoadingImg(false);
+      },
+      onError: (error: any) => {
+        setLoadingImg(false);
+        message.error(
+          intl.formatMessage({
+            id: 'error.IMAGE_INVALID',
+          })
+        );
+      },
+    }
+  );
+
+  const customRequest = async (options: any) => {
+    const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.name)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
+    setLoadingImg(true);
+    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };
 
   return (
@@ -134,14 +143,7 @@ const DoctorProfile = () => {
             </div>
           </div>
           <div className="doctor-info__content">
-            <div className="doctor-info__content__avatar">
-              <span className="doctor-info__content__avatar__img">
-                {avatar ? <img src={avatar} /> : <IconSVG type="avatar-default" />}
-                <span className="doctor-info__content__avatar__camera">
-                  <IconSVG type="camera" />
-                </span>
-              </span>
-            </div>
+            <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
             <div className="doctor-info__content__info">
               <div className="doctor-info__content__info__rows">
                 <Form.Item
@@ -260,10 +262,12 @@ const DoctorProfile = () => {
                     id: 'doctor-profile.form.category',
                   })}
                   name={'categoryIds'}
-                  rules={[{ required: true }]}
+                  rules={ValidateLibrary(intl).specialist}
                 >
                   <CustomSelect
+                    className="select-multiple"
                     mode={'multiple'}
+                    showSearch={false}
                     options={listCategory?.data?.content?.map((item: Category) => {
                       return {
                         label: item.name,
@@ -276,7 +280,6 @@ const DoctorProfile = () => {
                   />
                 </Form.Item>
               </div>
-              <div className="doctor-info__content__info__rows"></div>
               <div className="doctor-info__content__info__rows">
                 <Form.Item
                   className="level"
@@ -319,89 +322,13 @@ const DoctorProfile = () => {
                   />
                 </Form.Item>
               </div>
-              <div className="doctor-info__content__info__rows">
-                <Form.Item
-                  className="province"
-                  label={intl.formatMessage({
-                    id: 'doctor-profile.form.province',
-                  })}
-                  name={'provinceId'}
-                >
-                  <CustomSelect
-                    options={listProvince?.data.map((item: Cadastral) => {
-                      return {
-                        label: item.name,
-                        value: item.id,
-                        item,
-                      };
-                    })}
-                    onChange={handleSelectProvince}
-                    value={selectedProvince?.id}
-                    placeholder={intl.formatMessage({
-                      id: 'doctor-profile.form.province',
-                    })}
-                  />
-                </Form.Item>
-                <Form.Item
-                  className="district"
-                  label={intl.formatMessage({
-                    id: 'doctor-profile.form.district',
-                  })}
-                  name={'districtId'}
-                >
-                  <CustomSelect
-                    options={listDistrict?.data.map((item: Cadastral) => {
-                      return {
-                        label: item.name,
-                        value: item.id,
-                        item,
-                      };
-                    })}
-                    onChange={handleSelectDistrict}
-                    value={selectedDistrict?.id || undefined}
-                    placeholder={intl.formatMessage({
-                      id: 'doctor-profile.form.district',
-                    })}
-                  />
-                </Form.Item>
-              </div>
-              <div className="doctor-info__content__info__rows">
-                <Form.Item
-                  className={'ward'}
-                  label={intl.formatMessage({
-                    id: 'doctor-profile.form.ward',
-                  })}
-                  name={'wardId'}
-                >
-                  <CustomSelect
-                    options={listWard?.data?.map((item: Cadastral) => {
-                      return {
-                        label: item.name,
-                        value: item.id,
-                        item,
-                      };
-                    })}
-                    onChange={(value: string, option: any) => setSelectedWard(option.item)}
-                    value={selectedWard?.id}
-                    placeholder={intl.formatMessage({
-                      id: 'doctor-profile.form.ward',
-                    })}
-                  />
-                </Form.Item>
-                <Form.Item
-                  className="level"
-                  label={intl.formatMessage({
-                    id: 'doctor-profile.form.address',
-                  })}
-                  name={'address'}
-                >
-                  <CustomInput
-                    placeholder={intl.formatMessage({
-                      id: 'doctor-profile.form.address',
-                    })}
-                  />
-                </Form.Item>
-              </div>
+              <CadastalCustom
+                form={form}
+                setProvinceId={setProvinceId}
+                setDistrictId={setDistrictId}
+                districtId={districtId}
+                provinceId={provinceId}
+              ></CadastalCustom>
             </div>
           </div>
         </div>
@@ -417,7 +344,7 @@ const DoctorProfile = () => {
                 </div>
                 <div className="line-title"></div>
               </div>
-              <Form.Item className="name" name={'overview'} rules={[{ required: true }]}>
+              <Form.Item className="name" name={'overview'}>
                 <CustomArea
                   rows={6}
                   style={{ resize: 'none' }}
@@ -436,7 +363,7 @@ const DoctorProfile = () => {
                 </div>
                 <div className="line-title"></div>
               </div>
-              <Form.Item className="name" name={'experience'} rules={[{ required: true }]}>
+              <Form.Item className="name" name={'experience'}>
                 <CustomArea
                   rows={6}
                   style={{ resize: 'none' }}

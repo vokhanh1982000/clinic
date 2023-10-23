@@ -74,6 +74,7 @@ export const CadastalCustom = (props: cadastralProp) => {
                 : []
             }
             onChange={handleChangeProvince}
+            allowClear
           />
         </Form.Item>
         <Form.Item
@@ -94,6 +95,7 @@ export const CadastalCustom = (props: cadastralProp) => {
                 : []
             }
             onChange={handleChangeDistrict}
+            allowClear
           />
         </Form.Item>
       </div>
@@ -115,6 +117,7 @@ export const CadastalCustom = (props: cadastralProp) => {
                   }))
                 : []
             }
+            allowClear
           />
         </Form.Item>
         <Form.Item
