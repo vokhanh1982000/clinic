@@ -18,6 +18,7 @@ import { CadastalCustom } from '../../../components/Cadastral';
 import { MyUploadProps } from '../../../constants/dto';
 import { regexImage } from '../../../validate/validator.validate';
 import UploadAvatar from '../../../components/upload/UploadAvatar';
+import moment from 'moment';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
@@ -61,7 +62,7 @@ const Profile = () => {
         code: dt.code,
         emailAddress: dt.emailAddress,
         phoneNumber: dt.phoneNumber,
-        dateOfBirth: dt.dateOfBirth ? dayjs(dt.dateOfBirth, FORMAT_DATE) : null,
+        dateOfBirth: dt.dateOfBirth ? dayjs(moment(dt.dateOfBirth).format(FORMAT_DATE)) : null,
         gender: dt.gender,
         provinceId: dt.provinceId,
         districtId: dt.districtId,
