@@ -106,13 +106,21 @@ const ListClinic = () => {
   };
 
   const handleChangeDistrict = (value: any, option: any) => {
-    setDistrictSelected({ id: option.value, code: option.code });
+    if (option) {
+      setDistrictSelected({ id: option.value, code: option.code });
+    } else {
+      setDistrictSelected(undefined);
+    }
     setWardSelected(undefined);
     setPage(1);
   };
 
   const handleChangeWard = (value: any, option: any) => {
-    setWardSelected({ id: option.value, code: option.code });
+    if (option) {
+      setWardSelected({ id: option.value, code: option.code });
+    } else {
+      setWardSelected(undefined);
+    }
     setPage(1);
   };
 
