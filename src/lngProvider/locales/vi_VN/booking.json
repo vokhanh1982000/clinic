@@ -9,5 +9,17 @@
   "booking.create.schedule-info": "Thông tin đặt lịch",
   "booking.create.day": "Chọn ngày",
   "booking.create.is-prioritize": " Dịch vụ ưu tiên",
-  "booking.create.has-booked-assistant": "Thư kí y khoa"
+  "booking.create.has-booked-assistant": "Thư kí y khoa",
+  "booking.create.hour": "Chọn giờ",
+  "booking.create.note": "Ghi chú",
+  "booking.prescription.medicine.order": "STT",
+  "booking.prescription.medicine.name": "Tên thuốc",
+  "booking.prescription.medicine.quantity": "Số lượng",
+  "booking.prescription.medicine.guide": "Cách dùng",
+  "booking.status.completed": "Hoàn thành",
+  "booking.status.cancelled": "Đã huỷ",
+  "booking.status.pending": "Chờ xét duyệt",
+  "booking.status.approved": "Đã xét duyệt",
+  "booking.message.update.success": "Cập nhật thành công",
+  "booking.message.update.fail": "Cập nhật thất bại"
 }

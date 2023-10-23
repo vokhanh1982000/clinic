@@ -1,14 +1,20 @@
 import React from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
-import { Form } from 'antd';
+import { Form, FormInstance } from 'antd';
 import { ValidateLibrary } from '../../validate';
 import CustomInput from '../input/CustomInput';
 import CustomArea from '../input/CustomArea';
+import { Clinic, Customer } from '../../apis/client-axios';
 
-const CustomerInfo = () => {
+interface CustomerInfoProps {
+  form: FormInstance;
+  customer?: Customer;
+  customerNote?: string;
+}
+const CustomerInfo = (props: CustomerInfoProps) => {
   const intl: IntlShape = useIntl();
-  // const { n } = props;
+  const { customer, customerNote }: CustomerInfoProps = props;
   return (
     <div className={'customer-info'}>
       <div className="customer-info__header">
@@ -28,13 +34,13 @@ const CustomerInfo = () => {
             label={intl.formatMessage({
               id: 'customer.create.name',
             })}
-            name={'fullName'}
-            rules={ValidateLibrary(intl).name}
           >
             <CustomInput
+              disabled={true}
               placeholder={intl.formatMessage({
                 id: 'customer.create.name',
               })}
+              value={customer?.fullName}
             />
           </Form.Item>
           <Form.Item
@@ -42,13 +48,13 @@ const CustomerInfo = () => {
             label={intl.formatMessage({
               id: 'customer.create.code',
             })}
-            name={'code'}
-            rules={ValidateLibrary(intl).userCode}
           >
             <CustomInput
+              disabled={true}
               placeholder={intl.formatMessage({
                 id: 'customer.create.code',
               })}
+              value={customer?.code}
             />
           </Form.Item>
         </div>
@@ -58,13 +64,13 @@ const CustomerInfo = () => {
             label={intl.formatMessage({
               id: 'customer.create.gender',
             })}
-            name={'gender'}
-            rules={ValidateLibrary(intl).gender}
           >
             <CustomInput
+              disabled={true}
               placeholder={intl.formatMessage({
                 id: 'customer.create.gender',
               })}
+              value={intl.formatMessage({ id: `common.gender.${customer?.gender}` })}
             />
           </Form.Item>
           <Form.Item
@@ -72,13 +78,13 @@ const CustomerInfo = () => {
             label={intl.formatMessage({
               id: 'customer.create.phone',
             })}
-            name={'phoneNumber'}
-            rules={ValidateLibrary(intl).phoneNumber}
           >
             <CustomInput
+              disabled={true}
               placeholder={intl.formatMessage({
                 id: 'customer.create.phone',
               })}
+              value={customer?.phoneNumber}
             />
           </Form.Item>
         </div>
@@ -88,13 +94,16 @@ const CustomerInfo = () => {
             label={intl.formatMessage({
               id: 'booking.create.customerNote',
             })}
+            name={'customerNote'}
           >
             <CustomArea
+              disabled={true}
               rows={6}
               style={{ resize: 'none' }}
               placeholder={intl.formatMessage({
                 id: 'booking.create.customerNote',
               })}
+              value={customerNote}
             />
           </Form.Item>
         </div>
