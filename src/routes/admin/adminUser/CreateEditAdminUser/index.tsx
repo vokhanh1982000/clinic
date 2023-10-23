@@ -317,7 +317,11 @@ const CreateAdmin = () => {
                       rules={ValidateLibrary(intl).email}
                       name={n('emailAddress')}
                     >
-                      <CustomInput name={n('emailAddress')} placeholder="Email" defaultValue={'example@gmail.com'} />
+                      <CustomInput
+                        name={n('emailAddress')}
+                        placeholder="Email"
+                        // defaultValue={'example@gmail.com'}
+                      />
                     </Form.Item>
                   </Row>
                   <Row className="admin-management__info-item">

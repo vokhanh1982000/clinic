@@ -42,6 +42,7 @@ const ListMedicalSpecialty = () => {
       onSuccess: (data) => {
         message.success(intl.formatMessage({ id: 'common.createSuccess' }));
         queryClient.invalidateQueries(['categoryList']);
+        setIsShowModalCreate(false);
       },
       onError: (error: any) => {
         // if(response?.data.message === 'NAME_IS_EXIST'){
@@ -105,7 +106,6 @@ const ListMedicalSpecialty = () => {
   const handleCreate = () => {
     const data = form.getFieldsValue();
     CreateCategory(data);
-    setIsShowModalCreate(false);
     form.resetFields();
   };
 

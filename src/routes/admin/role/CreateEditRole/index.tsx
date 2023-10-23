@@ -223,12 +223,12 @@ const CreateRole = () => {
                 id: 'role.input.err',
               }),
             },
-            {
-              pattern: /^(?![\s])[\s\S]*$/,
-              message: intl.formatMessage({
-                id: 'common.noti.space',
-              }),
-            },
+            // {
+            //   pattern: /^(?![\s])[\s\S]*$/,
+            //   message: intl.formatMessage({
+            //     id: 'common.noti.space',
+            //   }),
+            // },
             {
               pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
               message: intl.formatMessage({
