@@ -11,16 +11,18 @@ interface UploadAvatarProps {
 const UploadAvatar = (props: UploadAvatarProps) => {
   const { avatar, loadingImg, customRequest } = props;
   return (
-    <span id="upload-avatar">
-      {loadingImg ? <Spin /> : avatar ? <img src={avatar} /> : <IconSVG type="avatar-default" />}
-      <Form.Item name="avatarId" className="icon-upload">
-        <Upload name="avatar" className="avatar-uploader" showUploadList={false} customRequest={customRequest}>
-          <span className="icon-camera">
-            <IconSVG type="camera" />
-          </span>
-        </Upload>
-      </Form.Item>
-    </span>
+    <div id="upload-avatar">
+      <span className="upload-avatar">
+        {loadingImg ? <Spin /> : avatar ? <img src={avatar} /> : <IconSVG type="avatar-default" />}
+        <Form.Item name="avatarId" className="icon-upload">
+          <Upload name="avatar" className="avatar-uploader" showUploadList={false} customRequest={customRequest}>
+            <span className="icon-camera">
+              <IconSVG type="camera" />
+            </span>
+          </Upload>
+        </Form.Item>
+      </span>
+    </div>
   );
 };
 

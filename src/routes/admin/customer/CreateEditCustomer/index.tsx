@@ -23,6 +23,7 @@ import { ValidateLibrary } from '../../../../validate';
 import { disabledFutureDate } from '../../../../constants/function';
 import { CustomHandleError } from '../../../../components/response';
 import DatePickerCustom from '../../../../components/date/datePicker';
+import { regexImage } from '../../../../validate/validator.validate';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -144,6 +145,14 @@ const CreateCustomer = () => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.type)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };
@@ -194,9 +203,7 @@ const CreateCustomer = () => {
             </div>
           </div>
           <div className="customer-info__content">
-            <div className="customer-info__content__avatar">
-              <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
-            </div>
+            <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
             <div className="customer-info__content__info">
               <div className="customer-info__content__info__rows">
                 <Form.Item

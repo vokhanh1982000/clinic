@@ -1,5 +1,10 @@
 #clinic-management {
+  .ant-card-body {
+    min-height: 85vh;
+  }
+
   overflow: auto;
+
   .clinic-management__header {
     display: flex;
     justify-content: space-between;
@@ -57,6 +62,12 @@
       /* Sử dụng màu văn bản mặc định */
       background-color: inherit;
       /* Sử dụng màu nền mặc định */
+    }
+  }
+
+  .table-visible {
+    .ant-table {
+      overflow: visible;
     }
   }
 

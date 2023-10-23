@@ -68,7 +68,7 @@
 .custom-table {
   .ant-table {
     border-radius: 12px;
-    overflow-x: auto;
+    overflow: auto;
   }
 
   .ant-table-container {
@@ -122,7 +122,7 @@
 .cadastral {
   .cadastral_item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 15px;
     width: 100%;
 
@@ -406,39 +406,49 @@ select[multiple] {
     max-height: #{$i}px !important;
   }
 }
+
 .custom-popup-picker {
   position: relative;
+
   .ant-picker-panel-container {
     width: 100%;
     border-radius: 16px;
+
     .ant-picker-date-panel {
       width: 100%;
     }
+
     .ant-picker-header {
       background-color: #f4f8fb;
+
       .ant-picker-header-super-prev-btn,
       .ant-picker-header-super-next-btn {
         display: none;
       }
     }
+
     .ant-picker-body {
       .ant-picker-content {
         width: 100%;
+
         thead {
           display: none;
         }
+
         .ant-picker-cell-selected {
           .ant-picker-cell-inner {
             background-color: $primary_color;
             border-radius: 50%;
           }
         }
+
         .ant-picker-cell,
         .ant-picker-cell:hover {
           .ant-picker-cell-inner {
             border-radius: 50%;
           }
         }
+
         .ant-picker-cell-today {
           .ant-picker-cell-inner::before {
             border: 1px solid $primary_color;
