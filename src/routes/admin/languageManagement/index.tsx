@@ -43,6 +43,7 @@ const LanguageManagement = () => {
         console.log('success: ', data);
         message.success(intl.formatMessage({ id: `common.createSuccess` }));
         queryClient.invalidateQueries(['languageList']);
+        setIsShowModalCreate(false);
       },
       onError: (error: any) => {
         // if(response?.data.message === 'NAME_IS_EXIST'){
@@ -106,7 +107,6 @@ const LanguageManagement = () => {
   const handleCreate = () => {
     const data = form.getFieldsValue();
     CreateLanguage(data);
-    setIsShowModalCreate(false);
     form.resetFields();
   };
 
