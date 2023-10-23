@@ -17,6 +17,7 @@ import DatePickerCustom from '../../date/datePicker';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
 import { handleInputChangeUpperCase } from '../../../constants/function';
+import { regexImage } from '../../../validate/validator.validate';
 
 interface DoctorTableProps {
   form: FormInstance;
@@ -93,6 +94,14 @@ const DoctorInfo = (props: DoctorTableProps) => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.name)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };

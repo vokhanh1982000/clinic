@@ -13,6 +13,7 @@ import CustomInput from '../../../../components/input/CustomInput';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { MyUploadProps } from '../../../../constants/dto';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
+import { regexImage } from '../../../../validate/validator.validate';
 
 const CreateNew = () => {
   const intl = useIntl();
@@ -137,6 +138,14 @@ const CreateNew = () => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.name)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'new' });
   };
