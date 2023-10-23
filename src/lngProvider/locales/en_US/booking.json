@@ -9,5 +9,17 @@
   "booking.create.schedule-info": "Appointment info",
   "booking.create.day": "Select day",
   "booking.create.is-prioritize": "Is prioritize",
-  "booking.create.has-booked-assistant": "Is booking assistant"
+  "booking.create.has-booked-assistant": "Is booking assistant",
+  "booking.create.hour": "Select hour",
+  "booking.create.note": "Note",
+  "booking.prescription.medicine.order": "Order",
+  "booking.prescription.medicine.name": "Medicine name",
+  "booking.prescription.medicine.quantity": "Quantity",
+  "booking.prescription.medicine.guide": "guide",
+  "booking.status.completed": "Completed",
+  "booking.status.cancelled": "Cancelled",
+  "booking.status.pending": "Pending",
+  "booking.status.approved": "Approved",
+  "booking.message.update.success": "Update successfully",
+  "booking.message.update.fail": "update failed"
 }

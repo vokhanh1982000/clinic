@@ -1,11 +1,14 @@
-import { Calendar, DatePicker, Form, TimePicker } from 'antd';
+import { Calendar, DatePicker, Form, FormInstance, TimePicker } from 'antd';
 import React from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
 import { FORMAT_TIME } from '../../constants/common';
 import CustomArea from '../input/CustomArea';
-
-const ScheduleInfo = () => {
+import dayjs from 'dayjs';
+interface ScheduleInfoProp {
+  form: FormInstance;
+}
+const ScheduleInfo = (props: ScheduleInfoProp) => {
   const intl: IntlShape = useIntl();
   return (
     <div className={'schedule-info'}>
@@ -23,7 +26,7 @@ const ScheduleInfo = () => {
       <div className={'schedule-info__content'}>
         <div className={'schedule-info__content_rows'} id={'custom-popup-date-picker'}>
           <Form.Item
-            name="schedue"
+            name="appointmentStartTime"
             className="schedule"
             label={intl.formatMessage({
               id: 'booking.create.day',
@@ -40,12 +43,23 @@ const ScheduleInfo = () => {
           </Form.Item>
         </div>
         <div className={'schedule-info__content__rows'}>
-          <Form.Item name={'hour'} className={'hour'} label={'Chọn giờ'}>
+          <Form.Item
+            name="appointmentStartTime"
+            className={'hour'}
+            label={intl.formatMessage({
+              id: 'booking.create.hour',
+            })}
+          >
             <TimePicker format={FORMAT_TIME} minuteStep={30} />
           </Form.Item>
         </div>
         <div className={'schedule-info__content__rows'}>
-          <Form.Item label={'Ghi chu'}>
+          <Form.Item
+            label={intl.formatMessage({
+              id: 'booking.create.note',
+            })}
+            name={'appointmentNote'}
+          >
             <CustomArea
               rows={6}
               style={{ resize: 'none' }}

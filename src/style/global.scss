@@ -408,6 +408,7 @@ select[multiple] {
 }
 
 .custom-popup-picker {
+  top: 5px !important;
   position: relative;
 
   .ant-picker-panel-container {

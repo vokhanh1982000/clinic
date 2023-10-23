@@ -114,6 +114,8 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
         return 'menu.schedule.doctor';
       case ADMIN_CLINIC_ROUTE_PATH.ADMIN_CLINIC_PROFILE:
         return 'menu.admin-clinic-profile';
+      case ADMIN_CLINIC_ROUTE_PATH.DETAIL_BOOKING:
+        return 'menu.detail-booking';
       default:
         return '';
     }
