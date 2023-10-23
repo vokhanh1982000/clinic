@@ -282,19 +282,19 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           normal: intl.formatMessage({ id: 'common.noti.special' }),
         }),
       },
-      {
-        validator(_: RuleObject, value: string) {
-          const regex = new RegExp(START_SPACE);
-          if (regex.test(value)) {
-            return Promise.resolve();
-          }
-          return Promise.reject(
-            intl.formatMessage({
-              id: 'validate.full-name.required',
-            })
-          );
-        },
-      },
+      // {
+      //   validator(_: RuleObject, value: string) {
+      //     const regex = new RegExp(START_SPACE);
+      //     if (regex.test(value)) {
+      //       return Promise.resolve();
+      //     }
+      //     return Promise.reject(
+      //       intl.formatMessage({
+      //         id: 'validate.full-name.required',
+      //       })
+      //     );
+      //   },
+      // },
     ],
     languageName: [
       {
@@ -310,19 +310,19 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           normal: intl.formatMessage({ id: 'common.noti.special' }),
         }),
       },
-      {
-        validator(_: RuleObject, value: string) {
-          const regex = new RegExp(START_SPACE);
-          if (regex.test(value)) {
-            return Promise.resolve();
-          }
-          return Promise.reject(
-            intl.formatMessage({
-              id: 'validate.language.required',
-            })
-          );
-        },
-      },
+      // {
+      //   validator(_: RuleObject, value: string) {
+      //     const regex = new RegExp(START_SPACE);
+      //     if (regex.test(value)) {
+      //       return Promise.resolve();
+      //     }
+      //     return Promise.reject(
+      //       intl.formatMessage({
+      //         id: 'validate.language.required',
+      //       })
+      //     );
+      //   },
+      // },
     ],
     code: [
       // {
@@ -347,19 +347,19 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           normal: intl.formatMessage({ id: 'common.noti.special' }),
         }),
       },
-      {
-        validator(_: RuleObject, value: string) {
-          const regex = new RegExp(START_SPACE);
-          if (regex.test(value)) {
-            return Promise.resolve();
-          }
-          return Promise.reject(
-            intl.formatMessage({
-              id: 'validate.space',
-            })
-          );
-        },
-      },
+      // {
+      //   validator(_: RuleObject, value: string) {
+      //     const regex = new RegExp(START_SPACE);
+      //     if (regex.test(value)) {
+      //       return Promise.resolve();
+      //     }
+      //     return Promise.reject(
+      //       intl.formatMessage({
+      //         id: 'validate.space',
+      //       })
+      //     );
+      //   },
+      // },
     ],
     level: [
       {
@@ -371,19 +371,19 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           normal: intl.formatMessage({ id: 'common.noti.special' }),
         }),
       },
-      {
-        validator(_: RuleObject, value: string) {
-          const regex = new RegExp(START_SPACE);
-          if (regex.test(value)) {
-            return Promise.resolve();
-          }
-          return Promise.reject(
-            intl.formatMessage({
-              id: 'validate.space',
-            })
-          );
-        },
-      },
+      // {
+      //   validator(_: RuleObject, value: string) {
+      //     const regex = new RegExp(START_SPACE);
+      //     if (regex.test(value)) {
+      //       return Promise.resolve();
+      //     }
+      //     return Promise.reject(
+      //       intl.formatMessage({
+      //         id: 'validate.space',
+      //       })
+      //     );
+      //   },
+      // },
     ],
     specialist: [
       {
@@ -401,19 +401,19 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           normal: intl.formatMessage({ id: 'common.noti.special' }),
         }),
       },
-      {
-        validator(_: RuleObject, value: string) {
-          const regex = new RegExp(START_SPACE);
-          if (regex.test(value)) {
-            return Promise.resolve();
-          }
-          return Promise.reject(
-            intl.formatMessage({
-              id: 'validate.space',
-            })
-          );
-        },
-      },
+      // {
+      //   validator(_: RuleObject, value: string) {
+      //     const regex = new RegExp(START_SPACE);
+      //     if (regex.test(value)) {
+      //       return Promise.resolve();
+      //     }
+      //     return Promise.reject(
+      //       intl.formatMessage({
+      //         id: 'validate.space',
+      //       })
+      //     );
+      //   },
+      // },
     ],
     passwordCustom: [
       {
