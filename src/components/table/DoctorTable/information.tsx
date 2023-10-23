@@ -206,7 +206,10 @@ const DoctorInfo = (props: DoctorTableProps) => {
               // ]}
               rules={ValidateLibrary(intl).email}
             >
-              <CustomInput placeholder={intl.formatMessage({ id: 'doctor.create.info.email' })} />
+              <CustomInput
+                placeholder={intl.formatMessage({ id: 'doctor.create.info.email' })}
+                defaultValue={'example@gmail.com'}
+              />
             </Form.Item>
             <Form.Item
               className="phone"
