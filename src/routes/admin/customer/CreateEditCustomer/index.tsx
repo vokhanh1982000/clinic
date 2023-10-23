@@ -23,7 +23,6 @@ import { ValidateLibrary } from '../../../../validate';
 import { disabledFutureDate } from '../../../../constants/function';
 import { CustomHandleError } from '../../../../components/response';
 import DatePickerCustom from '../../../../components/date/datePicker';
-import { regexImage } from '../../../../validate/validator.validate';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -145,14 +144,6 @@ const CreateCustomer = () => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
-    if (!file || !regexImage.test(file.type)) {
-      message.error(
-        intl.formatMessage({
-          id: 'error.IMAGE_INVALID',
-        })
-      );
-      return;
-    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };

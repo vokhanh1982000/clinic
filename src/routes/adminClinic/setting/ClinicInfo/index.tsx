@@ -8,7 +8,6 @@ import CustomSelect from '../../../../components/select/CustomSelect';
 import { MyUploadProps } from '../../../../constants/dto';
 import IconSVG from '../../../../components/icons/icons';
 import CustomArea from '../../../../components/input/CustomArea';
-import { regexImage } from '../../../../validate/validator.validate';
 
 interface ClinicInfoParams {
   form: FormInstance;
@@ -48,14 +47,6 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
-    if (!file || !regexImage.test(file.type)) {
-      message.error(
-        intl.formatMessage({
-          id: 'error.IMAGE_INVALID',
-        })
-      );
-      return;
-    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'clinic' });
   };
