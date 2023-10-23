@@ -59,13 +59,19 @@ interface ISideBarContentProp {
 const SidebarContent = (props: ISideBarContentProp) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [current, setCurrent] = useState<string>(location.pathname);
+  const [current, setCurrent] = useState<{ isShow: boolean; value: string }>({
+    isShow: true,
+    value: location.pathname,
+  });
 
   const selectedKeys = location.pathname.substring(1);
   const defaultOpenKeys = selectedKeys.split('/')[1];
 
   const onClick: MenuProps['onClick'] = (e) => {
-    setCurrent(e.key);
+    setCurrent({
+      isShow: true,
+      value: e.key,
+    });
     navigate(e.key);
   };
 
@@ -80,18 +86,24 @@ const SidebarContent = (props: ISideBarContentProp) => {
       let step = 1;
       if (location.pathname.includes(MANAGEMENT_TYPE.ADMIN)) {
         Object.values(ADMIN_ROUTE_PATH).forEach((route: any) => {
-          if (current.includes(`${route}`)) {
+          if (current.value.includes(`${route}`)) {
             if (step == 2) {
-              setCurrent(route);
+              setCurrent({
+                isShow: true,
+                value: route,
+              });
             }
             step++;
           }
         });
       } else if (location.pathname.includes(MANAGEMENT_TYPE.ADMIN_CLINIC)) {
         Object.values(ADMIN_CLINIC_ROUTE_PATH).forEach((route: any) => {
-          if (current.includes(`${route}`)) {
+          if (current.value.includes(`${route}`)) {
             if (step == 2) {
-              setCurrent(route);
+              setCurrent({
+                isShow: true,
+                value: route,
+              });
             }
             step++;
           }
@@ -99,7 +111,10 @@ const SidebarContent = (props: ISideBarContentProp) => {
       }
 
       if (excludePath.includes(location.pathname)) {
-        setCurrent('');
+        setCurrent({
+          ...current,
+          isShow: false,
+        });
       }
     }
   }, [location.pathname]);
@@ -111,7 +126,7 @@ const SidebarContent = (props: ISideBarContentProp) => {
         style={{ height: 'calc(84.4% - 64px)', width: 355 }}
         onClick={onClick}
         // theme="dark"
-        selectedKeys={[current || '']}
+        selectedKeys={[(current.isShow && current.value) || '']}
         defaultOpenKeys={[defaultOpenKeys]}
         mode="inline"
         items={props.menuItems || sampleItems}

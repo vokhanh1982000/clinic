@@ -107,8 +107,8 @@
             gap: 15px;
             width: 100%;
 
-            .ant-form-item-label {
-              color: $text_black_light;
+            .ant-form-item-label > label {
+              color: $text_black_light !important;
               font-family: Open-sans !important;
               font-size: 14px;
               font-weight: 700;

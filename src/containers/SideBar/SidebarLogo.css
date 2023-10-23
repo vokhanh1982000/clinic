@@ -38,6 +38,9 @@
   -ms-border-radius: 32px !important;
   -o-border-radius: 32px !important;
 }
+.ant-layout-sider-children {
+  background-color: #ffffff !important;
+}
 .ant-menu-item-selected {
   background-color: #ee5824 !important;
   color: #ffffff !important;

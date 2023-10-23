@@ -127,17 +127,24 @@ const ListRole = () => {
           }
           dataIndex="action"
           width={'15%'}
-          render={(_, record: any) => (
-            <div className="action-role">
-              <div onClick={() => navigate(`detail/${record.id}`)}>
-                <IconSVG type="edit" />
+          render={(_, record: any) => {
+            console.log(record.isHidden);
+            return (
+              <div className={record.name === 'SuperAdmin' ? 'action-role disable' : 'action-role'}>
+                <div onClick={() => Boolean(record.name !== 'SuperAdmin') && navigate(`detail/${record.id}`)}>
+                  <IconSVG type="edit" />
+                </div>
+                <span className="divider"></span>
+                <div
+                  onClick={() =>
+                    Boolean(record.name !== 'SuperAdmin') && setIsShowModalDelete({ id: record.id, name: record.name })
+                  }
+                >
+                  <IconSVG type="delete" />
+                </div>
               </div>
-              <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
-                <IconSVG type="delete" />
-              </div>
-            </div>
-          )}
+            );
+          }}
           align="center"
         />
       </TableWrap>

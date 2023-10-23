@@ -45,6 +45,11 @@
       cursor: pointer;
     }
   }
+  .action-role.disable {
+    svg {
+      cursor: no-drop;
+    }
+  }
 
   .administrator-user {
     .ant-table {
