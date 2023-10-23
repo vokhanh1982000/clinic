@@ -61,6 +61,7 @@ const ListMedicalSpecialty = () => {
       onSuccess: (data) => {
         message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
         queryClient.invalidateQueries(['categoryList']);
+        setIsShowModalUpdate(undefined);
       },
       onError: (error: any) => {
         // if(response?.data.message === 'NAME_IS_EXIST'){
@@ -79,7 +80,7 @@ const ListMedicalSpecialty = () => {
     (id: string) => categoryApi.categoryControllerDeleteCategory(id),
     {
       onSuccess: (data) => {
-        message.error(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+        message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {
@@ -111,7 +112,6 @@ const ListMedicalSpecialty = () => {
   const handleUpdate = () => {
     const data = form.getFieldsValue();
     UpdateCategory({ ...data, id: isShowModalUpdate?.id });
-    setIsShowModalUpdate(undefined);
     form.resetFields();
   };
 

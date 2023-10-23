@@ -62,6 +62,7 @@ const LanguageManagement = () => {
       onSuccess: (data) => {
         message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         queryClient.invalidateQueries(['languageList']);
+        setIsShowModalUpdate(undefined);
       },
       onError: (error: any) => {
         // if(response?.data.message === 'NAME_IS_EXIST'){
@@ -112,7 +113,6 @@ const LanguageManagement = () => {
   const handleUpdate = () => {
     const data = form.getFieldsValue();
     UpdateLanguage({ ...data, id: isShowModalUpdate?.id });
-    setIsShowModalUpdate(undefined);
     form.resetFields();
   };
 

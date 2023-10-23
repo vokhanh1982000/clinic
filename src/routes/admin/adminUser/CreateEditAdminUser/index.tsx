@@ -164,7 +164,12 @@ const CreateAdmin = () => {
     if (item && detailAdmin?.data.user.roles) {
       const checked = detailAdmin?.data.user.roles?.some((val) => val.id === item.id);
       return (
-        <Checkbox value={item.id} defaultChecked={checked} onChange={(e) => handeArrayCheckbox(e)}>
+        <Checkbox
+          disabled={Boolean(item.name === 'SuperAdmin')}
+          value={item.id}
+          defaultChecked={checked}
+          onChange={(e) => handeArrayCheckbox(e)}
+        >
           {item.name}
         </Checkbox>
       );
