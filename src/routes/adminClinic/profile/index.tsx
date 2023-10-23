@@ -60,6 +60,7 @@ const AdminClinicProfile = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['adminClinicProfile']);
+        queryClient.invalidateQueries(['adminClinicMe']);
         message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
       },
       onError: (error) => {

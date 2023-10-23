@@ -53,6 +53,7 @@ const DoctorProfile = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['doctorProfile']);
+        queryClient.invalidateQueries(['doctorMe']);
         message.success(intl.formatMessage({ id: 'message.update-profile.success' }));
       },
       onError: (error) => {
