@@ -79,7 +79,7 @@ const ListMedicalSpecialty = () => {
     (id: string) => categoryApi.categoryControllerDeleteCategory(id),
     {
       onSuccess: (data) => {
-        message.error(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+        message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {
