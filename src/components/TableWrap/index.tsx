@@ -1,4 +1,5 @@
 import { Pagination, Row, Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 
 export interface ITableWrapProps<T> {
   className?: string;
@@ -12,6 +13,8 @@ export interface ITableWrapProps<T> {
   setSize?: (size: number) => void;
   setPage?: (page: number) => void;
   showPagination: boolean;
+  onRow?: any;
+  columns?: ColumnsType<T>;
 }
 
 function TableWrap<T extends object>(props: ITableWrapProps<T>) {
@@ -24,6 +27,8 @@ function TableWrap<T extends object>(props: ITableWrapProps<T>) {
         pagination={false}
         rowKey={props.rowKey || 'id'}
         bordered
+        onRow={props.onRow}
+        columns={props.columns}
       >
         {props.children}
       </Table>

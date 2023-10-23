@@ -10,5 +10,6 @@
   "error.CLINIC_CODE_IS_EXISTED": "Mã phòng khám đã tồn tại",
   "error.ADMIN_CODE_IS_EXISTED": "Mã quản trị viên đã tồn tại",
   "error.CODE_IS_EXISTED": "Mã nhân sự đã tồn tại",
-  "error.LANGUAGE_IS_EXIST": "Ngôn ngữ có thể đã được sử dụng. Vui lòng thử lại"
+  "error.LANGUAGE_IS_EXIST": "Ngôn ngữ có thể đã được sử dụng. Vui lòng thử lại",
+  "error.IMAGE_INVALID": "Hình ảnh không hợp lệ. Hình ảnh có dạng: jpeg, jpg, gif, png, svg"
 }

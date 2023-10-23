@@ -13,6 +13,7 @@ const CustomSelect = <T extends any>(props: CustomSelectProps<T>) => {
       className={`ant-custom-select ${props.className}`}
       getPopupContainer={(trigger: any) => trigger.parentNode}
       placeholder={props?.placeholder ? props.placeholder : undefined}
+      allowClear
     />
   );
 };

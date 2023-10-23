@@ -29,7 +29,7 @@ export const getMenuActiveIconName = (key: string, route: 'Admin' | 'AdminClinic
       case ADMIN_ROUTE_PATH.MEDICINE_MANAGEMENT:
         return 'medicineManagementIconActive';
       case ADMIN_ROUTE_PATH.LANGUAGE_MANAGEMENT:
-        return 'languageManagement';
+        return 'languageManagementActive';
       default:
         return '';
     }
@@ -77,6 +77,10 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
         return 'menu.bookingManagement';
       case ADMIN_ROUTE_PATH.CLINIC_MANAGEMENT:
         return 'menu.clinicManagement';
+      case ADMIN_ROUTE_PATH.CREATE_CLINIC:
+        return 'menu.createClinic';
+      case ADMIN_ROUTE_PATH.DETAIL_CLINIC:
+        return 'menu.detailClinic';
       case ADMIN_ROUTE_PATH.DOCTOR_MANAGEMENT:
         return 'menu.doctorSupportManagement';
       case ADMIN_ROUTE_PATH.MEDICAL_SPECIALTY_MANAGEMENT:
@@ -96,6 +100,8 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
     switch (key) {
       case ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT:
         return 'menu.bookingManagement';
+      case ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT_EMPTY:
+        return 'menu.bookingManagement.empty';
       case ADMIN_CLINIC_ROUTE_PATH.MEDICINE_MANAGEMENT:
         return 'menu.medicineManagement';
       case ADMIN_CLINIC_ROUTE_PATH.DOCTOR_MANAGEMENT:
@@ -104,6 +110,8 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
         return 'menu.create.doctor';
       case ADMIN_CLINIC_ROUTE_PATH.DETAIL_DOCTOR:
         return 'menu.detail.doctor';
+      case ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR:
+        return 'menu.schedule.doctor';
       case ADMIN_CLINIC_ROUTE_PATH.ADMIN_CLINIC_PROFILE:
         return 'menu.admin-clinic-profile';
       case ADMIN_CLINIC_ROUTE_PATH.DETAIL_BOOKING:

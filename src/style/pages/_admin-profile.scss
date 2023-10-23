@@ -31,7 +31,7 @@
       &__header {
         line-height: 32px;
         font-weight: 700;
-        font-size: 20px;
+        font-size: '14px';
       }
 
       &__content {
@@ -66,7 +66,7 @@
           &__camera {
             position: absolute;
             bottom: 0;
-            left: 68%;
+            left: 150px;
             width: 56px;
             height: 56px;
             background-color: $text_white;
@@ -74,6 +74,10 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+
+            @media (max-width: 1600px) {
+              left: 68%;
+            }
           }
         }
 
@@ -155,6 +159,7 @@
       }
     }
   }
+
   .ant-select-selector {
     align-items: center;
   }

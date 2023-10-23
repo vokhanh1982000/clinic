@@ -1,25 +1,19 @@
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, DatePicker, Form, Spin, Switch, Upload, message } from 'antd';
-import moment from 'moment';
+import { Card, Form, Spin, Switch, Upload, message } from 'antd';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { assetsApi, newsApi } from '../../../../apis';
-import FormWrap from '../../../../components/FormWrap';
+import { CreateNewDto, UpdateNewDto } from '../../../../apis/client-axios';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
-import CustomSelect from '../../../../components/select/CustomSelect';
-import { Status, UserGender } from '../../../../constants/enum';
-import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { MyUploadProps } from '../../../../constants/dto';
-import dayjs from 'dayjs';
-import UploadAvatar from '../../../../components/upload/UploadAvatar';
-import { FORMAT_DATE } from '../../../../constants/common';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { CreateNewDto, UpdateNewDto } from '../../../../apis/client-axios';
+import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
+import { regexImage } from '../../../../validate/validator.validate';
 
 const CreateNew = () => {
   const intl = useIntl();
@@ -59,6 +53,7 @@ const CreateNew = () => {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['newList']);
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
+        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
       },
       onError: (error: any) => {
         message.error(error.message);
@@ -71,6 +66,7 @@ const CreateNew = () => {
     {
       onSuccess: ({ data }) => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
       },
       onError: (error) => {
         message.error(intl.formatMessage({ id: 'new.create.error' }));
@@ -83,6 +79,7 @@ const CreateNew = () => {
     {
       onSuccess: ({ data }) => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
       },
       onError: (error) => {
         message.error(intl.formatMessage({ id: 'new.update.error' }));
@@ -130,13 +127,25 @@ const CreateNew = () => {
       },
       onError: (error: any) => {
         setLoadingImg(false);
-        message.error(error.message);
+        message.error(
+          intl.formatMessage({
+            id: 'error.IMAGE_INVALID',
+          })
+        );
       },
     }
   );
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.type)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'new' });
   };

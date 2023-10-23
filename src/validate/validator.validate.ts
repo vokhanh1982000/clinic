@@ -36,6 +36,7 @@ const regexPass = /^[A-Za-z\d#$@!%&*?.]{8,16}$/;
 const regexKana = /^([ァ-ン]|ー)+$/;
 const regexPosTalCode = /^\d{3}-\d{4}$/;
 const REGEX_PHONE_NUMBER = /^0[1-9][0-9]{8}$/;
+export const regexImage = /\.(jpg|jpeg|png)$/i;
 
 const getMessage = (option: ValidatorOption): string => {
   return typeof option === 'object' ? option.message : (option as string);
@@ -113,9 +114,9 @@ const VALIDATOR: any = {
       return;
     }
 
-    const isValid = isValidPhoneNumber(value, 'VN');
-    const possible = isPossiblePhoneNumber(value, 'VN');
-    if (!isValid || !possible || !REGEX_PHONE_NUMBER.test(value)) {
+    // const isValid = isValidPhoneNumber(value, 'VN');
+    // const possible = isPossiblePhoneNumber(value, 'VN');
+    if (/* !isValid || !possible || */ !REGEX_PHONE_NUMBER.test(value)) {
       throw new Error(getMessage(option));
     }
   },

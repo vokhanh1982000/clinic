@@ -30,7 +30,7 @@ const ListDoctor = () => {
 
   const deleteAdmin = useMutation((id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id), {
     onSuccess: ({ data }) => {
-      console.log(data);
+      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
       queryClient.invalidateQueries(['getDoctorSupport']);
     },
     onError: (error) => {

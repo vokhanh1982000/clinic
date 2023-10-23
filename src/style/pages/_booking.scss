@@ -10,7 +10,7 @@
     }
     &__code {
       margin-left: 10px;
-      font-size: 20px;
+      font-size: '14px';
       font-weight: 600;
       line-height: 32px;
     }
@@ -39,7 +39,7 @@
         border: 1px solid #20bf6b;
         background-color: #d2f2e1;
         font-weight: 400;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 24px;
         color: $text_black_grey;
         .ant-select-selection-item {

@@ -42,6 +42,7 @@ const CreateRole = () => {
       queryClient.invalidateQueries(['getUsers']);
       queryClient.invalidateQueries(['getAdminUser']);
       queryClient.invalidateQueries(['getAllAdmin']);
+      message.success(intl.formatMessage({ id: `common.createSuccess` }));
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
     onError: (error) => {
@@ -56,6 +57,7 @@ const CreateRole = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getRoleDetail', id]);
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
       },
       onError: (error) => {
@@ -68,7 +70,7 @@ const CreateRole = () => {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['getPermissions']);
       queryClient.invalidateQueries(['getRoleDetail', id]);
-      message.error(intl.formatMessage({ id: 'role.delete.success' }));
+      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
     onError: (error) => {

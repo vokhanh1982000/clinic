@@ -74,6 +74,7 @@ const ListClinic = () => {
     (id: string) => clinicsApi.clinicControllerDeleteClinic(id),
     {
       onSuccess: (data) => {
+        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
         queryClient.invalidateQueries(['getClinics']);
       },
       onError: (error: any) => {
@@ -94,7 +95,11 @@ const ListClinic = () => {
   };
 
   const handleChangeProvince = (value: any, option: any) => {
-    setProvinceSelected({ id: option.value, code: option.code });
+    if (option) {
+      setProvinceSelected({ id: option.value, code: option.code });
+    } else {
+      setProvinceSelected(undefined);
+    }
     setDistrictSelected(undefined);
     setWardSelected(undefined);
     setPage(1);
@@ -224,7 +229,7 @@ const ListClinic = () => {
       </div>
 
       <TableWrap
-        className="custom-table"
+        className="custom-table table-visible"
         data={listClinic?.data.content}
         // isLoading={isLoading}
         page={page}

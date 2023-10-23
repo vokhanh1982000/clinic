@@ -22,6 +22,7 @@ import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
 import { handleInputChangeUpperCase } from '../../../../constants/function';
 import { CustomHandleError } from '../../../../components/response';
+import { regexImage } from '../../../../validate/validator.validate';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -83,6 +84,7 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
+        message.success(intl.formatMessage({ id: `common.createSucces` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -98,6 +100,7 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
+        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -107,8 +110,8 @@ const CreateAdmin = () => {
   );
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
-      message.error(intl.formatMessage({ id: `admin.delete.success` }));
       navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
+      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
     },
     onError: (error) => {
       message.error(intl.formatMessage({ id: 'Fail' }));
@@ -180,13 +183,25 @@ const CreateAdmin = () => {
       },
       onError: (error: any) => {
         setLoadingImg(false);
-        message.error(error.message);
+        message.error(
+          intl.formatMessage({
+            id: 'error.IMAGE_INVALID',
+          })
+        );
       },
     }
   );
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.type)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };
@@ -211,11 +226,7 @@ const CreateAdmin = () => {
                 </Row> */}
               </Row>
               <Row className="admin-management__body-data">
-                <div>
-                  <div className="admin-management__body-data__avatar">
-                    <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
-                  </div>
-                </div>
+                <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
                 <div className="admin-management__info-form">
                   <Row className="admin-management__info-item" style={{ flexWrap: 'nowrap' }}>
                     <div className="fullName">

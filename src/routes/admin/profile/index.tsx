@@ -37,7 +37,7 @@ const Profile = () => {
     mutationFn: (updateAdmin: UpdateAdminDto) => adminApi.administratorControllerUpdate(updateAdmin),
     onSuccess: () => {
       queryClient.invalidateQueries(['admin-profile']);
-      message.success(intl.formatMessage({ id: 'admin-profile.save.success' }));
+      message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
     },
     onError: () => {
       queryClient.invalidateQueries(['admin-profile']);

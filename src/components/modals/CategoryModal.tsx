@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { assetsApi } from '../../apis';
 import { MyUploadProps } from '../../constants/dto';
 import { ValidateLibrary } from '../../validate';
+import { regexImage } from '../../validate/validator.validate';
 
 interface CategoryModalProps {
   form: FormInstance;
@@ -47,13 +48,25 @@ export const CategoryModal = (props: CategoryModalProps) => {
       },
       onError: (error: any) => {
         setLoadingImg(false);
-        message.error(error.message);
+        message.error(
+          intl.formatMessage({
+            id: 'error.IMAGE_INVALID',
+          })
+        );
       },
     }
   );
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.type)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'category' });
   };

@@ -42,7 +42,7 @@ const ListRole = () => {
 
   const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
     onSuccess: ({ data }) => {
-      message.error(intl.formatMessage({ id: 'role.delete.success' }));
+      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
       queryClient.invalidateQueries(['getUsers']);
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
