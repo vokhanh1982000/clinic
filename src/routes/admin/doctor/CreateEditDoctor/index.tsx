@@ -101,18 +101,19 @@ const CreateDoctor = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log(values);
     if (!id) {
       createDoctorSupport.mutate({
         ...values,
         status: !!values.status,
         clinicId: null,
+        totalRequestReceniver: values.totalRequestReceniver || null,
       });
     } else {
       updateDoctorSupport.mutate({
         ...values,
         status: !!values.status,
         id: id,
+        totalRequestReceniver: values.totalRequestReceniver || null,
       });
     }
   };

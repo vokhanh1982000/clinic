@@ -2,6 +2,8 @@
   "new.list.title": "Quản lý Bài Viết",
   "new.list.button.add": "Tạo mới bài viết",
   "new.list.search": "Tìm kiếm bài viết",
+  "new.list.filter.status.yes": "Hiển thị",
+  "new.list.filter.status.no": "Không hiển thị",
   "new.list.select.status.place-holder": "Trạng thái",
   "new.list.table.image": "Ảnh bìa",
   "new.list.table.title": "Tiêu đề bài viết",

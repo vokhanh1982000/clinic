@@ -70,9 +70,9 @@ const ListRole = () => {
   };
 
   return (
-    <Card id="role-management">
-      <div className="role-management__header">
-        <div className="role-management__header__title">
+    <Card id="admin-management">
+      <div className="admin-management__list">
+        <div className="admin-management__list__title">
           {intl.formatMessage({
             id: 'admin.user.title',
           })}
@@ -174,39 +174,37 @@ const ListRole = () => {
               const data = _.roles.map((item: any) => item.name);
               if (data && data.length > 0) {
                 return (
-                  <div id="clinic-management">
-                    <div className="manager-clinic">
-                      <div>{data[0]}</div>
-                      {data.length > 1 && (
-                        <div className="manager-clinic__more">
-                          <span onClick={() => setIsShowListManager(record.id)}>
-                            <IconSVG type="more" />
-                          </span>
-                          {isShowListManager === record.id && (
-                            <div
-                              className="manager-clinic__more__list"
-                              ref={isShowListManager === record.id ? wrapperRef : undefined}
-                            >
-                              <div className="manager-clinic__more__list__title">
-                                <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
-                                <span
-                                  onClick={() => {
-                                    setIsShowListManager(undefined);
-                                  }}
-                                >
-                                  <IconSVG type="close" />
-                                </span>
-                              </div>
-                              <div className="manager-clinic__more__list__content">
-                                {data.map((e: any) => {
-                                  return <div className="manager-clinic__more__list__content__item">{e}</div>;
-                                })}
-                              </div>
+                  <div className="manager-clinic">
+                    <div>{data[0]}</div>
+                    {data.length > 1 && (
+                      <div className="manager-clinic__more">
+                        <span onClick={() => setIsShowListManager(record.id)}>
+                          <IconSVG type="more" />
+                        </span>
+                        {isShowListManager === record.id && (
+                          <div
+                            className="manager-clinic__more__list"
+                            ref={isShowListManager === record.id ? wrapperRef : undefined}
+                          >
+                            <div className="manager-clinic__more__list__title">
+                              <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
+                              <span
+                                onClick={() => {
+                                  setIsShowListManager(undefined);
+                                }}
+                              >
+                                <IconSVG type="close" />
+                              </span>
                             </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
+                            <div className="manager-clinic__more__list__content">
+                              {data.map((e: any) => {
+                                return <div className="manager-clinic__more__list__content__item">{e}</div>;
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               } else {
@@ -222,7 +220,7 @@ const ListRole = () => {
             width={'15%'}
             render={(_, record: any) => {
               return (
-                <div className="action-role">
+                <div className="action-admin">
                   <div onClick={() => navigate(`detail/${_.id}`)}>
                     <IconSVG type="edit" />
                   </div>

@@ -106,13 +106,21 @@ const ListClinic = () => {
   };
 
   const handleChangeDistrict = (value: any, option: any) => {
-    setDistrictSelected({ id: option.value, code: option.code });
+    if (option) {
+      setDistrictSelected({ id: option.value, code: option.code });
+    } else {
+      setDistrictSelected(undefined);
+    }
     setWardSelected(undefined);
     setPage(1);
   };
 
   const handleChangeWard = (value: any, option: any) => {
-    setWardSelected({ id: option.value, code: option.code });
+    if (option) {
+      setWardSelected({ id: option.value, code: option.code });
+    } else {
+      setWardSelected(undefined);
+    }
     setPage(1);
   };
 
@@ -191,6 +199,7 @@ const ListClinic = () => {
               : []
           }
           onChange={handleChangeProvince}
+          allowClear
         />
         <CustomSelect
           className="select-district"
@@ -208,6 +217,7 @@ const ListClinic = () => {
               : []
           }
           onChange={handleChangeDistrict}
+          allowClear
         />
         <CustomSelect
           className="select-ward"
@@ -225,6 +235,7 @@ const ListClinic = () => {
               : []
           }
           onChange={handleChangeWard}
+          allowClear
         />
       </div>
 

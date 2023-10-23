@@ -94,7 +94,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
-    if (!file || !regexImage.test(file.type)) {
+    if (!file || !regexImage.test(file.name)) {
       message.error(
         intl.formatMessage({
           id: 'error.IMAGE_INVALID',
@@ -253,7 +253,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
               })}
               name={n('gender')}
               // rules={[{ required: true }]}
-              rules={ValidateLibrary(intl).dbo}
+              rules={ValidateLibrary(intl).dob}
             >
               <CustomSelect
                 placeholder={intl.formatMessage({

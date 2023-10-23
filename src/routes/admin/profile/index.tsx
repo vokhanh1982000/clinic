@@ -7,7 +7,7 @@ import useIntl from '../../../util/useIntl';
 import { IntlShape } from 'react-intl';
 import useForm from 'antd/es/form/hooks/useForm';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { adminApi, authApi } from '../../../apis';
+import { adminApi, assetsApi, authApi } from '../../../apis';
 import CustomSelect from '../../../components/select/CustomSelect';
 import { UpdateAdminDto } from '../../../apis/client-axios';
 import dayjs from 'dayjs';
@@ -15,6 +15,9 @@ import { UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
 import { CadastalCustom } from '../../../components/Cadastral';
+import { MyUploadProps } from '../../../constants/dto';
+import { regexImage } from '../../../validate/validator.validate';
+import UploadAvatar from '../../../components/upload/UploadAvatar';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
@@ -22,12 +25,16 @@ const Profile = () => {
   const queryClient: QueryClient = useQueryClient();
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
+  const [avatar, setAvatar] = useState<string>();
+  const [loadingImg, setLoadingImg] = useState<boolean>(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin-profile'],
     queryFn: () => authApi.authControllerAdminMe(),
     onSuccess: ({ data }) => {
-      console.log(data);
+      if (data.avatar) {
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + data.avatar.preview);
+      }
       setProvinceId(data.provinceId);
       setDistrictId(data.districtId);
     },
@@ -68,6 +75,42 @@ const Profile = () => {
     data.dateOfBirth = data.dateOfBirth ? data.dateOfBirth.format(FORMAT_DATE) : null;
     UpdateAdmin(data);
   };
+
+  const { mutate: UploadImage, status: statusUploadImage } = useMutation(
+    (uploadProps: MyUploadProps) =>
+      assetsApi.assetControllerUploadFile(uploadProps.file, undefined, uploadProps.s3FilePath),
+    {
+      onSuccess: ({ data }) => {
+        const newData = data as any;
+        form.setFieldValue('avatarId', newData.id);
+        setAvatar(process.env.REACT_APP_URL_IMG_S3 + newData.preview);
+        setLoadingImg(false);
+      },
+      onError: (error: any) => {
+        setLoadingImg(false);
+        message.error(
+          intl.formatMessage({
+            id: 'error.IMAGE_INVALID',
+          })
+        );
+      },
+    }
+  );
+
+  const customRequest = async (options: any) => {
+    const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.name)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
+    setLoadingImg(true);
+    UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
+  };
+
   return (
     <Card id={'admin-profile'}>
       <Form form={form} onFinish={handleUpdate} layout={'vertical'}>
@@ -88,14 +131,7 @@ const Profile = () => {
               <div className="line-title"></div>
             </div>
             <div className={'admin-profile__form__info__content'}>
-              <div className={'admin-profile__form__info__content__avatar'}>
-                <span className="admin-profile__form__info__content__avatar__img">
-                  <IconSVG type="avatar-default" />
-                  <span className="admin-profile__form__info__content__avatar__camera">
-                    <IconSVG type="camera" />
-                  </span>
-                </span>
-              </div>
+              <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
               <div className={'admin-profile__form__info__content__input'}>
                 <div className={'admin-profile__form__info__content__input__rows'}>
                   <Form.Item
@@ -217,7 +253,7 @@ const Profile = () => {
             </div>
           </div>
           <div className={'admin-profile__form__action'}>
-            <CustomButton className={'button-save'} onClick={handleUpdate}>
+            <CustomButton className={'button-save'} htmlType="submit">
               {intl.formatMessage({
                 id: 'admin-profile.save',
               })}

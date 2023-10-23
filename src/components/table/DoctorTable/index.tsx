@@ -258,7 +258,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
             width={'12%'}
             render={(_, record: any) => {
               const language = _?.flatMap((item: any) => item.name);
-              return <div>{language && language.join(',')}</div>;
+              return <div>{language && language.join(', ')}</div>;
             }}
           />
         )}
