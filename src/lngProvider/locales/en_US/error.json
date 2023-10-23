@@ -11,5 +11,5 @@
   "error.ADMIN_CODE_IS_EXISTED": "Admin code is existed",
   "error.CODE_IS_EXISTED": "User code is existed",
   "error.LANGUAGE_IS_EXIST": "The language name may already be in use. Please try again",
-  "error.IMAGE_INVALID": "Image invalid. Image type: jpeg, jpg, gif, png, svg"
+  "error.IMAGE_INVALID": "Image invalid. Image type: jpg, jpeg, jfif, png, svg, webp"
 }
