@@ -100,6 +100,8 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
     switch (key) {
       case ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT:
         return 'menu.bookingManagement';
+      case ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT_EMPTY:
+        return 'menu.bookingManagement.empty';
       case ADMIN_CLINIC_ROUTE_PATH.MEDICINE_MANAGEMENT:
         return 'menu.medicineManagement';
       case ADMIN_CLINIC_ROUTE_PATH.DOCTOR_MANAGEMENT:
@@ -108,8 +110,12 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
         return 'menu.create.doctor';
       case ADMIN_CLINIC_ROUTE_PATH.DETAIL_DOCTOR:
         return 'menu.detail.doctor';
+      case ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR:
+        return 'menu.schedule.doctor';
       case ADMIN_CLINIC_ROUTE_PATH.ADMIN_CLINIC_PROFILE:
         return 'menu.admin-clinic-profile';
+      case ADMIN_CLINIC_ROUTE_PATH.DETAIL_BOOKING:
+        return 'menu.detail-booking';
       default:
         return '';
     }

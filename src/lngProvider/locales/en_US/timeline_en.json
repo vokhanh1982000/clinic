@@ -1,6 +1,7 @@
 {
   "timeline.schedule": "Lịch khám",
   "timeline.doctor": "Bác Sĩ",
+  "timeline.doctor.deleted": "(Đã xóa)",
   "timeline.doctor.information": "Thông tin bác sĩ",
   "timeline.doctor.schedule": "Lịch làm việc chi tiết",
   "timeline.doctor.note": "Chú thích:",
@@ -13,5 +14,14 @@
   "timeline.control.mode.date": "Ngày",
   "timeline.control.mode.month": "Tháng",
   "timeline.control.mode.week": "Tuần",
-  "timeline.month.workingDay": "Ngày làm việc"
+  "timeline.month.workingDay": "Ngày làm việc",
+  "timeline.admin.button.create": "Tạo lịch khám",
+  "timeline.clinic.title": "Phòng khám",
+  "timeline.adminClinic.bookingManagement.code": "Mã",
+  "timeline.adminClinic.bookingManagement.patient": "Bệnh nhân",
+  "timeline.adminClinic.bookingManagement.phoneNumber": "Số điện thoại",
+  "timeline.adminClinic.bookingManagement.gender": "Giới tính",
+  "timeline.adminClinic.bookingManagement.time": "Thời gian khám",
+  "timeline.adminClinic.bookingManagement.status": "Trạng thái",
+  "timeline.adminClinic.bookingManagement.action": "Thao tác"
 }

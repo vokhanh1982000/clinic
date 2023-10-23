@@ -1,6 +1,11 @@
 #role-management {
   overflow: auto;
   font-family: Open-Sans !important;
+
+  .ant-card-body {
+    min-height: 85vh;
+  }
+
   .role-management__header {
     display: flex;
     justify-content: space-between;
@@ -14,6 +19,7 @@
       line-height: 36px;
       color: $text_black_light;
     }
+
     .button-add {
       width: 177px;
       border: unset;
@@ -46,6 +52,10 @@
   }
 
   .administrator-user {
+    .ant-table {
+      overflow: visible;
+    }
+
     .ant-table-tbody {
       tr > td {
         max-width: 200px;
@@ -56,6 +66,7 @@
 
 #create-role-management {
   font-family: Open-Sans;
+
   .create-role-title {
     font-family: Open-Sans;
     font-size: 24px;
@@ -132,6 +143,7 @@
       font-size: '14px';
     }
   }
+
   .ant-table-tbody {
     td {
       font-weight: 400;

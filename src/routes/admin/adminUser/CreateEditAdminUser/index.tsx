@@ -22,6 +22,7 @@ import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
 import { handleInputChangeUpperCase } from '../../../../constants/function';
 import { CustomHandleError } from '../../../../components/response';
+import { regexImage } from '../../../../validate/validator.validate';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -198,6 +199,14 @@ const CreateAdmin = () => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.type)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };
@@ -222,11 +231,7 @@ const CreateAdmin = () => {
                 </Row> */}
               </Row>
               <Row className="admin-management__body-data">
-                <div>
-                  <div className="admin-management__body-data__avatar">
-                    <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
-                  </div>
-                </div>
+                <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
                 <div className="admin-management__info-form">
                   <Row className="admin-management__info-item" style={{ flexWrap: 'nowrap' }}>
                     <div className="fullName">

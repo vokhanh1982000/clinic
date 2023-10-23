@@ -17,6 +17,7 @@ import DatePickerCustom from '../../date/datePicker';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
 import { handleInputChangeUpperCase } from '../../../constants/function';
+import { regexImage } from '../../../validate/validator.validate';
 
 interface DoctorTableProps {
   form: FormInstance;
@@ -93,6 +94,14 @@ const DoctorInfo = (props: DoctorTableProps) => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
+    if (!file || !regexImage.test(file.type)) {
+      message.error(
+        intl.formatMessage({
+          id: 'error.IMAGE_INVALID',
+        })
+      );
+      return;
+    }
     setLoadingImg(true);
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'avatar' });
   };
@@ -116,9 +125,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
         </div>
       </div>
       <div className="doctor-info__content">
-        <div className="doctor-info__content__avatar">
-          <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
-        </div>
+        <UploadAvatar avatar={avatar} loadingImg={loadingImg} customRequest={customRequest} />
         <div className="doctor-info__content__info">
           <div className="doctor-info__content__info__rows">
             <Form.Item

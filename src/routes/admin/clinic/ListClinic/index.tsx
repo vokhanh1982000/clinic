@@ -229,7 +229,7 @@ const ListClinic = () => {
       </div>
 
       <TableWrap
-        className="custom-table"
+        className="custom-table table-visible"
         data={listClinic?.data.content}
         // isLoading={isLoading}
         page={page}

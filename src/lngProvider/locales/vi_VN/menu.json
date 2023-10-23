@@ -9,6 +9,7 @@
   "menu.medicalSpecialtyManagement": "Quản lý Chuyên Khoa",
   "menu.languageManagement": "Quản lý Ngôn ngữ",
   "menu.bookingManagement": "Quản lý Lịch Khám",
+  "menu.bookingManagement.empty": "Lịch khám chưa nhận bác sĩ",
   "menu.newsManagement": "Quản lý Tin tức, Bài viết",
   "menu.statisticsManagement": "Quản lý Thống Kê",
   "menu.medicineManagement": "Quản lý Thuốc",
@@ -18,12 +19,14 @@
   "menu.detailRole": "Chi Tiết Vai Trò",
   "menu.create.doctor": "Thêm Bác Sĩ Mới",
   "menu.detail.doctor": "Chi Tiết Bác Sĩ",
+  "menu.schedule.doctor": "Lịch Làm Việc",
   "menu.admin-profile": "Thông tin tài khoản",
   "menu.admin-clinic-profile": "Thông tin tài khoản",
   "menu.doctor-clinic-profile": "Thông tin tài khoản",
   "menu.dropdown.user.logout": "Đăng xuất",
   "menu.dropdown.user.profile": "Thông Tin Tài Khoản",
   "menu.dropdown.user.change-password": "Thay đổi mật khẩu",
+  "menu.detail-booking": "Chi Tiết Lịch Khám",
   "menu.createClinic": "Tạo Phòng Khám Mới",
   "menu.detailClinic": "Chi Tiết Phòng Khám"
 }

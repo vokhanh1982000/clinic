@@ -1,15 +1,22 @@
 import React from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
-import { Form } from 'antd';
-import { ValidateLibrary } from '../../validate';
+import { Form, FormInstance, Select } from 'antd';
 import CustomInput from '../input/CustomInput';
 import CustomSelect from '../select/CustomSelect';
+import { Clinic, DoctorClinic } from '../../apis/client-axios';
+import { DefaultOptionType } from 'antd/es/select';
 
-interface DoctorInfoProps {}
+interface DoctorInfoProps {
+  form: FormInstance;
+  clinic?: Clinic;
+  setDoctorClinic: Function;
+  doctorClinic?: DoctorClinic;
+}
 const DoctorInfo = (props: DoctorInfoProps) => {
   const intl: IntlShape = useIntl();
-  // const { n } = props;
+  const { form, clinic, doctorClinic, setDoctorClinic } = props;
+  const listDoctor: Array<DoctorClinic> | undefined = clinic?.doctorClinics;
   return (
     <div className={'doctor-info'}>
       <div className="doctor-info__header">
@@ -29,27 +36,35 @@ const DoctorInfo = (props: DoctorInfoProps) => {
             label={intl.formatMessage({
               id: 'doctor-profile.form.fullName',
             })}
-            name={'fullName'}
-            rules={ValidateLibrary(intl).name}
           >
-            <CustomInput
+            <CustomSelect
               placeholder={intl.formatMessage({
                 id: 'doctor-profile.form.fullName',
               })}
-            />
+              onChange={(value, option) => {
+                form.setFieldValue('doctorClinicId', value);
+                setDoctorClinic(listDoctor?.find((item) => item.id === value));
+              }}
+              defaultValue={doctorClinic?.id}
+              value={doctorClinic?.fullName}
+            >
+              {listDoctor?.map((item: DoctorClinic) => {
+                return <Select.Option value={item.id}>{item.fullName}</Select.Option>;
+              })}
+            </CustomSelect>
           </Form.Item>
           <Form.Item
             className="code"
             label={intl.formatMessage({
               id: 'doctor-profile.form.code',
             })}
-            name={'code'}
-            rules={ValidateLibrary(intl).userCode}
           >
             <CustomInput
+              disabled={true}
               placeholder={intl.formatMessage({
                 id: 'doctor-profile.form.code',
               })}
+              value={doctorClinic?.code}
             />
           </Form.Item>
         </div>
@@ -59,13 +74,13 @@ const DoctorInfo = (props: DoctorInfoProps) => {
             label={intl.formatMessage({
               id: 'doctor-profile.form.email',
             })}
-            name={'emailAddress'}
-            rules={ValidateLibrary(intl).email}
           >
             <CustomInput
+              disabled={true}
               placeholder={intl.formatMessage({
                 id: 'doctor-profile.form.email',
               })}
+              value={doctorClinic?.emailAddress}
             />
           </Form.Item>
           <Form.Item
@@ -73,13 +88,13 @@ const DoctorInfo = (props: DoctorInfoProps) => {
             label={intl.formatMessage({
               id: 'doctor-profile.form.phone',
             })}
-            name={'phoneNumber'}
-            rules={ValidateLibrary(intl).phoneNumber}
           >
             <CustomInput
+              disabled={true}
               placeholder={intl.formatMessage({
                 id: 'doctor-profile.form.phone',
               })}
+              value={doctorClinic?.phoneNumber}
             />
           </Form.Item>
         </div>
@@ -89,18 +104,16 @@ const DoctorInfo = (props: DoctorInfoProps) => {
             label={intl.formatMessage({
               id: 'doctor.create.info.specialist',
             })}
-            name={'category'}
-            rules={ValidateLibrary(intl).specialist}
           >
             <CustomSelect
+              disabled={true}
               placeholder={intl.formatMessage({ id: 'doctor.create.info.specialist' })}
               maxTagCount={2}
               showSearch={false}
               mode="multiple"
-              // options={category?.flatMap((item) => {
-              //   return { value: item.id, label: item.name } as DefaultOptionType;
-              // }
-              // )}
+              value={doctorClinic?.categories?.map((item) => {
+                return { value: item.id, label: item.name } as DefaultOptionType;
+              })}
             />
           </Form.Item>
         </div>

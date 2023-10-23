@@ -13,12 +13,14 @@
         height: 100%;
         padding: 12px 20px;
         border-color: #ccc;
+        background-color: #ffffff;
 
         &:hover,
         &:focus,
         &:focus-visible {
           box-shadow: none;
           border-color: #ccc;
+          background-color: #ffffff;
         }
 
         & > .ant-input-prefix {
