@@ -298,6 +298,7 @@ const DoctorInfo = (props: DoctorTableProps) => {
                 // maxTagCount={2}
                 showSearch={false}
                 mode="multiple"
+                allowClear
                 options={category?.flatMap((item) => {
                   return { value: item.id, label: item.name } as DefaultOptionType;
                 })}

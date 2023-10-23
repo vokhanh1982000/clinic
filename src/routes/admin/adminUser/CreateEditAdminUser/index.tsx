@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import DatePickerCustom from '../../../../components/date/datePicker';
 import CustomAvatar from '../../../../components/avatar/avatarCustom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { adminApi, assetsApi, roleApi } from '../../../../apis';
 import CheckboxGroupCustom from '../../../../components/checkboxGroup/customCheckbox';
 import { CreateAdminDto, CreateDoctorClinicDtoGenderEnum, Role, UpdateAdminDto } from '../../../../apis/client-axios';
@@ -154,6 +154,10 @@ const CreateAdmin = () => {
     form.setFieldValue(n('roleIds'), Array.from(item));
   };
 
+  // useEffect(() => {
+  //   form.resetFields();
+  // }, []);
+
   const renderCheckbox = (item: any) => {
     if (!id)
       return (
@@ -213,7 +217,7 @@ const CreateAdmin = () => {
 
   return (
     <Card id="admin-management">
-      <Form form={form} onFinish={onFinish} layout="vertical">
+      <Form form={form} onFinish={onFinish} layout="vertical" autoComplete="off">
         <Row className="admin-management__header">
           <header>{intl.formatMessage({ id: id ? 'admin.user.info' : 'admin.user.label.create' })}</header>
         </Row>
@@ -313,7 +317,7 @@ const CreateAdmin = () => {
                       rules={ValidateLibrary(intl).email}
                       name={n('emailAddress')}
                     >
-                      <CustomInput name={n('emailAddress')} placeholder="Email" />
+                      <CustomInput name={n('emailAddress')} placeholder="Email" defaultValue={'example@gmail.com'} />
                     </Form.Item>
                   </Row>
                   <Row className="admin-management__info-item">
