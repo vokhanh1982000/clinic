@@ -18,6 +18,15 @@
       svg {
         margin-bottom: 9px;
       }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .header-form {
+      display: inline-block;
+      .status {
+        display: inline-block;
+      }
     }
     &__select-status {
       margin-left: 20px;
