@@ -61,6 +61,7 @@ const ListMedicalSpecialty = () => {
       onSuccess: (data) => {
         message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
         queryClient.invalidateQueries(['categoryList']);
+        setIsShowModalUpdate(undefined);
       },
       onError: (error: any) => {
         // if(response?.data.message === 'NAME_IS_EXIST'){
@@ -111,7 +112,6 @@ const ListMedicalSpecialty = () => {
   const handleUpdate = () => {
     const data = form.getFieldsValue();
     UpdateCategory({ ...data, id: isShowModalUpdate?.id });
-    setIsShowModalUpdate(undefined);
     form.resetFields();
   };
 
