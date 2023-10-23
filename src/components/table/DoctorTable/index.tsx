@@ -140,6 +140,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
           showSearch={false}
           maxTagCount={2}
           mode="multiple"
+          allowClear
           options={category?.data.content?.flatMap((item) => {
             return { value: item.id, label: item.name } as DefaultOptionType;
           })}
