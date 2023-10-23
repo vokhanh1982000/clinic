@@ -48,7 +48,7 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
 
   const customRequest = async (options: any) => {
     const { file, onSuccess, onError } = options;
-    if (!file || !regexImage.test(file.type)) {
+    if (!file || !regexImage.test(file.name)) {
       message.error(
         intl.formatMessage({
           id: 'error.IMAGE_INVALID',

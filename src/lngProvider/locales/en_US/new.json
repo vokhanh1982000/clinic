@@ -2,6 +2,8 @@
   "new.list.title": "New Management",
   "new.list.button.add": "Create New",
   "new.list.search": "Search New",
+  "new.list.filter.status.yes": "Show",
+  "new.list.filter.status.no": "Hidden",
   "new.list.select.status.place-holder": "Status",
   "new.list.table.image": "Image",
   "new.list.table.title": "Title",

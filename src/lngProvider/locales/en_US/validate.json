@@ -4,7 +4,7 @@
   "validate.min_1_char": "min 1 character",
   "validate.space": "Leading white spaces at the beginning of a line are not allowed",
   "validate.required.category-name": "Medical specialty name is required",
-  "validate.phone": "Phone number consists of 10 numeric characters and begins with 0",
+  "validate.phone": "Please enter a valid phone number",
   "validate.email": "invalid email",
   "validate.medicine.name.required": "Name is required",
   "validate.medicine.usage.required": "Usage is required",

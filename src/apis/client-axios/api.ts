@@ -4322,6 +4322,12 @@ export interface UpdateAdminClinicDto {
      * @memberof UpdateAdminClinicDto
      */
     'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateAdminClinicDto
+     */
+    'avatarId'?: string;
 }
 
 export const UpdateAdminClinicDtoGenderEnum = {

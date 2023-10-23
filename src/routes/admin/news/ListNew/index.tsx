@@ -130,13 +130,13 @@ const ListNew = () => {
             {
               value: 1,
               label: intl.formatMessage({
-                id: 'common.active',
+                id: 'new.list.filter.status.yes',
               }),
             },
             {
               value: 0,
               label: intl.formatMessage({
-                id: 'common.inactive',
+                id: 'new.list.filter.status.no',
               }),
             },
           ]}
