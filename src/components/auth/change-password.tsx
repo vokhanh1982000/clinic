@@ -3,6 +3,7 @@ import { Form } from 'antd';
 import CustomInput from '../input/CustomInput';
 import useIntl from '../../util/useIntl';
 import { IntlShape } from 'react-intl';
+import { ValidateLibrary } from '../../validate';
 
 const ChangePassword = () => {
   const intl: IntlShape = useIntl();
@@ -21,7 +22,7 @@ const ChangePassword = () => {
               label={intl.formatMessage({
                 id: 'change-password.oldPassword',
               })}
-              rules={[{ required: true, min: 4, max: 255 }]}
+              rules={ValidateLibrary(intl).password}
             >
               <CustomInput isPassword={true} />
             </Form.Item>
@@ -32,7 +33,7 @@ const ChangePassword = () => {
               label={intl.formatMessage({
                 id: 'change-password.newPassword',
               })}
-              rules={[{ required: true, min: 4, max: 255 }]}
+              rules={ValidateLibrary(intl).password}
             >
               <CustomInput isPassword={true} />
             </Form.Item>
@@ -43,7 +44,7 @@ const ChangePassword = () => {
               label={intl.formatMessage({
                 id: 'change-password.confirmNewPassword',
               })}
-              rules={[{ required: true, min: 4, max: 255 }]}
+              rules={ValidateLibrary(intl).password}
             >
               <CustomInput isPassword={true} />
             </Form.Item>

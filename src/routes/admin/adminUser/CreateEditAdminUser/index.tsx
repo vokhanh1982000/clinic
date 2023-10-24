@@ -84,7 +84,7 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
-        message.success(intl.formatMessage({ id: `common.createSucces` }));
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error: any) => {
