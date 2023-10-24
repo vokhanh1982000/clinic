@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useParams } from 'react-router-dom';
 import { FORMAT_DATE } from '../../constants/common';
 import { ActionUser, UserGender } from '../../constants/enum';
-import { handleInputChangeUpperCase } from '../../constants/function';
+import { formatPhoneNumberInput, handleInputChangeUpperCase } from '../../constants/function';
 import { ValidateLibrary } from '../../validate';
 import FormWrap from '../FormWrap';
 import CustomButton from '../buttons/CustomButton';
@@ -93,6 +93,7 @@ export const ManagerModal = (props: ManagerModalProps) => {
               placeholder={intl.formatMessage({
                 id: 'manager.modal.create.phone',
               })}
+              onInput={formatPhoneNumberInput}
             />
           </Form.Item>
           <div className="modal-manager__content__rows">

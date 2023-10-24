@@ -31,8 +31,8 @@ export const ScheduleSetting = (props: ScheduleSettingParams) => {
     } else {
       const updatedSchedule = {
         ...schedule,
-        [`${field}From`]: '',
-        [`${field}To`]: '',
+        [`${field}From`]: undefined,
+        [`${field}To`]: undefined,
       };
       const newData = scheduleData.map((item) => {
         if (item.day === schedule.day) {

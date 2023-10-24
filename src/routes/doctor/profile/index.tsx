@@ -19,6 +19,7 @@ import { MyUploadProps } from '../../../constants/dto';
 import { regexImage } from '../../../validate/validator.validate';
 import UploadAvatar from '../../../components/upload/UploadAvatar';
 import { CadastalCustom } from '../../../components/Cadastral';
+import { formatPhoneNumberInput } from '../../../constants/function';
 
 const DoctorProfile = () => {
   const intl = useIntl();
@@ -203,6 +204,7 @@ const DoctorProfile = () => {
                     placeholder={intl.formatMessage({
                       id: 'doctor-profile.form.phone',
                     })}
+                    onInput={formatPhoneNumberInput}
                   />
                 </Form.Item>
               </div>

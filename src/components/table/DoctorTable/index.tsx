@@ -18,6 +18,7 @@ import CustomSelect from '../../select/CustomSelect';
 import { DefaultOptionType } from 'antd/es/select';
 import { debounce } from 'lodash';
 import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
+import { formatPhoneNumber } from '../../../constants/function';
 
 interface DoctorTableProps {
   placeHolder?: string;
@@ -220,6 +221,9 @@ export const DoctorTable = (props: DoctorTableProps) => {
             })}
             dataIndex="phoneNumber"
             width={'12%'}
+            render={(_, record: any) => {
+              return <div>{formatPhoneNumber(record.phoneNumber)}</div>;
+            }}
           />
         )}
         <Column

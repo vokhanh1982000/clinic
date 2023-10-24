@@ -19,6 +19,7 @@ import { ClinicInfo } from './ClinicInfo';
 import { ScheduleSetting } from './ScheduleSetting';
 import { useAppSelector } from '../../../store';
 import dayjs from 'dayjs';
+import { CategoryCheckbox } from '../../../components/categoryCheckbox';
 
 interface Unit {
   id: string;
@@ -99,9 +100,11 @@ const Setting = () => {
         }
         setProvinceId(response.data.provinceId ? response.data.provinceId : undefined);
         setDistrictId(response.data.districtId ? response.data.districtId : undefined);
-        if (response.data.avatar) {
-          setBackground(process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview);
-        }
+        setBackground(
+          response.data.avatar
+            ? process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview
+            : '/assets/images/background_default_clinic.svg'
+        );
       },
       enabled: !!clinicId,
     }
@@ -151,7 +154,7 @@ const Setting = () => {
               background={background}
               setBackground={setBackground}
             />
-            <CategorySelect form={form} />
+            <CategoryCheckbox form={form} className="custom-category-checkbox" />
             <ScheduleSetting form={form} scheduleData={workSchedule} setWorkSchedule={setWorkSchedule} />
             <div className="button-action">
               <CustomButton className="button-save" htmlType="submit">

@@ -201,7 +201,7 @@ $font-family: Open-Sans;
       & > p {
         margin-bottom: 0;
         font-family: $font-family;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: 600;
         line-height: 28px;
         color: $color-1A1A1A;
@@ -347,7 +347,7 @@ $font-family: Open-Sans;
             background: transparent;
             cursor: pointer;
             font-family: $font-family;
-            font-size: 24px;
+            font-size: 14px;
             font-weight: 700;
             line-height: 36px;
             padding: 0;
@@ -363,7 +363,7 @@ $font-family: Open-Sans;
                 height: 100%;
                 border: 0;
                 font-family: $font-family;
-                font-size: 24px;
+                font-size: 14px;
                 font-weight: 700;
                 line-height: 36px;
                 color: $color-1A1A1A;
@@ -531,7 +531,7 @@ $font-family: Open-Sans;
 
               & > .rbc-date-cell {
                 text-align: center;
-                font-size: 18px;
+                font-size: 14px;
                 font-family: $font-family;
                 padding-right: 0;
                 color: $color-1A1A1A;

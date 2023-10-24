@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { CadastalCustom } from '../../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../../validate';
 import { useParams } from 'react-router-dom';
-import { handleInputChangeUpperCase } from '../../../../../constants/function';
+import { formatPhoneNumberInput, handleInputChangeUpperCase } from '../../../../../constants/function';
 
 interface ClinicInfoParams {
   form: FormInstance;
@@ -93,6 +93,7 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
             placeholder={intl.formatMessage({
               id: 'clinic.create.clinic.phone',
             })}
+            onInput={formatPhoneNumberInput}
           />
         </Form.Item>
         <Form.Item

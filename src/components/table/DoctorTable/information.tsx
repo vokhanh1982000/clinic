@@ -16,7 +16,7 @@ import { assetsApi, languageApi } from '../../../apis';
 import DatePickerCustom from '../../date/datePicker';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
-import { handleInputChangeUpperCase } from '../../../constants/function';
+import { formatPhoneNumberInput, handleInputChangeUpperCase } from '../../../constants/function';
 import { regexImage } from '../../../validate/validator.validate';
 
 interface DoctorTableProps {
@@ -223,7 +223,10 @@ const DoctorInfo = (props: DoctorTableProps) => {
               // ]}
               rules={ValidateLibrary(intl).phoneNumber}
             >
-              <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.phone' })} />
+              <CustomInput
+                placeholder={intl.formatMessage({ id: 'admin.user.phone' })}
+                onInput={formatPhoneNumberInput}
+              />
             </Form.Item>
           </div>
 

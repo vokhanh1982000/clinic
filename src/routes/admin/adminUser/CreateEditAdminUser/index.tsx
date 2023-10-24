@@ -20,7 +20,7 @@ import CustomSelect from '../../../../components/select/CustomSelect';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
-import { handleInputChangeUpperCase } from '../../../../constants/function';
+import { formatPhoneNumberInput, handleInputChangeUpperCase } from '../../../../constants/function';
 import { CustomHandleError } from '../../../../components/response';
 import { regexImage } from '../../../../validate/validator.validate';
 
@@ -336,7 +336,10 @@ const CreateAdmin = () => {
                       rules={ValidateLibrary(intl).phoneNumber}
                       name={n('phoneNumber')}
                     >
-                      <CustomInput placeholder={intl.formatMessage({ id: 'admin.user.phone' })} />
+                      <CustomInput
+                        placeholder={intl.formatMessage({ id: 'admin.user.phone' })}
+                        onInput={formatPhoneNumberInput}
+                      />
                     </Form.Item>
                   </Row>
                   <div className="admin-management__info-item">

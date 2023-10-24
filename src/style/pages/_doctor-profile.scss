@@ -1,6 +1,6 @@
 #doctor-profile-management {
   .doctor-profile-title {
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 700;
     line-height: 36px;
     color: $text_black_light;
@@ -27,7 +27,7 @@
         width: 100%;
 
         &__title {
-          font-size: '14px';
+          font-size: 14px;
           font-weight: 700;
           line-height: 32px;
           color: $secondary_color;
@@ -151,7 +151,7 @@
         &__history,
         &__experiment {
           &__title {
-            font-size: '14px';
+            font-size: 14px;
             font-weight: 700;
             line-height: 32px;
             color: $secondary_color;
