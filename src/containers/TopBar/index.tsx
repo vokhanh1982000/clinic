@@ -10,12 +10,14 @@ import {
   ADMIN_ROUTE_PATH,
   DOCTOR_CLINIC_ROUTE_PATH,
 } from '../../constants/route';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { getLabelBreadcrum } from '../../util/menu';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { getRootPath } from '../../util/logout';
+import { useQuery } from '@tanstack/react-query';
+import { clinicsApi } from '../../apis';
 const { Header } = Layout;
 
 const Topbar = (props: {
@@ -28,6 +30,7 @@ const Topbar = (props: {
     token: { colorBgContainer },
   } = theme.useToken();
   const location = useLocation();
+  const { id } = useParams<{ id: string }>();
   const intl = useIntl();
   const { locale } = useSelector((state: RootState) => state.setting);
   const rootPath = getRootPath();
@@ -42,6 +45,12 @@ const Topbar = (props: {
       ),
     },
   ];
+
+  const { data: clinic } = useQuery({
+    queryKey: ['topbarClinic'],
+    queryFn: () => clinicsApi.clinicControllerGetById(id || ''),
+    enabled: !!id && location.pathname.includes(ADMIN_ROUTE_PATH.CLINIC_BOOKING_MANAGEMENT),
+  });
 
   const [breadcrumb, setBreadcrumb] = useState(DEFAULT_BREADCRUMB);
 
@@ -63,9 +72,12 @@ const Topbar = (props: {
         }
       });
       delete arr[arr.length - 1].href;
+      if (location.pathname.includes(ADMIN_ROUTE_PATH.CLINIC_BOOKING_MANAGEMENT)) {
+        arr[arr.length - 1].title = clinic?.data.fullName;
+      }
       setBreadcrumb(arr);
     }
-  }, [location.pathname, locale]);
+  }, [location.pathname, locale, clinic]);
 
   return (
     <Header style={{ padding: 0, background: colorBgContainer }} className="d-flex justify-content-between">

@@ -20,6 +20,7 @@ import {
   Administrator,
   AdministratorClinic,
   Booking,
+  BookingStatusEnum,
   Customer,
   DoctorClinic,
 } from '../../apis/client-axios';
@@ -215,6 +216,8 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     const findGroup = groups[newGroupOrder];
     const findBooking = listBookingWeek.find((booking) => booking.id === itemId);
 
+    if (findBooking?.status !== BookingStatusEnum.Pending) return;
+
     const newTime = moment(
       `${findGroup.id.toString()} ${moment(dragTime).format(TIME_FORMAT)}`,
       `${SHORT_DATE_FORMAT} ${TIME_FORMAT}`
@@ -233,8 +236,10 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
   };
 
   const handleItemResize = (itemId: string, endTimeOrStartTime: number, edge: 'left' | 'right') => {
-    //change canResize from false to "both" at line 280 to using this resize function
+    //change canResize Timeline's property from false to "both" to using this resize function
     const findBooking = listBookingWeek.find((booking) => booking.id === itemId);
+
+    if (findBooking?.status !== BookingStatusEnum.Pending) return;
 
     updateBookingMutation.mutate({
       id: itemId,

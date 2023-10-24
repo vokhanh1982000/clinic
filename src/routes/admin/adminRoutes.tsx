@@ -5,6 +5,8 @@ import { ADMIN_ROUTE_NAME } from '../../constants/route';
 import CreateDoctor from './doctor/CreateEditDoctor';
 import CreateCustomer from './customer/CreateEditCustomer';
 import ChangePasswordAdmin from './auth/ChangePassword';
+import ClinicTimeline from './booking/Timeline';
+import DoctorSchedule from './doctor/Schedule';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));
@@ -37,7 +39,10 @@ export const AdminRoutes = () => (
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateAdmin />} />} />
       </Route>
 
-      <Route path={ADMIN_ROUTE_NAME.BOOKING_MANAGEMENT} element={<ListBooking />} />
+      <Route path={ADMIN_ROUTE_NAME.BOOKING_MANAGEMENT}>
+        <Route path="" element={<SuspenseWrapper component={<ListBooking />} />} />
+        <Route path={`${ADMIN_ROUTE_NAME.CLINIC}/:id`} element={<ClinicTimeline />} />
+      </Route>
       <Route path={ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListClinic />} />} />
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateClinic />} />} />
@@ -51,6 +56,7 @@ export const AdminRoutes = () => (
         <Route path="" element={<SuspenseWrapper component={<ListDoctor />} />} />
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateDoctor />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateDoctor />} />} />
+        <Route path={`${ADMIN_ROUTE_NAME.SCHEDULE}/:id`} element={<DoctorSchedule />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.MEDICAL_SPECIALTY_MANAGEMENT} element={<ListMedicalSpecialty />} />
       <Route path={ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}>
