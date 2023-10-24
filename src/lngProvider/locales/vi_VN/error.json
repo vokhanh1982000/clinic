@@ -11,5 +11,7 @@
   "error.ADMIN_CODE_IS_EXISTED": "Mã quản trị viên đã tồn tại",
   "error.CODE_IS_EXISTED": "Mã nhân sự đã tồn tại",
   "error.LANGUAGE_IS_EXIST": "Ngôn ngữ có thể đã được sử dụng. Vui lòng thử lại",
-  "error.IMAGE_INVALID": "Hình ảnh không hợp lệ. Hình ảnh có dạng: jpg, jpeg, jfif, png, svg, webp"
+  "error.IMAGE_INVALID": "Hình ảnh không hợp lệ. Hình ảnh có dạng: jpg, jpeg, jfif, png, svg, webp",
+  "error.CONFIRM_PASSWORD_NOT_MATCH": "Mật khẩu xác nhận không chính xác",
+  "error.OLD_PASSWORD_INCORRECT": "Mật khẩu không chính xác"
 }

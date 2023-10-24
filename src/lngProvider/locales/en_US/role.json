@@ -24,5 +24,16 @@
   "role.remove.confirm.prefix": "Are you sure delele role '",
   "role.remove.confirm.suffixes": "' from the system?",
   "role.input.err": "Please input role name",
-  "role.delete.success": "Delete role success!"
+  "role.delete.success": "Delete role success!",
+  "role.permisstion.Customer": "Customer",
+  "role.permisstion.Administrator": "Administrator",
+  "role.permisstion.AdministratorClinic": "Administrator Clinic",
+  "role.permission.DoctorClinic": "Doctor Clinic",
+  "role.permisstion.DoctorSuppot": "Consulting Doctor",
+  "role.permission.Caregory": "Specialty",
+  "role.permission.Clinic": "Clinic",
+  "role.permission.Booking": "Booking",
+  "role.permisstion.Medicine": "Medicine",
+  "role.permission.New": "News",
+  "role.permission.Language": "Language"
 }
