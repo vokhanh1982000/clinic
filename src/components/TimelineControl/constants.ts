@@ -11,7 +11,6 @@ export interface IFormData {
   time?: Dayjs;
   mode?: TimelineMode;
   keyword?: string;
-  clinicId?: string;
 }
 
 export const n = (key: keyof IFormData) => key;

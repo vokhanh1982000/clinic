@@ -39,6 +39,7 @@ function TableWrap<T extends object>(props: ITableWrapProps<T>) {
             pageSize={props.size}
             current={props.page}
             total={props.total}
+            showSizeChanger
             onShowSizeChange={(current, size) => {
               if (props.setSize) {
                 window.scrollTo(0, 0);
