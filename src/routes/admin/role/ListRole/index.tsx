@@ -128,7 +128,6 @@ const ListRole = () => {
           dataIndex="action"
           width={'15%'}
           render={(_, record: any) => {
-            console.log(record.isHidden);
             return (
               <div className={record.name === 'SuperAdmin' ? 'action-role disable' : 'action-role'}>
                 <div onClick={() => Boolean(record.name !== 'SuperAdmin') && navigate(`detail/${record.id}`)}>

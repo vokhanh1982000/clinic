@@ -24,5 +24,16 @@
   "role.remove.confirm.prefix": "Bạn có chắc chắn muốn xóa phân quyền '",
   "role.remove.confirm.suffixes": "' ra khỏi hệ thống ?",
   "role.input.err": "Vui lòng nhập vai trò",
-  "role.delete.success": "Xóa vai trò thành công!"
+  "role.delete.success": "Xóa vai trò thành công!",
+  "role.permisstion.Customer": "Bệnh nhân",
+  "role.permisstion.Administrator": "Quản trị viên",
+  "role.permisstion.AdministratorClinic": "Quản trị viên",
+  "role.permisstion.DoctorClinic": "Bác sĩ phòng khám",
+  "role.permisstion.DoctorSuppot": "Bác sĩ tư vấn",
+  "role.permisstion.Caregory": "Chuyên khoa",
+  "role.permisstion.Clinic": "Phòng khám",
+  "role.permisstion.Booking": "Đặt lịch",
+  "role.permisstion.Medicine": "Thuốc",
+  "role.permisstion.New": "Tin tức",
+  "role.permisstion.Language": "Ngôn ngữ"
 }
