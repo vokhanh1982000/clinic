@@ -1,5 +1,6 @@
 #doctor-management {
   overflow: auto;
+
   .doctor-management__header {
     display: flex;
     justify-content: space-between;
@@ -8,7 +9,7 @@
 
     &__title {
       font-weight: 700;
-      font-size: 24px;
+      font-size: 14px;
       line-height: 36px;
       color: $text_black_light;
     }
@@ -39,7 +40,7 @@
 
 #create-doctor-management {
   .create-doctor-title {
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 700;
     line-height: 36px;
     color: $text_black_light;
@@ -66,7 +67,7 @@
         width: 100%;
 
         &__title {
-          font-size: '14px';
+          font-size: 14px;
           font-weight: 700;
           line-height: 32px;
           color: $secondary_color;
@@ -169,7 +170,7 @@
         &__history,
         &__experiment {
           &__title {
-            font-size: '14px';
+            font-size: 14px;
             font-weight: 700;
             line-height: 32px;
             color: $secondary_color;

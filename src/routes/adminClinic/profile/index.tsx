@@ -18,6 +18,7 @@ import { ValidateLibrary } from '../../../validate';
 import UploadAvatar from '../../../components/upload/UploadAvatar';
 import { MyUploadProps } from '../../../constants/dto';
 import { regexImage } from '../../../validate/validator.validate';
+import { formatPhoneNumberInput } from '../../../constants/function';
 
 const AdminClinicProfile = () => {
   const intl = useIntl();
@@ -223,6 +224,7 @@ const AdminClinicProfile = () => {
                     placeholder={intl.formatMessage({
                       id: 'admin-clinic.form.phone',
                     })}
+                    onInput={formatPhoneNumberInput}
                   />
                 </Form.Item>
               </div>

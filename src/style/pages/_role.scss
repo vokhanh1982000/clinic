@@ -15,7 +15,7 @@
     &__title {
       font-family: Open-Sans !important;
       font-weight: 700;
-      font-size: 24px;
+      font-size: 14px;
       line-height: 36px;
       color: $text_black_light;
     }
@@ -45,6 +45,7 @@
       cursor: pointer;
     }
   }
+
   .action-role.disable {
     svg {
       cursor: no-drop;
@@ -69,7 +70,7 @@
 
   .create-role-title {
     font-family: Open-Sans;
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 700;
     line-height: 36px;
     color: $text_black_light;
@@ -140,7 +141,7 @@
       font-family: Open-Sans !important;
       color: $table_title_name;
       font-weight: 600;
-      font-size: '14px';
+      font-size: 14px;
     }
   }
 

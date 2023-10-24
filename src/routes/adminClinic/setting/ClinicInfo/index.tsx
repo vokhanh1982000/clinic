@@ -9,6 +9,7 @@ import { MyUploadProps } from '../../../../constants/dto';
 import IconSVG from '../../../../components/icons/icons';
 import CustomArea from '../../../../components/input/CustomArea';
 import { regexImage } from '../../../../validate/validator.validate';
+import { ValidateLibrary } from '../../../../validate';
 
 interface ClinicInfoParams {
   form: FormInstance;
@@ -103,10 +104,8 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
         <div className="line-title"></div>
       </div>
       <div className="clinic-info__content">
-        <div className={`clinic-info__content__rows item-center box-upload ${background && 'custom-box-image'}`}>
-          {(background || loadingImg) && (
-            <div className="clinic-info__content__image">{loadingImg ? <Spin /> : <img src={background} />}</div>
-          )}
+        <div className={`clinic-info__content__rows item-center box-upload custom-box-image`}>
+          <div className="clinic-info__content__image">{loadingImg ? <Spin /> : <img src={background} />}</div>
           <Form.Item name="backgroundId" className="clinic-info__content__upload">
             <Upload name="avatar" className="avatar-uploader" showUploadList={false} customRequest={customRequest}>
               <div className="icon__text">
@@ -127,7 +126,7 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
             id: 'setting.clinic.name',
           })}
           name={'fullName'}
-          rules={[{ required: true }]}
+          rules={ValidateLibrary(intl).nameClinic}
         >
           <CustomInput />
         </Form.Item>

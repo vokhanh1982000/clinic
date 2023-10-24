@@ -15,6 +15,7 @@ import CustomSelect from '../../../../components/select/CustomSelect';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { Status } from '../../../../constants/enum';
 import { debounce } from 'lodash';
+import { formatPhoneNumber } from '../../../../constants/function';
 
 const ListUser = () => {
   const intl = useIntl();
@@ -169,6 +170,9 @@ const ListUser = () => {
           })}
           dataIndex="phoneNumber"
           width={'15%'}
+          render={(_, record: any) => {
+            return <div>{formatPhoneNumber(record.phoneNumber)}</div>;
+          }}
         />
         <Column
           title={intl.formatMessage({

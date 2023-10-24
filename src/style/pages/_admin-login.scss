@@ -43,7 +43,7 @@
 
   .title {
     max-width: 350px;
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 700;
     color: $secondary_color;
     margin: auto;
@@ -71,9 +71,11 @@
     color: #702a14;
     font-weight: 400;
     font-family: Open-Sans;
+
     span {
       font-size: 14px;
     }
+
     p {
       cursor: pointer;
     }

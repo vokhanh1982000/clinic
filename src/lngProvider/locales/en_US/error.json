@@ -12,6 +12,7 @@
   "error.CODE_IS_EXISTED": "User code is existed",
   "error.LANGUAGE_IS_EXIST": "The language name may already be in use. Please try again",
   "error.IMAGE_INVALID": "Image invalid. Image type: jpg, jpeg, jfif, png, svg, webp",
+  "error.CATEGORY_IS_BEING_USED": "Medical Specialty is being used",
   "error.CONFIRM_PASSWORD_NOT_MATCH": "Confirmation password is incorrect",
   "error.OLD_PASSWORD_INCORRECT": "Password is incorrect"
 }

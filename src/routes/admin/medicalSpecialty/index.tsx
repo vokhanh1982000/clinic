@@ -85,7 +85,7 @@ const ListMedicalSpecialty = () => {
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

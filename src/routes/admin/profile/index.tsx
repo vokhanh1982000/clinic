@@ -18,6 +18,7 @@ import { CadastalCustom } from '../../../components/Cadastral';
 import { MyUploadProps } from '../../../constants/dto';
 import { regexImage } from '../../../validate/validator.validate';
 import UploadAvatar from '../../../components/upload/UploadAvatar';
+import { formatPhoneNumberInput } from '../../../constants/function';
 import moment from 'moment';
 
 const Profile = () => {
@@ -69,6 +70,7 @@ const Profile = () => {
         districtId: dt.districtId,
         wardId: dt.wardId,
         address: dt.address,
+        avatarId: dt.avatarId,
       });
     }
   }, [data]);
@@ -193,6 +195,7 @@ const Profile = () => {
                       placeholder={intl.formatMessage({
                         id: 'admin-profile.phoneNumber',
                       })}
+                      onInput={formatPhoneNumberInput}
                     />
                   </Form.Item>
                 </div>

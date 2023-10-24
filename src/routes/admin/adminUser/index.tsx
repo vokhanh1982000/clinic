@@ -15,6 +15,7 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import DropdownCustom from '../../../components/dropdown/CustomDropdow';
 import { debounce } from 'lodash';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
+import { formatPhoneNumber } from '../../../constants/function';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -140,6 +141,9 @@ const ListRole = () => {
               id: 'admin.user.phone',
             })}
             dataIndex="phoneNumber"
+            render={(_, record: any) => {
+              return <div>{formatPhoneNumber(record.phoneNumber)}</div>;
+            }}
           />{' '}
           <Column
             title={intl.formatMessage({
