@@ -15,7 +15,7 @@ const ConfirmCode = ({ data, userType }: any) => {
   const [otp, setOTP] = useState('');
 
   useEffect(() => {
-    startTimer(60 * 5);
+    startTimer(60 * 2);
   }, []);
 
   const onFinish = ({ code }: any) => {
@@ -53,7 +53,7 @@ const ConfirmCode = ({ data, userType }: any) => {
   const handleResendOTP = () => {
     if (time !== '00:00s') return message.error(intl.formatMessage({ id: 'forgot.otp.time' }));
     sendOTPMutation.mutate(data);
-    startTimer(60 * 5);
+    startTimer(60 * 2);
   };
 
   const onFinishFailed = () => {};

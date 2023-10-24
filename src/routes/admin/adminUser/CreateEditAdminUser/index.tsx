@@ -84,7 +84,7 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
-        message.success(intl.formatMessage({ id: `common.createSucces` }));
+        message.success(intl.formatMessage({ id: `common.createSuccess` }));
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -317,7 +317,11 @@ const CreateAdmin = () => {
                       rules={ValidateLibrary(intl).email}
                       name={n('emailAddress')}
                     >
-                      <CustomInput name={n('emailAddress')} placeholder="Email" defaultValue={'example@gmail.com'} />
+                      <CustomInput
+                        name={n('emailAddress')}
+                        placeholder="Email"
+                        // defaultValue={'example@gmail.com'}
+                      />
                     </Form.Item>
                   </Row>
                   <Row className="admin-management__info-item">

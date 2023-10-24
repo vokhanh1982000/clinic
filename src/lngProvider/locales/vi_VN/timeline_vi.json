@@ -23,5 +23,7 @@
   "timeline.adminClinic.bookingManagement.gender": "Giới tính",
   "timeline.adminClinic.bookingManagement.time": "Thời gian khám",
   "timeline.adminClinic.bookingManagement.status": "Trạng thái",
-  "timeline.adminClinic.bookingManagement.action": "Thao tác"
+  "timeline.adminClinic.bookingManagement.action": "Thao tác",
+  "timeline.adminClinic.bookingManagement.clinic": "Phòng khám",
+  "timeline.adminClinic.bookingManagement.doctor": "Bác sĩ"
 }

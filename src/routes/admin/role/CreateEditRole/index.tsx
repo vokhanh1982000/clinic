@@ -154,12 +154,6 @@ const CreateRole = () => {
   const onFinish = (values: any) => {
     const permissions = Array.from(new Set(form.getFieldValue(n('permissions')))) as string[];
 
-    console.log({
-      // code: values.code,
-      name: values.name,
-      permissions: permissions,
-      id: id,
-    });
     id
       ? updateRole.mutate({
           // code: values.code,
@@ -197,6 +191,7 @@ const CreateRole = () => {
     }
   };
 
+  console.log(dataPermissions?.data);
   return (
     <Card id="create-role-management">
       {/* <SaveButton className="float-end" onClick={form.submit} /> */}
@@ -223,12 +218,12 @@ const CreateRole = () => {
                 id: 'role.input.err',
               }),
             },
-            {
-              pattern: /^(?![\s])[\s\S]*$/,
-              message: intl.formatMessage({
-                id: 'common.noti.space',
-              }),
-            },
+            // {
+            //   pattern: /^(?![\s])[\s\S]*$/,
+            //   message: intl.formatMessage({
+            //     id: 'common.noti.space',
+            //   }),
+            // },
             {
               pattern: /^[^!@#$%^&%^&*+=\\_\-{}[/()|;:'".,>?<]*$/,
               message: intl.formatMessage({
@@ -252,6 +247,9 @@ const CreateRole = () => {
           }
           key={'label'}
           dataIndex={'label'}
+          render={(value, record) => {
+            return <>{intl.formatMessage({ id: `role.permisstion.${value}` })}</>;
+          }}
         ></Column>
         {[...Array(numOfCol)].map((x, i) => (
           <Column<PermissionGroupDto>

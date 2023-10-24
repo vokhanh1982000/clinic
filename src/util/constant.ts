@@ -1,3 +1,5 @@
+import { BookingStatusEnum } from '../apis/client-axios';
+
 export const MONTH_FORMAT = 'MM/YYYY';
 export const DATE_FORMAT = 'dddd, DD/MM/YYYY';
 export const SHORT_DATE_FORMAT = 'DD/MM/YYYY';
@@ -33,3 +35,8 @@ export const WEEK_DAYS = [
     messageId: 'common.timeline.sunday',
   },
 ];
+export const statusBackgroundColor = {
+  [BookingStatusEnum.Approved]: '#3867D6',
+  [BookingStatusEnum.Pending]: '#F7B731',
+  [BookingStatusEnum.Cancelled]: '#D63A3A',
+};

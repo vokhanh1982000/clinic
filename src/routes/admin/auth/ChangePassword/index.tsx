@@ -8,6 +8,7 @@ import CustomButton from '../../../../components/buttons/CustomButton';
 import { useMutation } from '@tanstack/react-query';
 import { ChangePasswordDto } from '../../../../apis/client-axios';
 import { authApi } from '../../../../apis';
+import { CustomHandleError } from '../../../../components/response';
 
 const ChangePasswordAdmin = () => {
   const intl: IntlShape = useIntl();
@@ -22,12 +23,13 @@ const ChangePasswordAdmin = () => {
         })
       );
     },
-    onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'change-password.message-error',
-        })
-      );
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
+      // message.error(
+      //   intl.formatMessage({
+      //     id: 'change-password.message-error',
+      //   })
+      // );
     },
   });
   const handleSubmit = () => {

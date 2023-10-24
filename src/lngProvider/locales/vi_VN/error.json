@@ -12,5 +12,7 @@
   "error.CODE_IS_EXISTED": "Mã nhân sự đã tồn tại",
   "error.LANGUAGE_IS_EXIST": "Ngôn ngữ có thể đã được sử dụng. Vui lòng thử lại",
   "error.IMAGE_INVALID": "Hình ảnh không hợp lệ. Hình ảnh có dạng: jpg, jpeg, jfif, png, svg, webp",
-  "error.CATEGORY_IS_BEING_USED": "Chuyên khoa đang được sử dụng"
+  "error.CATEGORY_IS_BEING_USED": "Chuyên khoa đang được sử dụng",
+  "error.CONFIRM_PASSWORD_NOT_MATCH": "Mật khẩu xác nhận không chính xác",
+  "error.OLD_PASSWORD_INCORRECT": "Mật khẩu không chính xác"
 }

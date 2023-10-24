@@ -94,7 +94,7 @@ const ListBooking = () => {
   };
 
   return (
-    <Card className="custom-card">
+    <Card>
       <Row gutter={[0, 10]} className="timeline-custom-box">
         <Col span={24} className="m-b-22">
           <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary m-b-0">

@@ -2,24 +2,29 @@ import { Button } from 'antd';
 import { FC } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { ADMIN_CLINIC_ROUTE_PATH } from '../../../constants/route';
+import { Administrator, AdministratorClinic, Customer, DoctorClinic } from '../../../apis/client-axios';
+import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../../constants/route';
 
 interface SidebarHeaderContentProps {
   doctorClinicId?: string;
+  user: Administrator | Customer | AdministratorClinic | DoctorClinic;
 }
 
 const SidebarHeaderContent: FC<SidebarHeaderContentProps> = (props) => {
-  const { doctorClinicId } = props;
+  const { doctorClinicId, user } = props;
+  console.log('🚀 ~ user SidebarHeaderContent:', user);
 
   const navigate = useNavigate();
 
   const intl = useIntl();
 
   const handleClick = (type: 'doctor' | 'schedule') => {
+    const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
+
     if (type === 'doctor') {
-      navigate(`${ADMIN_CLINIC_ROUTE_PATH.DETAIL_DOCTOR}/${doctorClinicId}`);
+      navigate(`${route.DETAIL_DOCTOR}/${doctorClinicId}`);
     } else if (type === 'schedule') {
-      navigate(`${ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR}/${doctorClinicId}`);
+      navigate(`${route.SCHEDULE_DOCTOR}/${doctorClinicId}`);
     }
   };
 

@@ -56,8 +56,29 @@ $font-family: Open-Sans;
     }
   }
 
+  &-range-picker {
+    border-radius: 32px;
+    border-color: $color-ccc;
+
+    &:hover,
+    &:focus,
+    &:active {
+      border-color: $color-ccc;
+    }
+
+    &.ant-picker-focused {
+      border-color: $color-ccc;
+    }
+
+    & .ant-picker-active-bar {
+      background: $color-ee5824;
+      margin-inline-start: 20px;
+      width: 80px !important;
+    }
+  }
+
   &-container {
-    max-height: calc(100vh - 362px);
+    max-height: calc(100vh - 370px);
     overflow-y: auto;
     padding-bottom: 10px;
     margin-bottom: -10px;
@@ -141,11 +162,13 @@ $font-family: Open-Sans;
           & .rct-hl-odd {
             border-bottom: 1px solid $color-ccc;
             background: $color-ffffff;
+            position: relative;
           }
 
           & .rct-vertical-lines {
             & > .rct-vl {
               border-left: none;
+              background: $color-ffffff;
             }
           }
 
@@ -186,8 +209,9 @@ $font-family: Open-Sans;
     }
 
     &-current {
-      background: #feefea;
+      background-color: #feefea !important;
       border-bottom: 1px solid $color-ccc;
+      z-index: 41 !important;
 
       &-header {
         background-color: rgba(238, 88, 36, 0.2) !important;
