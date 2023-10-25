@@ -1,78 +1,82 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Form, Image, Row } from 'antd';
+import { Card, Col, Form, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
-import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams } from 'react-router-dom';
-import { adminClinicBookingApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
+import { useParams } from 'react-router-dom';
+import { adminBookingApi, clinicsApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
 import { DoctorClinic } from '../../../../apis/client-axios';
 import TimelineControl from '../../../../components/TimelineControl';
 import { IFormData, NOTES, TimelineMode, n } from '../../../../components/TimelineControl/constants';
+import TimelineDay from '../../../../components/TimelineDay';
 import TimelineMonth from '../../../../components/TimelineMonth';
-import TimelineWeek from '../../../../components/TimelineWeek';
+import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
-import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
 import { useAppSelector } from '../../../../store';
 import { DATE_TIME_FORMAT } from '../../../../util/constant';
 
-const DoctorSchedule = () => {
+export interface IFilter {
+  page: number;
+  size?: number;
+  sort?: string;
+}
+
+const ClinicTimeline = () => {
   const intl = useIntl();
 
   const [form] = Form.useForm<IFormData>();
   const mode: TimelineMode | undefined = Form.useWatch(n('mode'), form) as TimelineMode | undefined;
   const time = Form.useWatch(n('time'), form) as Dayjs | undefined;
+  const keyword = Form.useWatch(n('keyword'), form) as string | undefined;
 
   const { id } = useParams<{ id: string }>();
 
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
-  const navigate = useNavigate();
-
-  const [isImageError, setIsImageError] = useState<boolean>(false);
+  const [filter, setFilter] = useState<IFilter>({ page: 1, size: 9 });
 
   useEffect(() => {
     form.setFieldsValue({
       [n('time')]: dayjs(),
-      [n('mode')]: TimelineMode.WEEK,
+      [n('mode')]: TimelineMode.DATE,
     });
   }, []);
 
-  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
-    queryKey: ['adminClinicScheduleBookingWeek', time, mode],
+  const { data: clinic } = useQuery({
+    queryKey: ['topbarClinic'],
+    queryFn: () => clinicsApi.clinicControllerGetById(id || ''),
+    enabled: !!id,
+  });
+
+  const { data: listBookingDay, refetch: onRefetchBookingDay } = useQuery({
+    queryKey: ['adminBookingDay', time, mode, id],
     queryFn: () =>
-      adminClinicBookingApi.adminClinicBookingControllerGetBookingByWeek(
-        dayjs(time).startOf('week').format(DATE_TIME_FORMAT),
-        undefined,
-        id
-      ),
-    enabled: !!time && mode === TimelineMode.WEEK,
+      adminBookingApi.adminBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword, id),
+    enabled: !!time && mode === TimelineMode.DATE && !!id,
+  });
+
+  const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
+    queryKey: ['adminGetDoctorClinic', filter],
+    queryFn: () =>
+      doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword, undefined, id),
+    enabled: !!filter && mode === TimelineMode.DATE && !!id,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
-    queryKey: ['adminClinicScheduleBookingMonth', time, mode],
+    queryKey: ['adminBookingMonth', time, mode, id],
     queryFn: () =>
-      adminClinicBookingApi.adminClinicBookingControllerGetBookingByMonth(
-        dayjs(time).format(DATE_TIME_FORMAT),
-        undefined,
-        id
-      ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+      adminBookingApi.adminBookingControllerGetBookingByMonth(dayjs(time).format(DATE_TIME_FORMAT), keyword, id),
+    enabled: !!time && mode === TimelineMode.MONTH && !!id,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['adminClinicScheduleHolidayMonth', time, mode],
+    queryKey: ['adminHolidayMonth', time, mode, id],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
-        user.clinicId,
+        id || '',
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
-  });
-
-  const { data: doctorClinicInformation } = useQuery({
-    queryKey: ['scheduleDoctorClinicInformation', id],
-    queryFn: () => doctorClinicApi.doctorClinicControllerGetById(id as string),
-    enabled: !!id,
+    enabled: !!time && mode === TimelineMode.MONTH && !!id,
   });
 
   const handleRefetchMonth = () => {
@@ -80,16 +84,31 @@ const DoctorSchedule = () => {
     onRefetchHolidayMonth();
   };
 
-  const handleRefetchWeek = () => {
-    onRefetchBookingWeek();
+  const handleRefetchDay = () => {
+    onRefetchBookingDay();
+    onRefetchDoctorClinic();
+  };
+
+  const handleChangeFilter = (newFilter: IFilter) => {
+    setFilter((prev) => ({ ...prev, ...newFilter }));
   };
 
   const renderTimeline = (mode?: TimelineMode) => {
     let currentScreen: ReactNode = null;
 
     switch (mode) {
-      case TimelineMode.WEEK:
-        currentScreen = <TimelineWeek form={form} listBookingWeek={listBookingWeek?.data || []} user={user} />;
+      case TimelineMode.DATE:
+        currentScreen = (
+          <TimelineDay
+            form={form}
+            listBookingDay={listBookingDay?.data || []}
+            onRefetchDay={handleRefetchDay}
+            user={user}
+            listDoctorClinics={listDoctorClinics?.data}
+            filter={filter}
+            onChangeFilter={handleChangeFilter}
+          />
+        );
         break;
       case TimelineMode.MONTH:
         currentScreen = (
@@ -109,40 +128,26 @@ const DoctorSchedule = () => {
     return currentScreen;
   };
 
-  const handleErrorImage = (e: SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.onerror = null;
-    setIsImageError(true);
-  };
-
   return (
     <Card>
       <Row gutter={[0, 10]}>
         <Col span={24} className="m-b-22">
           <Row justify="space-between" align="middle" wrap>
             <Col>
-              <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary m-b-0">
-                {intl.formatMessage({ id: 'menu.schedule.doctor' })}
+              <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary m-b-0 text-capitalize">
+                {clinic?.data?.fullName}
               </h3>
             </Col>
 
             <Col>
-              <div
-                className="width-52 height-52 timeline-custom-schedule-avatar cursor-pointer"
-                onClick={() => navigate(`${ADMIN_CLINIC_ROUTE_PATH.DETAIL_DOCTOR}/${id}`)}
+              <CustomButton
+                icon={<IconSVG type="create" />}
+                className="width-176 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
               >
-                {doctorClinicInformation?.data.avatar && !isImageError ? (
-                  <Image
-                    width={40}
-                    height={40}
-                    src={process.env.REACT_APP_URL_IMG_S3 + doctorClinicInformation?.data.avatar.preview}
-                    alt={doctorClinicInformation?.data.fullName || ''}
-                    onError={handleErrorImage}
-                    preview={false}
-                  />
-                ) : (
-                  <IconSVG type="avatar-default" />
-                )}
-              </div>
+                <span className="font-weight-600 color-ffffff">
+                  {intl.formatMessage({ id: 'timeline.admin.button.create' })}
+                </span>
+              </CustomButton>
             </Col>
           </Row>
         </Col>
@@ -152,7 +157,7 @@ const DoctorSchedule = () => {
             form={form}
             user={user}
             onRefetchMonth={handleRefetchMonth}
-            onRefetchWeek={handleRefetchWeek}
+            onRefetchDay={handleRefetchDay}
           />
         </Col>
 
@@ -186,4 +191,4 @@ const DoctorSchedule = () => {
     </Card>
   );
 };
-export default DoctorSchedule;
+export default ClinicTimeline;

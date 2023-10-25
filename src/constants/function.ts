@@ -4,6 +4,26 @@ export function handleInputChangeUpperCase(e: any) {
   e.target.value = e.target.value.toUpperCase();
 }
 
+export const formatPhoneNumberInput = (e: any) => {
+  const input = e.target;
+  const cleanedValue = input.value.replace(/\D/g, '');
+  let cursorPosition = input.selectionStart;
+  let formattedValue = '';
+  for (let i = 0; i < cleanedValue.length; i++) {
+    if (i === 4 || i === 7) {
+      formattedValue += ' ';
+      if (e?.nativeEvent?.inputType !== 'deleteContentBackward' && input.value.length === cursorPosition) {
+        cursorPosition += 1;
+      }
+    }
+    formattedValue += cleanedValue[i];
+  }
+
+  console.log(cursorPosition);
+  input.value = formattedValue;
+  input.setSelectionRange(cursorPosition, cursorPosition);
+};
+
 export function generateRandomId() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const length = 10;
@@ -32,3 +52,11 @@ export const disabledPastDate = (current: Dayjs | undefined) => {
   }
   return false;
 };
+
+export function formatPhoneNumber(phoneNumber: string) {
+  if (!phoneNumber) {
+    return '';
+  }
+
+  return phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
+}

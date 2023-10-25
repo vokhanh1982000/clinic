@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Form, FormInstance, Popover, message } from 'antd';
 import dayjs from 'dayjs';
 import moment, { Moment } from 'moment';
-import { FC, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import Timeline, {
   DateHeader,
   IntervalRenderer,
@@ -13,9 +13,22 @@ import Timeline, {
   TimelineItemBase,
 } from 'react-calendar-timeline';
 import 'react-calendar-timeline/lib/Timeline.css';
+import { useInView } from 'react-intersection-observer';
 import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
 import { adminClinicBookingApi } from '../../apis';
-import { AdminClinicUpdateBookingDto, Booking } from '../../apis/client-axios';
+import {
+  AdminClinicUpdateBookingDto,
+  Administrator,
+  AdministratorClinic,
+  Booking,
+  BookingStatusEnum,
+  Customer,
+  DoctorClinic,
+  DoctorClinicControllerGetAll200Response,
+} from '../../apis/client-axios';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../constants/route';
+import { IFilter } from '../../routes/adminClinic/booking';
 import { TIME_FORMAT } from '../../util/constant';
 import { IFormData, NOTES, n } from '../TimelineControl/constants';
 import SidebarHeaderContent from './SidebarHeaderContent';
@@ -24,46 +37,91 @@ interface TimelineDayProps {
   form: FormInstance<IFormData>;
   listBookingDay: Booking[];
   onRefetchDay: () => void;
+  user: Administrator | Customer | AdministratorClinic | DoctorClinic;
+  listDoctorClinics?: DoctorClinicControllerGetAll200Response;
+  filter: IFilter;
+  onChangeFilter: (newFilter: IFilter) => void;
 }
 
-const getMinutesOfDay = (date: Moment | number) => {
-  return moment(date).hours() * 60 + moment(date).minutes();
-};
-
 const TimelineDay: FC<TimelineDayProps> = (props) => {
-  const { form, listBookingDay, onRefetchDay } = props;
+  const { form, listBookingDay, onRefetchDay, user, listDoctorClinics, filter, onChangeFilter } = props;
 
   const intl = useIntl();
   const time = Form.useWatch(n('time'), form);
 
+  const navigate = useNavigate();
+
   const [groups, setGroups] = useState<TimelineGroupBase[]>([]);
   const [items, setItems] = useState<TimelineItemBase<Moment>[]>([]);
 
-  useEffect(() => {
-    if (listBookingDay.length >= 0) {
-      let groups: TimelineGroupBase[] = [];
-      const items: TimelineItemBase<Moment>[] = [];
+  const [ref, inView] = useInView({
+    threshold: 0,
+  });
 
-      for (const booking of listBookingDay) {
+  useEffect(() => {
+    if (
+      inView &&
+      Number(listDoctorClinics?.content?.length || 0) > 0 &&
+      Number(listDoctorClinics?.content?.length || 0) >= Number(filter.size) &&
+      Number(filter.size) * Number(filter.page) <= Number(listDoctorClinics?.total)
+    ) {
+      onChangeFilter({ page: filter.page + 1 });
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (listDoctorClinics && Array.isArray(listDoctorClinics.content) && listDoctorClinics.content.length >= 0) {
+      const groups: TimelineGroupBase[] = [
+        {
+          id: -1,
+          title: '',
+        },
+      ];
+
+      let index = 0;
+
+      for (const doctor of listDoctorClinics.content) {
+        index++;
+
         const groupTitle = (
           <Popover
             placement="right"
-            content={<SidebarHeaderContent doctorClinicId={booking.doctorClinicId} />}
+            content={<SidebarHeaderContent doctorClinicId={doctor.id} user={user} />}
             title={null}
             arrow={false}
             trigger={['click']}
             overlayClassName="timeline-custom-day-popover"
           >
-            <span className="font-size-16 font-weight-400 cursor-pointer">
-              {booking?.doctorClinic?.fullName
-                ? booking?.doctorClinic?.deletedAt
-                  ? `${booking?.doctorClinic?.fullName} ${intl.formatMessage({ id: 'timeline.doctor.deleted' })}`
-                  : booking?.doctorClinic?.fullName
+            <span
+              className="font-size-16 font-weight-400 cursor-pointer"
+              ref={index === listDoctorClinics.content.length ? ref : undefined}
+            >
+              {doctor?.fullName
+                ? doctor?.deletedAt
+                  ? `${doctor?.fullName} ${intl.formatMessage({ id: 'timeline.doctor.deleted' })}`
+                  : doctor?.fullName
                 : ''}
             </span>
           </Popover>
         );
 
+        const group = {
+          id: doctor.id,
+          title: groupTitle,
+        };
+
+        groups.push(group);
+      }
+
+      setGroups((prev) => [...prev, ...groups]);
+    }
+  }, [listDoctorClinics, intl]);
+
+  useEffect(() => {
+    if (listBookingDay.length >= 0 && groups.length >= 0) {
+      const items: TimelineItemBase<Moment>[] = [];
+
+      for (const booking of listBookingDay) {
         const itemTitle = (
           <div className="d-flex flex-column justify-content-between">
             <span className="font-size-12 font-weight-600">#{booking?.order ?? ''}</span>
@@ -71,17 +129,10 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
           </div>
         );
 
-        const group = {
-          id: booking?.doctorClinicId || '',
-          title: groupTitle,
-        };
-
-        groups.push(group);
-
         const findStatus = NOTES.find((note) => note.status === booking.status);
         const item: TimelineItemBase<Moment> = {
           id: booking.id,
-          group: booking?.doctorClinicId || '',
+          group: booking?.doctorClinicId || -1,
           title: itemTitle,
           start_time: moment(booking.appointmentStartTime),
           end_time: moment(booking.appointmentEndTime),
@@ -97,17 +148,12 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         items.push(item);
       }
 
-      if (groups.length === 0) {
-        groups.push({
-          id: -1,
-          title: '',
-        });
-      }
+      const filterEmptyGroups = groups.filter((group) => items.findIndex((item) => item.group === group.id) === -1);
 
-      if (items.length === 0) {
+      filterEmptyGroups.forEach((group, index) => {
         items.push({
-          id: -1,
-          group: -1,
+          id: index,
+          group: group.id,
           title: '',
           start_time: moment(dayjs(time).toDate()).startOf('days'),
           end_time: moment(dayjs(time).toDate()).endOf('days'),
@@ -118,12 +164,11 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             },
           },
         });
-      }
+      });
 
       setItems(items);
-      setGroups([...(new Map(groups.map((group) => [group.id, group])).values() as any)]);
     }
-  }, [listBookingDay, time, intl]);
+  }, [listBookingDay, time, intl, groups]);
 
   const updateBookingMutation = useMutation(
     (payload: { id: string; dto: AdminClinicUpdateBookingDto }) =>
@@ -160,11 +205,15 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   const renderVerticalLineClassNamesForTime = (start: number, end: number) => {
     const classes: string[] = [];
 
-    const current = getMinutesOfDay(moment());
-    const timelineStart = getMinutesOfDay(moment(start));
-    const timelineEnd = getMinutesOfDay(moment(end));
+    const current = moment(new Date());
+    const timelineStart = moment(start);
+    const timelineEnd = moment(end);
 
-    if (current >= timelineStart && current <= timelineEnd) {
+    if (
+      current.isAfter(timelineStart) &&
+      current.isBefore(timelineEnd) &&
+      current.startOf('days').isSame(moment(dayjs(time).toDate()).startOf('days'))
+    ) {
       classes.push('timeline-custom-day-current');
     }
 
@@ -189,11 +238,15 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   const renderIntervalRenderer = (props?: IntervalRenderer<any>) => {
     let className: string = 'rct-dateHeader';
 
-    const current = getMinutesOfDay(moment());
-    const timelineStart = getMinutesOfDay(moment(props?.intervalContext.interval.startTime));
-    const timelineEnd = getMinutesOfDay(moment(props?.intervalContext.interval.endTime));
+    const current = moment(new Date());
+    const timelineStart = moment(props?.intervalContext.interval.startTime);
+    const timelineEnd = moment(props?.intervalContext.interval.endTime);
 
-    if (current >= timelineStart && current <= timelineEnd) {
+    if (
+      current.isAfter(timelineStart) &&
+      current.isBefore(timelineEnd) &&
+      current.startOf('days').isSame(moment(dayjs(time).toDate()).startOf('days'))
+    ) {
       className = `${className} timeline-custom-day-current-header`;
     }
 
@@ -208,6 +261,8 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
     const findGroup = groups[newGroupOrder];
     const findBooking = listBookingDay.find((booking) => booking.id === itemId);
 
+    if (findBooking?.status !== BookingStatusEnum.Pending) return;
+
     updateBookingMutation.mutate({
       id: itemId,
       dto: {
@@ -221,8 +276,10 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   };
 
   const handleItemResize = (itemId: string, endTimeOrStartTime: number, edge: 'left' | 'right') => {
-    //change canResize from false to "both" at line 261 to using this resize function
+    //change canResize Timeline's property from false to "both" to using this resize function
     const findBooking = listBookingDay.find((booking) => booking.id === itemId);
+
+    if (findBooking?.status !== BookingStatusEnum.Pending) return;
 
     updateBookingMutation.mutate({
       id: itemId,
@@ -240,6 +297,14 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         clinicId: findBooking?.clinicId,
       },
     });
+  };
+
+  const handleItemDoubleClick = (itemId: string, e: SyntheticEvent, time: number) => {
+    // when have an admin booking detail route change route variable like the line below
+    // const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
+    const route = user.user.type === 'administrator' ? ADMIN_CLINIC_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
+
+    navigate(`${route.DETAIL_BOOKING}/${itemId}`);
   };
 
   return (
@@ -269,8 +334,9 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
           verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
-          canChangeGroup={!updateBookingMutation.isLoading}
-          canMove={!updateBookingMutation.isLoading}
+          canChangeGroup={true}
+          canMove={true}
+          onItemDoubleClick={handleItemDoubleClick}
         >
           <TimelineHeaders>
             <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>

@@ -16,6 +16,7 @@ import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteM
 import { PERMISSIONS, Status } from '../../../../constants/enum';
 import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { formatPhoneNumber } from '../../../../constants/function';
 
 const ListUser = () => {
   const intl = useIntl();

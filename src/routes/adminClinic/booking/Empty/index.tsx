@@ -1,16 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { Card, Col, Form, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import moment from 'moment';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { adminClinicBookingApi } from '../../../../apis';
-import { Booking, BookingStatusEnum } from '../../../../apis/client-axios';
+import { Booking } from '../../../../apis/client-axios';
 import FormSearch from '../../../../components/FormSearch';
 import FormWrap from '../../../../components/FormWrap';
 import TableWrap from '../../../../components/TableWrap';
 import { NOTES } from '../../../../components/TimelineControl/constants';
-import moment from 'moment';
 import IconSVG from '../../../../components/icons/icons';
+import { statusBackgroundColor } from '../../../../util/constant';
 
 interface IFormData {
   keyword?: string;
@@ -23,12 +24,6 @@ interface IFilter {
 }
 
 const n = (key: keyof IFormData) => key;
-
-const backgroundColor = {
-  [BookingStatusEnum.Approved]: '#3867D6',
-  [BookingStatusEnum.Pending]: '#F7B731',
-  [BookingStatusEnum.Cancelled]: '#D63A3A',
-};
 
 const ListBookingEmpty = () => {
   const intl = useIntl();
@@ -104,7 +99,7 @@ const ListBookingEmpty = () => {
           <div className="d-flex align-items-center">
             <div
               className="border-radius-circle width-8 height-8 m-r-4"
-              style={{ backgroundColor: backgroundColor[value.status as keyof typeof backgroundColor] }}
+              style={{ backgroundColor: statusBackgroundColor[value.status as keyof typeof statusBackgroundColor] }}
             />
             <span className="font-size-16 font-family-primary color-1A1A1A">
               {intl.formatMessage({ id: findStatus?.messageId })}
@@ -136,7 +131,7 @@ const ListBookingEmpty = () => {
   };
 
   return (
-    <Card className="custom-card">
+    <Card>
       <Row gutter={[0, 16]}>
         <Col span={24}>
           <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary text-capitalize m-t-24 m-b-0">

@@ -4,13 +4,15 @@
       .schedule-info {
         display: flex;
         flex-direction: column;
+
         &__header {
           display: flex;
           align-items: center;
           justify-content: space-between;
           width: 100%;
+
           &__title {
-            font-size: '14px';
+            font-size: 14px;
             font-weight: 700;
             line-height: 32px;
             color: $secondary_color;
@@ -29,6 +31,7 @@
             }
           }
         }
+
         &__break-line {
           width: 100%;
           border-bottom: 1px solid $border_input_color;
@@ -36,14 +39,17 @@
           margin-bottom: 20px;
           margin-top: 10px;
         }
+
         &__content {
           width: 100%;
           display: flex;
           flex-direction: column;
           gap: 15px;
+
           &__rows {
             .hour {
               width: 100%;
+
               .ant-picker {
                 width: 100%;
                 height: 48px;
@@ -51,20 +57,25 @@
               }
             }
           }
+
           #custom-popup-date-picker {
             margin-bottom: 18px;
+
             .schedule {
               //height: 30px;
               .ant-form-item-label {
                 //opacity: 0;
               }
+
               .ant-picker {
                 opacity: 0;
                 width: 100%;
                 height: 1px;
               }
+
               .ant-form-item-row {
                 width: 100%;
+
                 .ant-form-item-control {
                   height: 1px;
                 }
@@ -74,12 +85,14 @@
                 }
               }
             }
+
             .ant-form-item {
               display: flex;
               justify-content: flex-end;
               padding: unset !important;
               margin: unset !important;
             }
+
             .ant-dropdown {
               z-index: 9999;
               top: 0 !important;

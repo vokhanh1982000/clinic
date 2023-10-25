@@ -114,9 +114,11 @@ const VALIDATOR: any = {
       return;
     }
 
-    // const isValid = isValidPhoneNumber(value, 'VN');
-    // const possible = isPossiblePhoneNumber(value, 'VN');
-    if (/* !isValid || !possible || */ !REGEX_PHONE_NUMBER.test(value)) {
+    const phoneNumber = value.replace(/\s/g, '');
+
+    const isValid = isValidPhoneNumber(phoneNumber, 'VN');
+    const possible = isPossiblePhoneNumber(phoneNumber, 'VN');
+    if (!isValid || !possible || !REGEX_PHONE_NUMBER.test(phoneNumber)) {
       throw new Error(getMessage(option));
     }
   },

@@ -17,6 +17,7 @@ import { debounce } from 'lodash';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import CheckPermission, { Permission } from '../../../util/check-permission';
 import { PERMISSIONS } from '../../../constants/enum';
+import { formatPhoneNumber } from '../../../constants/function';
 
 const ListRole = () => {
   const intl = useIntl();

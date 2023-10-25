@@ -1,6 +1,6 @@
 #setting {
   .title {
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 700;
     line-height: 36px;
     color: $text_black_light;
@@ -22,7 +22,7 @@
         justify-content: start;
 
         &__title {
-          font-size: '14px';
+          font-size: 14px;
           font-weight: 700;
           line-height: 32px;
           color: $secondary_color;
@@ -74,6 +74,13 @@
               flex-direction: column;
               justify-content: center;
               align-items: center;
+
+              span {
+                color: $primary_color;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 16px;
+              }
             }
           }
 
@@ -105,7 +112,7 @@
         display: flex;
 
         &__title {
-          font-size: '14px';
+          font-size: 14px;
           font-weight: 700;
           line-height: 32px;
           color: $secondary_color;
@@ -273,13 +280,19 @@
 
           .ant-checkbox-group {
             display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
+            word-break: break-all;
+
+            .ant-checkbox-wrapper {
+              display: flex;
+              align-items: center;
+            }
 
             .ant-checkbox-inner {
-              border: 1.8px solid $primary_color;
-              background-color: unset;
-              width: 20px;
-              height: 20px;
+              background-color: unset !important;
+              width: 22px;
+              height: 22px;
             }
 
             .ant-checkbox-inner::after {
@@ -288,9 +301,27 @@
               inset-inline-start: 30%;
             }
 
+            .ant-checkbox-checked {
+              .ant-checkbox-inner {
+                border: 1px solid $primary_color !important;
+              }
+            }
+
             .ant-checkbox-checked:after {
               border-color: $primary_color;
               border: 1px solid $primary_color;
+              background-color: unset !important;
+            }
+
+            .custom-label-checkbox {
+              display: flex;
+              align-items: center;
+              gap: 7px;
+
+              img {
+                max-width: 25px;
+                max-height: 25px;
+              }
             }
           }
         }
@@ -303,7 +334,7 @@
       //padding: 15px;
 
       &__title {
-        font-size: '14px';
+        font-size: 14px;
         font-weight: 700;
         line-height: 32px;
         color: $secondary_color;

@@ -20,7 +20,7 @@ import UploadAvatar from '../../../../components/upload/UploadAvatar';
 import { FORMAT_DATE } from '../../../../constants/common';
 import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
-import { disabledFutureDate } from '../../../../constants/function';
+import { disabledFutureDate, formatPhoneNumberInput } from '../../../../constants/function';
 import { CustomHandleError } from '../../../../components/response';
 import DatePickerCustom from '../../../../components/date/datePicker';
 import { regexImage } from '../../../../validate/validator.validate';
@@ -268,6 +268,7 @@ const CreateCustomer = () => {
                     placeholder={intl.formatMessage({
                       id: 'customer.create.phone',
                     })}
+                    onInput={formatPhoneNumberInput}
                   />
                 </Form.Item>
               </div>

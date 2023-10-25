@@ -6,12 +6,13 @@ import { categoryApi } from '../../apis';
 
 interface ScheduleSettingParams {
   form: FormInstance;
+  className?: string;
 }
 
 const CheckboxGroup = Checkbox.Group;
 
 export const CategoryCheckbox = (props: ScheduleSettingParams) => {
-  const { form } = props;
+  const { form, className } = props;
   const intl = useIntl();
   const [optionCategory, setOptionCategory] = useState<{ value: string; label: any }[]>([]);
 
@@ -36,7 +37,7 @@ export const CategoryCheckbox = (props: ScheduleSettingParams) => {
   }, [data]);
 
   return (
-    <div className="category-checkbox">
+    <div className={`category-checkbox ${className}`}>
       <div className="category-checkbox__title">
         <div className="category-checkbox__title__label">
           {intl.formatMessage({

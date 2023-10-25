@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { Card, Col, Form, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { adminClinicBookingApi, holidayScheduleApi } from '../../../apis';
+import { adminClinicBookingApi, doctorClinicApi, holidayScheduleApi } from '../../../apis';
 import { DoctorClinic } from '../../../apis/client-axios';
 import TimelineControl from '../../../components/TimelineControl';
 import { IFormData, NOTES, TimelineMode, n } from '../../../components/TimelineControl/constants';
@@ -15,6 +15,12 @@ import IconSVG from '../../../components/icons/icons';
 import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
 import { useAppSelector } from '../../../store';
 import { DATE_TIME_FORMAT } from '../../../util/constant';
+
+export interface IFilter {
+  page: number;
+  size?: number;
+  sort?: string;
+}
 
 const ListBooking = () => {
   const intl = useIntl();
@@ -28,6 +34,8 @@ const ListBooking = () => {
 
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
+  const [filter, setFilter] = useState<IFilter>({ page: 1, size: 9 });
+
   useEffect(() => {
     form.setFieldsValue({
       [n('time')]: dayjs(),
@@ -40,6 +48,12 @@ const ListBooking = () => {
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword),
     enabled: !!time && mode === TimelineMode.DATE,
+  });
+
+  const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
+    queryKey: ['adminClinicGetDoctorClinic', filter],
+    queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword),
+    enabled: !!filter && mode === TimelineMode.DATE,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
@@ -69,6 +83,11 @@ const ListBooking = () => {
 
   const handleRefetchDay = () => {
     onRefetchBookingDay();
+    onRefetchDoctorClinic();
+  };
+
+  const handleChangeFilter = (newFilter: IFilter) => {
+    setFilter((prev) => ({ ...prev, ...newFilter }));
   };
 
   const renderTimeline = (mode?: TimelineMode) => {
@@ -77,7 +96,15 @@ const ListBooking = () => {
     switch (mode) {
       case TimelineMode.DATE:
         currentScreen = (
-          <TimelineDay form={form} listBookingDay={listBookingDay?.data || []} onRefetchDay={handleRefetchDay} />
+          <TimelineDay
+            form={form}
+            listBookingDay={listBookingDay?.data || []}
+            onRefetchDay={handleRefetchDay}
+            user={user}
+            listDoctorClinics={listDoctorClinics?.data}
+            filter={filter}
+            onChangeFilter={handleChangeFilter}
+          />
         );
         break;
       case TimelineMode.MONTH:
@@ -99,7 +126,7 @@ const ListBooking = () => {
   };
 
   return (
-    <Card className="custom-card">
+    <Card>
       <Row gutter={[0, 10]}>
         <Col span={24} className="m-b-22">
           <Row justify="space-between" align="middle" wrap>
