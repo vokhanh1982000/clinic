@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Form, FormInstance, message } from 'antd';
 import dayjs from 'dayjs';
 import moment, { Moment } from 'moment';
-import { FC, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import Timeline, {
   DateHeader,
   IntervalRenderer,
@@ -14,6 +14,7 @@ import Timeline, {
 } from 'react-calendar-timeline';
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router';
 import { adminClinicBookingApi } from '../../apis';
 import {
   AdminClinicUpdateBookingDto,
@@ -33,10 +34,6 @@ interface TimelineWeekProps {
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
 }
 
-const getMinutesOfDay = (date: Moment | number) => {
-  return moment(date).hours() * 60 + moment(date).minutes();
-};
-
 const getAllDaysOfWeek = (date: Moment) => {
   const startWeek = moment(date).clone().startOf('week');
 
@@ -54,6 +51,8 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
   const intl = useIntl();
   const time = Form.useWatch(n('time'), form);
+
+  const navigate = useNavigate();
 
   const [groups, setGroups] = useState<TimelineGroupBase[]>([]);
   const [items, setItems] = useState<TimelineItemBase<Moment>[]>([]);
@@ -168,11 +167,15 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
   const renderVerticalLineClassNamesForTime = (start: number, end: number) => {
     const classes: string[] = [];
 
-    const current = getMinutesOfDay(moment());
-    const timelineStart = getMinutesOfDay(moment(start));
-    const timelineEnd = getMinutesOfDay(moment(end));
+    const current = moment(new Date());
+    const timelineStart = moment(start);
+    const timelineEnd = moment(end);
 
-    if (current >= timelineStart && current <= timelineEnd) {
+    if (
+      current.isAfter(timelineStart) &&
+      current.isBefore(timelineEnd) &&
+      current.startOf('days').isSame(moment(dayjs(time).toDate()).startOf('days'))
+    ) {
       classes.push('timeline-custom-day-current');
     }
 
@@ -197,11 +200,15 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
   const renderIntervalRenderer = (props?: IntervalRenderer<any>) => {
     let className: string = 'rct-dateHeader';
 
-    const current = getMinutesOfDay(moment());
-    const timelineStart = getMinutesOfDay(moment(props?.intervalContext.interval.startTime));
-    const timelineEnd = getMinutesOfDay(moment(props?.intervalContext.interval.endTime));
+    const current = moment(new Date());
+    const timelineStart = moment(props?.intervalContext.interval.startTime);
+    const timelineEnd = moment(props?.intervalContext.interval.endTime);
 
-    if (current >= timelineStart && current <= timelineEnd) {
+    if (
+      current.isAfter(timelineStart) &&
+      current.isBefore(timelineEnd) &&
+      current.startOf('days').isSame(moment(dayjs(time).toDate()).startOf('days'))
+    ) {
       className = `${className} timeline-custom-day-current-header`;
     }
 
@@ -259,6 +266,12 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     });
   };
 
+  const handleItemDoubleClick = (itemId: string, e: SyntheticEvent, time: number) => {
+    // when have an doctor clinic booking detail route uncomment this code below
+    // const route = DOCTOR_CLINIC_ROUTE_PATH;
+    // navigate(`${route.DETAIL_BOOKING}/${itemId}`);
+  };
+
   return (
     <>
       {groups.length > 0 && items.length > 0 && (
@@ -288,6 +301,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
           verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
+          onItemDoubleClick={handleItemDoubleClick}
         >
           <TimelineHeaders>
             <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>

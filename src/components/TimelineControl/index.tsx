@@ -20,7 +20,7 @@ interface TimelineControlProps {
   onRefetchMonth: () => void;
 }
 
-const scheduleDoctorRoutes = [ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR, ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR];
+export const scheduleDoctorRoutes = [ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR, ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR];
 
 const TimelineControl: FC<TimelineControlProps> = (props) => {
   const { form, user, onRefetchDay, onRefetchWeek, onRefetchMonth } = props;
