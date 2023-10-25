@@ -8,12 +8,13 @@ import TableWrap from '../../../components/TableWrap';
 import Column from 'antd/es/table/Column';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import { CategoryModal } from '../../../components/modals/CategoryModal';
-import { ActionUser } from '../../../constants/enum';
+import { ActionUser, PERMISSIONS } from '../../../constants/enum';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { categoryApi } from '../../../apis';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../../apis/client-axios';
 import { debounce } from 'lodash';
 import { CustomHandleError } from '../../../components/response';
+import CheckPermission, { Permission } from '../../../util/check-permission';
 
 const ListMedicalSpecialty = () => {
   const intl = useIntl();
@@ -27,6 +28,12 @@ const ListMedicalSpecialty = () => {
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string; name: string }>();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const [avatar, setAvatar] = useState<string>();
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadCaregory)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateCaregory)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteCaregory)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateCaregory)),
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ['categoryList', { page, size, sort, fullTextSearch }],
@@ -34,6 +41,7 @@ const ListMedicalSpecialty = () => {
       fullTextSearch
         ? categoryApi.categoryControllerFindCategory(page, size, sort, fullTextSearch)
         : categoryApi.categoryControllerFindCategory(page, size, sort),
+    enabled: permisstion.read,
   });
 
   const { mutate: CreateCategory, status: statusCreateCategory } = useMutation(
@@ -133,6 +141,7 @@ const ListMedicalSpecialty = () => {
           })}
         </div>
         <CustomButton
+          disabled={!permisstion.create}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
@@ -163,67 +172,72 @@ const ListMedicalSpecialty = () => {
         />
       </div>
 
-      <TableWrap
-        className="custom-table"
-        data={data?.data.content}
-        // isLoading={isLoading}
-        page={page}
-        size={size}
-        total={data?.data.total}
-        setSize={setSize}
-        setPage={setPage}
-        showPagination={true}
-      >
-        <Column
-          title={intl.formatMessage({
-            id: 'category.list.table.name',
-          })}
-          dataIndex="name"
-          width={'40%'}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'category.list.table.icon',
-          })}
-          dataIndex="icon"
-          width={'40%'}
-          render={(_, record: any) => {
-            if (record.icon) return <img src={process.env.REACT_APP_URL_IMG_S3 + record.icon.preview} />;
-          }}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'category.list.table.action',
-          })}
-          dataIndex="action"
-          width={'20%'}
-          render={(_, record: any) => (
-            <div className="action-category">
-              <div
-                onClick={() => {
-                  form.setFieldsValue({
-                    name: record.name,
-                    iconId: record.iconId ? record.iconId : undefined,
-                  });
-                  setIsShowModalUpdate({ id: record.id, name: record.name });
-                  if (record.icon) {
-                    setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
-                  } else {
-                    setAvatar(undefined);
-                  }
-                }}
-              >
-                <IconSVG type="edit" />
+      {permisstion.read && (
+        <TableWrap
+          className="custom-table"
+          data={data?.data.content}
+          // isLoading={isLoading}
+          page={page}
+          size={size}
+          total={data?.data.total}
+          setSize={setSize}
+          setPage={setPage}
+          showPagination={true}
+        >
+          <Column
+            title={intl.formatMessage({
+              id: 'category.list.table.name',
+            })}
+            dataIndex="name"
+            width={'40%'}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'category.list.table.icon',
+            })}
+            dataIndex="icon"
+            width={'40%'}
+            render={(_, record: any) => {
+              if (record.icon) return <img src={process.env.REACT_APP_URL_IMG_S3 + record.icon.preview} />;
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'category.list.table.action',
+            })}
+            dataIndex="action"
+            width={'20%'}
+            render={(_, record: any) => (
+              <div className="action-category">
+                <div
+                  onClick={() => {
+                    form.setFieldsValue({
+                      name: record.name,
+                      iconId: record.iconId ? record.iconId : undefined,
+                    });
+                    setIsShowModalUpdate({ id: record.id, name: record.name });
+                    if (record.icon) {
+                      setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
+                    } else {
+                      setAvatar(undefined);
+                    }
+                  }}
+                >
+                  <IconSVG type="edit" />
+                </div>
+                <span className="divider"></span>
+                <div
+                  className={permisstion.delete ? '' : 'disable'}
+                  onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}
+                >
+                  <IconSVG type="delete" />
+                </div>
               </div>
-              <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
-                <IconSVG type="delete" />
-              </div>
-            </div>
-          )}
-          align="center"
-        />
-      </TableWrap>
+            )}
+            align="center"
+          />
+        </TableWrap>
+      )}
       {isShowModalCreate && (
         <CategoryModal
           form={form}
@@ -236,6 +250,7 @@ const ListMedicalSpecialty = () => {
           onClose={() => setIsShowModalCreate(false)}
           avatar={avatar}
           setAvatar={setAvatar}
+          permission={permisstion}
         />
       )}
       {isShowModalUpdate && (
@@ -251,6 +266,7 @@ const ListMedicalSpecialty = () => {
           onClose={() => setIsShowModalUpdate(undefined)}
           avatar={avatar}
           setAvatar={setAvatar}
+          permission={permisstion}
         />
       )}
       <ConfirmDeleteModal

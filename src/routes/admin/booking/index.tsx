@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Card, Col, Form, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { adminBookingApi, holidayScheduleApi } from '../../../apis';
 import { DoctorClinic } from '../../../apis/client-axios';
@@ -13,6 +13,8 @@ import CustomButton from '../../../components/buttons/CustomButton';
 import IconSVG from '../../../components/icons/icons';
 import { useAppSelector } from '../../../store';
 import { DATE_TIME_FORMAT } from '../../../util/constant';
+import CheckPermission, { Permission } from '../../../util/check-permission';
+import { PERMISSIONS } from '../../../constants/enum';
 
 const ListBooking = () => {
   const intl = useIntl();
@@ -22,6 +24,12 @@ const ListBooking = () => {
   const time = Form.useWatch(n('time'), form) as Dayjs | undefined;
   const keyword = Form.useWatch(n('keyword'), form) as string | undefined;
   const clinicId = Form.useWatch(n('clinicId'), form) as string | undefined;
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadBooking)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateBooking)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking)),
+  });
 
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
@@ -36,14 +44,14 @@ const ListBooking = () => {
     queryKey: ['adminBookingDay', time, mode, clinicId],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword, clinicId),
-    enabled: !!time && mode === TimelineMode.DATE,
+    enabled: !!time && mode === TimelineMode.DATE && false,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
     queryKey: ['adminBookingMonth', time, mode],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetBookingByMonth(dayjs(time).format(DATE_TIME_FORMAT), keyword),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time && mode === TimelineMode.MONTH && false,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
@@ -53,7 +61,7 @@ const ListBooking = () => {
         user.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time && mode === TimelineMode.MONTH && false,
   });
 
   const handleRefetchMonth = () => {

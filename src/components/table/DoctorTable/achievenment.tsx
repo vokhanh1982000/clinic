@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import CustomButton from '../../buttons/CustomButton';
 import { FormInstance } from 'antd/lib/form/Form';
 import { ADMIN_CLINIC_ROUTE_PATH } from '../../../constants/route';
+import { Permission } from '../../../util/check-permission';
 
 interface Props {
   form?: FormInstance;
@@ -14,10 +15,11 @@ interface Props {
   deleteFc?: (id: string) => void;
   setIsDeleteDoctor: (value: boolean) => void;
   disabled?: Boolean;
+  permission: Permission;
 }
 
 const Achievement = (props: Props) => {
-  const { form, onSubmit, setIsDeleteDoctor, n, deleteFc, disabled } = props;
+  const { form, onSubmit, setIsDeleteDoctor, n, deleteFc, disabled, permission } = props;
   const { id } = useParams();
   const intl = useIntl();
   const navigate = useNavigate();
@@ -94,6 +96,7 @@ const Achievement = (props: Props) => {
             {id ? (
               <div className="more-action">
                 <CustomButton
+                  disabled={!permission.update}
                   className="button-save"
                   onClick={() => {
                     onSubmit();
@@ -103,7 +106,7 @@ const Achievement = (props: Props) => {
                     id: 'doctor.edit.button.save',
                   })}
                 </CustomButton>
-                <CustomButton className="button-delete" onClick={() => handleDelete()}>
+                <CustomButton className="button-delete" onClick={() => handleDelete()} disabled={!permission.delete}>
                   {intl.formatMessage({
                     id: 'doctor.edit.button.delete',
                   })}
@@ -111,7 +114,7 @@ const Achievement = (props: Props) => {
               </div>
             ) : (
               <div className="more-action">
-                <CustomButton className="button-create" onClick={() => onSubmit()}>
+                <CustomButton className="button-create" onClick={() => onSubmit()} disabled={!permission.create}>
                   {intl.formatMessage({
                     id: 'doctor.create.button.create',
                   })}

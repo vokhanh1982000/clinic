@@ -479,3 +479,9 @@ select[multiple] {
     }
   }
 }
+
+.disable {
+  svg {
+    cursor: no-drop !important;
+  }
+}

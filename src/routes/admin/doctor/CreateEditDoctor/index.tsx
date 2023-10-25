@@ -10,10 +10,11 @@ import FormWrap from '../../../../components/FormWrap';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import Achievement from '../../../../components/table/DoctorTable/achievenment';
 import DoctorInfo from '../../../../components/table/DoctorTable/information';
-import { DoctorType } from '../../../../constants/enum';
+import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
 import dayjs from 'dayjs';
 import { FORMAT_DATE } from '../../../../constants/common';
 import { CustomHandleError } from '../../../../components/response';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -25,7 +26,12 @@ const CreateDoctor = () => {
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
   const [avatar, setAvatar] = useState<string>();
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic)),
+  });
   const n = (key: keyof CreateDoctorSupport) => {
     return key;
   };
@@ -149,6 +155,7 @@ const CreateDoctor = () => {
           onSubmit={() => {
             form.submit();
           }}
+          permission={permisstion}
         />
       </FormWrap>
       <ConfirmDeleteModal

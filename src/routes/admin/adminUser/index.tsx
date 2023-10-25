@@ -15,6 +15,8 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import DropdownCustom from '../../../components/dropdown/CustomDropdow';
 import { debounce } from 'lodash';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
+import CheckPermission, { Permission } from '../../../util/check-permission';
+import { PERMISSIONS } from '../../../constants/enum';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -28,6 +30,12 @@ const ListRole = () => {
   const [isShowListManager, setIsShowListManager] = useState<string>();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+  });
 
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
@@ -43,6 +51,7 @@ const ListRole = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['getAdminUser', { page, size, sort, fullTextSearch, position }],
     queryFn: () => adminApi.administratorControllerGet(page, size, sort, fullTextSearch, position),
+    enabled: permisstion.read,
   });
 
   const handleDeleteAdmin = () => {
@@ -78,6 +87,7 @@ const ListRole = () => {
           })}
         </div>
         <CustomButton
+          disabled={!permisstion.create}
           style={{ width: '244px' }}
           className="button-add"
           icon={<IconSVG type="create" />}
@@ -102,52 +112,53 @@ const ListRole = () => {
         />
         <DropdownCustom position={position} setPosition={setPosition} setPage={setPage} />
       </Row>
-      <div className="administrator-user">
-        <TableWrap
-          className="custom-table"
-          data={data?.data.content}
-          isLoading={isLoading}
-          page={page}
-          size={size}
-          total={data?.data.total}
-          setSize={setSize}
-          setPage={setPage}
-          showPagination={true}
-        >
-          <Column
-            title={intl.formatMessage({
-              id: 'role.list.table.code',
-            })}
-            dataIndex="code"
-            render={(_, record) => {
-              return <>{_ ? String(_).toUpperCase() : ''}</>;
-            }}
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'admin.user.fullName',
-            })}
-            dataIndex="fullName"
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'Email',
-            })}
-            dataIndex="emailAddress"
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'admin.user.phone',
-            })}
-            dataIndex="phoneNumber"
-          />{' '}
-          <Column
-            title={intl.formatMessage({
-              id: 'admin.user.position',
-            })}
-            dataIndex="position"
-          />
-          {/* <Column
+      {permisstion.read && (
+        <div className="administrator-user">
+          <TableWrap
+            className="custom-table"
+            data={data?.data.content}
+            isLoading={isLoading}
+            page={page}
+            size={size}
+            total={data?.data.total}
+            setSize={setSize}
+            setPage={setPage}
+            showPagination={true}
+          >
+            <Column
+              title={intl.formatMessage({
+                id: 'role.list.table.code',
+              })}
+              dataIndex="code"
+              render={(_, record) => {
+                return <>{_ ? String(_).toUpperCase() : ''}</>;
+              }}
+            />
+            <Column
+              title={intl.formatMessage({
+                id: 'admin.user.fullName',
+              })}
+              dataIndex="fullName"
+            />
+            <Column
+              title={intl.formatMessage({
+                id: 'Email',
+              })}
+              dataIndex="emailAddress"
+            />
+            <Column
+              title={intl.formatMessage({
+                id: 'admin.user.phone',
+              })}
+              dataIndex="phoneNumber"
+            />{' '}
+            <Column
+              title={intl.formatMessage({
+                id: 'admin.user.position',
+              })}
+              dataIndex="position"
+            />
+            {/* <Column
           title={intl.formatMessage({
             id: 'admin.user.role',
           })}
@@ -164,77 +175,86 @@ const ListRole = () => {
             );
           }}
         /> */}
-          <Column
-            title={intl.formatMessage({
-              id: 'admin.user.role',
-            })}
-            dataIndex="user"
-            width={'15%'}
-            render={(_, record: any) => {
-              const data = _.roles.map((item: any) => item.name);
-              if (data && data.length > 0) {
+            <Column
+              title={intl.formatMessage({
+                id: 'admin.user.role',
+              })}
+              dataIndex="user"
+              width={'15%'}
+              render={(_, record: any) => {
+                const data = _.roles.map((item: any) => item.name);
+                if (data && data.length > 0) {
+                  return (
+                    <div className="manager-clinic">
+                      <div>{data[0]}</div>
+                      {data.length > 1 && (
+                        <div className="manager-clinic__more">
+                          <span onClick={() => setIsShowListManager(record.id)}>
+                            <IconSVG type="more" />
+                          </span>
+                          {isShowListManager === record.id && (
+                            <div
+                              className="manager-clinic__more__list"
+                              ref={isShowListManager === record.id ? wrapperRef : undefined}
+                            >
+                              <div className="manager-clinic__more__list__title">
+                                <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
+                                <span
+                                  onClick={() => {
+                                    setIsShowListManager(undefined);
+                                  }}
+                                >
+                                  <IconSVG type="close" />
+                                </span>
+                              </div>
+                              <div className="manager-clinic__more__list__content">
+                                {data.map((e: any) => {
+                                  return <div className="manager-clinic__more__list__content__item">{e}</div>;
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                } else {
+                  return <></>;
+                }
+              }}
+            />
+            <Column
+              title={intl.formatMessage({
+                id: 'role.list.table.action',
+              })}
+              dataIndex="user"
+              width={'15%'}
+              render={(_, record: any) => {
                 return (
-                  <div className="manager-clinic">
-                    <div>{data[0]}</div>
-                    {data.length > 1 && (
-                      <div className="manager-clinic__more">
-                        <span onClick={() => setIsShowListManager(record.id)}>
-                          <IconSVG type="more" />
-                        </span>
-                        {isShowListManager === record.id && (
-                          <div
-                            className="manager-clinic__more__list"
-                            ref={isShowListManager === record.id ? wrapperRef : undefined}
-                          >
-                            <div className="manager-clinic__more__list__title">
-                              <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
-                              <span
-                                onClick={() => {
-                                  setIsShowListManager(undefined);
-                                }}
-                              >
-                                <IconSVG type="close" />
-                              </span>
-                            </div>
-                            <div className="manager-clinic__more__list__content">
-                              {data.map((e: any) => {
-                                return <div className="manager-clinic__more__list__content__item">{e}</div>;
-                              })}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                  <div className="action-admin">
+                    <div
+                      className={!permisstion.read ? 'disable' : ''}
+                      onClick={() => permisstion.read && navigate(`detail/${_.id}`)}
+                    >
+                      <IconSVG type="edit" />
+                    </div>
+                    <span className="divider"></span>
+                    <div
+                      className={!permisstion.delete ? 'disable' : ''}
+                      onClick={() =>
+                        permisstion.delete && setIsShowModalDelete({ id: record.user.id, name: record.fullName })
+                      }
+                    >
+                      <IconSVG type="delete" />
+                    </div>
                   </div>
                 );
-              } else {
-                return <></>;
-              }
-            }}
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'role.list.table.action',
-            })}
-            dataIndex="user"
-            width={'15%'}
-            render={(_, record: any) => {
-              return (
-                <div className="action-admin">
-                  <div onClick={() => navigate(`detail/${_.id}`)}>
-                    <IconSVG type="edit" />
-                  </div>
-                  <span className="divider"></span>
-                  <div onClick={() => setIsShowModalDelete({ id: record.user.id, name: record.fullName })}>
-                    <IconSVG type="delete" />
-                  </div>
-                </div>
-              );
-            }}
-            align="center"
-          />
-        </TableWrap>
-      </div>
+              }}
+              align="center"
+            />
+          </TableWrap>
+        </div>
+      )}
       <ConfirmDeleteModal
         name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
         visible={!!isShowModalDelete}

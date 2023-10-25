@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { Option } from 'antd/es/mentions';
 import IconSVG from '../icons/icons';
 import { ValidateLibrary } from '../../validate';
+import { Permission } from '../../util/check-permission';
 
 interface MedicineModalProps {
   form: FormInstance;
@@ -18,10 +19,11 @@ interface MedicineModalProps {
   onClose: () => void;
   onDelete?: Function;
   isSuperAdmin: boolean;
+  permission: Permission;
 }
 
 export const MedicineModal = (props: MedicineModalProps) => {
-  const { form, visible, title, action, onSubmit, onClose, onDelete, isSuperAdmin } = props;
+  const { form, visible, title, action, onSubmit, onClose, onDelete, isSuperAdmin, permission } = props;
 
   const intl = useIntl();
   const [unit, setUnit] = useState<MedicineUnit>();
@@ -179,13 +181,13 @@ export const MedicineModal = (props: MedicineModalProps) => {
               </>
             ) : (
               <>
-                <CustomButton className="button-submit" htmlType="submit">
+                <CustomButton className="button-submit" htmlType="submit" disabled={!permission.update}>
                   {intl.formatMessage({
                     id: 'medicine.modal.create.button.save',
                   })}
                 </CustomButton>
                 {onDelete && (
-                  <CustomButton className="button-delete" onClick={() => onDelete()}>
+                  <CustomButton className="button-delete" onClick={() => onDelete()} disabled={!permission.delete}>
                     {intl.formatMessage({
                       id: 'medicine.modal.create.button.delete',
                     })}

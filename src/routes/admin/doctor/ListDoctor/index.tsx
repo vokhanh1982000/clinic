@@ -7,8 +7,9 @@ import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
 import { ADMIN_CLINIC_ROUTE_NAME, ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { DoctorTable } from '../../../../components/table/DoctorTable';
-import { DoctorType } from '../../../../constants/enum';
+import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
 import { doctorClinicApi, doctorSupportApi } from '../../../../apis';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const ListDoctor = () => {
   const intl = useIntl();
@@ -18,7 +19,12 @@ const ListDoctor = () => {
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorSuppot)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorSuppot)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorSuppot)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorSuppot)),
+  });
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
@@ -50,6 +56,7 @@ const ListDoctor = () => {
           })}
         </div>
         <CustomButton
+          disabled={!permisstion.create}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
@@ -61,7 +68,13 @@ const ListDoctor = () => {
           })}
         </CustomButton>
       </div>
-      <DoctorTable deleteFc={(id: string) => deleteAdmin.mutate(id)} doctorType={DoctorType.DOCTOR_SUPPORT} />
+      {permisstion.read && (
+        <DoctorTable
+          permission={permisstion}
+          deleteFc={(id: string) => deleteAdmin.mutate(id)}
+          doctorType={DoctorType.DOCTOR_SUPPORT}
+        />
+      )}
     </Card>
   );
 };

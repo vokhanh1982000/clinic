@@ -12,10 +12,11 @@ import { categoryApi, medicineApi } from '../../../apis';
 import Column from 'antd/es/table/Column';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import { MedicineModal } from '../../../components/modals/MedicineModal';
-import { ActionUser, MedicineStatus, MedicineUnit } from '../../../constants/enum';
+import { ActionUser, MedicineStatus, MedicineUnit, PERMISSIONS } from '../../../constants/enum';
 import useForm from 'antd/es/form/hooks/useForm';
 import { CreateCategoryDto, CreateMedicineDto, UpdateCategoryDto, UpdateMedicineDto } from '../../../apis/client-axios';
 import { debounce } from 'lodash';
+import CheckPermission, { Permission } from '../../../util/check-permission';
 
 interface Unit {
   id: string;
@@ -47,13 +48,19 @@ const ListMedicine = () => {
   const [isShowModalCreate, setIsShowModalCreate] = useState<boolean>(false);
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string }>();
   const [form] = useForm();
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadMedicine)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateMedicine)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteMedicine)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateMedicine)),
+  });
   const { data, isLoading } = useQuery({
     queryKey: ['medicineList', { page, size, sort, fullTextSearch, status, unit }],
     queryFn: () =>
       fullTextSearch
         ? medicineApi.medicineControllerFindAll(page, size, sort, fullTextSearch, status, unit)
         : medicineApi.medicineControllerFindAll(page, size, sort, undefined, status, unit),
+    enabled: permisstion.read,
   });
 
   const { mutate: CreateMedicine, status: statusCreateMedicine } = useMutation(
@@ -216,6 +223,7 @@ const ListMedicine = () => {
     },
   ];
 
+  console.log(permisstion);
   return (
     <Card id="medicine-management">
       <Form form={form} onFinish={handleCreate} layout={'vertical'}>
@@ -226,6 +234,7 @@ const ListMedicine = () => {
             })}
           </div>
           <CustomButton
+            disabled={!permisstion.create}
             className={'button-add'}
             icon={<IconSVG type="create" />}
             onClick={() => setIsShowModalCreate(true)}
@@ -363,7 +372,10 @@ const ListMedicine = () => {
                   <IconSVG type="edit" />
                 </div>
                 <span className="divider"></span>
-                <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
+                <div
+                  className={permisstion.delete ? '' : 'disable'}
+                  onClick={() => permisstion.delete && setIsShowModalDelete({ id: record.id, name: record.name })}
+                >
                   <IconSVG type="delete" />
                 </div>
               </div>
@@ -391,11 +403,13 @@ const ListMedicine = () => {
               id: 'medicine.list.modal.create',
             })}
             isSuperAdmin={false}
+            permission={permisstion}
           />
         )}
         {isShowModalUpdate && (
           <MedicineModal
             form={form}
+            permission={permisstion}
             visible={!!isShowModalUpdate}
             action={ActionUser.EDIT}
             title={intl.formatMessage({

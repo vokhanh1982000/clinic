@@ -11,7 +11,7 @@ import { CreateAdminDto, CreateDoctorClinicDtoGenderEnum, Role, UpdateAdminDto }
 import { useNavigate, useParams } from 'react-router-dom';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import moment from 'moment';
-import { UserGender } from '../../../../constants/enum';
+import { PERMISSIONS, UserGender } from '../../../../constants/enum';
 import dayjs from 'dayjs';
 import { FORMAT_DATE } from '../../../../constants/common';
 import UploadAvatar from '../../../../components/upload/UploadAvatar';
@@ -23,6 +23,7 @@ import { ValidateLibrary } from '../../../../validate';
 import { handleInputChangeUpperCase } from '../../../../constants/function';
 import { CustomHandleError } from '../../../../components/response';
 import { regexImage } from '../../../../validate/validator.validate';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -40,6 +41,12 @@ const CreateAdmin = () => {
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string | undefined; name: string | undefined }>();
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+  });
 
   const n = (key: keyof CreateAdminDto) => {
     return key;
@@ -72,7 +79,7 @@ const CreateAdmin = () => {
           setAvatar(process.env.REACT_APP_URL_IMG_S3 + response.data.avatar.preview);
         }
       },
-      enabled: !!id,
+      enabled: !!id && permisstion.read,
       refetchOnWindowFocus: false,
     }
   );
@@ -435,15 +442,25 @@ const CreateAdmin = () => {
               </Row>
             </Card>
             <Row className="admin-management__role-submit">
-              <Button type="primary" block onClick={() => form.submit()}>
+              {id ? (
+                <Button type="primary" block onClick={() => form.submit()} disabled={!permisstion.update}>
+                  {intl.formatMessage({ id: 'admin.btn.save' })}
+                </Button>
+              ) : (
+                <Button type="primary" block onClick={() => form.submit()} disabled={!permisstion.create}>
+                  {intl.formatMessage({ id: 'admin.btn.create' })}
+                </Button>
+              )}
+              {/* <Button type="primary" block onClick={() => form.submit()} disabled={!permisstion.update}>
                 {id ? intl.formatMessage({ id: 'admin.btn.save' }) : intl.formatMessage({ id: 'admin.btn.create' })}
-              </Button>
+              </Button> */}
               {id ? (
                 <Button
                   type="text"
                   block
                   className="admin-submit-remove"
                   onClick={() => setIsShowModalDelete({ id: id, name: isShowModalDelete?.name })}
+                  disabled={!permisstion.delete}
                 >
                   {intl.formatMessage({ id: 'admin.user.delete' })}
                 </Button>
