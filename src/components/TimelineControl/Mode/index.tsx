@@ -1,10 +1,10 @@
 import { Divider, Form, Radio } from 'antd';
 import { FC, Fragment } from 'react';
 import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { Administrator, AdministratorClinic, Customer, DoctorClinic } from '../../../apis/client-axios';
 import { TimelineMode, n } from '../constants';
-import { useLocation } from 'react-router-dom';
-import { ADMIN_CLINIC_ROUTE_PATH } from '../../../constants/route';
+import { scheduleDoctorRoutes } from '../index';
 
 interface TimelineControlModeProps {
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
@@ -21,7 +21,8 @@ const TimelineControlMode: FC<TimelineControlModeProps> = (props) => {
     { value: TimelineMode.WEEK, label: 'timeline.control.mode.week' },
     { value: TimelineMode.MONTH, label: 'timeline.control.mode.month' },
   ].filter((_, index) =>
-    user?.user?.type !== 'doctor_clinic' && !location.pathname.includes(ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR)
+    user?.user?.type !== 'doctor_clinic' &&
+    !scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/')))
       ? index !== 1
       : index > 0
   );

@@ -56,7 +56,7 @@ const TimelineControlPicker: FC<TimelineControlPickerProps> = (props) => {
       <Col>
         <Form.Item
           name={n('time')}
-          className={`timeline-custom-control-picker-form ${
+          className={`timeline-custom-control-picker-form height-32 ${
             mode === TimelineMode.WEEK ? 'timeline-custom-control-picker-form-week' : ''
           }`}
         >

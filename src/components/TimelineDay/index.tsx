@@ -43,10 +43,6 @@ interface TimelineDayProps {
   onChangeFilter: (newFilter: IFilter) => void;
 }
 
-const getMinutesOfDay = (date: Moment | number) => {
-  return moment(date).hours() * 60 + moment(date).minutes();
-};
-
 const TimelineDay: FC<TimelineDayProps> = (props) => {
   const { form, listBookingDay, onRefetchDay, user, listDoctorClinics, filter, onChangeFilter } = props;
 
@@ -209,11 +205,15 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   const renderVerticalLineClassNamesForTime = (start: number, end: number) => {
     const classes: string[] = [];
 
-    const current = getMinutesOfDay(moment());
-    const timelineStart = getMinutesOfDay(moment(start));
-    const timelineEnd = getMinutesOfDay(moment(end));
+    const current = moment(new Date());
+    const timelineStart = moment(start);
+    const timelineEnd = moment(end);
 
-    if (current >= timelineStart && current <= timelineEnd) {
+    if (
+      current.isAfter(timelineStart) &&
+      current.isBefore(timelineEnd) &&
+      current.startOf('days').isSame(moment(dayjs(time).toDate()).startOf('days'))
+    ) {
       classes.push('timeline-custom-day-current');
     }
 
@@ -238,11 +238,15 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   const renderIntervalRenderer = (props?: IntervalRenderer<any>) => {
     let className: string = 'rct-dateHeader';
 
-    const current = getMinutesOfDay(moment());
-    const timelineStart = getMinutesOfDay(moment(props?.intervalContext.interval.startTime));
-    const timelineEnd = getMinutesOfDay(moment(props?.intervalContext.interval.endTime));
+    const current = moment(new Date());
+    const timelineStart = moment(props?.intervalContext.interval.startTime);
+    const timelineEnd = moment(props?.intervalContext.interval.endTime);
 
-    if (current >= timelineStart && current <= timelineEnd) {
+    if (
+      current.isAfter(timelineStart) &&
+      current.isBefore(timelineEnd) &&
+      current.startOf('days').isSame(moment(dayjs(time).toDate()).startOf('days'))
+    ) {
       className = `${className} timeline-custom-day-current-header`;
     }
 

@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { Col, Form, Image, Row } from 'antd';
+import { Card, Col, Form, Image, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
-import { adminClinicBookingApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
+import { adminBookingApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
 import { DoctorClinic } from '../../../../apis/client-axios';
 import TimelineControl from '../../../../components/TimelineControl';
 import { IFormData, NOTES, TimelineMode, n } from '../../../../components/TimelineControl/constants';
@@ -38,9 +38,9 @@ const DoctorSchedule = () => {
   }, []);
 
   const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
-    queryKey: ['adminClinicScheduleBookingWeek', time, mode],
+    queryKey: ['adminScheduleBookingWeek', time, mode],
     queryFn: () =>
-      adminClinicBookingApi.adminClinicBookingControllerGetBookingByWeek(
+      adminBookingApi.adminBookingControllerGetBookingByWeek(
         dayjs(time).startOf('week').format(DATE_TIME_FORMAT),
         undefined,
         id
@@ -49,18 +49,14 @@ const DoctorSchedule = () => {
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
-    queryKey: ['adminClinicScheduleBookingMonth', time, mode],
+    queryKey: ['adminScheduleBookingMonth', time, mode],
     queryFn: () =>
-      adminClinicBookingApi.adminClinicBookingControllerGetBookingByMonth(
-        dayjs(time).format(DATE_TIME_FORMAT),
-        undefined,
-        id
-      ),
+      adminBookingApi.adminBookingControllerGetBookingByMonth(dayjs(time).format(DATE_TIME_FORMAT), undefined, id),
     enabled: !!time && mode === TimelineMode.MONTH,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['doctorClinicHolidayMonth', time, mode],
+    queryKey: ['adminScheduleHolidayMonth', time, mode],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
         user.clinicId,
@@ -115,7 +111,7 @@ const DoctorSchedule = () => {
   };
 
   return (
-    <>
+    <Card>
       <Row gutter={[0, 10]}>
         <Col span={24} className="m-b-22">
           <Row justify="space-between" align="middle" wrap>
@@ -183,7 +179,7 @@ const DoctorSchedule = () => {
           </Row>
         </Col>
       </Row>
-    </>
+    </Card>
   );
 };
 export default DoctorSchedule;

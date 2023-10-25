@@ -1,6 +1,12 @@
 import { Pagination, Row, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
+interface TableScroll {
+  x?: string | number | true;
+  y?: string | number;
+  scrollToFirstRowOnChange?: boolean;
+}
+
 export interface ITableWrapProps<T> {
   className?: string;
   data?: T[] | any[];
@@ -15,6 +21,7 @@ export interface ITableWrapProps<T> {
   showPagination: boolean;
   onRow?: any;
   columns?: ColumnsType<T>;
+  scroll?: TableScroll;
 }
 
 function TableWrap<T extends object>(props: ITableWrapProps<T>) {
@@ -29,6 +36,7 @@ function TableWrap<T extends object>(props: ITableWrapProps<T>) {
         bordered
         onRow={props.onRow}
         columns={props.columns}
+        scroll={props.scroll}
       >
         {props.children}
       </Table>

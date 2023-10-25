@@ -13,7 +13,7 @@ import FormWrap from '../../../components/FormWrap';
 import TableWrap from '../../../components/TableWrap';
 import { NOTES } from '../../../components/TimelineControl/constants';
 import CustomSelect from '../../../components/select/CustomSelect';
-import { ADMIN_ROUTE_NAME } from '../../../constants/route';
+import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
 import { DATE_TIME_FORMAT, statusBackgroundColor } from '../../../util/constant';
 
 interface IFormData {
@@ -86,7 +86,12 @@ const ListBooking = () => {
       key: 'doctor',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.doctor' }),
       render: (value: Booking) => (
-        <span className="font-size-16 font-family-primary color-1A1A1A">{value.doctorClinic?.fullName}</span>
+        <span
+          className="font-size-16 font-family-primary color-1A1A1A cursor-pointer"
+          onClick={() => navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${value.clinicId}`)}
+        >
+          {value.doctorClinic?.fullName}
+        </span>
       ),
     },
     {
@@ -196,6 +201,7 @@ const ListBooking = () => {
             page={filter.page}
             size={filter.size}
             total={listBookingDayPaginated?.data.total}
+            scroll={{ y: 'calc(100vh - 345px)' }}
           />
         </Col>
       </Row>

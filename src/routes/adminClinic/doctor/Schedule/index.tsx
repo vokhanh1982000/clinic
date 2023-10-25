@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Col, Form, Image, Row } from 'antd';
+import { Card, Col, Form, Image, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -60,7 +60,7 @@ const DoctorSchedule = () => {
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['doctorClinicHolidayMonth', time, mode],
+    queryKey: ['adminClinicScheduleHolidayMonth', time, mode],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
         user.clinicId,
@@ -115,7 +115,7 @@ const DoctorSchedule = () => {
   };
 
   return (
-    <>
+    <Card>
       <Row gutter={[0, 10]}>
         <Col span={24} className="m-b-22">
           <Row justify="space-between" align="middle" wrap>
@@ -183,7 +183,7 @@ const DoctorSchedule = () => {
           </Row>
         </Col>
       </Row>
-    </>
+    </Card>
   );
 };
 export default DoctorSchedule;
