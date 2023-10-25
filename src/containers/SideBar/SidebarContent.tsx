@@ -87,7 +87,7 @@ const SidebarContent = (props: ISideBarContentProp) => {
       let step = 1;
       if (location.pathname.includes(MANAGEMENT_TYPE.ADMIN)) {
         Object.values(ADMIN_ROUTE_PATH).forEach((route: any) => {
-          if (current.value.includes(`${route}`)) {
+          if (location.pathname.includes(`${route}`)) {
             if (step == 2) {
               setCurrent({
                 isShow: true,
@@ -99,7 +99,7 @@ const SidebarContent = (props: ISideBarContentProp) => {
         });
       } else if (location.pathname.includes(MANAGEMENT_TYPE.ADMIN_CLINIC)) {
         Object.values(ADMIN_CLINIC_ROUTE_PATH).forEach((route: any) => {
-          if (current.value.includes(`${route}`)) {
+          if (location.pathname.includes(`${route}`)) {
             if (step == 2) {
               setCurrent({
                 isShow: true,
