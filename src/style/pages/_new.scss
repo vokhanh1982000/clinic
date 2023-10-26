@@ -143,6 +143,10 @@
       width: 60%;
       position: relative;
 
+      .tox-tinymce {
+        height: 75vh !important;
+      }
+
       .ck-editor__editable {
         height: 75vh;
       }
@@ -170,6 +174,10 @@
     }
 
     .content-error {
+      .tox-tinymce {
+        border: 1px solid $text_error;
+      }
+
       .ck-toolbar,
       .ck-editor__editable {
         border: 1px solid $text_error;
