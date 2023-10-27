@@ -14,7 +14,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { getLabelBreadcrum } from '../../util/menu';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState, useAppSelector } from '../../store';
 import { getRootPath } from '../../util/logout';
 import { useQuery } from '@tanstack/react-query';
 import { clinicsApi } from '../../apis';
@@ -53,6 +53,7 @@ const Topbar = (props: {
   });
 
   const [breadcrumb, setBreadcrumb] = useState(DEFAULT_BREADCRUMB);
+  const clinicInfo = useAppSelector((state) => state.clinic).clinicInformation;
 
   useEffect(() => {
     if (location.pathname) {
@@ -65,6 +66,12 @@ const Topbar = (props: {
           : DOCTOR_CLINIC_ROUTE_PATH;
       Object.values(src).forEach((route: any) => {
         if (route != '' && location.pathname.includes(`${route}`) && getLabelBreadcrum(route, rootPath) != '') {
+          if (route === ADMIN_ROUTE_PATH.DETAIL_BOOKING) {
+            arr.push({
+              href: `${ADMIN_ROUTE_PATH.DETAIL_CLINIC}/${id}`,
+              title: clinicInfo?.fullName,
+            });
+          }
           arr.push({
             href: route,
             title: intl.formatMessage({ id: getLabelBreadcrum(route, rootPath) }),
@@ -77,7 +84,7 @@ const Topbar = (props: {
       }
       setBreadcrumb(arr);
     }
-  }, [location.pathname, locale, clinic]);
+  }, [location.pathname, locale, clinic, clinicInfo]);
 
   return (
     <Header style={{ padding: 0, background: colorBgContainer }} className="d-flex justify-content-between">

@@ -13,11 +13,12 @@ import SamplePrescriptionModal from '../modals/SamplePrescriptionModal';
 
 interface PrescriptionProp {
   role?: 'doctor' | 'admin' | 'adminClinic';
+  type?: 'create' | 'update';
   prescription?: PrescriptionType;
   setPrescription?: Dispatch<SetStateAction<PrescriptionType | undefined>>;
 }
 const Prescription = (props: PrescriptionProp) => {
-  const { prescription, role, setPrescription }: PrescriptionProp = props;
+  const { prescription, role, setPrescription, type }: PrescriptionProp = props;
   const intl: IntlShape = useIntl();
   const [showProvideMedicineModalCreate, setShowProvideMedicineModalCreate] = useState<boolean>();
   const [showProvideMedicineModalUpdate, setShowProvideMedicineModalUpdate] = useState<PrescriptionMedicine>();
@@ -127,9 +128,15 @@ const Prescription = (props: PrescriptionProp) => {
                 id: 'booking.prescription.medicine.name',
               })}
               render={(_, record: PrescriptionMedicine) => (
-                <div className={'table-cell-name'} onClick={() => setShowProvideMedicineModalUpdate(record)}>
-                  {record.medicine?.name}
-                </div>
+                <>
+                  {role === 'doctor' ? (
+                    <div className={'table-cell-name'} onClick={() => setShowProvideMedicineModalUpdate(record)}>
+                      {record.medicine?.name}
+                    </div>
+                  ) : (
+                    <div className={'table-cell-name'}>{record.medicine?.name}</div>
+                  )}
+                </>
               )}
               width={'25%'}
             />
@@ -149,12 +156,14 @@ const Prescription = (props: PrescriptionProp) => {
               render={(_, record: PrescriptionMedicine) => (
                 <div className="table-cell-guide">
                   <span>{record.guide}</span>
-                  <span
-                    className={'table-cell-guide__icon'}
-                    onClick={() => handleRemovePrescriptionMedicine(record.id)}
-                  >
-                    <IconSVG type="small-close" />
-                  </span>
+                  {role === 'doctor' && (
+                    <span
+                      className={'table-cell-guide__icon'}
+                      onClick={() => handleRemovePrescriptionMedicine(record.id)}
+                    >
+                      <IconSVG type="small-close" />
+                    </span>
+                  )}
                 </div>
               )}
             />

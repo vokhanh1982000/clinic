@@ -8,10 +8,29 @@ import CustomArea from '../input/CustomArea';
 interface ScheduleInfoProp {
   role?: 'doctor' | 'admin' | 'adminClinic';
   form: FormInstance;
+  type?: 'create' | 'update';
 }
 const ScheduleInfo = (props: ScheduleInfoProp) => {
-  const { role }: ScheduleInfoProp = props;
+  const { role, type }: ScheduleInfoProp = props;
   const intl: IntlShape = useIntl();
+
+  const className = () => {
+    if (role === 'doctor') {
+      return 'disable';
+    }
+    if (role === 'admin' && type === 'create') {
+      return '';
+    }
+    if (role === 'admin' && type === 'update') {
+      return '';
+    }
+    if (role === 'adminClinic' && type === 'update') {
+      return 'disable';
+    }
+    if (role === 'adminClinic' && type === 'create') {
+      return '';
+    }
+  };
   return (
     <div className={'schedule-info'}>
       <div className="schedule-info__header">
@@ -40,7 +59,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
               superPrevIcon={null}
               showToday={false}
               getPopupContainer={() => document.getElementById('custom-popup-date-picker')!}
-              popupClassName={`custom-popup-picker ${role === 'doctor' ? 'disable' : ''}`}
+              popupClassName={`custom-popup-picker ${className()}`}
             />
           </Form.Item>
         </div>

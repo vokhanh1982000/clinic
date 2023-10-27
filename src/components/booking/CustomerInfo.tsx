@@ -1,20 +1,46 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
-import { Form, FormInstance } from 'antd';
-import { ValidateLibrary } from '../../validate';
+import { Form, FormInstance, Select } from 'antd';
 import CustomInput from '../input/CustomInput';
 import CustomArea from '../input/CustomArea';
-import { Clinic, Customer } from '../../apis/client-axios';
+import { Customer } from '../../apis/client-axios';
+import { useQuery } from '@tanstack/react-query';
+import { customerApi } from '../../apis';
+import CustomSearchSelect from '../input/CustomSearchSelect';
+import { debounce } from 'lodash';
 
 interface CustomerInfoProps {
   form: FormInstance;
   customer?: Customer;
+  setCustomer: Dispatch<SetStateAction<Customer | undefined>>;
   customerNote?: string;
+  role: 'admin' | 'adminClinic' | 'doctor';
+  type: 'create' | 'update';
+  isSubmit?: boolean;
 }
 const CustomerInfo = (props: CustomerInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { customer, customerNote }: CustomerInfoProps = props;
+  const { customer, customerNote, setCustomer, role, form, isSubmit }: CustomerInfoProps = props;
+  const [listCustomer, setListCustomer] = useState<Customer[]>();
+  const [searchNameCustomer, setSearchNameCustomer] = useState<string>();
+  const { data: listCustomerData } = useQuery({
+    queryKey: ['listCustomerData', { searchNameCustomer }],
+    queryFn: () => customerApi.customerControllerGetAllWithoutPaginate(searchNameCustomer),
+  });
+
+  useEffect(() => {
+    setListCustomer(listCustomerData?.data);
+  }, [listCustomerData]);
+
+  const debouncedUpdateInputValue = debounce((value) => {
+    if (!value.trim()) {
+      setSearchNameCustomer('');
+    } else {
+      setSearchNameCustomer(value);
+    }
+  }, 500);
+
   return (
     <div className={'customer-info'}>
       <div className="customer-info__header">
@@ -35,13 +61,42 @@ const CustomerInfo = (props: CustomerInfoProps) => {
               id: 'customer.create.name',
             })}
           >
-            <CustomInput
-              disabled={true}
+            <CustomSearchSelect
+              disabled={role !== 'admin'}
               placeholder={intl.formatMessage({
                 id: 'customer.create.name',
               })}
+              optionLabelProp={'label'}
+              key={customer?.id}
               value={customer?.fullName}
-            />
+              onSearch={debouncedUpdateInputValue}
+              onChange={(value: string, option: any) => {
+                setCustomer(listCustomer?.find((item) => item.id === option?.key));
+              }}
+              allowClear={false}
+            >
+              {listCustomer?.map((item) => (
+                <Select.Option value={item.fullName} key={item.id}>
+                  <div className={'option-item'}>
+                    <div className={'option-item__avatar'}>
+                      <img src={`${process.env.REACT_APP_URL_IMG_S3}${item.avatar?.source}`} alt={''} />
+                    </div>
+                    <div className={'option-item__info'}>
+                      <div className={'option-item__info__name'}>{item.fullName}</div>
+                      <div className={'option-item__info__mail'}>{item.emailAddress}</div>
+                      <div className={'option-item__info__category'}>{item.address}</div>
+                    </div>
+                  </div>
+                </Select.Option>
+              ))}
+            </CustomSearchSelect>
+            {isSubmit && (customer?.fullName?.trim() === '' || !customer?.fullName) && (
+              <span className="text-error">
+                {intl.formatMessage({
+                  id: 'booking.create.error.content',
+                })}
+              </span>
+            )}
           </Form.Item>
           <Form.Item
             className="code"
@@ -70,7 +125,7 @@ const CustomerInfo = (props: CustomerInfoProps) => {
               placeholder={intl.formatMessage({
                 id: 'customer.create.gender',
               })}
-              value={intl.formatMessage({ id: `common.gender.${customer?.gender}` })}
+              value={intl.formatMessage({ id: customer?.gender ? 'common.gender.male' : 'common.gender.female' })}
             />
           </Form.Item>
           <Form.Item

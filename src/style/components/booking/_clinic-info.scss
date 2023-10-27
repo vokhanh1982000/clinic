@@ -43,10 +43,15 @@
             width: 30%;
           }
           .email,
+          .province,
+          .district,
+          .ward,
+          .address,
           .phone {
             width: 50%;
           }
-          .category {
+          .category,
+          .phone-full-width {
             width: 100%;
           }
         }
@@ -70,6 +75,35 @@
           line-height: 22px;
           color: $text_black_light;
         }
+      }
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2px;
+      &__name {
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 22px;
+        color: $text_black_light;
+        .ant-select-selection-search {
+          display: flex;
+          align-items: center;
+        }
+      }
+      &__mail {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: $text_disabled;
+      }
+      &__category {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: $primary_color;
       }
     }
   }
