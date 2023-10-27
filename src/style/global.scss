@@ -194,6 +194,51 @@
   }
 }
 
+.custom-checkbox-disabled {
+  pointer-events: none;
+  width: 100%;
+
+  .ant-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-checkbox-inner {
+    background-color: unset !important;
+    width: 22px;
+    height: 22px;
+  }
+
+  .ant-checkbox-inner::after {
+    border-color: $text_grey;
+    top: 45%;
+    inset-inline-start: 30%;
+  }
+
+  .ant-checkbox-checked {
+    .ant-checkbox-inner {
+      border: 1px solid $text_grey !important;
+    }
+  }
+
+  .ant-checkbox-checked:after {
+    border-color: $text_grey;
+    border: 1px solid $text_grey;
+    background-color: unset !important;
+  }
+
+  .custom-label-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    img {
+      max-width: 25px;
+      max-height: 25px;
+    }
+  }
+}
+
 .ant-form-item-required {
   flex-direction: row-reverse;
   gap: 5px;
@@ -432,7 +477,7 @@ select[multiple] {
 .custom-popup-picker {
   top: 5px !important;
   position: relative;
-
+  z-index: 1;
   .ant-picker-panel-container {
     width: 100%;
     border-radius: 16px;

@@ -21,5 +21,18 @@
   "booking.status.pending": "Chờ xét duyệt",
   "booking.status.approved": "Đã xét duyệt",
   "booking.message.update.success": "Cập nhật thành công",
-  "booking.message.update.fail": "Cập nhật thất bại"
+  "booking.message.update.fail": "Cập nhật thất bại",
+  "booking.button.sample-prescription": "Đơn thuốc mẫu",
+  "booking.button.provide-medicine": "Cấp thuốc",
+  "booking.provide-medicine.name": "Thuốc",
+  "booking.provide-medicine.quantity": "Số lượng",
+  "booking.provide-medicine.guide": "Cách dùng",
+  "booking.provide-medicine.modal.button.cancel": "Huỷ",
+  "booking.provide-medicine.modal.button.delete": "Xoá thuốc",
+  "booking.provide-medicine.modal.button.create": "Cấp thuốc",
+  "booking.provide-medicine.modal.button.save": "Lưu thuốc",
+  "booking.provide-medicine.modal.create.title": "Cấp Thuốc",
+  "booking.provide-medicine.modal.update.title": "Chi Tiết Thuốc",
+  "booking.sample-prescription.modal.title": "Danh Sách Đơn Thuốc Mẫu",
+  "booking.sample-prescription.button.save": "Kê đơn"
 }

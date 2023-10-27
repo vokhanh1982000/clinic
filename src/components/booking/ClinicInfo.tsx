@@ -1,28 +1,27 @@
 import React from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
-import { Form, FormInstance, Image, Select } from 'antd';
+import { Form, FormInstance, Select } from 'antd';
 import CustomInput from '../input/CustomInput';
 import CustomSelect from '../select/CustomSelect';
 import { Clinic, DoctorClinic } from '../../apis/client-axios';
 import { DefaultOptionType } from 'antd/es/select';
-import { it } from 'node:test';
 
-interface DoctorInfoProps {
+interface ClinicInfoProps {
   form: FormInstance;
   clinic?: Clinic;
   setDoctorClinic: Function;
   doctorClinic?: DoctorClinic;
 }
-const DoctorInfo = (props: DoctorInfoProps) => {
+const ClinicInfo = (props: ClinicInfoProps) => {
   const intl: IntlShape = useIntl();
   const { form, clinic, doctorClinic, setDoctorClinic } = props;
   const listDoctor: Array<DoctorClinic> | undefined = clinic?.doctorClinics;
   return (
-    <div className={'doctor-info'}>
-      <div className="doctor-info__header">
-        <div className="doctor-info__header__title">
-          <div className="doctor-info__header__title__label">
+    <div className={'clinic-info'}>
+      <div className="clinic-info__header">
+        <div className="clinic-info__header__title">
+          <div className="clinic-info__header__title__label">
             {intl.formatMessage({
               id: 'booking.doctor.title',
             })}
@@ -30,8 +29,8 @@ const DoctorInfo = (props: DoctorInfoProps) => {
           <div className="line-title"></div>
         </div>
       </div>
-      <div className={'doctor-info__content'}>
-        <div className="doctor-info__content__rows">
+      <div className={'clinic-info__content'}>
+        <div className="clinic-info__content__rows">
           <Form.Item
             className="name"
             label={intl.formatMessage({
@@ -50,20 +49,7 @@ const DoctorInfo = (props: DoctorInfoProps) => {
               value={doctorClinic?.fullName}
             >
               {listDoctor?.map((item: DoctorClinic) => {
-                return (
-                  <Select.Option value={item.id}>
-                    <div className={'option-item'}>
-                      <div className={'option-item__avatar'}>
-                        <img src={`${process.env.REACT_APP_URL_IMG_S3}${item.avatar?.name}`} alt={''} />
-                      </div>
-                      <div className={'option-item__info'}>
-                        <div className={'option-item__info__name'}>{item.fullName}</div>
-                        <div className={'option-item__info__mail'}>{item.emailAddress}</div>
-                        <div className={'option-item__info__category'}>{item.address}</div>
-                      </div>
-                    </div>
-                  </Select.Option>
-                );
+                return <Select.Option value={item.id}>{item.fullName}</Select.Option>;
               })}
             </CustomSelect>
           </Form.Item>
@@ -82,7 +68,7 @@ const DoctorInfo = (props: DoctorInfoProps) => {
             />
           </Form.Item>
         </div>
-        <div className="doctor-info__content__rows">
+        <div className="clinic-info__content__rows">
           <Form.Item
             className="email"
             label={intl.formatMessage({
@@ -112,7 +98,7 @@ const DoctorInfo = (props: DoctorInfoProps) => {
             />
           </Form.Item>
         </div>
-        <div className={'doctor-info__content__rows'}>
+        <div className={'clinic-info__content__rows'}>
           <Form.Item
             className="category"
             label={intl.formatMessage({
@@ -136,4 +122,4 @@ const DoctorInfo = (props: DoctorInfoProps) => {
   );
 };
 
-export default DoctorInfo;
+export default ClinicInfo;

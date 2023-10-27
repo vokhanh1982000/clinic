@@ -21,5 +21,18 @@
   "booking.status.pending": "Pending",
   "booking.status.approved": "Approved",
   "booking.message.update.success": "Update successfully",
-  "booking.message.update.fail": "update failed"
+  "booking.message.update.fail": "update failed",
+  "booking.button.sample-prescription": "Sample Prescription",
+  "booking.button.provide-medicine": "Provide medicine",
+  "booking.provide-medicine.name": "Name",
+  "booking.provide-medicine.quantity": "Quantity",
+  "booking.provide-medicine.guide": "guide",
+  "booking.provide-medicine.modal.button.cancel": "Cancelled",
+  "booking.provide-medicine.modal.button.delete": "Delete",
+  "booking.provide-medicine.modal.button.create": "Provide Medicine",
+  "booking.provide-medicine.modal.button.save": "Save",
+  "booking.provide-medicine.modal.create.title": "Provide Medicine",
+  "booking.provide-medicine.modal.update.title": "Detail",
+  "booking.sample-prescription.modal.title": "List Sample Prescription",
+  "booking.sample-prescription.button.save": "Save"
 }

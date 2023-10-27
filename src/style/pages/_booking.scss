@@ -1,44 +1,42 @@
 #create-booking-management {
   .create-booking-header {
+    display: flex;
+    align-items: center;
     color: $text_black_light;
     margin-bottom: 10px;
 
     &__title {
-      font-size: 14px;
+      font-size: 24px;
       font-weight: 700;
       line-height: 36px;
     }
-
     &__code {
       margin-left: 10px;
-      font-size: 14px;
+      font-size: 20px;
       font-weight: 600;
       line-height: 32px;
     }
-
     &__copy {
       svg {
-        margin-bottom: 9px;
+        margin-left: 10px;
       }
-
       &:hover {
         cursor: pointer;
       }
     }
-
     .header-form {
-      display: inline-block;
-
+      width: 80%;
+      display: flex;
+      align-items: center;
       .status {
+        margin: unset;
         display: inline-block;
       }
     }
-
     &__select-status {
       margin-left: 20px;
       width: 141px !important;
       height: 40px !important;
-
       .ant-select-selector {
         width: 100%;
         height: 100%;
@@ -49,7 +47,6 @@
         font-size: 14px;
         line-height: 24px;
         color: $text_black_grey;
-
         .ant-select-selection-item {
           width: 89px;
           display: flex;
@@ -58,7 +55,6 @@
       }
     }
   }
-
   .form-create-booking {
     display: flex;
     gap: 15px;
@@ -73,10 +69,8 @@
       flex-direction: column;
       gap: 25px;
     }
-
     .right-container {
       width: 40%;
-
       .schedule-info-area {
         padding: 20px 15px;
         width: 100%;
@@ -90,7 +84,6 @@
             margin-top: 10px;
             margin-bottom: 0;
           }
-
           .button-save {
             margin-top: 30px;
             width: 100%;
