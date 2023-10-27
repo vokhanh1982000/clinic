@@ -1,8 +1,7 @@
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Editor } from '@tinymce/tinymce-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, Form, Spin, Switch, Upload, message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { assetsApi, newsApi } from '../../../../apis';
@@ -150,60 +149,52 @@ const CreateNew = () => {
     UploadImage({ file, assetFolderId: undefined, s3FilePath: 'new' });
   };
 
-  const handleChange = (event: any, editor: any) => {
-    const data = editor.getData();
-    setDataEditor(data);
+  const handleChangeEditor = (content: any, editor: any) => {
+    setDataEditor(content);
   };
 
-  function uploadPlugin(editor: any) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
-      setLoadingImgOnEditor(true);
-      return uploadAdapter(loader);
-    };
-  }
+  const uploadFunction = (blobInfo: any, progress: any) =>
+    new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.withCredentials = false;
+      const token = localStorage.getItem('token');
+      xhr.open('POST', `${process.env.REACT_APP_API_URL}/assets/upload`);
+      xhr.setRequestHeader('Authorization', token || '');
+      xhr.upload.onprogress = (e) => {
+        progress((e.loaded / e.total) * 100);
+      };
 
-  const uploadAdapter = (loader: any) => {
-    return {
-      upload: () => {
-        return new Promise((resolve, reject) => {
-          loader.file.then((file: any) => {
-            const body = new FormData();
-            body.append('file', file);
-            body.append('s3FilePath', 'new');
-            const token = localStorage.getItem('token');
-            const headers = new Headers();
-            headers.append('Authorization', `Bearer ${token}`);
-            fetch(`${process.env.REACT_APP_API_URL}/assets/upload`, {
-              method: 'post',
-              body: body,
-              headers: headers,
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                if (res.error) {
-                  setLoadingImgOnEditor(false);
-                  reject(
-                    intl.formatMessage({
-                      id: 'common.upload.fail',
-                    })
-                  );
-                }
+      xhr.onload = () => {
+        if (xhr.status === 403) {
+          reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
+          return;
+        }
 
-                setLoadingImgOnEditor(false);
+        if (xhr.status < 200 || xhr.status >= 300) {
+          reject('HTTP Error: ' + xhr.status);
+          return;
+        }
 
-                resolve({
-                  default: `${process.env.REACT_APP_URL_IMG_S3}${res?.preview}`,
-                });
-              })
-              .catch((err) => {
-                setLoadingImgOnEditor(false);
-                reject(err);
-              });
-          });
-        });
-      },
-    };
-  };
+        const json = JSON.parse(xhr.responseText);
+
+        if (!json) {
+          reject('Invalid JSON: ' + xhr.responseText);
+          return;
+        }
+
+        resolve(process.env.REACT_APP_URL_IMG_S3 + json?.preview);
+      };
+
+      xhr.onerror = () => {
+        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+      };
+
+      const formData = new FormData();
+      formData.append('file', blobInfo.blob());
+      formData.append('s3FilePath', 'new');
+
+      xhr.send(formData);
+    });
 
   return (
     <Card id="create-new-management">
@@ -214,13 +205,34 @@ const CreateNew = () => {
           }`}
         >
           {loadingImgOnEditor && <Spin />}
-          <CKEditor
-            config={{
-              extraPlugins: [uploadPlugin],
+          <Editor
+            id="tinymce-container"
+            apiKey="500t4oxkedhg9hhhvt9a1rotn3zf0qhufy8pm0or6f6i8m69"
+            value={dataEditor || ''}
+            init={{
+              menubar: 'file edit view insert format tools table help',
+              paste_data_images: true,
+              plugins:
+                'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+              toolbar:
+                'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl | addButton addButtonNoLink addCheckbox addTextBg embedMaps addIframe addIconShowMore table',
+              toolbar_mode: 'wrap',
+              font_size_formats: '11px 12px 13px 14px 16px 18px 24px 36px 48px',
+              formats: {
+                bold: { inline: 'b', remove: 'all' },
+                italic: { inline: 'i', remove: 'all' },
+                underline: { inline: 'u', exact: true },
+                strikethrough: { inline: 'strike', exact: true },
+              },
+              images_upload_credentials: true,
+              images_upload_url: `${process.env.REACT_APP_API_URL}/assets/upload`,
+              file_picker_types: 'image',
+              images_file_types: 'jpg,jpeg,jfif,png,svg,webp',
+              images_upload_handler: uploadFunction as any,
             }}
-            editor={ClassicEditor}
-            data={dataEditor}
-            onChange={handleChange}
+            onEditorChange={(newValue, editor) => {
+              handleChangeEditor(newValue, editor);
+            }}
           />
           {isSubmit && dataEditor === '' && (
             <span className="text-error">
