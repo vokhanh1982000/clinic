@@ -8,12 +8,13 @@ import TableWrap from '../../../components/TableWrap';
 import Column from 'antd/es/table/Column';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import { CategoryModal } from '../../../components/modals/CategoryModal';
-import { ActionUser, MENU_ITEM_TYPE } from '../../../constants/enum';
+import { ActionUser, MENU_ITEM_TYPE, PERMISSIONS } from '../../../constants/enum';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { languageApi } from '../../../apis';
 import { CreateCategoryDto, UpdateCategoryDto, UpdateLanguageDto } from '../../../apis/client-axios';
 import { debounce } from 'lodash';
 import { CustomHandleError } from '../../../components/response';
+import CheckPermission, { Permission } from '../../../util/check-permission';
 
 const LanguageManagement = () => {
   const intl = useIntl();
@@ -27,6 +28,12 @@ const LanguageManagement = () => {
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string; name: string }>();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const [avatar, setAvatar] = useState<string>();
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadLanguage)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateLanguage)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteLanguage)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateLanguage)),
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ['languageList', { page, size, sort, fullTextSearch }],
@@ -34,6 +41,7 @@ const LanguageManagement = () => {
       fullTextSearch
         ? languageApi.languageControllerGetAllLanguageByPagination(page, size, sort, fullTextSearch)
         : languageApi.languageControllerGetAllLanguageByPagination(page, size, sort),
+    enabled: permisstion.read,
   });
 
   const { mutate: CreateLanguage, status: statusCreateLanguage } = useMutation(
@@ -134,6 +142,7 @@ const LanguageManagement = () => {
           })}
         </div>
         <CustomButton
+          disabled={!permisstion.create}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
@@ -163,58 +172,62 @@ const LanguageManagement = () => {
           }}
         />
       </div>
-
-      <TableWrap
-        className="custom-table"
-        data={data?.data.content}
-        // isLoading={isLoading}
-        page={page}
-        size={size}
-        total={data?.data.total}
-        setSize={setSize}
-        setPage={setPage}
-        showPagination={true}
-      >
-        <Column
-          title={intl.formatMessage({
-            id: 'language.table.title',
-          })}
-          dataIndex="name"
-          width={'90%'}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'language.table.action',
-          })}
-          dataIndex="action"
-          width={'20%'}
-          render={(_, record: any) => (
-            <div className="action-category">
-              <div
-                onClick={() => {
-                  form.setFieldsValue({
-                    name: record.name,
-                    iconId: record.iconId ? record.iconId : undefined,
-                  });
-                  setIsShowModalUpdate({ id: record.id, name: record.name });
-                  if (record.icon) {
-                    setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
-                  } else {
-                    setAvatar(undefined);
-                  }
-                }}
-              >
-                <IconSVG type="edit" />
+      {permisstion.read && (
+        <TableWrap
+          className="custom-table"
+          data={data?.data.content}
+          // isLoading={isLoading}
+          page={page}
+          size={size}
+          total={data?.data.total}
+          setSize={setSize}
+          setPage={setPage}
+          showPagination={true}
+        >
+          <Column
+            title={intl.formatMessage({
+              id: 'language.table.title',
+            })}
+            dataIndex="name"
+            width={'90%'}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'language.table.action',
+            })}
+            dataIndex="action"
+            width={'20%'}
+            render={(_, record: any) => (
+              <div className="action-category">
+                <div
+                  onClick={() => {
+                    form.setFieldsValue({
+                      name: record.name,
+                      iconId: record.iconId ? record.iconId : undefined,
+                    });
+                    setIsShowModalUpdate({ id: record.id, name: record.name });
+                    if (record.icon) {
+                      setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
+                    } else {
+                      setAvatar(undefined);
+                    }
+                  }}
+                >
+                  <IconSVG type="edit" />
+                </div>
+                <span className="divider"></span>
+                <div
+                  className={permisstion.delete ? '' : 'disable'}
+                  onClick={() => permisstion.delete && setIsShowModalDelete({ id: record.id, name: record.name })}
+                >
+                  <IconSVG type="delete" />
+                </div>
               </div>
-              <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
-                <IconSVG type="delete" />
-              </div>
-            </div>
-          )}
-          align="center"
-        />
-      </TableWrap>
+            )}
+            align="center"
+          />
+        </TableWrap>
+      )}
       {isShowModalCreate && (
         <CategoryModal
           form={form}
@@ -228,6 +241,7 @@ const LanguageManagement = () => {
           avatar={avatar}
           setAvatar={setAvatar}
           showType={MENU_ITEM_TYPE.LANGUAGE}
+          permission={permisstion}
         />
       )}
       {isShowModalUpdate && (
@@ -244,6 +258,7 @@ const LanguageManagement = () => {
           avatar={avatar}
           setAvatar={setAvatar}
           showType={MENU_ITEM_TYPE.LANGUAGE}
+          permission={permisstion}
         />
       )}
       <ConfirmDeleteModal

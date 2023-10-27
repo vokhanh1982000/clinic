@@ -25,6 +25,7 @@
   "role.remove.confirm.suffixes": "' from the system?",
   "role.input.err": "Please input role name",
   "role.delete.success": "Delete role success!",
+  "role.permisstion.Role": "Role",
   "role.permisstion.Customer": "Customer",
   "role.permisstion.Administrator": "Administrator",
   "role.permisstion.AdministratorClinic": "Administrator Clinic",

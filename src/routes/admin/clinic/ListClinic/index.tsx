@@ -13,8 +13,9 @@ import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CustomSelect from '../../../../components/select/CustomSelect';
-import { Status } from '../../../../constants/enum';
+import { PERMISSIONS, Status } from '../../../../constants/enum';
 import { debounce } from 'lodash';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 interface optionLocation {
   id: string;
@@ -31,13 +32,17 @@ const ListClinic = () => {
   const [locationSelect, setLocationSelect] = useState<optionLocation>();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const [isShowListManager, setIsShowListManager] = useState<string>();
-
   const queryClient = useQueryClient();
-
   const [provinceSelected, setProvinceSelected] = useState<{ id: string; code: string }>();
   const [districtSelected, setDistrictSelected] = useState<{ id: string; code: string }>();
   const [wardSelected, setWardSelected] = useState<{ id: string; code: string }>();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadClinic)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateClinic)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic)),
+  });
 
   const { data: listProvince } = useQuery({
     queryKey: ['provinceList'],
@@ -68,6 +73,7 @@ const ListClinic = () => {
         districtSelected?.id,
         wardSelected?.id
       ),
+    enabled: permisstion.read,
   });
 
   const { mutate: DeleteClinic, status: statusDeleteClinic } = useMutation(
@@ -157,6 +163,7 @@ const ListClinic = () => {
           })}
         </div>
         <CustomButton
+          disabled={!permisstion.create}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
@@ -239,142 +246,147 @@ const ListClinic = () => {
         />
       </div>
 
-      <TableWrap
-        className="custom-table table-visible"
-        data={listClinic?.data.content}
-        // isLoading={isLoading}
-        page={page}
-        size={size}
-        total={listClinic?.data.total}
-        setSize={setSize}
-        setPage={setPage}
-        showPagination={true}
-      >
-        <Column
-          title={intl.formatMessage({
-            id: 'clinic.list.table.name',
-          })}
-          dataIndex="fullName"
-          width={'15%'}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'clinic.list.table.manager',
-          })}
-          dataIndex="manager"
-          width={'15%'}
-          render={(_, record: any) => {
-            if (record.adminClinic && record.adminClinic.length > 0) {
-              const data = record.adminClinic.map((item: any) => item.fullName);
+      {permisstion.read && (
+        <TableWrap
+          className="custom-table table-visible"
+          data={listClinic?.data.content}
+          // isLoading={isLoading}
+          page={page}
+          size={size}
+          total={listClinic?.data.total}
+          setSize={setSize}
+          setPage={setPage}
+          showPagination={true}
+        >
+          <Column
+            title={intl.formatMessage({
+              id: 'clinic.list.table.name',
+            })}
+            dataIndex="fullName"
+            width={'15%'}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'clinic.list.table.manager',
+            })}
+            dataIndex="manager"
+            width={'15%'}
+            render={(_, record: any) => {
+              if (record.adminClinic && record.adminClinic.length > 0) {
+                const data = record.adminClinic.map((item: any) => item.fullName);
+                return (
+                  <div className="manager-clinic">
+                    <div>{record.adminClinic[0].fullName}</div>
+                    {data.length > 1 && (
+                      <div className="manager-clinic__more">
+                        <span onClick={() => setIsShowListManager(record.id)}>
+                          <IconSVG type="more" />
+                        </span>
+                        {isShowListManager === record.id && (
+                          <div
+                            className="manager-clinic__more__list"
+                            ref={isShowListManager === record.id ? wrapperRef : undefined}
+                          >
+                            <div className="manager-clinic__more__list__title">
+                              <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
+                              <span
+                                onClick={() => {
+                                  setIsShowListManager(undefined);
+                                }}
+                              >
+                                <IconSVG type="close" />
+                              </span>
+                            </div>
+                            <div className="manager-clinic__more__list__content">
+                              {data.map((e: any) => {
+                                return <div className="manager-clinic__more__list__content__item">{e}</div>;
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              } else {
+                return <></>;
+              }
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'clinic.list.table.address',
+            })}
+            dataIndex="address"
+            width={'25%'}
+            render={(_, record: any) => {
+              let detailAddress: string[] = [];
+              if (record.ward) {
+                detailAddress.push(record.ward.name);
+              }
+              if (record.district) {
+                detailAddress.push(record.district.name);
+              }
+              if (record.province) {
+                detailAddress.push(record.province.name);
+              }
               return (
-                <div className="manager-clinic">
-                  <div>{record.adminClinic[0].fullName}</div>
-                  {data.length > 1 && (
-                    <div className="manager-clinic__more">
-                      <span onClick={() => setIsShowListManager(record.id)}>
-                        <IconSVG type="more" />
-                      </span>
-                      {isShowListManager === record.id && (
-                        <div
-                          className="manager-clinic__more__list"
-                          ref={isShowListManager === record.id ? wrapperRef : undefined}
-                        >
-                          <div className="manager-clinic__more__list__title">
-                            <div className="manager-clinic__more__list__title__label">Danh sách quản lý</div>
-                            <span
-                              onClick={() => {
-                                setIsShowListManager(undefined);
-                              }}
-                            >
-                              <IconSVG type="close" />
-                            </span>
-                          </div>
-                          <div className="manager-clinic__more__list__content">
-                            {data.map((e: any) => {
-                              return <div className="manager-clinic__more__list__content__item">{e}</div>;
-                            })}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                <>
+                  {record.address} {detailAddress.join(' - ')}
+                </>
+              );
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'clinic.list.table.status',
+            })}
+            dataIndex="status"
+            width={'15%'}
+            render={(_, record: any) => {
+              let status = record.status ? Status.ACTIVE : Status.INACTIVE;
+              return (
+                <div className="status-clinic">
+                  {status ? (
+                    <>
+                      <IconSVG type={status} />
+                      <div>
+                        {intl.formatMessage({
+                          id: `common.${status}`,
+                        })}
+                      </div>
+                    </>
+                  ) : (
+                    <></>
                   )}
                 </div>
               );
-            } else {
-              return <></>;
-            }
-          }}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'clinic.list.table.address',
-          })}
-          dataIndex="address"
-          width={'25%'}
-          render={(_, record: any) => {
-            let detailAddress: string[] = [];
-            if (record.ward) {
-              detailAddress.push(record.ward.name);
-            }
-            if (record.district) {
-              detailAddress.push(record.district.name);
-            }
-            if (record.province) {
-              detailAddress.push(record.province.name);
-            }
-            return (
-              <>
-                {record.address} {detailAddress.join(' - ')}
-              </>
-            );
-          }}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'clinic.list.table.status',
-          })}
-          dataIndex="status"
-          width={'15%'}
-          render={(_, record: any) => {
-            let status = record.status ? Status.ACTIVE : Status.INACTIVE;
-            return (
-              <div className="status-clinic">
-                {status ? (
-                  <>
-                    <IconSVG type={status} />
-                    <div>
-                      {intl.formatMessage({
-                        id: `common.${status}`,
-                      })}
-                    </div>
-                  </>
-                ) : (
-                  <></>
-                )}
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'clinic.list.table.action',
+            })}
+            dataIndex="action"
+            width={'15%'}
+            render={(_, record: any) => (
+              <div className="action-clinic">
+                <div onClick={() => navigate(`detail/${record.id}`)}>
+                  <IconSVG type="edit" />
+                </div>
+                <span className="divider"></span>
+                <div
+                  className={permisstion.delete ? '' : 'disable'}
+                  onClick={() => permisstion.delete && setIsShowModalDelete({ id: record.id, name: record.fullName })}
+                >
+                  <IconSVG type="delete" />
+                </div>
               </div>
-            );
-          }}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'clinic.list.table.action',
-          })}
-          dataIndex="action"
-          width={'15%'}
-          render={(_, record: any) => (
-            <div className="action-clinic">
-              <div onClick={() => navigate(`detail/${record.id}`)}>
-                <IconSVG type="edit" />
-              </div>
-              <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.fullName })}>
-                <IconSVG type="delete" />
-              </div>
-            </div>
-          )}
-          align="center"
-        />
-      </TableWrap>
+            )}
+            align="center"
+          />
+        </TableWrap>
+      )}
       <ConfirmDeleteModal
         name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
         visible={!!isShowModalDelete}

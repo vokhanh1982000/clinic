@@ -12,10 +12,11 @@ import { categoryApi, adminMedicineApi } from '../../../apis';
 import Column from 'antd/es/table/Column';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import { MedicineModal } from '../../../components/modals/MedicineModal';
-import { ActionUser, MedicineStatus, MedicineUnit } from '../../../constants/enum';
+import { ActionUser, MedicineStatus, MedicineUnit, PERMISSIONS } from '../../../constants/enum';
 import useForm from 'antd/es/form/hooks/useForm';
 import { CreateCategoryDto, CreateMedicineDto, UpdateCategoryDto, UpdateMedicineDto } from '../../../apis/client-axios';
 import { debounce } from 'lodash';
+import CheckPermission, { Permission } from '../../../util/check-permission';
 
 interface Unit {
   id: string;
@@ -47,13 +48,19 @@ const ListMedicine = () => {
   const [isShowModalCreate, setIsShowModalCreate] = useState<boolean>(false);
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string }>();
   const [form] = useForm();
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadMedicine)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateMedicine)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteMedicine)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateMedicine)),
+  });
   const { data, isLoading } = useQuery({
     queryKey: ['adminMedicineList', { page, size, sort, fullTextSearch, status, unit }],
     queryFn: () =>
       fullTextSearch
         ? adminMedicineApi.medicineAdminControllerFindAll(page, size, sort, fullTextSearch, status, unit)
         : adminMedicineApi.medicineAdminControllerFindAll(page, size, sort, undefined, status, unit),
+    enabled: permisstion.read,
   });
   console.log(page);
   const { mutate: CreateMedicine, status: statusCreateMedicine } = useMutation(
@@ -137,6 +144,7 @@ const ListMedicine = () => {
             })}
           </div>
           <CustomButton
+            disabled={!permisstion.read}
             className={'button-add'}
             icon={<IconSVG type="create" />}
             onClick={() => setIsShowModalCreate(true)}
@@ -164,95 +172,100 @@ const ListMedicine = () => {
             allowClear={true}
           />
         </div>
-        <TableWrap
-          className={'custom-table'}
-          showPagination={true}
-          page={page}
-          size={size}
-          setSize={setSize}
-          setPage={setPage}
-          data={data?.data.content}
-          total={data?.data.total}
-        >
-          <Column
-            title={intl.formatMessage({
-              id: 'medicine.list.table.name',
-            })}
-            dataIndex="name"
-            width={'15%'}
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'medicine.list.table.usage',
-            })}
-            dataIndex="usage"
-            width={'15%'}
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'medicine.list.table.feature',
-            })}
-            dataIndex="feature"
-            width={'15%'}
-          />
-          <Column
-            title={intl.formatMessage({
-              id: 'medicine.list.table.unit',
-            })}
-            dataIndex="unit"
-            width={'15%'}
-            render={(value) => {
-              return intl.formatMessage({
-                id: `medicine.unit.${value}`,
-              });
-            }}
-          />
-          {/*<Column*/}
-          {/*  title={intl.formatMessage({*/}
-          {/*    id: 'medicine.list.table.status',*/}
-          {/*  })}*/}
-          {/*  dataIndex="status"*/}
-          {/*  width={'15%'}*/}
-          {/*  render={(value) => {*/}
-          {/*    return intl.formatMessage({*/}
-          {/*      id: `medicine.status.${value}`,*/}
-          {/*    });*/}
-          {/*  }}*/}
-          {/*/>*/}
-          <Column
-            title={intl.formatMessage({
-              id: 'medicine.list.table.action',
-            })}
-            dataIndex="action"
-            width={'15%'}
-            render={(_, record: Medicine) => (
-              <div className="action-medicine">
-                <div
-                  onClick={(): void => {
-                    form.setFieldsValue({
-                      feature: record.feature,
-                      id: record.id,
-                      name: record.name,
-                      status: record.status,
-                      unit: record.unit,
-                      usage: record.usage,
-                    });
-                    setIsShowModalUpdate({
-                      id: record.id,
-                    });
-                  }}
-                >
-                  <IconSVG type="edit" />
+        {permisstion.read && (
+          <TableWrap
+            className={'custom-table'}
+            showPagination={true}
+            page={page}
+            size={size}
+            setSize={setSize}
+            setPage={setPage}
+            data={data?.data.content}
+            total={data?.data.total}
+          >
+            <Column
+              title={intl.formatMessage({
+                id: 'medicine.list.table.name',
+              })}
+              dataIndex="name"
+              width={'15%'}
+            />
+            <Column
+              title={intl.formatMessage({
+                id: 'medicine.list.table.usage',
+              })}
+              dataIndex="usage"
+              width={'15%'}
+            />
+            <Column
+              title={intl.formatMessage({
+                id: 'medicine.list.table.feature',
+              })}
+              dataIndex="feature"
+              width={'15%'}
+            />
+            <Column
+              title={intl.formatMessage({
+                id: 'medicine.list.table.unit',
+              })}
+              dataIndex="unit"
+              width={'15%'}
+              render={(value) => {
+                return intl.formatMessage({
+                  id: `medicine.unit.${value}`,
+                });
+              }}
+            />
+            {/*<Column*/}
+            {/*  title={intl.formatMessage({*/}
+            {/*    id: 'medicine.list.table.status',*/}
+            {/*  })}*/}
+            {/*  dataIndex="status"*/}
+            {/*  width={'15%'}*/}
+            {/*  render={(value) => {*/}
+            {/*    return intl.formatMessage({*/}
+            {/*      id: `medicine.status.${value}`,*/}
+            {/*    });*/}
+            {/*  }}*/}
+            {/*/>*/}
+            <Column
+              title={intl.formatMessage({
+                id: 'medicine.list.table.action',
+              })}
+              dataIndex="action"
+              width={'15%'}
+              render={(_, record: Medicine) => (
+                <div className="action-medicine">
+                  <div
+                    onClick={(): void => {
+                      form.setFieldsValue({
+                        feature: record.feature,
+                        id: record.id,
+                        name: record.name,
+                        status: record.status,
+                        unit: record.unit,
+                        usage: record.usage,
+                      });
+                      setIsShowModalUpdate({
+                        id: record.id,
+                      });
+                    }}
+                  >
+                    <IconSVG type="edit" />
+                  </div>
+                  <span className="divider"></span>
+                  <div
+                    className={permisstion.delete ? '' : 'disable'}
+                    onClick={() => permisstion.delete && setIsShowModalDelete({ id: record.id, name: record.name })}
+                  >
+                    <IconSVG type="delete" />
+                  </div>
                 </div>
-                <span className="divider"></span>
-                <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}>
-                  <IconSVG type="delete" />
-                </div>
-              </div>
-            )}
-            align="center"
-          />
-        </TableWrap>
+              )}
+              align="center"
+            />
+          </TableWrap>
+        )}
         <ConfirmDeleteModal
           name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
           visible={!!isShowModalDelete}
@@ -270,6 +283,7 @@ const ListMedicine = () => {
               id: 'medicine.list.modal.create',
             })}
             isSuperAdmin={true}
+            permission={permisstion}
           />
         )}
         {isShowModalUpdate && (
@@ -294,6 +308,7 @@ const ListMedicine = () => {
               form.resetFields();
             }}
             isSuperAdmin={true}
+            permission={permisstion}
           />
         )}
       </Form>

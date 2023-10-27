@@ -11,7 +11,8 @@ import FormWrap from '../../../../components/FormWrap';
 import Achievement from '../../../../components/table/DoctorTable/achievenment';
 import DoctorInfo from '../../../../components/table/DoctorTable/information';
 import { FORMAT_DATE } from '../../../../constants/common';
-import { DoctorType } from '../../../../constants/enum';
+import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const DoctorDetail = () => {
   const intl = useIntl();
@@ -21,7 +22,12 @@ const DoctorDetail = () => {
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
   const [avatar, setAvatar] = useState<string>();
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadClinic)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateClinic)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic)),
+  });
   const n = (key: keyof CreateDoctorSupport) => {
     return key;
   };
@@ -78,6 +84,7 @@ const DoctorDetail = () => {
             form.submit();
           }}
           disabled={true}
+          permission={permisstion}
         />
       </FormWrap>
     </Card>

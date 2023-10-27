@@ -18,6 +18,7 @@ import CustomSelect from '../../select/CustomSelect';
 import { DefaultOptionType } from 'antd/es/select';
 import { debounce } from 'lodash';
 import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
+import { Permission } from '../../../util/check-permission';
 import { formatPhoneNumber } from '../../../constants/function';
 
 interface DoctorTableProps {
@@ -25,6 +26,7 @@ interface DoctorTableProps {
   doctorType: DoctorType;
   data?: any;
   deleteFc?: (id: string) => void;
+  permission: Permission;
 }
 
 interface OptionSpecialist {
@@ -38,7 +40,7 @@ interface OptionStatus {
 }
 
 export const DoctorTable = (props: DoctorTableProps) => {
-  const { placeHolder, doctorType, deleteFc } = props;
+  const { placeHolder, doctorType, deleteFc, permission } = props;
   const intl = useIntl();
   const navigate = useNavigate();
   const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
@@ -64,7 +66,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
     queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status, clinicId }],
     queryFn: () =>
       doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status),
-    enabled: !!(doctorType === DoctorType.DOCTOR && clinicId),
+    enabled: !!(doctorType === DoctorType.DOCTOR && clinicId) && permission.read,
   });
 
   const { data: doctorSupports } = useQuery({
@@ -81,7 +83,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
         undefined,
         undefined
       ),
-    enabled: doctorType === DoctorType.DOCTOR_SUPPORT,
+    enabled: doctorType === DoctorType.DOCTOR_SUPPORT && permission.read,
   });
 
   const { data: category } = useQuery({
@@ -319,7 +321,10 @@ export const DoctorTable = (props: DoctorTableProps) => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.fullName })}>
+              <div
+                className={permission.delete ? '' : 'disable'}
+                onClick={() => permission.delete && setIsShowModalDelete({ id: record.id, name: record.fullName })}
+              >
                 <IconSVG type="delete" />
               </div>
             </div>

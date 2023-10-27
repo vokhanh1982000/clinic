@@ -12,6 +12,7 @@ import { assetsApi } from '../../apis';
 import { MyUploadProps } from '../../constants/dto';
 import { ValidateLibrary } from '../../validate';
 import { regexImage } from '../../validate/validator.validate';
+import { Permission } from '../../util/check-permission';
 
 interface CategoryModalProps {
   form: FormInstance;
@@ -24,10 +25,11 @@ interface CategoryModalProps {
   avatar: string | undefined;
   setAvatar: React.Dispatch<React.SetStateAction<string | undefined>>;
   showType?: MENU_ITEM_TYPE;
+  permission: Permission;
 }
 
 export const CategoryModal = (props: CategoryModalProps) => {
-  const { form, visible, title, action, onSubmit, onDelete, onClose, avatar, setAvatar, showType } = props;
+  const { form, visible, title, action, onSubmit, onDelete, onClose, avatar, setAvatar, showType, permission } = props;
   const intl = useIntl();
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
 
@@ -140,7 +142,7 @@ export const CategoryModal = (props: CategoryModalProps) => {
           <div className="modal-category__content__action">
             {action === ActionUser.CREATE ? (
               <>
-                <CustomButton className="button-submit" htmlType="submit">
+                <CustomButton className="button-submit" htmlType="submit" disabled={!permission.create}>
                   {intl.formatMessage({
                     id: 'category.modal.create.button.create',
                   })}
@@ -153,13 +155,13 @@ export const CategoryModal = (props: CategoryModalProps) => {
               </>
             ) : (
               <>
-                <CustomButton className="button-submit" htmlType="submit">
+                <CustomButton className="button-submit" htmlType="submit" disabled={!permission.update}>
                   {intl.formatMessage({
                     id: 'category.modal.create.button.edit',
                   })}
                 </CustomButton>
                 {onDelete && (
-                  <CustomButton className="button-delete" onClick={() => onDelete()}>
+                  <CustomButton className="button-delete" onClick={() => onDelete()} disabled={!permission.delete}>
                     {intl.formatMessage({
                       id:
                         showType === MENU_ITEM_TYPE.LANGUAGE

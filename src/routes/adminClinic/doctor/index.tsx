@@ -6,15 +6,21 @@ import { useNavigate } from 'react-router';
 import CustomButton from '../../../components/buttons/CustomButton';
 import IconSVG from '../../../components/icons/icons';
 import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
-import { DoctorType } from '../../../constants/enum';
+import { DoctorType, PERMISSIONS } from '../../../constants/enum';
 import { DoctorTable } from '../../../components/table/DoctorTable';
 import { doctorClinicApi } from '../../../apis';
+import CheckPermission, { Permission } from '../../../util/check-permission';
 
 const ListDoctor = () => {
   const intl = useIntl();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic)),
+  });
   const deleteAdmin = useMutation((id: string) => doctorClinicApi.doctorClinicControllerDelete(id), {
     onSuccess: ({ data }) => {
       console.log(data);
@@ -46,7 +52,11 @@ const ListDoctor = () => {
           })}
         </CustomButton>
       </div>
-      <DoctorTable deleteFc={(id: string) => deleteAdmin.mutate(id)} doctorType={DoctorType.DOCTOR} />
+      <DoctorTable
+        permission={permisstion}
+        deleteFc={(id: string) => deleteAdmin.mutate(id)}
+        doctorType={DoctorType.DOCTOR}
+      />
     </Card>
   );
 };
