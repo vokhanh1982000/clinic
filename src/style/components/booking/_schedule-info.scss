@@ -101,18 +101,6 @@
               bottom: auto !important;
               transform: none !important;
             }
-
-            .ant-picker-cell-selected {
-              .ant-picker-cell-inner {
-                background-color: $date-picker-cell-disabled;
-              }
-            }
-
-            .ant-picker-cell-today {
-              .ant-picker-cell-inner::before {
-                border: 1px solid $date-picker-cell-disabled;
-              }
-            }
           }
         }
       }
@@ -139,6 +127,17 @@
     }
     .disable {
       pointer-events: none;
+      .ant-picker-cell-selected {
+        .ant-picker-cell-inner {
+          background-color: $date-picker-cell-disabled !important;
+        }
+      }
+
+      .ant-picker-cell-today {
+        .ant-picker-cell-inner::before {
+          border: 1px solid $date-picker-cell-disabled !important;
+        }
+      }
     }
   }
 }

@@ -41,8 +41,6 @@
         width: 100%;
         height: 100%;
         border-radius: 8px;
-        border: 1px solid #20bf6b;
-        background-color: #d2f2e1;
         font-weight: 400;
         font-size: 14px;
         line-height: 24px;
@@ -52,6 +50,30 @@
           display: flex;
           align-items: center;
         }
+      }
+    }
+    &__select-status-pending {
+      .ant-select-selector {
+        border: 1px solid $status_pending_border !important;
+        background-color: $status_pending !important;
+      }
+    }
+    &__select-status-cancelled {
+      .ant-select-selector {
+        border: 1px solid $status_cancelled_border !important;
+        background-color: $status_cancelled !important;
+      }
+    }
+    &__select-status-approved {
+      .ant-select-selector {
+        border: 1px solid $status_approved_border !important;
+        background-color: $status_approved !important;
+      }
+    }
+    &__select-status-completed {
+      .ant-select-selector {
+        border: 1px solid $status_completed_border;
+        background-color: $status_completed;
       }
     }
   }
@@ -90,6 +112,12 @@
             background-color: $primary_color;
             color: $text_white;
             border: unset;
+          }
+          .button-cancel {
+            width: 100%;
+            border: unset;
+            box-shadow: unset;
+            color: unset;
           }
         }
       }

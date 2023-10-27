@@ -1,23 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
-import { Form, FormInstance, Image, Select } from 'antd';
+import { Form, FormInstance, Select } from 'antd';
 import CustomInput from '../input/CustomInput';
 import CustomSelect from '../select/CustomSelect';
 import { Clinic, DoctorClinic } from '../../apis/client-axios';
 import { DefaultOptionType } from 'antd/es/select';
-import { it } from 'node:test';
+import { useQuery } from '@tanstack/react-query';
+import { doctorClinicApi } from '../../apis';
+import CustomSearchSelect from '../input/CustomSearchSelect';
+import { debounce } from 'lodash';
 
 interface DoctorInfoProps {
   form: FormInstance;
   clinic?: Clinic;
   setDoctorClinic: Function;
   doctorClinic?: DoctorClinic;
+  role: 'admin' | 'adminClinic' | 'doctor';
+  type: 'create' | 'update';
 }
 const DoctorInfo = (props: DoctorInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { form, clinic, doctorClinic, setDoctorClinic } = props;
-  const listDoctor: Array<DoctorClinic> | undefined = clinic?.doctorClinics;
+  const { form, clinic, doctorClinic, setDoctorClinic, role, type } = props;
+  const [listDoctor, setListDoctor] = useState<DoctorClinic[]>();
+  const [searchNameDoctor, setSearchNameDoctor] = useState<string>();
+
+  const { data: listDoctorData } = useQuery({
+    queryKey: ['listDoctor', { searchNameDoctor, clinic }],
+    queryFn: () => {
+      return doctorClinicApi.doctorClinicControllerGetAllWithoutPaginate(searchNameDoctor, clinic?.id);
+    },
+    enabled: role === 'adminClinic' || role === 'doctor' ? true : !!clinic?.id,
+  });
+  const debouncedUpdateInputValue = debounce((value) => {
+    if (!value.trim()) {
+      setSearchNameDoctor('');
+    } else {
+      setSearchNameDoctor(value);
+    }
+  }, 500);
+  useEffect(() => {
+    setListDoctor(listDoctorData?.data);
+  }, [listDoctorData]);
+
   return (
     <div className={'doctor-info'}>
       <div className="doctor-info__header">
@@ -38,23 +63,24 @@ const DoctorInfo = (props: DoctorInfoProps) => {
               id: 'doctor-profile.form.fullName',
             })}
           >
-            <CustomSelect
+            <CustomSearchSelect
               placeholder={intl.formatMessage({
                 id: 'doctor-profile.form.fullName',
               })}
-              onChange={(value, option) => {
-                form.setFieldValue('doctorClinicId', value);
-                setDoctorClinic(listDoctor?.find((item) => item.id === value));
+              onSearch={debouncedUpdateInputValue}
+              optionLabelProp={'label'}
+              onChange={(value: string, option: any) => {
+                setDoctorClinic(listDoctor?.find((item) => item.id === option?.key));
               }}
               defaultValue={doctorClinic?.id}
               value={doctorClinic?.fullName}
             >
               {listDoctor?.map((item: DoctorClinic) => {
                 return (
-                  <Select.Option value={item.id}>
+                  <Select.Option value={item.fullName} key={item.id}>
                     <div className={'option-item'}>
                       <div className={'option-item__avatar'}>
-                        <img src={`${process.env.REACT_APP_URL_IMG_S3}${item.avatar?.name}`} alt={''} />
+                        <img src={`${process.env.REACT_APP_URL_IMG_S3}${item.avatar?.source}`} alt={''} />
                       </div>
                       <div className={'option-item__info'}>
                         <div className={'option-item__info__name'}>{item.fullName}</div>
@@ -65,7 +91,7 @@ const DoctorInfo = (props: DoctorInfoProps) => {
                   </Select.Option>
                 );
               })}
-            </CustomSelect>
+            </CustomSearchSelect>
           </Form.Item>
           <Form.Item
             className="code"

@@ -43,6 +43,10 @@
 
           .name {
             width: 70%;
+            .ant-select-selection-search {
+              display: flex;
+              align-items: center;
+            }
           }
 
           .code {
@@ -56,6 +60,9 @@
 
           .category {
             width: 100%;
+            .ant-select-selection-item {
+              background: unset;
+            }
           }
         }
       }
@@ -69,6 +76,11 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        overflow: hidden;
+        img {
+          width: 40px;
+          height: 40px;
+        }
       }
 
       &__info {

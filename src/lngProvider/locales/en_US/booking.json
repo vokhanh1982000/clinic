@@ -34,5 +34,18 @@
   "booking.provide-medicine.modal.create.title": "Provide Medicine",
   "booking.provide-medicine.modal.update.title": "Detail",
   "booking.sample-prescription.modal.title": "List Sample Prescription",
-  "booking.sample-prescription.button.save": "Save"
+  "booking.sample-prescription.button.save": "Save",
+  "booking.clinic.fullName": "Clinic",
+  "booking.clinic.phone": "Phone",
+  "booking.clinic.code": "Code",
+  "booking.clinic.province": "Province",
+  "booking.clinic.district": "District",
+  "booking.clinic.ward": "Ward",
+  "booking.clinic.address": "Address",
+  "booking.clinic.work-time": "Work time",
+  "booking.clinic.status": "Status",
+  "booking.create.error.content": "required",
+  "booking.button.admin-save": "Save",
+  "booking.button.admin-cancel": "Cancelled",
+  "booking.button.doctor.provide-medicine": "Submit"
 }

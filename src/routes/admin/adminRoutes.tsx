@@ -7,6 +7,7 @@ import DoctorSchedule from './booking/Schedule';
 import ClinicTimeline from './booking/Timeline';
 import CreateCustomer from './customer/CreateEditCustomer';
 import CreateDoctor from './doctor/CreateEditDoctor';
+import CreateOrUpdate from './booking/CreateOrUpdate';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));
@@ -43,6 +44,8 @@ export const AdminRoutes = () => (
         <Route path="" element={<SuspenseWrapper component={<ListBooking />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.CLINIC}/:id`} element={<ClinicTimeline />} />
         <Route path={`${ADMIN_ROUTE_NAME.SCHEDULE}/:id`} element={<DoctorSchedule />} />
+        <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<CreateOrUpdate />} />
+        <Route path={`${ADMIN_ROUTE_NAME.CREATE}`} element={<CreateOrUpdate />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListClinic />} />} />

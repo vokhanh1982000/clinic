@@ -3,6 +3,7 @@
   "booking.edit.title": "Chi tiết lịch khám",
   "booking.doctor.title": "Thông tin bác sĩ",
   "booking.customer.title": "Thông tin bệnh nhân",
+  "booking.clinic.title": "Thông tin phòng khám",
   "booking.create.customerNote": "Ghi chú của bệnh nhân",
   "booking.create.prescription": "Thông tin kê đơn",
   "booking.create.prescription.diagnostic-result": "Kết quả chuẩn đoán",
@@ -34,5 +35,18 @@
   "booking.provide-medicine.modal.create.title": "Cấp Thuốc",
   "booking.provide-medicine.modal.update.title": "Chi Tiết Thuốc",
   "booking.sample-prescription.modal.title": "Danh Sách Đơn Thuốc Mẫu",
-  "booking.sample-prescription.button.save": "Kê đơn"
+  "booking.sample-prescription.button.save": "Kê đơn",
+  "booking.clinic.fullName": "Phòng khám",
+  "booking.clinic.phone": "Số điện thoại",
+  "booking.clinic.code": "Mã phòng",
+  "booking.clinic.province": "Tỉnh/thành",
+  "booking.clinic.district": "Quận/huyện",
+  "booking.clinic.ward": "Phường/xã",
+  "booking.clinic.address": "Địa chỉ",
+  "booking.clinic.work-time": "Thời gian làm việc",
+  "booking.clinic.status": "Trạng thái",
+  "booking.create.error.content": "Vui lòng nhập nội dung",
+  "booking.button.admin-save": "Lưu thông tin",
+  "booking.button.admin-cancel": "Huỷ lịch khám",
+  "booking.button.doctor.provide-medicine": "Gửi đơn"
 }
