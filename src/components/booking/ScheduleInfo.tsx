@@ -1,14 +1,16 @@
-import { Calendar, DatePicker, Form, FormInstance, TimePicker } from 'antd';
+import { DatePicker, Form, FormInstance, TimePicker } from 'antd';
 import React from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
 import { FORMAT_TIME } from '../../constants/common';
 import CustomArea from '../input/CustomArea';
-import dayjs from 'dayjs';
+
 interface ScheduleInfoProp {
+  role?: 'doctor' | 'admin' | 'adminClinic';
   form: FormInstance;
 }
 const ScheduleInfo = (props: ScheduleInfoProp) => {
+  const { role }: ScheduleInfoProp = props;
   const intl: IntlShape = useIntl();
   return (
     <div className={'schedule-info'}>
@@ -38,7 +40,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
               superPrevIcon={null}
               showToday={false}
               getPopupContainer={() => document.getElementById('custom-popup-date-picker')!}
-              popupClassName={'custom-popup-picker'}
+              popupClassName={`custom-popup-picker ${role === 'doctor' ? 'disable' : ''}`}
             />
           </Form.Item>
         </div>
@@ -50,7 +52,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
               id: 'booking.create.hour',
             })}
           >
-            <TimePicker format={FORMAT_TIME} minuteStep={30} />
+            <TimePicker format={FORMAT_TIME} minuteStep={30} disabled={role === 'doctor'} />
           </Form.Item>
         </div>
         <div className={'schedule-info__content__rows'}>
@@ -61,6 +63,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
             name={'appointmentNote'}
           >
             <CustomArea
+              disabled={role === 'doctor'}
               rows={6}
               style={{ resize: 'none' }}
               placeholder={intl.formatMessage({

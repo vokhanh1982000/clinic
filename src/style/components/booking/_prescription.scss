@@ -3,13 +3,11 @@
     .prescription {
       display: flex;
       flex-direction: column;
-
       &__header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 30%;
-
+        width: 100%;
         &__title {
           font-size: 14px;
           font-weight: 700;
@@ -29,17 +27,73 @@
             line-height: 24px;
           }
         }
-      }
 
+        &__action {
+          .button-sample-prescription {
+            width: 176px;
+            height: 40px;
+            background-color: $primary_color;
+            color: $text_white;
+            border: unset;
+            margin-right: 10px;
+
+            .icon-sample-prescription {
+              margin-right: 5px;
+              svg {
+                margin-bottom: 4px;
+              }
+            }
+          }
+          .button-provide-medicine {
+            width: 134px;
+            height: 40px;
+            color: $primary_color;
+            border: 1px solid $primary_color;
+            .icon-provide-medicine {
+              display: inline-block;
+              height: 5px;
+              margin-right: 5px;
+              svg {
+                margin-bottom: 4px;
+              }
+            }
+          }
+          .ant-custom-button {
+            border-radius: 24px;
+            height: 40px;
+            span {
+              font-weight: 600;
+              font-size: 16px;
+              line-height: 24px;
+            }
+          }
+        }
+      }
       &__content {
         width: 100%;
-
         &__rows {
           width: 100%;
-
           .diagnostic-result {
             margin-top: 15px;
             width: 100%;
+          }
+
+          .table-cell-name {
+            text-decoration-line: underline;
+          }
+
+          .table-cell-name:hover {
+            cursor: pointer;
+          }
+
+          .table-cell-guide {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &__icon {
+              cursor: pointer;
+            }
           }
         }
       }
