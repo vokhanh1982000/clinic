@@ -42,6 +42,7 @@
   "validate.required.clinic-name": "Vui lòng nhập tên Phòng khám",
   "validate.required.clinic-code": "Vui lòng nhập mã Phòng khám",
   "validate.required.doctor-name": "Vui lòng nhập tên bác sĩ",
+  "validate.password.space": "Không được chứa kí tự khoảng trắng",
   "validate.medicine.normal": "Vui lòng chỉ nhập kí tự đặc biệt như ()-:/",
   "validate.medicine.quantity": "Số lượng tối thiểu là 1",
   "validate.required.quantity": "Vui lòng nhập số lượng"

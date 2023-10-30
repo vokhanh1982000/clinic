@@ -35,7 +35,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       {
         validator: validator({
           space: intl.formatMessage({
-            id: 'validate.required.password',
+            id: 'validate.password.space',
           }),
           password: intl.formatMessage({
             id: 'validate.password',

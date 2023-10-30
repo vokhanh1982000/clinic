@@ -2,6 +2,7 @@
   "error.500": "An undefined error occurred. Please try again later",
   "error.403": "Sorry, you don't have permission to access this resource or perform this action",
   "error.401": "You need to log in to access this resource or action",
+  "error.400": "Invalid data",
   "error.PHONE_NUMBER_IS_EXISTED": "Phone number is existed",
   "error.PHONE_IS_EXIST": "Phone number is already in use. Please try again",
   "error.NAME_IS_EXIST": "The specialty name may already be in use. Please try again",
@@ -14,5 +15,6 @@
   "error.IMAGE_INVALID": "Image invalid. Image type: jpg, jpeg, jfif, png, svg, webp",
   "error.CATEGORY_IS_BEING_USED": "Medical Specialty is being used",
   "error.CONFIRM_PASSWORD_NOT_MATCH": "Confirmation password is incorrect",
-  "error.OLD_PASSWORD_INCORRECT": "Password is incorrect"
+  "error.OLD_PASSWORD_INCORRECT": "Password is incorrect",
+  "validate.password.space": "Must not contain whitespace characters"
 }

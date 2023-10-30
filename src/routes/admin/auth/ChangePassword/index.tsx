@@ -25,11 +25,6 @@ const ChangePasswordAdmin = () => {
     },
     onError: (error: any) => {
       CustomHandleError(error.response.data, intl);
-      // message.error(
-      //   intl.formatMessage({
-      //     id: 'change-password.message-error',
-      //   })
-      // );
     },
   });
   const handleSubmit = () => {
