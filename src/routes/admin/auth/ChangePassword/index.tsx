@@ -37,7 +37,7 @@ const ChangePasswordAdmin = () => {
       <Form form={form} layout={'vertical'} onFinish={handleSubmit}>
         <ChangePassword />
         <div className={'action'}>
-          <CustomButton className={'button-submit'} htmlType={'submit'}>
+          <CustomButton className={'button-submit'} htmlType="submit">
             {intl.formatMessage({
               id: 'change-password.button-submit',
             })}
