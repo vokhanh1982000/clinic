@@ -41,5 +41,7 @@
   "validate.specialist": "Vui lòng chọn chuyên khoa",
   "validate.required.clinic-name": "Vui lòng nhập tên Phòng khám",
   "validate.required.clinic-code": "Vui lòng nhập mã Phòng khám",
-  "validate.required.doctor-name": "Vui lòng nhập tên bác sĩ"
+  "validate.required.doctor-name": "Vui lòng nhập tên bác sĩ",
+  "validate.medicine.normal": "Vui lòng chỉ nhập kí tự đặc biệt như ()-:/",
+  "validate.medicine.quantity": "Số lượng tối thiểu là 1"
 }

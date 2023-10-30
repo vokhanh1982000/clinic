@@ -521,5 +521,54 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
         }),
       },
     ],
+    statusPrescription: [
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+    ],
+    usesPrescription: [
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+    ],
+    notePrescription: [
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+    ],
+    guidePrescription: [
+      {
+        validator: validator({
+          normal: intl.formatMessage({ id: 'common.noti.special' }),
+        }),
+      },
+    ],
+    guideMedicine: [
+      {
+        validator: validator({
+          normalLess: intl.formatMessage({ id: 'validate.medicine.normal' }),
+        }),
+      },
+    ],
+    quantityMedicine: [
+      {
+        validator(_: RuleObject, value: number) {
+          if (value && value < 1) {
+            return Promise.reject(
+              intl.formatMessage({
+                id: 'validate.medicine.quantity',
+              })
+            );
+          }
+          return Promise.resolve();
+        },
+      },
+    ],
   };
 };

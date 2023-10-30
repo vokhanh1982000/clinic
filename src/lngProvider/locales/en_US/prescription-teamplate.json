@@ -1,0 +1,30 @@
+{
+  "prescription-teamplate.topBar": "Manage Sample Prescriptions",
+  "prescription-teamplate.list.title": "Sample Prescription List",
+  "prescription-teamplate.list.search": "Search menu",
+  "prescription-teamplate.list.create": "Create new template",
+  "prescription-teamplate.list.status": "Status",
+  "prescription-teamplate.list.des": "Drug List",
+
+  "prescription-teamplate.detail.title": "Sample Prescription Details",
+  "prescription-teamplate.detail.table.title": "Medication list",
+  "prescription-teamplate.detail.create": "Add medicine",
+  "prescription-teamplate.detail.info": "Information",
+  "prescription-teamplate.detail.status": "Status",
+  "prescription-teamplate.detail.pla.status": "Enter status",
+  "prescription-teamplate.detail.uses": "Uses",
+  "prescription-teamplate.detail.pla.uses": "Enter Uses",
+  "prescription-teamplate.detail.note": "Note",
+  "prescription-teamplate.detail.pla.note": "Enter note",
+
+  "prescription-teamplate.create.title": "Create Sample Prescription",
+  "prescription-teamplate.create.idx": "STT",
+  "prescription-teamplate.create.name": "Drug name",
+  "prescription-teamplate.create.info.title": "Add medicine",
+  "prescription-teamplate.create.uses": "Usage",
+  "prescription-teamplate.create.medice.label": "Medication",
+  "prescription-teamplate.create.quantity.label": "Quantity",
+  "prescription-teamplate.create.save": "Save prescription",
+  "prescription-teamplate.create.delete": "Delete application",
+  "prescription-teamplate.create.cancel": "Cancel"
+}

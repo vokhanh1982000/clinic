@@ -49,7 +49,9 @@ export const getMenuActiveIconName = (key: string, route: 'Admin' | 'AdminClinic
   } else if (route === 'Doctor') {
     switch (key) {
       case DOCTOR_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT:
-        return 'bookingManagementIconActive';
+        return 'prescriptionTeamplateActive';
+      case DOCTOR_CLINIC_ROUTE_PATH.PRESCRIPTION_TEAMPLATE:
+        return 'prescriptionTeamplateActive';
       default:
         return '';
     }
@@ -133,6 +135,12 @@ export const getLabelBreadcrum = (key: string, route: 'admin' | 'admin-clinic' |
         return 'menu.doctor-clinic-profile';
       case DOCTOR_CLINIC_ROUTE_PATH.DETAIL_BOOKING:
         return 'menu.detail-booking';
+      case DOCTOR_CLINIC_ROUTE_PATH.PRESCRIPTION_TEAMPLATE:
+        return 'menu.prescriptonManagent';
+      case DOCTOR_CLINIC_ROUTE_PATH.CREATE_PRESCRIPTION_TEAMPLATE:
+        return 'menu.prescriptonManagent.create';
+      case DOCTOR_CLINIC_ROUTE_PATH.DETAIL_PRESCRIPTION_TEAMPLATE:
+        return 'menu.prescriptonManagent.detail';
       default:
         return '';
     }
