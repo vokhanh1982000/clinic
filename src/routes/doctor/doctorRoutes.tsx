@@ -4,7 +4,6 @@ import { SuspenseWrapper } from '../../components/loading/SuspenseWrap';
 import { DOCTOR_CLINIC_ROUTE_NAME } from '../../constants/route';
 import DoctorProfile from './profile';
 import ChangePasswordDoctorClinic from './auth/ChangePassword';
-import CreateOrUpDateBooking from './booking/CreateOrUpdate';
 import ListPrescriptionTeamplate from './prescription-teamplate/list';
 import CreateUpdatePrescriptionTeamplate from './prescription-teamplate/create-update';
 
@@ -12,6 +11,7 @@ const Doctor = React.lazy(() => import('.'));
 const SignInDoctor = React.lazy(() => import('./auth/SignInDoctor'));
 const ForgotPassDoctor = React.lazy(() => import('./auth/ForgotPassDoctor'));
 const ListBooking = React.lazy(() => import('./booking/index'));
+const CreateOrUpDateBooking = React.lazy(() => import('./booking/CreateOrUpdate'));
 
 export const DoctorRoutes = () => (
   <Routes>

@@ -298,16 +298,13 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     ],
     languageName: [
       {
-        required: true,
-        message: intl.formatMessage({ id: 'validate.language.required' }),
-      },
-      {
         max: 36,
         message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
       },
       {
         validator: validator({
           normal: intl.formatMessage({ id: 'common.noti.special' }),
+          space: intl.formatMessage({ id: 'validate.language.required' }),
         }),
       },
       // {

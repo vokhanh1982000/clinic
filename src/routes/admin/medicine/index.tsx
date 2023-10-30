@@ -62,7 +62,6 @@ const ListMedicine = () => {
         : adminMedicineApi.medicineAdminControllerFindAll(page, size, sort, undefined, status, unit),
     enabled: permisstion.read,
   });
-  console.log(page);
   const { mutate: CreateMedicine, status: statusCreateMedicine } = useMutation(
     (createMedicine: CreateMedicineDto) => adminMedicineApi.medicineAdminControllerCreate(createMedicine),
     {

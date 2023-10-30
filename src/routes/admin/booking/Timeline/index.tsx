@@ -134,7 +134,7 @@ const ClinicTimeline = () => {
         <Col span={24} className="m-b-22">
           <Row justify="space-between" align="middle" wrap>
             <Col>
-              <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary m-b-0 text-capitalize">
+              <h3 className="font-size-14 font-weight-700 color-1A1A1A font-family-primary m-b-0 text-capitalize">
                 {clinic?.data?.fullName}
               </h3>
             </Col>

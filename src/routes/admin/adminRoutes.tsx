@@ -6,7 +6,6 @@ import ChangePasswordAdmin from './auth/ChangePassword';
 import DoctorSchedule from './booking/Schedule';
 import ClinicTimeline from './booking/Timeline';
 import CreateCustomer from './customer/CreateEditCustomer';
-import CreateDoctor from './doctor/CreateEditDoctor';
 import CreateOrUpdate from './booking/CreateOrUpdate';
 
 const Admin = React.lazy(() => import('./index'));
@@ -21,6 +20,7 @@ const ListClinic = React.lazy(() => import('./clinic/ListClinic'));
 const CreateClinic = React.lazy(() => import('./clinic/CreateEditClinic'));
 const DoctorDetail = React.lazy(() => import('./clinic/DoctorDetail'));
 const ListDoctor = React.lazy(() => import('./doctor/ListDoctor'));
+const CreateDoctor = React.lazy(() => import('./doctor/CreateEditDoctor'));
 const ListMedicalSpecialty = React.lazy(() => import('./medicalSpecialty/index'));
 const ListNew = React.lazy(() => import('./news/ListNew'));
 const CreateNew = React.lazy(() => import('./news/CreateEditNew'));
@@ -61,7 +61,10 @@ export const AdminRoutes = () => (
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateDoctor />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateDoctor />} />} />
       </Route>
-      <Route path={ADMIN_ROUTE_NAME.MEDICAL_SPECIALTY_MANAGEMENT} element={<ListMedicalSpecialty />} />
+      <Route
+        path={ADMIN_ROUTE_NAME.MEDICAL_SPECIALTY_MANAGEMENT}
+        element={<SuspenseWrapper component={<ListMedicalSpecialty />} />}
+      />
       <Route path={ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListNew />} />} />
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateNew />} />} />
@@ -78,10 +81,16 @@ export const AdminRoutes = () => (
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateRole />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateRole />} />} />
       </Route>
-      <Route path={ADMIN_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<ListMedicine />} />
-      <Route path={ADMIN_ROUTE_NAME.LANGUAGE_MANAGEMENT} element={<LanguageManagement />} />
-      <Route path={ADMIN_ROUTE_NAME.ADMIN_PROFILE} element={<AdminProfile />} />
-      <Route path={ADMIN_ROUTE_NAME.CHANGE_PASSWORD} element={<ChangePasswordAdmin />} />
+      <Route path={ADMIN_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<SuspenseWrapper component={<ListMedicine />} />} />
+      <Route
+        path={ADMIN_ROUTE_NAME.LANGUAGE_MANAGEMENT}
+        element={<SuspenseWrapper component={<LanguageManagement />} />}
+      />
+      <Route path={ADMIN_ROUTE_NAME.ADMIN_PROFILE} element={<SuspenseWrapper component={<AdminProfile />} />} />
+      <Route
+        path={ADMIN_ROUTE_NAME.CHANGE_PASSWORD}
+        element={<SuspenseWrapper component={<ChangePasswordAdmin />} />}
+      />
     </Route>
   </Routes>
 );

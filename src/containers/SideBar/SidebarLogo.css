@@ -22,8 +22,19 @@
   max-width: 355px !important;
   min-width: 355px !important;
   width: 355px !important;
+  background-color: #ffffff !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+  padding-bottom: 15px;
+}
+.sider::-webkit-scrollbar {
+  width: 5px;
 }
 
+.sider::-webkit-scrollbar-thumb {
+  background: #d6d2d2;
+}
 .ant-menu-item {
   font-family: Open-Sans;
   font-size: 14px;
@@ -38,9 +49,7 @@
   -ms-border-radius: 32px !important;
   -o-border-radius: 32px !important;
 }
-.ant-layout-sider-children {
-  background-color: #ffffff !important;
-}
+
 .ant-menu-item-selected {
   background-color: #ee5824 !important;
   color: #ffffff !important;
