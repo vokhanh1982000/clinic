@@ -264,7 +264,10 @@ const ListMedicine = () => {
             form={form}
             visible={isShowModalCreate}
             onSubmit={handleCreate}
-            onClose={() => setIsShowModalCreate(false)}
+            onClose={() => {
+              setIsShowModalCreate(false);
+              form.resetFields();
+            }}
             action={ActionUser.CREATE}
             title={intl.formatMessage({
               id: 'medicine.list.modal.create',

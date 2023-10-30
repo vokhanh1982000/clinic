@@ -67,6 +67,10 @@
     border-start-end-radius: 12px;
     border-end-start-radius: 12px;
     border-end-end-radius: 12px;
+
+    .ant-table-cell {
+      word-break: break-all;
+    }
   }
 
   .ant-table-thead > tr > th {

@@ -39,10 +39,10 @@ const ChangePasswordAdmin = () => {
   };
   return (
     <Card id={'admin-change-password'}>
-      <Form form={form} layout={'vertical'}>
+      <Form form={form} layout={'vertical'} onFinish={handleSubmit}>
         <ChangePassword />
         <div className={'action'}>
-          <CustomButton className={'button-submit'} onClick={handleSubmit}>
+          <CustomButton className={'button-submit'} htmlType="submit">
             {intl.formatMessage({
               id: 'change-password.button-submit',
             })}
