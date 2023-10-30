@@ -112,7 +112,7 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
                     </div>
                     <div className={'prescription-item__wrap__content'}>
                       <div className={'prescription-item__wrap__content__title'}>Prescription</div>
-                      <div className={'prescription-item__wrap__content__content-mid'}>{item.name}</div>
+                      <div className={'prescription-item__wrap__content__content-mid'}>{item.note}</div>
                     </div>
                     <div className={'prescription-item__wrap__content'}>
                       <div className={'prescription-item__wrap__content__title'}>Feature</div>
