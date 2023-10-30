@@ -23,6 +23,11 @@ const Doctor = () => {
       DOCTOR_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT,
       <img src="/assets/icons/admin/bookingManagementIconInactive.svg" />
     ),
+    getItem(
+      intl.formatMessage({ id: 'menu.prescriptionTeamplateManagement' }),
+      DOCTOR_CLINIC_ROUTE_PATH.PRESCRIPTION_TEAMPLATE,
+      <img src="/assets/icons/admin/prescriptionTeamplateInactive.svg" />
+    ),
   ];
   const [menu, setMenu] = useState(defaultMenu);
 

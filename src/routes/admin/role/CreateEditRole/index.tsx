@@ -13,6 +13,8 @@ import { useIntl } from 'react-intl';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { PERMISSIONS } from '../../../../constants/enum';
 
 const CreateRole = () => {
   const intl = useIntl();
@@ -22,16 +24,23 @@ const CreateRole = () => {
   const queryClient = useQueryClient();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string | undefined }>();
   const [roleName, setRoleName] = useState<string>();
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+  });
 
   const { data: dataPermissions } = useQuery({
     queryKey: ['getPermissions'],
     queryFn: () => permissionApi.permissionControllerGet(),
+    enabled: permisstion.read,
   });
 
   const { data: dataRole } = useQuery({
     queryKey: ['getRoleDetail', id],
     queryFn: () => roleApi.roleControllerGetById(id as string),
-    enabled: !!id,
+    enabled: !!id && permisstion.read,
     onSuccess: ({ data }) => {
       setRoleName(data.name);
     },
@@ -269,19 +278,23 @@ const CreateRole = () => {
       <div className="button-action">
         {id ? (
           <div className="more-action">
-            <CustomButton className="button-save" onClick={() => form.submit()}>
+            <CustomButton className="button-save" onClick={() => form.submit()} disabled={!permisstion.update}>
               {intl.formatMessage({
                 id: 'role.edit.button.save',
               })}
             </CustomButton>
-            <CustomButton className="button-delete" onClick={() => setIsShowModalDelete({ id: id, name: roleName })}>
+            <CustomButton
+              className="button-delete"
+              onClick={() => setIsShowModalDelete({ id: id, name: roleName })}
+              disabled={!permisstion.delete}
+            >
               {intl.formatMessage({
                 id: 'role.edit.button.delete',
               })}
             </CustomButton>
           </div>
         ) : (
-          <CustomButton className="button-create" onClick={() => form.submit()}>
+          <CustomButton className="button-create" onClick={() => form.submit()} disabled={!permisstion.create}>
             {intl.formatMessage({
               id: 'role.create.button.create',
             })}

@@ -8,7 +8,7 @@ import CustomButton from '../../../../components/buttons/CustomButton';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import DoctorInfo from '../../../../components/table/DoctorTable/information';
 import Achievement from '../../../../components/table/DoctorTable/achievenment';
-import { DoctorType } from '../../../../constants/enum';
+import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
 import {
   CreateDoctorClinicDto,
   CreateDoctorClinicDtoGenderEnum,
@@ -21,6 +21,7 @@ import { isNumber, values } from 'lodash';
 import { FORMAT_DATE } from '../../../../constants/common';
 import dayjs from 'dayjs';
 import { CustomHandleError } from '../../../../components/response';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -33,7 +34,12 @@ const CreateDoctor = () => {
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
   const [avatar, setAvatar] = useState<string>();
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic)),
+  });
   const n = (key: keyof CreateDoctorClinicDto) => {
     return key;
   };
@@ -157,6 +163,7 @@ const CreateDoctor = () => {
           n={n}
           setIsDeleteDoctor={setIsDeleteDoctor}
           onSubmit={() => form.submit()}
+          permission={permisstion}
         />
       </FormWrap>
       <ConfirmDeleteModal

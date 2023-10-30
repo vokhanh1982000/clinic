@@ -2,9 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, Input, Button, message, Modal } from 'antd';
 
 import Column from 'antd/es/table/Column';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { roleApi } from '../../../../apis';
-import { Customer, Role, User } from '../../../../apis/client-axios';
 import TableWrap from '../../../../components/TableWrap';
 import { useIntl } from 'react-intl';
 import CustomButton from '../../../../components/buttons/CustomButton';
@@ -12,11 +11,11 @@ import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
 import { useNavigate } from 'react-router-dom';
 import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
-
-import { EditOutlined, DeleteOutlined, SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { debounce } from 'lodash';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { PERMISSIONS } from '../../../../constants/enum';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -26,12 +25,17 @@ const ListRole = () => {
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<any>(null);
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
-
   const queryClient = useQueryClient();
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ['getUsers', { page, size, sort, fullTextSearch }],
     queryFn: () => roleApi.roleControllerGet(page, size, sort, fullTextSearch),
+    enabled: !!permisstion.read,
   });
   const handleDeleteRole = () => {
     if (isShowModalDelete && isShowModalDelete.id) {
@@ -76,6 +80,7 @@ const ListRole = () => {
           })}
         </div>
         <CustomButton
+          disabled={!permisstion.create}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
@@ -96,57 +101,62 @@ const ListRole = () => {
         className="input-search"
         allowClear
       />
-      <TableWrap
-        className="custom-table role-management__header__table"
-        data={data?.data.content}
-        isLoading={isLoading}
-        page={page}
-        size={size}
-        total={data?.data.total}
-        setSize={setSize}
-        setPage={setPage}
-        showPagination={true}
-      >
-        <Column
-          title={
-            <span style={{ fontWeight: 700 }}>
-              {intl.formatMessage({
-                id: 'role.list.table.role',
-              })}
-            </span>
-          }
-          dataIndex="name"
-        />
-        <Column
-          title={
-            <span style={{ fontWeight: 700 }}>
-              {intl.formatMessage({
-                id: 'role.list.table.action',
-              })}
-            </span>
-          }
-          dataIndex="action"
-          width={'15%'}
-          render={(_, record: any) => {
-            return (
-              <div className={record.name === 'SuperAdmin' ? 'action-role disable' : 'action-role'}>
-                <div onClick={() => Boolean(record.name !== 'SuperAdmin') && navigate(`detail/${record.id}`)}>
-                  <IconSVG type="edit" />
+      {permisstion.read && (
+        <TableWrap
+          className="custom-table role-management__header__table"
+          data={data?.data.content}
+          isLoading={isLoading}
+          page={page}
+          size={size}
+          total={data?.data.total}
+          setSize={setSize}
+          setPage={setPage}
+          showPagination={true}
+        >
+          <Column
+            title={
+              <span style={{ fontWeight: 700 }}>
+                {intl.formatMessage({
+                  id: 'role.list.table.role',
+                })}
+              </span>
+            }
+            dataIndex="name"
+          />
+          <Column
+            title={
+              <span style={{ fontWeight: 700 }}>
+                {intl.formatMessage({
+                  id: 'role.list.table.action',
+                })}
+              </span>
+            }
+            dataIndex="action"
+            width={'15%'}
+            render={(_, record: any) => {
+              return (
+                <div className={record.name === 'SuperAdmin' ? 'action-role disable' : 'action-role'}>
+                  <div onClick={() => Boolean(record.name !== 'SuperAdmin') && navigate(`detail/${record.id}`)}>
+                    <IconSVG type="edit" />
+                  </div>
+                  <span className="divider"></span>
+                  <div
+                    className={permisstion.delete ? '' : 'disable'}
+                    onClick={() =>
+                      Boolean(record.name !== 'SuperAdmin') &&
+                      !permisstion.delete &&
+                      setIsShowModalDelete({ id: record.id, name: record.name })
+                    }
+                  >
+                    <IconSVG type="delete" />
+                  </div>
                 </div>
-                <span className="divider"></span>
-                <div
-                  onClick={() =>
-                    Boolean(record.name !== 'SuperAdmin') && setIsShowModalDelete({ id: record.id, name: record.name })
-                  }
-                >
-                  <IconSVG type="delete" />
-                </div>
-              </div>
-            );
-          }}
-          align="center"
-        />
-      </TableWrap>
+              );
+            }}
+            align="center"
+          />
+        </TableWrap>
+      )}
       <ConfirmDeleteModal
         name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
         visible={!!isShowModalDelete}

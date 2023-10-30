@@ -1,15 +1,36 @@
-import { Calendar, DatePicker, Form, FormInstance, TimePicker } from 'antd';
+import { DatePicker, Form, FormInstance, TimePicker } from 'antd';
 import React from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
 import { FORMAT_TIME } from '../../constants/common';
 import CustomArea from '../input/CustomArea';
-import dayjs from 'dayjs';
+
 interface ScheduleInfoProp {
+  role?: 'doctor' | 'admin' | 'adminClinic';
   form: FormInstance;
+  type?: 'create' | 'update';
 }
 const ScheduleInfo = (props: ScheduleInfoProp) => {
+  const { role, type }: ScheduleInfoProp = props;
   const intl: IntlShape = useIntl();
+
+  const className = () => {
+    if (role === 'doctor') {
+      return 'disable';
+    }
+    if (role === 'admin' && type === 'create') {
+      return '';
+    }
+    if (role === 'admin' && type === 'update') {
+      return '';
+    }
+    if (role === 'adminClinic' && type === 'update') {
+      return 'disable';
+    }
+    if (role === 'adminClinic' && type === 'create') {
+      return '';
+    }
+  };
   return (
     <div className={'schedule-info'}>
       <div className="schedule-info__header">
@@ -38,7 +59,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
               superPrevIcon={null}
               showToday={false}
               getPopupContainer={() => document.getElementById('custom-popup-date-picker')!}
-              popupClassName={'custom-popup-picker'}
+              popupClassName={`custom-popup-picker ${className()}`}
             />
           </Form.Item>
         </div>
@@ -50,7 +71,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
               id: 'booking.create.hour',
             })}
           >
-            <TimePicker format={FORMAT_TIME} minuteStep={30} />
+            <TimePicker format={FORMAT_TIME} minuteStep={30} disabled={role === 'doctor'} />
           </Form.Item>
         </div>
         <div className={'schedule-info__content__rows'}>
@@ -61,6 +82,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
             name={'appointmentNote'}
           >
             <CustomArea
+              disabled={role === 'doctor'}
               rows={6}
               style={{ resize: 'none' }}
               placeholder={intl.formatMessage({

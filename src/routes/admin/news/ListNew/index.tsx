@@ -12,10 +12,11 @@ import { debounce } from 'lodash';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import TableWrap from '../../../../components/TableWrap';
 import Column from 'antd/es/table/Column';
-import { Status } from '../../../../constants/enum';
+import { PERMISSIONS, Status } from '../../../../constants/enum';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import moment from 'moment';
 import { FORMAT_DATE, FORMAT_DATE_VN } from '../../../../constants/common';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const ListNew = () => {
   const intl = useIntl();
@@ -27,9 +28,16 @@ const ListNew = () => {
   const [status, setStatus] = useState<boolean>();
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadNew)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateNew)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteNew)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateNew)),
+  });
   const { data, isLoading } = useQuery({
     queryKey: ['newList', { page, size, sort, fullTextSearch, status }],
     queryFn: () => newsApi.newControllerGet(page, size, sort, fullTextSearch, status),
+    enabled: permisstion.read,
   });
 
   const { mutate: UpdateStatusNew, status: statusUpdateStatusNew } = useMutation(
@@ -81,6 +89,7 @@ const ListNew = () => {
           })}
         </div>
         <CustomButton
+          disabled={!permisstion.create}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
@@ -142,50 +151,51 @@ const ListNew = () => {
           ]}
         />
       </div>
-      <TableWrap
-        className={`custom-table ${data?.data.content && data?.data.content?.length > 0 && 'table-new'}`}
-        data={data?.data.content}
-        // isLoading={isLoading}
-        page={page}
-        size={size}
-        total={data?.data.total}
-        setSize={setSize}
-        setPage={setPage}
-        showPagination={true}
-      >
-        <Column
-          title={intl.formatMessage({
-            id: 'new.list.table.image',
-          })}
-          dataIndex="image"
-          width={'25%'}
-          render={(_, record: any) => {
-            if (record.avatar && record.avatar.preview) {
-              return <img className="image-new" src={process.env.REACT_APP_URL_IMG_S3 + record.avatar.preview} />;
-            }
-          }}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'new.list.table.title',
-          })}
-          dataIndex="title"
-          width={'30%'}
-          render={(_, record: any) => {
-            return <div className="title-new">{record.title}</div>;
-          }}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'new.list.table.createDate',
-          })}
-          dataIndex="createDate"
-          width={'15%'}
-          render={(_, record: any) => {
-            return <div>{moment(record.createdOnDate).format(FORMAT_DATE_VN)}</div>;
-          }}
-        />
-        {/* <Column
+      {permisstion.read && (
+        <TableWrap
+          className={`custom-table ${data?.data.content && data?.data.content?.length > 0 && 'table-new'}`}
+          data={data?.data.content}
+          // isLoading={isLoading}
+          page={page}
+          size={size}
+          total={data?.data.total}
+          setSize={setSize}
+          setPage={setPage}
+          showPagination={true}
+        >
+          <Column
+            title={intl.formatMessage({
+              id: 'new.list.table.image',
+            })}
+            dataIndex="image"
+            width={'25%'}
+            render={(_, record: any) => {
+              if (record.avatar && record.avatar.preview) {
+                return <img className="image-new" src={process.env.REACT_APP_URL_IMG_S3 + record.avatar.preview} />;
+              }
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'new.list.table.title',
+            })}
+            dataIndex="title"
+            width={'30%'}
+            render={(_, record: any) => {
+              return <div className="title-new">{record.title}</div>;
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'new.list.table.createDate',
+            })}
+            dataIndex="createDate"
+            width={'15%'}
+            render={(_, record: any) => {
+              return <div>{moment(record.createdOnDate).format(FORMAT_DATE_VN)}</div>;
+            }}
+          />
+          {/* <Column
           title={intl.formatMessage({
             id: 'new.list.table.content',
           })}
@@ -195,45 +205,49 @@ const ListNew = () => {
             return <div className="content-new" dangerouslySetInnerHTML={{ __html: record.content }}></div>;
           }}
         /> */}
-        <Column
-          title={intl.formatMessage({
-            id: 'new.list.table.status',
-          })}
-          dataIndex="status"
-          width={'10%'}
-          render={(_, record: any) => {
-            return (
-              <div className="item-center custom-switch">
-                <Switch
-                  checked={record.status}
-                  onChange={() => {
-                    UpdateStatusNew(record.id);
-                  }}
-                />
+          <Column
+            title={intl.formatMessage({
+              id: 'new.list.table.status',
+            })}
+            dataIndex="status"
+            width={'10%'}
+            render={(_, record: any) => {
+              return (
+                <div className="item-center custom-switch">
+                  <Switch
+                    checked={record.status}
+                    onChange={() => {
+                      UpdateStatusNew(record.id);
+                    }}
+                  />
+                </div>
+              );
+            }}
+          />
+          <Column
+            title={intl.formatMessage({
+              id: 'new.list.table.action',
+            })}
+            dataIndex="action"
+            width={'20%'}
+            render={(_, record: any) => (
+              <div className="action-new">
+                <div onClick={() => navigate(`detail/${record.id}`)}>
+                  <IconSVG type="edit" />
+                </div>
+                <span className="divider"></span>
+                <div
+                  className={permisstion.delete ? '' : 'disable'}
+                  onClick={() => permisstion.delete && setIsShowModalDelete({ id: record.id, name: record.title })}
+                >
+                  <IconSVG type="delete" />
+                </div>
               </div>
-            );
-          }}
-        />
-        <Column
-          title={intl.formatMessage({
-            id: 'new.list.table.action',
-          })}
-          dataIndex="action"
-          width={'20%'}
-          render={(_, record: any) => (
-            <div className="action-new">
-              <div onClick={() => navigate(`detail/${record.id}`)}>
-                <IconSVG type="edit" />
-              </div>
-              <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.title })}>
-                <IconSVG type="delete" />
-              </div>
-            </div>
-          )}
-          align="center"
-        />
-      </TableWrap>
+            )}
+            align="center"
+          />
+        </TableWrap>
+      )}
       <ConfirmDeleteModal
         name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
         visible={!!isShowModalDelete}

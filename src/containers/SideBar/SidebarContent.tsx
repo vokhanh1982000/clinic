@@ -5,7 +5,6 @@ import { Menu } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SidebarLogo from './SidebarLogo';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
-
 type MenuItem = Required<MenuProps>['items'][number];
 
 export const getItem = (
@@ -13,7 +12,8 @@ export const getItem = (
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  type?: 'group'
+  type?: 'group',
+  permission?: string
 ): MenuItem => {
   return {
     key,
@@ -59,6 +59,7 @@ interface ISideBarContentProp {
 const SidebarContent = (props: ISideBarContentProp) => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [current, setCurrent] = useState<{ isShow: boolean; value: string }>({
     isShow: true,
     value: location.pathname,
@@ -86,7 +87,7 @@ const SidebarContent = (props: ISideBarContentProp) => {
       let step = 1;
       if (location.pathname.includes(MANAGEMENT_TYPE.ADMIN)) {
         Object.values(ADMIN_ROUTE_PATH).forEach((route: any) => {
-          if (current.value.includes(`${route}`)) {
+          if (location.pathname.includes(`${route}`)) {
             if (step == 2) {
               setCurrent({
                 isShow: true,
@@ -98,7 +99,19 @@ const SidebarContent = (props: ISideBarContentProp) => {
         });
       } else if (location.pathname.includes(MANAGEMENT_TYPE.ADMIN_CLINIC)) {
         Object.values(ADMIN_CLINIC_ROUTE_PATH).forEach((route: any) => {
-          if (current.value.includes(`${route}`)) {
+          if (location.pathname.includes(`${route}`)) {
+            if (step == 2) {
+              setCurrent({
+                isShow: true,
+                value: route,
+              });
+            }
+            step++;
+          }
+        });
+      } else {
+        Object.values(DOCTOR_CLINIC_ROUTE_PATH).forEach((route: any) => {
+          if (location.pathname.includes(`${route}`)) {
             if (step == 2) {
               setCurrent({
                 isShow: true,

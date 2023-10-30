@@ -15,6 +15,8 @@ import { NOTES } from '../../../components/TimelineControl/constants';
 import CustomSelect from '../../../components/select/CustomSelect';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
 import { DATE_TIME_FORMAT, statusBackgroundColor } from '../../../util/constant';
+import CheckPermission, { Permission } from '../../../util/check-permission';
+import { PERMISSIONS } from '../../../constants/enum';
 
 interface IFormData {
   keyword?: string;
@@ -41,7 +43,12 @@ const ListBooking = () => {
   const status = Form.useWatch(n('status'), form) as
     | Array<'completed' | 'pending' | 'cancelled' | 'approved'>
     | undefined;
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+  });
   const navigate = useNavigate();
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
@@ -58,7 +65,7 @@ const ListBooking = () => {
         Array.isArray(time) && time.length === 2 ? dayjs(time[1]).format(DATE_TIME_FORMAT) : undefined,
         Array.isArray(status) && status.length > 0 ? status : undefined
       ),
-    enabled: !!filter,
+    enabled: !!filter && permisstion.read,
   });
 
   const columns: ColumnsType<Booking> = [

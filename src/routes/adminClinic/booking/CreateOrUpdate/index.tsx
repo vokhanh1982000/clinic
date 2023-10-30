@@ -17,6 +17,7 @@ import {
   AdminClinicUpdateBookingDto,
   AdministratorClinic,
   Booking,
+  BookingStatusEnum,
   Clinic,
   Customer,
   DoctorClinic,
@@ -24,7 +25,7 @@ import {
 } from '../../../../apis/client-axios';
 import Prescription from '../../../../components/booking/Prescription';
 import dayjs from 'dayjs';
-import { BookingStatus } from './constant';
+import { BookingStatus } from '../../../../util/constant';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -35,20 +36,29 @@ const CreateOrUpDateBooking = () => {
   const [doctorClinic, setDoctorClinic] = useState<DoctorClinic>();
   const [customer, setCustomer] = useState<Customer>();
   const [prescription, setPrescription] = useState<PrescriptionType>();
+  const [currentStatus, setCurrentStatus] = useState<BookingStatusEnum>();
+
   const { data: bookingData } = useQuery({
-    queryKey: ['bookingDetail'],
+    queryKey: ['adminClinicBookingDetail'],
     queryFn: () => {
       return adminClinicBookingApi.adminClinicBookingControllerFindOne(id!);
     },
   });
 
-  const { data: clinicData } = useQuery({
-    queryKey: ['clinicData'],
-    queryFn: () => {
-      return clinicsApi.clinicControllerGetById(user.clinicId);
-    },
-    enabled: !!user.clinicId,
-  });
+  const statusClassName = (status: BookingStatusEnum) => {
+    if (status === BookingStatusEnum.Approved) {
+      return 'create-booking-header__select-status-approved';
+    }
+    if (status === BookingStatusEnum.Pending) {
+      return 'create-booking-header__select-status-pending';
+    }
+    if (status === BookingStatusEnum.Cancelled) {
+      return 'create-booking-header__select-status-cancelled';
+    }
+    if (status === BookingStatusEnum.Completed) {
+      return 'create-booking-header__select-status-completed';
+    }
+  };
 
   const { mutate: UpdateBooking } = useMutation({
     mutationFn: (dto: AdminClinicUpdateBookingDto) => {
@@ -75,12 +85,10 @@ const CreateOrUpDateBooking = () => {
     form.setFieldsValue({ ...data, appointmentStartTime: dayjs(data?.appointmentStartTime) });
     setDoctorClinic(data?.doctorClinic);
     setCustomer(data?.customer);
+    setClinic(data?.clinic);
     setPrescription(data?.prescription);
+    setCurrentStatus(bookingData?.data.status);
   }, [bookingData]);
-
-  useEffect(() => {
-    setClinic(clinicData?.data);
-  }, [clinicData]);
 
   const handleUpdate = () => {
     const data = form.getFieldsValue();
@@ -91,6 +99,7 @@ const CreateOrUpDateBooking = () => {
       clinicId: user.clinicId,
       appointmentEndTime: dayjs(data.appointmentStartTime).add(30, 'minute').format(),
       doctorClinicId: doctorClinic?.id,
+      customerId: customer?.id,
     };
     UpdateBooking(booking);
   };
@@ -119,21 +128,35 @@ const CreateOrUpDateBooking = () => {
           </span>
           <Form.Item name={'status'} className={'status'}>
             <Select
-              className={'create-booking-header__select-status'}
+              className={`create-booking-header__select-status ${statusClassName(currentStatus!)} `}
               defaultValue="Hoàn thành"
               options={BookingStatus.map((item) => ({
                 label: intl.formatMessage({ id: item.label }),
                 value: item.value,
               }))}
               suffixIcon={<IconSVG type={'dropdown'} />}
-            />
+              onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}
+            ></Select>
           </Form.Item>
         </Form>
       </div>
       <Form className={'form-create-booking'} layout={'vertical'} form={form} onFinish={handleUpdate}>
         <div className={'left-container'}>
-          <DoctorInfo form={form} clinic={clinic} setDoctorClinic={setDoctorClinic} doctorClinic={doctorClinic} />
-          <CustomerInfo customer={customer} form={form} />
+          <DoctorInfo
+            form={form}
+            clinic={clinic}
+            setDoctorClinic={setDoctorClinic}
+            doctorClinic={doctorClinic}
+            role={'adminClinic'}
+            type={id ? 'update' : 'create'}
+          />
+          <CustomerInfo
+            customer={customer}
+            form={form}
+            setCustomer={setCustomer}
+            role={'adminClinic'}
+            type={id ? 'update' : 'create'}
+          />
           <Prescription prescription={prescription} />
         </div>
         <div className={'right-container'}>
@@ -141,7 +164,7 @@ const CreateOrUpDateBooking = () => {
             <ScheduleInfo form={form} />
           </div>
           <div className={'action-area'}>
-            <Action form={form} />
+            <Action form={form} role={'adminClinic'} type={id ? 'update' : 'create'} />
           </div>
         </div>
       </Form>

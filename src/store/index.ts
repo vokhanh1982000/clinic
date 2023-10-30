@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import settingReducer from './settingSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import clinicReducer from './clinicSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     setting: settingReducer,
+    clinic: clinicReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

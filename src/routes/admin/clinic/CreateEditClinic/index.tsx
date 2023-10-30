@@ -14,6 +14,8 @@ import { DoctorList } from './DoctorList';
 import { ManagerInfo } from './ManagerInfo';
 import { CategoryCheckbox } from '../../../../components/categoryCheckbox';
 import { CustomHandleError } from '../../../../components/response';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { PERMISSIONS } from '../../../../constants/enum';
 
 const CreateClinic = () => {
   const intl = useIntl();
@@ -27,6 +29,12 @@ const CreateClinic = () => {
   const [adminsClinic, setAdminsClinic] = useState<any>([]);
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadClinic)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateClinic)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic)),
+  });
 
   const { data: dataClinic } = useQuery(
     ['getDetailClinic', id],
@@ -43,7 +51,7 @@ const CreateClinic = () => {
         setProvinceId(response.data.provinceId ? response.data.provinceId : undefined);
         setDistrictId(response.data.districtId ? response.data.districtId : undefined);
       },
-      enabled: !!id,
+      enabled: !!id && permisstion.read,
       refetchOnWindowFocus: false,
     }
   );
@@ -156,12 +164,13 @@ const CreateClinic = () => {
           <div className="button-action">
             {id ? (
               <div className="more-action">
-                <CustomButton className="button-save" onClick={() => form.submit()}>
+                <CustomButton className="button-save" onClick={() => form.submit()} disabled={!permisstion.update}>
                   {intl.formatMessage({
                     id: 'clinic.edit.button.save',
                   })}
                 </CustomButton>
                 <CustomButton
+                  disabled={!permisstion.delete}
                   className="button-delete"
                   onClick={() => {
                     setIsDeleteClinic(true);
@@ -174,7 +183,7 @@ const CreateClinic = () => {
               </div>
             ) : (
               <div className="more-action">
-                <CustomButton className="button-create" onClick={() => form.submit()}>
+                <CustomButton className="button-create" onClick={() => form.submit()} disabled={!permisstion.create}>
                   {intl.formatMessage({
                     id: 'clinic.create.button.create',
                   })}

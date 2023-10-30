@@ -43,6 +43,10 @@
 
           .name {
             width: 70%;
+            .ant-select-selection-search {
+              display: flex;
+              align-items: center;
+            }
           }
 
           .code {
@@ -56,7 +60,51 @@
 
           .category {
             width: 100%;
+            .ant-select-selection-item {
+              background: unset;
+            }
           }
+        }
+      }
+    }
+
+    .option-item {
+      display: flex;
+      gap: 15px;
+
+      &__avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+
+      &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2px;
+        &__name {
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 22px;
+          color: $text_black_light;
+        }
+        &__mail {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 18px;
+          color: $text_disabled;
+        }
+        &__category {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 18px;
+          color: $primary_color;
         }
       }
     }

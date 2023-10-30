@@ -15,6 +15,8 @@ import IconSVG from '../../../components/icons/icons';
 import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
 import { useAppSelector } from '../../../store';
 import { DATE_TIME_FORMAT } from '../../../util/constant';
+import CheckPermission, { Permission } from '../../../util/check-permission';
+import { PERMISSIONS } from '../../../constants/enum';
 
 export interface IFilter {
   page: number;
@@ -35,6 +37,12 @@ const ListBooking = () => {
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 9 });
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+  });
 
   useEffect(() => {
     form.setFieldsValue({
@@ -47,13 +55,13 @@ const ListBooking = () => {
     queryKey: ['adminClinicBookingDay', time, mode],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword),
-    enabled: !!time && mode === TimelineMode.DATE,
+    enabled: !!time && mode === TimelineMode.DATE && permisstion.read,
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
     queryKey: ['adminClinicGetDoctorClinic', filter],
     queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword),
-    enabled: !!filter && mode === TimelineMode.DATE,
+    enabled: !!filter && mode === TimelineMode.DATE && permisstion.read,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
@@ -63,7 +71,7 @@ const ListBooking = () => {
         dayjs(time).format(DATE_TIME_FORMAT),
         keyword
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time && mode === TimelineMode.MONTH && permisstion.read,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({

@@ -25,6 +25,7 @@
   "role.remove.confirm.suffixes": "' ra khỏi hệ thống ?",
   "role.input.err": "Vui lòng nhập vai trò",
   "role.delete.success": "Xóa vai trò thành công!",
+  "role.permisstion.Role": "Vai trò",
   "role.permisstion.Customer": "Bệnh nhân",
   "role.permisstion.Administrator": "Quản trị viên",
   "role.permisstion.AdministratorClinic": "Quản trị viên",

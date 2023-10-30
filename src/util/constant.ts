@@ -40,3 +40,22 @@ export const statusBackgroundColor = {
   [BookingStatusEnum.Pending]: '#F7B731',
   [BookingStatusEnum.Cancelled]: '#D63A3A',
 };
+
+export const BookingStatus = [
+  {
+    label: 'booking.status.completed',
+    value: BookingStatusEnum.Completed,
+  },
+  {
+    label: 'booking.status.cancelled',
+    value: BookingStatusEnum.Cancelled,
+  },
+  {
+    label: 'booking.status.pending',
+    value: BookingStatusEnum.Pending,
+  },
+  {
+    label: 'booking.status.approved',
+    value: BookingStatusEnum.Approved,
+  },
+];

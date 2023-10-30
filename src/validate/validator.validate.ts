@@ -16,6 +16,7 @@ type validateType =
   | 'emoj'
   | 'required'
   | 'normal'
+  | 'normalLess'
   | 'email'
   | 'phone'
   | 'isLength'
@@ -37,6 +38,7 @@ const regexKana = /^([ァ-ン]|ー)+$/;
 const regexPosTalCode = /^\d{3}-\d{4}$/;
 const REGEX_PHONE_NUMBER = /^0[1-9][0-9]{8}$/;
 export const regexImage = /\.(jpg|jpeg|jfif|png|svg|webp)$/i;
+const regexNormalLess = /[!@#$%^&*_+\=\[\]{};'"\\|,.<>?]+/;
 
 const getMessage = (option: ValidatorOption): string => {
   return typeof option === 'object' ? option.message : (option as string);
@@ -76,6 +78,12 @@ const VALIDATOR: any = {
   },
   normal: (value: string, option: ValidatorOption) => {
     const isValid = !regexNormal.test(value) && !regexEmoj.test(value);
+    if (!isValid) {
+      throw new Error(getMessage(option));
+    }
+  },
+  normalLess: (value: string, option: ValidatorOption) => {
+    const isValid = !regexNormalLess.test(value) && !regexEmoj.test(value);
     if (!isValid) {
       throw new Error(getMessage(option));
     }

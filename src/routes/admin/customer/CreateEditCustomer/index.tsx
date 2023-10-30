@@ -12,7 +12,7 @@ import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CustomSelect from '../../../../components/select/CustomSelect';
-import { Status, UserGender } from '../../../../constants/enum';
+import { PERMISSIONS, Status, UserGender } from '../../../../constants/enum';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { MyUploadProps } from '../../../../constants/dto';
 import dayjs from 'dayjs';
@@ -24,6 +24,7 @@ import { disabledFutureDate, formatPhoneNumberInput } from '../../../../constant
 import { CustomHandleError } from '../../../../components/response';
 import DatePickerCustom from '../../../../components/date/datePicker';
 import { regexImage } from '../../../../validate/validator.validate';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -36,7 +37,12 @@ const CreateCustomer = () => {
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
-
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: Boolean(CheckPermission(PERMISSIONS.ReadCustomer)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateCustomer)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteCustomer)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateCustomer)),
+  });
   const { data: datacustomer } = useQuery(
     ['getDetailCustomer', id],
     () => customerApi.customerControllerGetById(id as string),
@@ -54,7 +60,7 @@ const CreateCustomer = () => {
         setProvinceId(response.data.provinceId ? response.data.provinceId : undefined);
         setDistrictId(response.data.districtId ? response.data.districtId : undefined);
       },
-      enabled: !!id,
+      enabled: !!id && permisstion.read,
       refetchOnWindowFocus: false,
     }
   );
@@ -385,12 +391,13 @@ const CreateCustomer = () => {
         <div className="button-action">
           {id ? (
             <div className="more-action">
-              <CustomButton className="button-save" onClick={() => form.submit()}>
+              <CustomButton className="button-save" onClick={() => form.submit()} disabled={!permisstion.update}>
                 {intl.formatMessage({
                   id: 'customer.edit.button.save',
                 })}
               </CustomButton>
               <CustomButton
+                disabled={!permisstion.delete}
                 className="button-delete"
                 onClick={() => {
                   setIsDeleteCustomer(true);
@@ -403,7 +410,7 @@ const CreateCustomer = () => {
             </div>
           ) : (
             <div className="more-action">
-              <CustomButton className="button-create" onClick={() => form.submit()}>
+              <CustomButton className="button-create" onClick={() => form.submit()} disabled={!permisstion.create}>
                 {intl.formatMessage({
                   id: 'customer.create.button.create',
                 })}

@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Form, FormInstance, Popover, message } from 'antd';
 import dayjs from 'dayjs';
 import moment, { Moment } from 'moment';
@@ -16,7 +16,7 @@ import 'react-calendar-timeline/lib/Timeline.css';
 import { useInView } from 'react-intersection-observer';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { adminClinicBookingApi } from '../../apis';
+import { adminClinicBookingApi, clinicsApi } from '../../apis';
 import {
   AdminClinicUpdateBookingDto,
   Administrator,
@@ -27,11 +27,13 @@ import {
   DoctorClinic,
   DoctorClinicControllerGetAll200Response,
 } from '../../apis/client-axios';
-import { ADMIN_CLINIC_ROUTE_PATH } from '../../constants/route';
+import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../constants/route';
 import { IFilter } from '../../routes/adminClinic/booking';
 import { TIME_FORMAT } from '../../util/constant';
 import { IFormData, NOTES, n } from '../TimelineControl/constants';
 import SidebarHeaderContent from './SidebarHeaderContent';
+import { useAppDispatch } from '../../store';
+import { updateClinic } from '../../store/clinicSlice';
 
 interface TimelineDayProps {
   form: FormInstance<IFormData>;
@@ -57,6 +59,18 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   const [ref, inView] = useInView({
     threshold: 0,
   });
+  const dispatch = useAppDispatch();
+  const [clinicId, setClinicId] = useState<string>();
+
+  const { data: clinic } = useQuery({
+    queryKey: ['detailClinicTopbar', { clinicId }],
+    queryFn: () => clinicsApi.clinicControllerGetById(clinicId || ''),
+    enabled: !!clinicId,
+  });
+
+  useEffect(() => {
+    dispatch(updateClinic);
+  }, [clinic]);
 
   useEffect(() => {
     if (
@@ -302,8 +316,9 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   const handleItemDoubleClick = (itemId: string, e: SyntheticEvent, time: number) => {
     // when have an admin booking detail route change route variable like the line below
     // const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
-    const route = user.user.type === 'administrator' ? ADMIN_CLINIC_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
-
+    const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
+    const currentBooking = listBookingDay.find((booking) => booking.id === itemId);
+    setClinicId(currentBooking?.clinicId);
     navigate(`${route.DETAIL_BOOKING}/${itemId}`);
   };
 
