@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * PROJECT_NAME
+ * iHealth
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -2431,7 +2431,7 @@ export interface CreatePrescriptionSampleDto {
      * @type {string}
      * @memberof CreatePrescriptionSampleDto
      */
-    'name'?: string;
+    'note'?: string;
     /**
      * 
      * @type {string}
@@ -2480,7 +2480,13 @@ export interface CreatePrescriptionSampleMedicineDto {
      * @type {string}
      * @memberof CreatePrescriptionSampleMedicineDto
      */
-    'string'?: string;
+    'guide'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrescriptionSampleMedicineDto
+     */
+    'note'?: string;
 }
 /**
  * 
@@ -4162,7 +4168,7 @@ export interface PrescriptionSample {
      * @type {string}
      * @memberof PrescriptionSample
      */
-    'name': string;
+    'note': string;
     /**
      * 
      * @type {string}
@@ -5486,7 +5492,7 @@ export interface UpdatePrescriptionSampleDto {
      * @type {string}
      * @memberof UpdatePrescriptionSampleDto
      */
-    'name'?: string;
+    'note'?: string;
     /**
      * 
      * @type {string}
@@ -5541,7 +5547,13 @@ export interface UpdatePrescriptionSampleMedicineDto {
      * @type {string}
      * @memberof UpdatePrescriptionSampleMedicineDto
      */
-    'string'?: string;
+    'guide'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePrescriptionSampleMedicineDto
+     */
+    'note'?: string;
     /**
      * 
      * @type {string}
@@ -6372,6 +6384,56 @@ export const AdminBookingApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
+         * @param {string} date 
+         * @param {string} [clinicId] 
+         * @param {string} [doctorClinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerCheckBookingByDate: async (date: string, clinicId?: string, doctorClinicId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('adminBookingControllerCheckBookingByDate', 'date', date)
+            const localVarPath = `/admin-booking/check-booking-by-date`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (clinicId !== undefined) {
+                localVarQueryParameter['clinicId'] = clinicId;
+            }
+
+            if (doctorClinicId !== undefined) {
+                localVarQueryParameter['doctorClinicId'] = doctorClinicId;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {AdminCreateBookingDto} adminCreateBookingDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6821,6 +6883,18 @@ export const AdminBookingApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} date 
+         * @param {string} [clinicId] 
+         * @param {string} [doctorClinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminBookingControllerCheckBookingByDate(date: string, clinicId?: string, doctorClinicId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminBookingControllerCheckBookingByDate(date, clinicId, doctorClinicId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {AdminCreateBookingDto} adminCreateBookingDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6946,6 +7020,17 @@ export const AdminBookingApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
+         * @param {string} date 
+         * @param {string} [clinicId] 
+         * @param {string} [doctorClinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminBookingControllerCheckBookingByDate(date: string, clinicId?: string, doctorClinicId?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.adminBookingControllerCheckBookingByDate(date, clinicId, doctorClinicId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {AdminCreateBookingDto} adminCreateBookingDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7060,6 +7145,19 @@ export class AdminBookingApi extends BaseAPI {
      */
     public adminBookingControllerCancelBooking(id: string, updateStatusBookingDto: UpdateStatusBookingDto, options?: AxiosRequestConfig) {
         return AdminBookingApiFp(this.configuration).adminBookingControllerCancelBooking(id, updateStatusBookingDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [clinicId] 
+     * @param {string} [doctorClinicId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminBookingApi
+     */
+    public adminBookingControllerCheckBookingByDate(date: string, clinicId?: string, doctorClinicId?: string, options?: AxiosRequestConfig) {
+        return AdminBookingApiFp(this.configuration).adminBookingControllerCheckBookingByDate(date, clinicId, doctorClinicId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7184,6 +7282,56 @@ export class AdminBookingApi extends BaseAPI {
  */
 export const AdminClinicBookingApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {string} date 
+         * @param {string} [clinicId] 
+         * @param {string} [doctorClinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerCheckBookingByDate: async (date: string, clinicId?: string, doctorClinicId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'date' is not null or undefined
+            assertParamExists('adminClinicBookingControllerCheckBookingByDate', 'date', date)
+            const localVarPath = `/admin-clinic-booking/check-booking-by-date`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (clinicId !== undefined) {
+                localVarQueryParameter['clinicId'] = clinicId;
+            }
+
+            if (doctorClinicId !== undefined) {
+                localVarQueryParameter['doctorClinicId'] = doctorClinicId;
+            }
+
+            if (date !== undefined) {
+                localVarQueryParameter['date'] = date;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {AdminClinicCreateBookingDto} adminClinicCreateBookingDto 
@@ -7590,6 +7738,18 @@ export const AdminClinicBookingApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {string} date 
+         * @param {string} [clinicId] 
+         * @param {string} [doctorClinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerCheckBookingByDate(date: string, clinicId?: string, doctorClinicId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerCheckBookingByDate(date, clinicId, doctorClinicId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {AdminClinicCreateBookingDto} adminClinicCreateBookingDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7699,6 +7859,17 @@ export const AdminClinicBookingApiFactory = function (configuration?: Configurat
     return {
         /**
          * 
+         * @param {string} date 
+         * @param {string} [clinicId] 
+         * @param {string} [doctorClinicId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerCheckBookingByDate(date: string, clinicId?: string, doctorClinicId?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.adminClinicBookingControllerCheckBookingByDate(date, clinicId, doctorClinicId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {AdminClinicCreateBookingDto} adminClinicCreateBookingDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7797,6 +7968,19 @@ export const AdminClinicBookingApiFactory = function (configuration?: Configurat
  * @extends {BaseAPI}
  */
 export class AdminClinicBookingApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} [clinicId] 
+     * @param {string} [doctorClinicId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerCheckBookingByDate(date: string, clinicId?: string, doctorClinicId?: string, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerCheckBookingByDate(date, clinicId, doctorClinicId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {AdminClinicCreateBookingDto} adminClinicCreateBookingDto 
@@ -8056,6 +8240,61 @@ export const AdminMedicineApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        medicineAdminControllerGetAllMedicine: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('medicineAdminControllerGetAllMedicine', 'page', page)
+            const localVarPath = `/admin-medicine/get-all-medicine`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8181,6 +8420,19 @@ export const AdminMedicineApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async medicineAdminControllerGetAllMedicine(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Medicine>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.medicineAdminControllerGetAllMedicine(page, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8241,6 +8493,18 @@ export const AdminMedicineApiFactory = function (configuration?: Configuration, 
          */
         medicineAdminControllerFindOne(id: string, options?: any): AxiosPromise<Medicine> {
             return localVarFp.medicineAdminControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        medicineAdminControllerGetAllMedicine(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<Array<Medicine>> {
+            return localVarFp.medicineAdminControllerGetAllMedicine(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -8307,6 +8571,20 @@ export class AdminMedicineApi extends BaseAPI {
      */
     public medicineAdminControllerFindOne(id: string, options?: AxiosRequestConfig) {
         return AdminMedicineApiFp(this.configuration).medicineAdminControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminMedicineApi
+     */
+    public medicineAdminControllerGetAllMedicine(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return AdminMedicineApiFp(this.configuration).medicineAdminControllerGetAllMedicine(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -18683,10 +18961,14 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @param {string} [fullTextSearch] 
          * @param {Array<string>} [categoryId] 
          * @param {Array<string>} [days] 
+         * @param {'administrator' | 'customer' | 'administrator_clinic' | 'doctor_clinic' | 'doctor_support'} [doctorType] 
+         * @param {number} [priceFrom] 
+         * @param {number} [priceTo] 
+         * @param {Array<string>} [provinceIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        userControllerGetAllDoctor: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, days?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        userControllerGetAllDoctor: async (page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, days?: Array<string>, doctorType?: 'administrator' | 'customer' | 'administrator_clinic' | 'doctor_clinic' | 'doctor_support', priceFrom?: number, priceTo?: number, provinceIds?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('userControllerGetAllDoctor', 'page', page)
             const localVarPath = `/users/get-all-doctor`;
@@ -18729,6 +19011,22 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['days'] = days;
             }
 
+            if (doctorType !== undefined) {
+                localVarQueryParameter['doctorType'] = doctorType;
+            }
+
+            if (priceFrom !== undefined) {
+                localVarQueryParameter['priceFrom'] = priceFrom;
+            }
+
+            if (priceTo !== undefined) {
+                localVarQueryParameter['priceTo'] = priceTo;
+            }
+
+            if (provinceIds) {
+                localVarQueryParameter['provinceIds'] = provinceIds;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -18758,11 +19056,15 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {string} [fullTextSearch] 
          * @param {Array<string>} [categoryId] 
          * @param {Array<string>} [days] 
+         * @param {'administrator' | 'customer' | 'administrator_clinic' | 'doctor_clinic' | 'doctor_support'} [doctorType] 
+         * @param {number} [priceFrom] 
+         * @param {number} [priceTo] 
+         * @param {Array<string>} [provinceIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, days?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserControllerGetAllDoctor200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, options);
+        async userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, days?: Array<string>, doctorType?: 'administrator' | 'customer' | 'administrator_clinic' | 'doctor_clinic' | 'doctor_support', priceFrom?: number, priceTo?: number, provinceIds?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserControllerGetAllDoctor200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, doctorType, priceFrom, priceTo, provinceIds, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -18783,11 +19085,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {string} [fullTextSearch] 
          * @param {Array<string>} [categoryId] 
          * @param {Array<string>} [days] 
+         * @param {'administrator' | 'customer' | 'administrator_clinic' | 'doctor_clinic' | 'doctor_support'} [doctorType] 
+         * @param {number} [priceFrom] 
+         * @param {number} [priceTo] 
+         * @param {Array<string>} [provinceIds] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, days?: Array<string>, options?: any): AxiosPromise<UserControllerGetAllDoctor200Response> {
-            return localVarFp.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, options).then((request) => request(axios, basePath));
+        userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, days?: Array<string>, doctorType?: 'administrator' | 'customer' | 'administrator_clinic' | 'doctor_clinic' | 'doctor_support', priceFrom?: number, priceTo?: number, provinceIds?: Array<string>, options?: any): AxiosPromise<UserControllerGetAllDoctor200Response> {
+            return localVarFp.userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, doctorType, priceFrom, priceTo, provinceIds, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -18807,12 +19113,16 @@ export class UsersApi extends BaseAPI {
      * @param {string} [fullTextSearch] 
      * @param {Array<string>} [categoryId] 
      * @param {Array<string>} [days] 
+     * @param {'administrator' | 'customer' | 'administrator_clinic' | 'doctor_clinic' | 'doctor_support'} [doctorType] 
+     * @param {number} [priceFrom] 
+     * @param {number} [priceTo] 
+     * @param {Array<string>} [provinceIds] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, days?: Array<string>, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, options).then((request) => request(this.axios, this.basePath));
+    public userControllerGetAllDoctor(page: number, size?: number, sort?: string, fullTextSearch?: string, categoryId?: Array<string>, days?: Array<string>, doctorType?: 'administrator' | 'customer' | 'administrator_clinic' | 'doctor_clinic' | 'doctor_support', priceFrom?: number, priceTo?: number, provinceIds?: Array<string>, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).userControllerGetAllDoctor(page, size, sort, fullTextSearch, categoryId, days, doctorType, priceFrom, priceTo, provinceIds, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -223,7 +223,6 @@ const ListMedicine = () => {
     },
   ];
 
-  console.log(permisstion);
   return (
     <Card id="medicine-management">
       <Form form={form} onFinish={handleCreate} layout={'vertical'}>
