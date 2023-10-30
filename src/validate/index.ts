@@ -558,6 +558,11 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     ],
     quantityMedicine: [
       {
+        validator: validator({
+          required: intl.formatMessage({ id: 'validate.required.quantity' }),
+        }),
+      },
+      {
         validator(_: RuleObject, value: number) {
           if (value && value < 1) {
             return Promise.reject(
@@ -568,6 +573,13 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
           }
           return Promise.resolve();
         },
+      },
+    ],
+    idMedicine: [
+      {
+        validator: validator({
+          required: intl.formatMessage({ id: 'validate.required' }),
+        }),
       },
     ],
   };

@@ -97,6 +97,8 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
               label={intl.formatMessage({
                 id: 'medicine.order.modal.create.name',
               })}
+              required
+              rules={ValidateLibrary(intl).idMedicine}
             >
               {/* <CustomInput className="flex-reverse" prefix={<IconSVG type="search" />} /> */}
               <CustomSelect
@@ -120,7 +122,7 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
               })}
               rules={ValidateLibrary(intl).quantityMedicine}
             >
-              <CustomInput type="number" defaultValue={1} />
+              <CustomInput type="number" />
             </Form.Item>
           </div>
           <Form.Item
