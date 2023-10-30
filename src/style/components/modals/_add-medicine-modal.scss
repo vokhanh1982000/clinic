@@ -1,6 +1,8 @@
 .modal-add-medicine {
   width: 608px !important;
-
+  :where(.css-dev-only-do-not-override-13wzhbh).ant-row {
+    display: unset;
+  }
   &__content {
     padding: 5px 18px;
 

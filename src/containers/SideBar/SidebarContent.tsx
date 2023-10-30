@@ -109,6 +109,18 @@ const SidebarContent = (props: ISideBarContentProp) => {
             step++;
           }
         });
+      } else {
+        Object.values(DOCTOR_CLINIC_ROUTE_PATH).forEach((route: any) => {
+          if (location.pathname.includes(`${route}`)) {
+            if (step == 2) {
+              setCurrent({
+                isShow: true,
+                value: route,
+              });
+            }
+            step++;
+          }
+        });
       }
 
       if (excludePath.includes(location.pathname)) {

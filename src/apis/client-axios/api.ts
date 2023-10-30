@@ -2460,6 +2460,31 @@ export interface CreatePrescriptionSampleDto {
 /**
  * 
  * @export
+ * @interface CreatePrescriptionSampleMedicineDto
+ */
+export interface CreatePrescriptionSampleMedicineDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrescriptionSampleMedicineDto
+     */
+    'medicineId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePrescriptionSampleMedicineDto
+     */
+    'quantity': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrescriptionSampleMedicineDto
+     */
+    'string'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateRoleDto
  */
 export interface CreateRoleDto {
@@ -17777,13 +17802,13 @@ export const PrescriptionSampleMedicineApiAxiosParamCreator = function (configur
     return {
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {CreatePrescriptionSampleMedicineDto} createPrescriptionSampleMedicineDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        prescriptionSampleMediceControllerCreate: async (requestBody: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'requestBody' is not null or undefined
-            assertParamExists('prescriptionSampleMediceControllerCreate', 'requestBody', requestBody)
+        prescriptionSampleMediceControllerCreate: async (createPrescriptionSampleMedicineDto: CreatePrescriptionSampleMedicineDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createPrescriptionSampleMedicineDto' is not null or undefined
+            assertParamExists('prescriptionSampleMediceControllerCreate', 'createPrescriptionSampleMedicineDto', createPrescriptionSampleMedicineDto)
             const localVarPath = `/prescription-sample-medicine/create-prescription-sample-medicine`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -17807,7 +17832,7 @@ export const PrescriptionSampleMedicineApiAxiosParamCreator = function (configur
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createPrescriptionSampleMedicineDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -17994,12 +18019,12 @@ export const PrescriptionSampleMedicineApiFp = function(configuration?: Configur
     return {
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {CreatePrescriptionSampleMedicineDto} createPrescriptionSampleMedicineDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async prescriptionSampleMediceControllerCreate(requestBody: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.prescriptionSampleMediceControllerCreate(requestBody, options);
+        async prescriptionSampleMediceControllerCreate(createPrescriptionSampleMedicineDto: CreatePrescriptionSampleMedicineDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.prescriptionSampleMediceControllerCreate(createPrescriptionSampleMedicineDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -18057,12 +18082,12 @@ export const PrescriptionSampleMedicineApiFactory = function (configuration?: Co
     return {
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {CreatePrescriptionSampleMedicineDto} createPrescriptionSampleMedicineDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        prescriptionSampleMediceControllerCreate(requestBody: Array<string>, options?: any): AxiosPromise<void> {
-            return localVarFp.prescriptionSampleMediceControllerCreate(requestBody, options).then((request) => request(axios, basePath));
+        prescriptionSampleMediceControllerCreate(createPrescriptionSampleMedicineDto: CreatePrescriptionSampleMedicineDto, options?: any): AxiosPromise<void> {
+            return localVarFp.prescriptionSampleMediceControllerCreate(createPrescriptionSampleMedicineDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -18115,13 +18140,13 @@ export const PrescriptionSampleMedicineApiFactory = function (configuration?: Co
 export class PrescriptionSampleMedicineApi extends BaseAPI {
     /**
      * 
-     * @param {Array<string>} requestBody 
+     * @param {CreatePrescriptionSampleMedicineDto} createPrescriptionSampleMedicineDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PrescriptionSampleMedicineApi
      */
-    public prescriptionSampleMediceControllerCreate(requestBody: Array<string>, options?: AxiosRequestConfig) {
-        return PrescriptionSampleMedicineApiFp(this.configuration).prescriptionSampleMediceControllerCreate(requestBody, options).then((request) => request(this.axios, this.basePath));
+    public prescriptionSampleMediceControllerCreate(createPrescriptionSampleMedicineDto: CreatePrescriptionSampleMedicineDto, options?: AxiosRequestConfig) {
+        return PrescriptionSampleMedicineApiFp(this.configuration).prescriptionSampleMediceControllerCreate(createPrescriptionSampleMedicineDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
