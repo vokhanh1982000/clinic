@@ -2,6 +2,7 @@
   "error.500": "Lỗi không xác định. Vui lòng thử lại sau",
   "error.403": "Xin lỗi, bạn không có quyền truy cập vào tài nguyên hoặc hành động này",
   "error.401": "Bạn cần đăng nhập để truy cập tài nguyên hoặc hành động này",
+  "error.400": "Dữ liệu gửi lên không hợp lệ",
   "error.PHONE_NUMBER_IS_EXISTED": "Số điện thoại đã tồn tại",
   "error.PHONE_IS_EXIST": "Số điện thoại đã được sử dụng. Vui lòng thử lại",
   "error.NAME_IS_EXIST": "Tên chuyên khoa có thể đã được sử dụng. Vui lòng thử lại",
