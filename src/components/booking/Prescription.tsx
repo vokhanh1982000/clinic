@@ -101,6 +101,7 @@ const Prescription = (props: PrescriptionProp) => {
             name={['prescription', 'diagnosticResults']}
           >
             <CustomArea
+              disabled={role !== 'doctor'}
               rows={6}
               style={{ resize: 'none' }}
               placeholder={intl.formatMessage({
@@ -121,7 +122,7 @@ const Prescription = (props: PrescriptionProp) => {
                 id: 'booking.prescription.medicine.order',
               })}
               render={(value, record, index) => index + 1}
-              width={'5%'}
+              width={'10%'}
             />
             <Column
               title={intl.formatMessage({
@@ -152,7 +153,7 @@ const Prescription = (props: PrescriptionProp) => {
                 id: 'booking.prescription.medicine.guide',
               })}
               dataIndex="guide"
-              width={'55%'}
+              width={'50%'}
               render={(_, record: PrescriptionMedicine) => (
                 <div className="table-cell-guide">
                   <span>{record.guide}</span>

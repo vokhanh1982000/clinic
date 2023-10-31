@@ -54,7 +54,6 @@ const Topbar = (props: {
 
   const [breadcrumb, setBreadcrumb] = useState(DEFAULT_BREADCRUMB);
   const clinicInfo = useAppSelector((state) => state.clinic).clinicInformation;
-
   useEffect(() => {
     if (location.pathname) {
       let arr = [...DEFAULT_BREADCRUMB];
@@ -67,6 +66,12 @@ const Topbar = (props: {
       Object.values(src).forEach((route: any) => {
         if (route != '' && location.pathname.includes(`${route}`) && getLabelBreadcrum(route, rootPath) != '') {
           if (route === ADMIN_ROUTE_PATH.DETAIL_BOOKING) {
+            arr.push({
+              href: `${ADMIN_ROUTE_PATH.DETAIL_CLINIC}/${id}`,
+              title: clinicInfo?.fullName,
+            });
+          }
+          if (route === ADMIN_ROUTE_PATH.CREATE_BOOKING) {
             arr.push({
               href: `${ADMIN_ROUTE_PATH.DETAIL_CLINIC}/${id}`,
               title: clinicInfo?.fullName,
