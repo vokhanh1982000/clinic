@@ -279,6 +279,9 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       },
       {
         validator: validator({
+          space: intl.formatMessage({
+            id: 'validate.full-name.required',
+          }),
           normal: intl.formatMessage({ id: 'common.noti.special' }),
         }),
       },

@@ -12,7 +12,12 @@ const CustomInput = (props: CustomInputProps) => {
   const { placeholder, className, isPassword, ...restProps } = props;
 
   return !isPassword ? (
-    <Input placeholder={placeholder || undefined} className={`ant-custom-input ${className}`} {...restProps} />
+    <Input
+      maxLength={255}
+      placeholder={placeholder || undefined}
+      className={`ant-custom-input ${className}`}
+      {...restProps}
+    />
   ) : (
     <Input.Password placeholder={placeholder || undefined} className={`ant-custom-input ${className}`} {...restProps} />
   );

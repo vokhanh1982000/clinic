@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import CustomButton from '../../../components/buttons/CustomButton';
-import useIntl from '../../../util/useIntl';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Card, Form, message } from 'antd';
+import useForm from 'antd/es/form/hooks/useForm';
+import Column from 'antd/es/table/Column';
+import { debounce } from 'lodash';
+import { useState } from 'react';
 import { IntlShape } from 'react-intl';
+import { medicineApi } from '../../../apis';
+import { CreateMedicineDto, UpdateMedicineDto } from '../../../apis/client-axios';
+import TableWrap from '../../../components/TableWrap';
+import CustomButton from '../../../components/buttons/CustomButton';
 import IconSVG from '../../../components/icons/icons';
 import CustomInput from '../../../components/input/CustomInput';
-import { Card, Dropdown, Form, message } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import TableWrap from '../../../components/TableWrap';
-import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { categoryApi, medicineApi } from '../../../apis';
-import Column from 'antd/es/table/Column';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import { MedicineModal } from '../../../components/modals/MedicineModal';
+import CustomSelect from '../../../components/select/CustomSelect';
 import { ActionUser, MedicineStatus, MedicineUnit, PERMISSIONS } from '../../../constants/enum';
-import useForm from 'antd/es/form/hooks/useForm';
-import { CreateCategoryDto, CreateMedicineDto, UpdateCategoryDto, UpdateMedicineDto } from '../../../apis/client-axios';
-import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../util/check-permission';
+import useIntl from '../../../util/useIntl';
 
 interface Unit {
   id: string;
@@ -259,35 +259,74 @@ const ListMedicine = () => {
             }}
             allowClear={true}
           />
-          <Dropdown className={'dropdown-unit'} menu={{ items: dropDownUnits }}>
-            <CustomButton className="button-unit">
-              <div>
-                {unit
-                  ? intl.formatMessage({
-                      id: `medicine.unit.${unit}`,
-                    })
-                  : intl.formatMessage({
-                      id: 'medicine.list.dropdown.unit',
-                    })}
-              </div>
-              <DownOutlined />
-            </CustomButton>
-          </Dropdown>
-
-          <Dropdown className={'dropdown-status'} menu={{ items: dropDownStatus }}>
-            <CustomButton className="button-status">
-              <div>
-                {status
-                  ? intl.formatMessage({
-                      id: `medicine.status.${status}`,
-                    })
-                  : intl.formatMessage({
-                      id: 'medicine.list.dropdown.status',
-                    })}
-              </div>
-              <DownOutlined />
-            </CustomButton>
-          </Dropdown>
+          <CustomSelect
+            className="select-unit"
+            placeholder={intl.formatMessage({
+              id: 'medicine.list.dropdown.unit',
+            })}
+            onChange={(e) => {
+              if (e === '') {
+                setUnit(undefined);
+              } else {
+                setUnit(e as MedicineUnit);
+              }
+              setPage(1);
+            }}
+            options={[
+              {
+                value: '',
+                label: intl.formatMessage({
+                  id: 'medicine.list.dropdown.unit',
+                }),
+              },
+              {
+                value: MedicineUnit.JAR,
+                label: intl.formatMessage({
+                  id: 'medicine.unit.jar',
+                }),
+              },
+              {
+                value: MedicineUnit.PELLET,
+                label: intl.formatMessage({
+                  id: 'medicine.unit.pellet',
+                }),
+              },
+            ]}
+          />
+          <CustomSelect
+            className="select-status"
+            placeholder={intl.formatMessage({
+              id: 'medicine.list.dropdown.status',
+            })}
+            onChange={(e) => {
+              if (e === '') {
+                setStatus(undefined);
+              } else {
+                setStatus(e as MedicineStatus);
+              }
+              setPage(1);
+            }}
+            options={[
+              {
+                value: '',
+                label: intl.formatMessage({
+                  id: 'medicine.list.dropdown.status',
+                }),
+              },
+              {
+                value: MedicineStatus.NONE_LEFT,
+                label: intl.formatMessage({
+                  id: 'medicine.status.none-left',
+                }),
+              },
+              {
+                value: MedicineStatus.STILL,
+                label: intl.formatMessage({
+                  id: 'medicine.status.still',
+                }),
+              },
+            ]}
+          />
         </div>
         <TableWrap
           className={'custom-table'}
