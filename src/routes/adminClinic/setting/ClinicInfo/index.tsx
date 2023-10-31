@@ -10,6 +10,7 @@ import IconSVG from '../../../../components/icons/icons';
 import CustomArea from '../../../../components/input/CustomArea';
 import { regexImage } from '../../../../validate/validator.validate';
 import { ValidateLibrary } from '../../../../validate';
+import { CadastalCustom } from '../../../../components/Cadastral';
 
 interface ClinicInfoParams {
   form: FormInstance;
@@ -131,75 +132,13 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
           <CustomInput />
         </Form.Item>
 
-        <div className="clinic-info__content__rows">
-          <Form.Item
-            className="province"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.province',
-            })}
-            name={'provinceId'}
-          >
-            <CustomSelect
-              options={
-                listProvince && listProvince.data && listProvince.data.length > 0
-                  ? listProvince.data.map((item) => ({
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : []
-              }
-              onChange={handleChangeProvince}
-            />
-          </Form.Item>
-          <Form.Item
-            className="district"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.district',
-            })}
-            name={'districtId'}
-          >
-            <CustomSelect
-              options={
-                listDistrict && listDistrict.data && listDistrict.data.length > 0
-                  ? listDistrict.data.map((item) => ({
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : []
-              }
-              onChange={handleChangeDistrict}
-            />
-          </Form.Item>
-        </div>
-        <div className="clinic-info__content__rows">
-          <Form.Item
-            className="ward"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.ward',
-            })}
-            name={'wardId'}
-          >
-            <CustomSelect
-              options={
-                listWard && listWard.data && listWard.data.length > 0
-                  ? listWard.data.map((item) => ({
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : []
-              }
-            />
-          </Form.Item>
-          <Form.Item
-            className="address"
-            label={intl.formatMessage({
-              id: 'clinic.create.clinic.address',
-            })}
-            name={'address'}
-          >
-            <CustomInput />
-          </Form.Item>
-        </div>
+        <CadastalCustom
+          form={form}
+          provinceId={provinceId}
+          districtId={districtId}
+          setProvinceId={setProvinceId}
+          setDistrictId={setDistrictId}
+        ></CadastalCustom>
 
         <Form.Item
           className="introduce"

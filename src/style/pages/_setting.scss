@@ -11,6 +11,26 @@
     display: flex;
     gap: 20px;
 
+    .ant-form-item {
+      .ant-form-item-row {
+        .ant-form-item-label {
+          label {
+            color: $text_black_light;
+            font-family: 'Open-sans';
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 22px;
+          }
+        }
+
+        .ant-form-item-control-input-content {
+          input {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
     &__left-container {
       width: 100%;
       border: 1px solid $border_input_color;
