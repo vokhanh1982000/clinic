@@ -10,6 +10,7 @@ import { ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/rout
 import { getItem } from '../../containers/SideBar/SidebarContent';
 import useIntlHook from '../../util/useIntl';
 import { getMenuActiveIconName } from '../../util/menu';
+import { PERMISSIONS } from '../../constants/enum';
 
 const Doctor = () => {
   const dispatch = useAppDispatch();
@@ -21,12 +22,18 @@ const Doctor = () => {
     getItem(
       intl.formatMessage({ id: 'menu.bookingManagement' }),
       DOCTOR_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT,
-      <img src="/assets/icons/admin/bookingManagementIconInactive.svg" />
+      <img src="/assets/icons/admin/bookingManagementIconInactive.svg" />,
+      undefined,
+      undefined,
+      [PERMISSIONS.Authenticated]
     ),
     getItem(
       intl.formatMessage({ id: 'menu.prescriptionTeamplateManagement' }),
       DOCTOR_CLINIC_ROUTE_PATH.PRESCRIPTION_TEAMPLATE,
-      <img src="/assets/icons/admin/prescriptionTeamplateInactive.svg" />
+      <img src="/assets/icons/admin/prescriptionTeamplateInactive.svg" />,
+      undefined,
+      undefined,
+      [PERMISSIONS.Authenticated]
     ),
   ];
   const [menu, setMenu] = useState(defaultMenu);

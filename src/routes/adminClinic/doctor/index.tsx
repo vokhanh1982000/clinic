@@ -21,6 +21,7 @@ const ListDoctor = () => {
     delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic)),
     update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic)),
   });
+
   const deleteAdmin = useMutation((id: string) => doctorClinicApi.doctorClinicControllerDelete(id), {
     onSuccess: ({ data }) => {
       console.log(data);

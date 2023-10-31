@@ -18,16 +18,37 @@ interface IMainAppProp {
 const MainApp = (props: IMainAppProp) => {
   const [collapsed, setCollapsed] = useState(false);
   const { width } = useSelector((state: RootState) => state.setting);
+  const authUser = useSelector((state: RootState) => state.auth).authUser;
+  const [menu, setMenu] = useState<any[]>([]);
+
+  useEffect(() => {
+    let data: any[] = [];
+    if (authUser?.user && authUser?.user.roles.length > 0 && props.menuItems) {
+      authUser.user.roles.map((role) =>
+        props.menuItems?.map((item: any) => {
+          if (Array.isArray(item.view)) {
+            for (const i of item.view) {
+              if (role.permissions.includes(i)) {
+                data.push(item);
+                break;
+              }
+            }
+          }
+        })
+      );
+      if (data && data.length > 0) setMenu(data);
+    }
+  }, [authUser, props]);
 
   return (
     <Layout style={{ minHeight: '100vh' }} hasSider={true}>
       <Sider className="shadow sider" trigger={null} collapsible collapsed={width < TAB_SIZE ? false : collapsed}>
         {width < TAB_SIZE ? (
           <Drawer open={collapsed} placement="left" closable={false} onClose={() => setCollapsed(!collapsed)}>
-            <SidebarContent menuItems={props.menuItems} />
+            <SidebarContent menuItems={menu} />
           </Drawer>
         ) : (
-          <SidebarContent menuItems={props.menuItems} />
+          <SidebarContent menuItems={menu} />
         )}
       </Sider>
       <Layout>

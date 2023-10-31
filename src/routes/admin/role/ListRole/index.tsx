@@ -142,11 +142,11 @@ const ListRole = () => {
                   <span className="divider"></span>
                   <div
                     className={permisstion.delete ? '' : 'disable'}
-                    onClick={() =>
+                    onClick={() => {
                       Boolean(record.name !== 'SuperAdmin') &&
-                      !permisstion.delete &&
-                      setIsShowModalDelete({ id: record.id, name: record.name })
-                    }
+                        permisstion.delete &&
+                        setIsShowModalDelete({ id: record.id, name: record.name });
+                    }}
                   >
                     <IconSVG type="delete" />
                   </div>
