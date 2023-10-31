@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Card, Form, message, Select } from 'antd';
 import useIntl from '../../../../util/useIntl';
 import { IntlShape } from 'react-intl';
-import { Params, useParams } from 'react-router-dom';
+import { Params, useNavigate, useParams } from 'react-router-dom';
 import DoctorInfo from '../../../../components/booking/DoctorInfo';
 import CustomerInfo from '../../../../components/booking/CustomerInfo';
-import ScheduleInfo from '../../../../components/booking/ScheduleInfo';
+import ScheduleInfo, { BookingTime } from '../../../../components/booking/ScheduleInfo';
 import Action from '../../../../components/booking/Action';
 import IconSVG from '../../../../components/icons/icons';
 import useForm from 'antd/es/form/hooks/useForm';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { adminBookingApi } from '../../../../apis';
 import {
+  AdminCreateBookingDto,
   AdminUpdateBookingDto,
   Booking,
   BookingStatusEnum,
@@ -23,8 +24,11 @@ import {
 import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import ClinicInfo from '../../../../components/booking/ClinicInfo';
-import { useAppDispatch, useAppSelector } from '../../../../store';
+import { useAppDispatch } from '../../../../store';
 import { updateClinic } from '../../../../store/clinicSlice';
+import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -35,7 +39,13 @@ const CreateOrUpDateBooking = () => {
   const [customer, setCustomer] = useState<Customer>();
   const [isSubmit, setIsSubmit] = useState<boolean>();
   const [currentStatus, setCurrentStatus] = useState<BookingStatusEnum>();
+  const [date, setDate] = useState<dayjs.Dayjs>(dayjs(roundTimeToNearestHalfHour(new Date())));
+  const [time, setTime] = useState<string>();
+  const [amTime, setAmTime] = useState<any[]>();
+  const [pmTime, setPmTime] = useState<any[]>();
   const dispatch = useAppDispatch();
+  const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
+  const navigate = useNavigate();
   const { data: bookingData } = useQuery({
     queryKey: ['adminBookingDetail'],
     queryFn: () => {
@@ -63,6 +73,26 @@ const CreateOrUpDateBooking = () => {
     },
   });
 
+  const { mutate: CreateBooking } = useMutation({
+    mutationFn: (dto: AdminCreateBookingDto) => {
+      return adminBookingApi.adminBookingControllerCreate(dto);
+    },
+    onSuccess: () => {
+      message.success(
+        intl.formatMessage({
+          id: 'booking.message.create.success',
+        })
+      );
+    },
+    onError: () => {
+      message.error(
+        intl.formatMessage({
+          id: 'booking.message.create.fail',
+        })
+      );
+    },
+  });
+
   const { mutate: CancelBooking } = useMutation({
     mutationFn: (dto: UpdateStatusBookingDto) => adminBookingApi.adminBookingControllerCancelBooking(id!, dto),
     onSuccess: () => {
@@ -79,6 +109,18 @@ const CreateOrUpDateBooking = () => {
         })
       );
     },
+  });
+
+  const { data: bookingTimeData } = useQuery({
+    queryKey: ['adminBookingTime', { date, clinic, doctorClinic }],
+    queryFn: () => {
+      return adminBookingApi.adminBookingControllerCheckBookingByDate(
+        date.format('YYYY-MM-DD'),
+        clinic?.id,
+        doctorClinic?.id
+      );
+    },
+    enabled: !!clinic?.id,
   });
 
   const statusClassName = (status: BookingStatusEnum) => {
@@ -102,15 +144,31 @@ const CreateOrUpDateBooking = () => {
     setDoctorClinic(data?.doctorClinic);
     setCustomer(data?.customer);
     setClinic(data?.clinic);
-    setCurrentStatus(bookingData?.data.status);
+
+    if (bookingData?.data.status) {
+      setCurrentStatus(bookingData.data.status);
+    }
+    if (!bookingData?.data.status) {
+      setCurrentStatus(BookingStatusEnum.Pending);
+    }
+
+    if (data?.appointmentStartTime) {
+      setDate(dayjs(data?.appointmentStartTime));
+    }
   }, [bookingData]);
+
+  useEffect(() => {
+    const data = bookingTimeData?.data as unknown as { arrOfTimeAM: BookingTime[]; arrOfTimePM: BookingTime[] };
+    setAmTime(data?.arrOfTimeAM);
+    setPmTime(data?.arrOfTimePM);
+  }, [bookingTimeData]);
   const handleUpdate = () => {
     const data = form.getFieldsValue();
     const booking: AdminUpdateBookingDto = {
       ...data,
-      appointmentStartTime: dayjs(data.appointmentStartTime).format(),
+      appointmentStartTime: date.format(),
       id,
-      appointmentEndTime: dayjs(data.appointmentStartTime).add(30, 'minute').format(),
+      appointmentEndTime: date.add(30, 'minute').format(),
       doctorClinicId: doctorClinic?.id,
       clinicId: clinic?.id,
       customerId: customer?.id,
@@ -122,14 +180,29 @@ const CreateOrUpDateBooking = () => {
     UpdateBooking(booking);
   };
 
-  useEffect(() => {
-    dispatch(updateClinic(clinic));
-  }, [clinic]);
+  const handleCreate = () => {
+    const data = form.getFieldsValue();
+    const booking: AdminCreateBookingDto = {
+      ...data,
+      appointmentStartTime: date.format(),
+      id,
+      appointmentEndTime: date.add(30, 'minute').format(),
+      doctorClinicId: doctorClinic?.id,
+      clinicId: clinic?.id,
+      customerId: customer?.id,
+    };
+    setIsSubmit(true);
+    if (!booking.customerId || !booking.clinicId) {
+      return;
+    }
+    CreateBooking(booking);
+  };
 
   const handleCancel = () => {
     if (id) {
       CancelBooking({ status: BookingStatusEnum.Cancelled });
     }
+    navigate(-1);
   };
   return (
     <Card id={'create-booking-management'}>
@@ -153,21 +226,28 @@ const CreateOrUpDateBooking = () => {
           >
             <IconSVG type={'copy'} />
           </span>
-          <Form.Item name={'status'} className={'status'}>
-            <Select
-              className={`create-booking-header__select-status ${statusClassName(currentStatus!)} `}
-              defaultValue="Hoàn thành"
-              options={BookingStatus.map((item) => ({
-                label: intl.formatMessage({ id: item.label }),
-                value: item.value,
-              }))}
-              suffixIcon={<IconSVG type={'dropdown'} />}
-              onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}
-            ></Select>
-          </Form.Item>
+          {id && (
+            <Form.Item name={'status'} className={'status'}>
+              <Select
+                className={`create-booking-header__select-status ${statusClassName(currentStatus!)} `}
+                value={BookingStatusEnum.Pending}
+                options={BookingStatus.map((item) => ({
+                  label: intl.formatMessage({ id: item.label }),
+                  value: item.value,
+                }))}
+                suffixIcon={<IconSVG type={'dropdown'} />}
+                onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}
+              ></Select>
+            </Form.Item>
+          )}
         </Form>
       </div>
-      <Form className={'form-create-booking'} layout={'vertical'} form={form} onFinish={handleUpdate}>
+      <Form
+        className={'form-create-booking'}
+        layout={'vertical'}
+        form={form}
+        onFinish={id ? handleUpdate : handleCreate}
+      >
         <div className={'left-container'}>
           <ClinicInfo
             form={form}
@@ -197,12 +277,31 @@ const CreateOrUpDateBooking = () => {
         </div>
         <div className={'right-container'}>
           <div className={'schedule-info-area'}>
-            <ScheduleInfo form={form} type={id ? 'update' : 'create'} role={'admin'} />
+            <ScheduleInfo
+              form={form}
+              type={id ? 'update' : 'create'}
+              role={'admin'}
+              amTime={amTime}
+              pmTime={pmTime}
+              date={date}
+              setDate={setDate}
+            />
           </div>
           <div className={'action-area'}>
-            <Action form={form} type={id ? 'update' : 'create'} role={'admin'} onCancel={() => handleCancel()} />
+            <Action
+              form={form}
+              type={id ? 'update' : 'create'}
+              role={'admin'}
+              onCancel={() => setShowModalCancel(true)}
+            />
           </div>
         </div>
+        <ConfirmCancelModal
+          name={!id ? '' : `#${bookingData?.data.order}`}
+          visible={showModalCancel}
+          onSubmit={() => handleCancel()}
+          onClose={() => setShowModalCancel(false)}
+        />
       </Form>
     </Card>
   );

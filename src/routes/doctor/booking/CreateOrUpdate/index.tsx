@@ -25,6 +25,7 @@ import {
 import Prescription from '../../../../components/booking/Prescription';
 import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
+import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -36,7 +37,7 @@ const CreateOrUpDateBooking = () => {
   const [customer, setCustomer] = useState<Customer>();
   const [prescription, setPrescription] = useState<PrescriptionType>();
   const [currentStatus, setCurrentStatus] = useState<BookingStatusEnum>();
-
+  const [date, setDate] = useState<dayjs.Dayjs>(dayjs(roundTimeToNearestHalfHour(new Date())));
   const { data: bookingData } = useQuery({
     queryKey: ['bookingDetail'],
     queryFn: () => {
@@ -71,6 +72,9 @@ const CreateOrUpDateBooking = () => {
     setCustomer(data?.customer);
     setPrescription(data?.prescription);
     setCurrentStatus(bookingData?.data.status);
+    if (data?.appointmentStartTime) {
+      setDate(dayjs(data?.appointmentStartTime));
+    }
   }, [bookingData]);
 
   const handleUpdate = () => {
@@ -147,7 +151,7 @@ const CreateOrUpDateBooking = () => {
         </div>
         <div className={'right-container'}>
           <div className={'schedule-info-area'}>
-            <ScheduleInfo form={form} role={'doctor'} />
+            <ScheduleInfo form={form} role={'doctor'} date={date} type={'update'} />
           </div>
           <div className={'action-area'}>
             <Action form={form} role={'doctor'} />

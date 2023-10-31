@@ -7,6 +7,9 @@
     font-size: 14px !important;
   }
 }
+.ant-input-disabled {
+  background-color: $input_disabled-bg !important;
+}
 
 .ant-custom-area {
   border-radius: 15px;

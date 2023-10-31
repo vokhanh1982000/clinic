@@ -3,7 +3,7 @@ import { Card, Col, Form, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { adminBookingApi, clinicsApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
 import { DoctorClinic } from '../../../../apis/client-axios';
 import TimelineControl from '../../../../components/TimelineControl';
@@ -12,8 +12,10 @@ import TimelineDay from '../../../../components/TimelineDay';
 import TimelineMonth from '../../../../components/TimelineMonth';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
-import { useAppSelector } from '../../../../store';
+import { useAppDispatch, useAppSelector } from '../../../../store';
 import { DATE_TIME_FORMAT } from '../../../../util/constant';
+import { updateClinic } from '../../../../store/clinicSlice';
+import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const ClinicTimeline = () => {
   const intl = useIntl();
@@ -28,6 +30,10 @@ const ClinicTimeline = () => {
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 9 });
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
 
   useEffect(() => {
     form.setFieldsValue({
@@ -86,7 +92,9 @@ const ClinicTimeline = () => {
   const handleChangeFilter = (newFilter: IFilter) => {
     setFilter((prev) => ({ ...prev, ...newFilter }));
   };
-
+  useEffect(() => {
+    dispatch(updateClinic(clinic?.data));
+  }, [clinic]);
   const renderTimeline = (mode?: TimelineMode) => {
     let currentScreen: ReactNode = null;
 
@@ -137,6 +145,9 @@ const ClinicTimeline = () => {
               <CustomButton
                 icon={<IconSVG type="create" />}
                 className="width-176 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
+                onClick={() => {
+                  navigate(`${route.CREATE_BOOKING}`);
+                }}
               >
                 <span className="font-weight-600 color-ffffff">
                   {intl.formatMessage({ id: 'timeline.admin.button.create' })}

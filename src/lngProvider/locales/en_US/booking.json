@@ -47,5 +47,8 @@
   "booking.create.error.content": "required",
   "booking.button.admin-save": "Save",
   "booking.button.admin-cancel": "Cancelled",
-  "booking.button.doctor.provide-medicine": "Submit"
+  "booking.button.doctor.provide-medicine": "Submit",
+  "booking.modal-cancel.confirm-cancel": "Are you sure you want to cancel this item?",
+  "booking.cancel-modal.button.cancel": "Cancel",
+  "booking.cancel-modal.button.confirm": "Confirm"
 }

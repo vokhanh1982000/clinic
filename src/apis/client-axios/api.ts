@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * iHealth
+ * PROJECT_NAME
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -7284,6 +7284,49 @@ export const AdminClinicBookingApiAxiosParamCreator = function (configuration?: 
     return {
         /**
          * 
+         * @param {string} id 
+         * @param {UpdateStatusBookingDto} updateStatusBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerCancelBooking: async (id: string, updateStatusBookingDto: UpdateStatusBookingDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminClinicBookingControllerCancelBooking', 'id', id)
+            // verify required parameter 'updateStatusBookingDto' is not null or undefined
+            assertParamExists('adminClinicBookingControllerCancelBooking', 'updateStatusBookingDto', updateStatusBookingDto)
+            const localVarPath = `/admin-clinic-booking/cancel-booking-by-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateStatusBookingDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} date 
          * @param {string} [clinicId] 
          * @param {string} [doctorClinicId] 
@@ -7738,6 +7781,17 @@ export const AdminClinicBookingApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {string} id 
+         * @param {UpdateStatusBookingDto} updateStatusBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminClinicBookingControllerCancelBooking(id: string, updateStatusBookingDto: UpdateStatusBookingDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Booking>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerCancelBooking(id, updateStatusBookingDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} date 
          * @param {string} [clinicId] 
          * @param {string} [doctorClinicId] 
@@ -7859,6 +7913,16 @@ export const AdminClinicBookingApiFactory = function (configuration?: Configurat
     return {
         /**
          * 
+         * @param {string} id 
+         * @param {UpdateStatusBookingDto} updateStatusBookingDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminClinicBookingControllerCancelBooking(id: string, updateStatusBookingDto: UpdateStatusBookingDto, options?: any): AxiosPromise<Booking> {
+            return localVarFp.adminClinicBookingControllerCancelBooking(id, updateStatusBookingDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} date 
          * @param {string} [clinicId] 
          * @param {string} [doctorClinicId] 
@@ -7968,6 +8032,18 @@ export const AdminClinicBookingApiFactory = function (configuration?: Configurat
  * @extends {BaseAPI}
  */
 export class AdminClinicBookingApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} id 
+     * @param {UpdateStatusBookingDto} updateStatusBookingDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminClinicBookingApi
+     */
+    public adminClinicBookingControllerCancelBooking(id: string, updateStatusBookingDto: UpdateStatusBookingDto, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerCancelBooking(id, updateStatusBookingDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {string} date 
@@ -12904,7 +12980,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
          * @throws {RequiredError}
          */
         customerControllerDeleteCustomer: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/customers/delete-customer-for-customer/delete/{id}`;
+            const localVarPath = `/customers/delete-customer-for-customer`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -13243,7 +13319,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customerControllerDeleteCustomer(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerControllerGet200Response>> {
+        async customerControllerDeleteCustomer(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.customerControllerDeleteCustomer(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -13345,7 +13421,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customerControllerDeleteCustomer(options?: any): AxiosPromise<CustomerControllerGet200Response> {
+        customerControllerDeleteCustomer(options?: any): AxiosPromise<void> {
             return localVarFp.customerControllerDeleteCustomer(options).then((request) => request(axios, basePath));
         },
         /**

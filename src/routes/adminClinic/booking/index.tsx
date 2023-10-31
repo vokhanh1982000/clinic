@@ -12,7 +12,7 @@ import TimelineDay from '../../../components/TimelineDay';
 import TimelineMonth from '../../../components/TimelineMonth';
 import CustomButton from '../../../components/buttons/CustomButton';
 import IconSVG from '../../../components/icons/icons';
-import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
+import { ADMIN_CLINIC_ROUTE_NAME, ADMIN_CLINIC_ROUTE_PATH } from '../../../constants/route';
 import { useAppSelector } from '../../../store';
 import { DATE_TIME_FORMAT } from '../../../util/constant';
 
@@ -148,6 +148,9 @@ const ListBooking = () => {
                   <CustomButton
                     icon={<IconSVG type="create" />}
                     className="width-176 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
+                    onClick={() => {
+                      navigate(`${ADMIN_CLINIC_ROUTE_PATH.CREATE_BOOKING}`);
+                    }}
                   >
                     <span className="font-weight-600 color-ffffff">
                       {intl.formatMessage({ id: 'timeline.admin.button.create' })}
