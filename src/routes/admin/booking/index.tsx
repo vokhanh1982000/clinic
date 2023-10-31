@@ -44,10 +44,10 @@ const ListBooking = () => {
     | Array<'completed' | 'pending' | 'cancelled' | 'approved'>
     | undefined;
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+    read: Boolean(CheckPermission(PERMISSIONS.ReadBooking)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateBooking)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking)),
   });
   const navigate = useNavigate();
 

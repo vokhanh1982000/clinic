@@ -38,10 +38,10 @@ const ListBooking = () => {
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 9 });
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+    read: Boolean(CheckPermission(PERMISSIONS.ReadBooking)),
+    create: Boolean(CheckPermission(PERMISSIONS.CreateBooking)),
+    delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking)),
+    update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking)),
   });
 
   useEffect(() => {
