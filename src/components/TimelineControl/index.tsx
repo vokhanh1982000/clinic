@@ -10,7 +10,7 @@ import CustomButton from '../buttons/CustomButton';
 import IconSVG from '../icons/icons';
 import TimelineControlMode from './Mode';
 import TimelineControlPicker from './Picker';
-import { IFormData, TimelineMode, n } from './constants';
+import { IFilter, IFormData, TimelineMode, n } from './constants';
 
 interface TimelineControlProps {
   form: FormInstance<IFormData>;
@@ -18,12 +18,13 @@ interface TimelineControlProps {
   onRefetchDay?: () => void;
   onRefetchWeek?: () => void;
   onRefetchMonth: () => void;
+  onChangeFilter?: (filter: IFilter) => void;
 }
 
 export const scheduleDoctorRoutes = [ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR, ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR];
 
 const TimelineControl: FC<TimelineControlProps> = (props) => {
-  const { form, user, onRefetchDay, onRefetchWeek, onRefetchMonth } = props;
+  const { form, user, onRefetchDay, onRefetchWeek, onRefetchMonth, onChangeFilter } = props;
 
   const intl = useIntl();
   const mode = Form.useWatch(n('mode'), form);
@@ -34,8 +35,12 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
     if (e.code === 'Enter') form.submit();
   };
 
-  const onFinish = (_: IFormData) => {
+  const onFinish = (formValues: IFormData) => {
     if (scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/')))) return;
+
+    if (!formValues.keyword && onChangeFilter) {
+      onChangeFilter({ page: 1, size: 9 });
+    }
 
     if (mode === TimelineMode.MONTH) onRefetchMonth();
     else if (mode === TimelineMode.DATE && onRefetchDay) onRefetchDay();

@@ -77,42 +77,27 @@ $font-family: Open-Sans;
     }
   }
 
-  &-container {
-    max-height: calc(100vh - 370px);
-    overflow-y: auto;
-    padding-bottom: 10px;
-    margin-bottom: -10px;
-
-    &::-webkit-scrollbar {
-      width: 12px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: $color-E5E5E5;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: $color-702A14;
-      border-radius: 8px;
-    }
-  }
-
   &-day {
+    &-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
     &.react-calendar-timeline {
       overflow: auto;
       border: 1px solid $color-ccc;
       border-bottom: none;
+      max-height: calc(100vh - 370px);
 
       &::-webkit-scrollbar {
         width: 12px;
-        height: 12px;
       }
 
       &::-webkit-scrollbar-track {
         background: $color-E5E5E5;
         border-radius: 8px;
+        margin-bottom: 10px;
       }
 
       &::-webkit-scrollbar-thumb {
@@ -163,6 +148,12 @@ $font-family: Open-Sans;
             border-bottom: 1px solid $color-ccc;
             background: $color-ffffff;
             position: relative;
+          }
+
+          & .rct-hl-even {
+            &:nth-last-child(2) {
+              border-bottom: none;
+            }
           }
 
           & .rct-vertical-lines {

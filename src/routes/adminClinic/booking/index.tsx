@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { adminClinicBookingApi, doctorClinicApi, holidayScheduleApi } from '../../../apis';
 import { DoctorClinic } from '../../../apis/client-axios';
 import TimelineControl from '../../../components/TimelineControl';
-import { IFormData, NOTES, TimelineMode, n } from '../../../components/TimelineControl/constants';
+import { IFilter, IFormData, NOTES, TimelineMode, n } from '../../../components/TimelineControl/constants';
 import TimelineDay from '../../../components/TimelineDay';
 import TimelineMonth from '../../../components/TimelineMonth';
 import CustomButton from '../../../components/buttons/CustomButton';
@@ -15,14 +15,6 @@ import IconSVG from '../../../components/icons/icons';
 import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
 import { useAppSelector } from '../../../store';
 import { DATE_TIME_FORMAT } from '../../../util/constant';
-import CheckPermission, { Permission } from '../../../util/check-permission';
-import { PERMISSIONS } from '../../../constants/enum';
-
-export interface IFilter {
-  page: number;
-  size?: number;
-  sort?: string;
-}
 
 const ListBooking = () => {
   const intl = useIntl();
@@ -37,12 +29,6 @@ const ListBooking = () => {
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 9 });
-  const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
-  });
 
   useEffect(() => {
     form.setFieldsValue({
@@ -55,13 +41,13 @@ const ListBooking = () => {
     queryKey: ['adminClinicBookingDay', time, mode],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword),
-    enabled: !!time && mode === TimelineMode.DATE && permisstion.read,
+    enabled: !!time && mode === TimelineMode.DATE,
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
     queryKey: ['adminClinicGetDoctorClinic', filter],
     queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword),
-    enabled: !!filter && mode === TimelineMode.DATE && permisstion.read,
+    enabled: !!filter && mode === TimelineMode.DATE,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
@@ -71,7 +57,7 @@ const ListBooking = () => {
         dayjs(time).format(DATE_TIME_FORMAT),
         keyword
       ),
-    enabled: !!time && mode === TimelineMode.MONTH && permisstion.read,
+    enabled: !!time && mode === TimelineMode.MONTH,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
@@ -179,12 +165,11 @@ const ListBooking = () => {
             user={user}
             onRefetchMonth={handleRefetchMonth}
             onRefetchDay={handleRefetchDay}
+            onChangeFilter={handleChangeFilter}
           />
         </Col>
 
-        <Col span={24} className="timeline-custom-container">
-          {renderTimeline(mode)}
-        </Col>
+        <Col span={24}>{renderTimeline(mode)}</Col>
 
         <Col span={24}>
           <Row align="middle" gutter={[0, 12]} wrap className="timeline-custom-note">

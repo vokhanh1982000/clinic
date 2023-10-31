@@ -16,6 +16,8 @@ import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteM
 import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { PERMISSIONS } from '../../../../constants/enum';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -26,11 +28,24 @@ const ListRole = () => {
   const [fullTextSearch, setFullTextSearch] = useState<any>(null);
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const queryClient = useQueryClient();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadRole, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateRole, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateRole, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const { data, isLoading } = useQuery({
     queryKey: ['getUsers', { page, size, sort, fullTextSearch }],

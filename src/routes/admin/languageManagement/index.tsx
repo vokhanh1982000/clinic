@@ -1,5 +1,5 @@
 import { Card, Form, message } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import CustomButton from '../../../components/buttons/CustomButton';
 import IconSVG from '../../../components/icons/icons';
@@ -15,6 +15,8 @@ import { CreateCategoryDto, UpdateCategoryDto, UpdateLanguageDto } from '../../.
 import { debounce } from 'lodash';
 import { CustomHandleError } from '../../../components/response';
 import CheckPermission, { Permission } from '../../../util/check-permission';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 const LanguageManagement = () => {
   const intl = useIntl();
@@ -28,12 +30,24 @@ const LanguageManagement = () => {
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string; name: string }>();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const [avatar, setAvatar] = useState<string>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadLanguage)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateLanguage)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteLanguage)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateLanguage)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: CheckPermission(PERMISSIONS.ReadLanguage, authUser),
+        create: CheckPermission(PERMISSIONS.CreateLanguage, authUser),
+        delete: CheckPermission(PERMISSIONS.DeleteLanguage, authUser),
+        update: CheckPermission(PERMISSIONS.UpdateLanguage, authUser),
+      });
+    }
+  }, [authUser]);
 
   const { data, isLoading } = useQuery({
     queryKey: ['languageList', { page, size, sort, fullTextSearch }],

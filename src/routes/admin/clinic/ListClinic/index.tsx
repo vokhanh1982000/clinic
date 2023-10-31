@@ -16,6 +16,8 @@ import CustomSelect from '../../../../components/select/CustomSelect';
 import { PERMISSIONS, Status } from '../../../../constants/enum';
 import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 interface optionLocation {
   id: string;
@@ -37,12 +39,24 @@ const ListClinic = () => {
   const [districtSelected, setDistrictSelected] = useState<{ id: string; code: string }>();
   const [wardSelected, setWardSelected] = useState<{ id: string; code: string }>();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadClinic)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateClinic)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadClinic, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateClinic, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const { data: listProvince } = useQuery({
     queryKey: ['provinceList'],

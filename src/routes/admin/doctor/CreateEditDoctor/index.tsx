@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, Form, message } from 'antd';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { categoryApi, doctorSupportApi } from '../../../../apis';
@@ -15,6 +15,8 @@ import dayjs from 'dayjs';
 import { FORMAT_DATE } from '../../../../constants/common';
 import { CustomHandleError } from '../../../../components/response';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -26,12 +28,24 @@ const CreateDoctor = () => {
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
   const [avatar, setAvatar] = useState<string>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic, authUser)),
+      });
+    }
+  }, [authUser]);
   const n = (key: keyof CreateDoctorSupport) => {
     return key;
   };

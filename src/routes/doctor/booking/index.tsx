@@ -111,9 +111,7 @@ const ListBooking = () => {
           />
         </Col>
 
-        <Col span={24} className="timeline-custom-container">
-          {renderTimeline(mode)}
-        </Col>
+        <Col span={24}>{renderTimeline(mode)}</Col>
 
         <Col span={24}>
           <Row align="middle" gutter={[0, 12]} wrap className="timeline-custom-note">

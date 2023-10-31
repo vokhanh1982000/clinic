@@ -321,7 +321,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
                   <CustomButton
                     className="button-create"
                     onClick={() => form.submit()}
-                    disabled={!(medicines.length > 1)}
+                    // disabled={!(medicines.length > 1)}
                   >
                     {intl.formatMessage({
                       id: 'prescription-teamplate.create.save',

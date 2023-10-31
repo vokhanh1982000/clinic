@@ -82,10 +82,7 @@ export const AdminRoutes = () => (
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateRole />} />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<SuspenseWrapper component={<ListMedicine />} />} />
-      <Route
-        path={ADMIN_ROUTE_NAME.LANGUAGE_MANAGEMENT}
-        element={<SuspenseWrapper component={<LanguageManagement />} />}
-      />
+      <Route path={ADMIN_ROUTE_NAME.LANGUAGE_MANAGEMENT} element={<LanguageManagement />} />
       <Route path={ADMIN_ROUTE_NAME.ADMIN_PROFILE} element={<SuspenseWrapper component={<AdminProfile />} />} />
       <Route
         path={ADMIN_ROUTE_NAME.CHANGE_PASSWORD}

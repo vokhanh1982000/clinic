@@ -48,19 +48,18 @@ const ListMedicine = () => {
   const [isShowModalCreate, setIsShowModalCreate] = useState<boolean>(false);
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string }>();
   const [form] = useForm();
-  const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadMedicine)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateMedicine)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteMedicine)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateMedicine)),
-  });
+  // const [permisstion, setPermisstion] = useState<Permission>({
+  //   read: Boolean(CheckPermission(PERMISSIONS.ReadMedicine)),
+  //   create: Boolean(CheckPermission(PERMISSIONS.CreateMedicine)),
+  //   delete: Boolean(CheckPermission(PERMISSIONS.DeleteMedicine)),
+  //   update: Boolean(CheckPermission(PERMISSIONS.UpdateMedicine)),
+  // });
   const { data, isLoading } = useQuery({
     queryKey: ['medicineList', { page, size, sort, fullTextSearch, status, unit }],
     queryFn: () =>
       fullTextSearch
         ? medicineApi.medicineControllerFindAll(page, size, sort, fullTextSearch, status, unit)
         : medicineApi.medicineControllerFindAll(page, size, sort, undefined, status, unit),
-    enabled: permisstion.read,
   });
 
   const { mutate: CreateMedicine, status: statusCreateMedicine } = useMutation(
@@ -233,7 +232,7 @@ const ListMedicine = () => {
             })}
           </div>
           <CustomButton
-            disabled={!permisstion.create}
+            // disabled={!permisstion.create}
             className={'button-add'}
             icon={<IconSVG type="create" />}
             onClick={() => setIsShowModalCreate(true)}
@@ -411,8 +410,8 @@ const ListMedicine = () => {
                 </div>
                 <span className="divider"></span>
                 <div
-                  className={permisstion.delete ? '' : 'disable'}
-                  onClick={() => permisstion.delete && setIsShowModalDelete({ id: record.id, name: record.name })}
+                  // className={permisstion.delete ? '' : 'disable'}
+                  onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}
                 >
                   <IconSVG type="delete" />
                 </div>
@@ -444,13 +443,11 @@ const ListMedicine = () => {
               id: 'medicine.list.modal.create',
             })}
             isSuperAdmin={false}
-            permission={permisstion}
           />
         )}
         {isShowModalUpdate && (
           <MedicineModal
             form={form}
-            permission={permisstion}
             visible={!!isShowModalUpdate}
             action={ActionUser.EDIT}
             title={intl.formatMessage({

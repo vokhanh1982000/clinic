@@ -29,7 +29,7 @@ const MainApp = (props: IMainAppProp) => {
           if (Array.isArray(item.view)) {
             for (const i of item.view) {
               if (role.permissions.includes(i)) {
-                data.push(item);
+                if (!data.includes(item)) data.push(item);
                 break;
               }
             }

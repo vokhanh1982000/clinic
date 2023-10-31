@@ -16,5 +16,6 @@
   "error.CATEGORY_IS_BEING_USED": "Medical Specialty is being used",
   "error.CONFIRM_PASSWORD_NOT_MATCH": "Confirmation password is incorrect",
   "error.OLD_PASSWORD_INCORRECT": "Password is incorrect",
-  "validate.password.space": "Must not contain whitespace characters"
+  "validate.password.space": "Must not contain whitespace characters",
+  "error.MEDICINE_IS_REQUIRED": "Please select a medicine"
 }

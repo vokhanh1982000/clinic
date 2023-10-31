@@ -1,5 +1,5 @@
 import { Card, Form, message } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import CustomButton from '../../../components/buttons/CustomButton';
 import IconSVG from '../../../components/icons/icons';
@@ -15,6 +15,8 @@ import { CreateCategoryDto, UpdateCategoryDto } from '../../../apis/client-axios
 import { debounce } from 'lodash';
 import { CustomHandleError } from '../../../components/response';
 import CheckPermission, { Permission } from '../../../util/check-permission';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 const ListMedicalSpecialty = () => {
   const intl = useIntl();
@@ -28,13 +30,24 @@ const ListMedicalSpecialty = () => {
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string; name: string }>();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const [avatar, setAvatar] = useState<string>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadCaregory)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateCaregory)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteCaregory)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateCaregory)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
 
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadCaregory, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateCaregory, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteCaregory, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateCaregory, authUser)),
+      });
+    }
+  }, [authUser]);
   const { data, isLoading } = useQuery({
     queryKey: ['categoryList', { page, size, sort, fullTextSearch }],
     queryFn: () =>

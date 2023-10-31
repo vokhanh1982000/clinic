@@ -107,6 +107,9 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
                   id: 'medicine.order.modal.create.name',
                 })}
                 showSearch={true}
+                filterOption={(input, option) => {
+                  return !!option?.label?.toString().includes(input);
+                }}
                 allowClear
                 options={ListMedicine?.data.flatMap((item) => {
                   return { value: item.id, label: item.name } as DefaultOptionType;

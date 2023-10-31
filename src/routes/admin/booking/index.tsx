@@ -14,9 +14,7 @@ import TableWrap from '../../../components/TableWrap';
 import { NOTES } from '../../../components/TimelineControl/constants';
 import CustomSelect from '../../../components/select/CustomSelect';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
-import { DATE_TIME_FORMAT, statusBackgroundColor } from '../../../util/constant';
-import CheckPermission, { Permission } from '../../../util/check-permission';
-import { PERMISSIONS } from '../../../constants/enum';
+import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../util/constant';
 
 interface IFormData {
   keyword?: string;
@@ -43,14 +41,8 @@ const ListBooking = () => {
   const status = Form.useWatch(n('status'), form) as
     | Array<'completed' | 'pending' | 'cancelled' | 'approved'>
     | undefined;
-  const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
-  });
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
 
   const { data: listBookingDayPaginated, refetch: onRefetchBookingDayPaginated } = useQuery({
@@ -65,7 +57,7 @@ const ListBooking = () => {
         Array.isArray(time) && time.length === 2 ? dayjs(time[1]).format(DATE_TIME_FORMAT) : undefined,
         Array.isArray(status) && status.length > 0 ? status : undefined
       ),
-    enabled: !!filter && permisstion.read,
+    enabled: !!filter,
   });
 
   const columns: ColumnsType<Booking> = [
@@ -170,7 +162,7 @@ const ListBooking = () => {
               inputProps={{ placeholder: intl.formatMessage({ id: 'customer.list.search' }) }}
             />
             <Form.Item name={n('time')} className="m-b-0">
-              <RangePicker className="height-48 timeline-custom-range-picker" />
+              <RangePicker className="height-48 timeline-custom-range-picker" format={SHORT_DATE_FORMAT} />
             </Form.Item>
             <Form.Item name={n('status')} className="m-b-0">
               <CustomSelect
@@ -208,7 +200,6 @@ const ListBooking = () => {
             page={filter.page}
             size={filter.size}
             total={listBookingDayPaginated?.data.total}
-            scroll={{ y: 'calc(100vh - 345px)' }}
           />
         </Col>
       </Row>
