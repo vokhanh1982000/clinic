@@ -27,6 +27,7 @@ import {
 } from '../../apis/client-axios';
 import { SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
 import { IFormData, NOTES, n } from '../TimelineControl/constants';
+import { DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 
 interface TimelineWeekProps {
   form: FormInstance<IFormData>;
@@ -114,7 +115,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
       if (items.length === 0) {
         items.push({
-          id: -1,
+          id: 'empty',
           group: -1,
           title: '',
           start_time: moment(dayjs(time).toDate()).startOf('days'),
@@ -267,9 +268,10 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
   };
 
   const handleItemDoubleClick = (itemId: string, e: SyntheticEvent, time: number) => {
-    // when have an doctor clinic booking detail route uncomment this code below
-    // const route = DOCTOR_CLINIC_ROUTE_PATH;
-    // navigate(`${route.DETAIL_BOOKING}/${itemId}`);
+    if (itemId.includes('empty')) return;
+
+    const route = DOCTOR_CLINIC_ROUTE_PATH;
+    navigate(`${route.DETAIL_BOOKING}/${itemId}`);
   };
 
   return (
@@ -303,7 +305,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
           onItemResize={handleItemResize}
           onItemDoubleClick={handleItemDoubleClick}
         >
-          <TimelineHeaders>
+          <TimelineHeaders className="timeline-custom-day-header">
             <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
             <DateHeader unit="hour" height={72} labelFormat={TIME_FORMAT} intervalRenderer={renderIntervalRenderer} />
           </TimelineHeaders>

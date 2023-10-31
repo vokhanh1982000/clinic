@@ -12,7 +12,6 @@ interface SidebarHeaderContentProps {
 
 const SidebarHeaderContent: FC<SidebarHeaderContentProps> = (props) => {
   const { doctorClinicId, user } = props;
-  console.log('🚀 ~ user SidebarHeaderContent:', user);
 
   const navigate = useNavigate();
 

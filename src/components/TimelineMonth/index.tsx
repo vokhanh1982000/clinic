@@ -107,9 +107,17 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
       dayjs(booking.day).startOf('days').isSame(dayjs(date).startOf('days'))
     );
 
+    const isCurrentDate = dayjs(new Date()).startOf('days').isSame(dayjs(date).startOf('days'));
+
     return {
       style: {
-        background: findBooking ? (findBooking?.isWork ? '#ffffff' : '#F2F2F2') : '#e6e6e6',
+        background: isCurrentDate
+          ? 'rgba(238, 88, 36, 0.10)'
+          : findBooking
+          ? findBooking?.isWork
+            ? '#ffffff'
+            : '#F2F2F2'
+          : '#e6e6e6',
       },
     };
   };
@@ -123,6 +131,8 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
       deleteHolidayMutation.mutate(value);
     }
   };
+
+  const handleSelectEvent = (event: TimelineEvent) => {};
 
   return (
     <>
@@ -140,6 +150,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
           event: renderEvent,
         }}
         drilldownView={null}
+        onSelectEvent={handleSelectEvent}
       />
     </>
   );
