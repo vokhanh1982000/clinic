@@ -37,12 +37,12 @@ const ListBooking = () => {
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 9 });
-  const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadBooking)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateBooking)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking)),
-  });
+  // const [permisstion, setPermisstion] = useState<Permission>({
+  //   read: Boolean(CheckPermission(PERMISSIONS.ReadBooking)),
+  //   create: Boolean(CheckPermission(PERMISSIONS.CreateBooking)),
+  //   delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking)),
+  //   update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking)),
+  // });
 
   useEffect(() => {
     form.setFieldsValue({
@@ -55,13 +55,13 @@ const ListBooking = () => {
     queryKey: ['adminClinicBookingDay', time, mode],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword),
-    enabled: !!time && mode === TimelineMode.DATE && permisstion.read,
+    enabled: !!time && mode === TimelineMode.DATE,
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
     queryKey: ['adminClinicGetDoctorClinic', filter],
     queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword),
-    enabled: !!filter && mode === TimelineMode.DATE && permisstion.read,
+    enabled: !!filter && mode === TimelineMode.DATE,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
@@ -71,7 +71,7 @@ const ListBooking = () => {
         dayjs(time).format(DATE_TIME_FORMAT),
         keyword
       ),
-    enabled: !!time && mode === TimelineMode.MONTH && permisstion.read,
+    enabled: !!time && mode === TimelineMode.MONTH,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({

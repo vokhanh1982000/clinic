@@ -3,7 +3,7 @@ import { Card, Col, DatePicker, Form, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs, { Dayjs } from 'dayjs';
 import moment from 'moment';
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { adminBookingApi } from '../../../apis';
@@ -17,6 +17,8 @@ import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
 import { DATE_TIME_FORMAT, statusBackgroundColor } from '../../../util/constant';
 import CheckPermission, { Permission } from '../../../util/check-permission';
 import { PERMISSIONS } from '../../../constants/enum';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 interface IFormData {
   keyword?: string;
@@ -43,16 +45,28 @@ const ListBooking = () => {
   const status = Form.useWatch(n('status'), form) as
     | Array<'completed' | 'pending' | 'cancelled' | 'approved'>
     | undefined;
-  const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadBooking)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateBooking)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking)),
-  });
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
 
+  const { authUser } = useSelector((state: RootState) => state.auth);
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
+  });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadBooking, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateBooking, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking, authUser)),
+      });
+    }
+  }, [authUser]);
   const { data: listBookingDayPaginated, refetch: onRefetchBookingDayPaginated } = useQuery({
     queryKey: ['adminBookingDayPaginated', time, filter, status],
     queryFn: () =>

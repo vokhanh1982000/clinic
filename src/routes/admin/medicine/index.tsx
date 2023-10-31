@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomButton from '../../../components/buttons/CustomButton';
 import useIntl from '../../../util/useIntl';
 import { IntlShape } from 'react-intl';
@@ -17,6 +17,8 @@ import useForm from 'antd/es/form/hooks/useForm';
 import { CreateCategoryDto, CreateMedicineDto, UpdateCategoryDto, UpdateMedicineDto } from '../../../apis/client-axios';
 import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../util/check-permission';
+import { RootState } from '../../../store';
+import { useSelector } from 'react-redux';
 
 interface Unit {
   id: string;
@@ -48,12 +50,25 @@ const ListMedicine = () => {
   const [isShowModalCreate, setIsShowModalCreate] = useState<boolean>(false);
   const [isShowModalUpdate, setIsShowModalUpdate] = useState<{ id: string }>();
   const [form] = useForm();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadMedicine)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateMedicine)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteMedicine)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateMedicine)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadMedicine, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateMedicine, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteMedicine, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateMedicine, authUser)),
+      });
+    }
+  }, [authUser]);
+
   const { data, isLoading } = useQuery({
     queryKey: ['adminMedicineList', { page, size, sort, fullTextSearch, status, unit }],
     queryFn: () =>
@@ -285,7 +300,6 @@ const ListMedicine = () => {
               id: 'medicine.list.modal.create',
             })}
             isSuperAdmin={true}
-            permission={permisstion}
           />
         )}
         {isShowModalUpdate && (
@@ -310,7 +324,6 @@ const ListMedicine = () => {
               form.resetFields();
             }}
             isSuperAdmin={true}
-            permission={permisstion}
           />
         )}
       </Form>

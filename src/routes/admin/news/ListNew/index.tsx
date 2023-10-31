@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, Switch, message } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../../../components/buttons/CustomButton';
@@ -17,6 +17,8 @@ import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteM
 import moment from 'moment';
 import { FORMAT_DATE, FORMAT_DATE_VN } from '../../../../constants/common';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const ListNew = () => {
   const intl = useIntl();
@@ -28,12 +30,25 @@ const ListNew = () => {
   const [status, setStatus] = useState<boolean>();
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadNew)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateNew)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteNew)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateNew)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadNew, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateNew, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteNew, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateNew, authUser)),
+      });
+    }
+  }, [authUser]);
+
   const { data, isLoading } = useQuery({
     queryKey: ['newList', { page, size, sort, fullTextSearch, status }],
     queryFn: () => newsApi.newControllerGet(page, size, sort, fullTextSearch, status),

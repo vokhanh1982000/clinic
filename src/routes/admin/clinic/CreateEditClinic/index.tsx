@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, Form, message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { clinicsApi } from '../../../../apis';
@@ -16,6 +16,8 @@ import { CategoryCheckbox } from '../../../../components/categoryCheckbox';
 import { CustomHandleError } from '../../../../components/response';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { PERMISSIONS } from '../../../../constants/enum';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const CreateClinic = () => {
   const intl = useIntl();
@@ -29,12 +31,24 @@ const CreateClinic = () => {
   const [adminsClinic, setAdminsClinic] = useState<any>([]);
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadClinic)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateClinic)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadClinic, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateClinic, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const { data: dataClinic } = useQuery(
     ['getDetailClinic', id],

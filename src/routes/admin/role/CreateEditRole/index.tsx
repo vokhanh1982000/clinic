@@ -15,6 +15,8 @@ import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { PERMISSIONS } from '../../../../constants/enum';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const CreateRole = () => {
   const intl = useIntl();
@@ -24,13 +26,24 @@ const CreateRole = () => {
   const queryClient = useQueryClient();
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string | undefined }>();
   const [roleName, setRoleName] = useState<string>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
 
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadRole, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateRole, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateRole, authUser)),
+      });
+    }
+  }, [authUser]);
   const { data: dataPermissions } = useQuery({
     queryKey: ['getPermissions'],
     queryFn: () => permissionApi.permissionControllerGet(),

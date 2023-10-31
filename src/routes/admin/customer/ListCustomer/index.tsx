@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, message } from 'antd';
 import Column from 'antd/es/table/Column';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { customerApi } from '../../../../apis';
 import { Customer, User } from '../../../../apis/client-axios';
 import TableWrap from '../../../../components/TableWrap';
@@ -17,6 +17,8 @@ import { PERMISSIONS, Status } from '../../../../constants/enum';
 import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { formatPhoneNumber } from '../../../../constants/function';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const ListUser = () => {
   const intl = useIntl();
@@ -28,12 +30,24 @@ const ListUser = () => {
   const [status, setStatus] = useState<boolean>();
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadCustomer)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateCustomer)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteCustomer)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateCustomer)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadCustomer, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateCustomer, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteCustomer, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateCustomer, authUser)),
+      });
+    }
+  }, [authUser]);
   const { data, isLoading } = useQuery({
     queryKey: ['customerList', { page, size, sort, fullTextSearch, status }],
     queryFn: () => customerApi.customerControllerGet(page, size, sort, fullTextSearch, status),

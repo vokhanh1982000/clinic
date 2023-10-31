@@ -35,10 +35,10 @@ const CreateDoctor = () => {
   const [districtId, setDistrictId] = useState<string>();
   const [avatar, setAvatar] = useState<string>();
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic)),
+    read: true,
+    create: true,
+    delete: true,
+    update: true,
   });
   const n = (key: keyof CreateDoctorClinicDto) => {
     return key;

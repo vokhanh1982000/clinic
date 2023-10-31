@@ -14,10 +14,11 @@ export interface Permission {
   delete?: boolean;
 }
 
-const CheckPermission = (permission: string) => {
-  const { authUser } = useSelector((state: RootState) => state.auth);
-  if (authUser?.user?.roles && authUser.user.roles.length > 0) {
-    return authUser.user.roles.some((role) => role.permissions.includes(permission));
+const CheckPermission = (permission: string, authUser?: any) => {
+  // const { authUser } = useSelector((state: RootState) => state.auth);
+  const roles: Role[] = authUser.user.roles;
+  if (roles && roles.length > 0) {
+    return roles.some((role) => role.permissions.includes(permission));
   }
 };
 
