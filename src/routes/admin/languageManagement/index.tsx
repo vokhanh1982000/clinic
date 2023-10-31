@@ -143,7 +143,7 @@ const LanguageManagement = () => {
         </div>
         <CustomButton
           disabled={!permisstion.create}
-          className="button-add"
+          className="button-add-language"
           icon={<IconSVG type="create" />}
           onClick={() => {
             setIsShowModalCreate(true);

@@ -19,6 +19,17 @@
       border: unset;
       display: flex;
       align-items: center;
+      justify-content: center;
+      background-color: $primary_color;
+      color: $text_white;
+    }
+
+    .button-add-language {
+      width: 219px;
+      border: unset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background-color: $primary_color;
       color: $text_white;
     }
