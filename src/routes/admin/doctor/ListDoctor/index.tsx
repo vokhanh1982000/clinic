@@ -29,7 +29,6 @@ const ListDoctor = () => {
 
   const handleDelete = () => {
     if (isShowModalDelete && isShowModalDelete.id) {
-      console.log(isShowModalDelete.id);
       // deleteRole.mutate(isShowModalDelete.id);
     }
   };

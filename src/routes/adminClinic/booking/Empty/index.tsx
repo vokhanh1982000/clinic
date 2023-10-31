@@ -134,7 +134,7 @@ const ListBookingEmpty = () => {
     <Card>
       <Row gutter={[0, 16]}>
         <Col span={24}>
-          <h3 className="font-size-24 font-weight-700 color-1A1A1A font-family-primary text-capitalize m-t-24 m-b-0">
+          <h3 className="font-size-14 font-weight-700 color-1A1A1A font-family-primary text-capitalize m-t-24 m-b-0">
             {intl.formatMessage({ id: 'menu.bookingManagement.empty' })}
           </h3>
         </Col>

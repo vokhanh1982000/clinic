@@ -10,6 +10,7 @@ import { RootState, useAppDispatch } from '../../store';
 import { updateMe } from '../../store/authSlice';
 import { getMenuActiveIconName } from '../../util/menu';
 import useIntlHook from '../../util/useIntl';
+import { PERMISSIONS } from '../../constants/enum';
 
 const AdminClinic = () => {
   const dispatch = useAppDispatch();
@@ -21,22 +22,39 @@ const AdminClinic = () => {
     getItem(
       intl.formatMessage({ id: 'menu.bookingManagement' }),
       ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT,
-      <img src="/assets/icons/admin/bookingManagementIconInactive.svg" />
+      <img src="/assets/icons/admin/bookingManagementIconInactive.svg" />,
+      undefined,
+      undefined,
+      [PERMISSIONS.Authenticated]
     ),
     getItem(
       intl.formatMessage({ id: 'menu.medicineManagement' }),
       ADMIN_CLINIC_ROUTE_PATH.MEDICINE_MANAGEMENT,
-      <img src="/assets/icons/admin/medicineManagementIconInactive.svg" />
+      <img src="/assets/icons/admin/medicineManagementIconInactive.svg" />,
+      undefined,
+      undefined,
+      [PERMISSIONS.ReadMedicine, PERMISSIONS.CreateMedicine, PERMISSIONS.UpdateMedicine, PERMISSIONS.DeleteMedicine]
     ),
     getItem(
       intl.formatMessage({ id: 'menu.doctorManagement' }),
       ADMIN_CLINIC_ROUTE_PATH.DOCTOR_MANAGEMENT,
-      <img src="/assets/icons/admin/doctorManagementIconInactive.svg" />
+      <img src="/assets/icons/admin/doctorManagementIconInactive.svg" />,
+      undefined,
+      undefined,
+      [
+        PERMISSIONS.ReadDoctorClinic,
+        PERMISSIONS.CreateDoctorClinic,
+        PERMISSIONS.UpdateDoctorClinic,
+        PERMISSIONS.DeleteDoctorClinic,
+      ]
     ),
     getItem(
       intl.formatMessage({ id: 'menu.setting' }),
       ADMIN_CLINIC_ROUTE_PATH.SETTING,
-      <img src="/assets/icons/admin/settingIconInactive.svg" />
+      <img src="/assets/icons/admin/settingIconInactive.svg" />,
+      undefined,
+      undefined,
+      [PERMISSIONS.Authenticated]
     ),
   ];
   const [menu, setMenu] = useState(defaultMenu);

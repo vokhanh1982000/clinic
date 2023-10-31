@@ -18,6 +18,8 @@ import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModa
 import CheckPermission, { Permission } from '../../../util/check-permission';
 import { PERMISSIONS } from '../../../constants/enum';
 import { formatPhoneNumber } from '../../../constants/function';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -56,7 +58,6 @@ const ListRole = () => {
   });
 
   const handleDeleteAdmin = () => {
-    console.log(isShowModalDelete);
     if (isShowModalDelete && isShowModalDelete.id) {
       deleteAdmin.mutate(isShowModalDelete.id);
       setIsShowModalDelete(undefined);

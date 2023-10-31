@@ -48,7 +48,6 @@ const LanguageManagement = () => {
     (createLanguage: CreateCategoryDto) => languageApi.languageControllerCreateLanguage(createLanguage),
     {
       onSuccess: (data) => {
-        console.log('success: ', data);
         message.success(intl.formatMessage({ id: `common.createSuccess` }));
         queryClient.invalidateQueries(['languageList']);
         setIsShowModalCreate(false);

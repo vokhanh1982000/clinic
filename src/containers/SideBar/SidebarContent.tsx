@@ -13,7 +13,7 @@ export const getItem = (
   icon?: React.ReactNode,
   children?: MenuItem[],
   type?: 'group',
-  permission?: string
+  view?: string[] // permisstion to show menu item
 ): MenuItem => {
   return {
     key,
@@ -21,6 +21,7 @@ export const getItem = (
     children,
     label,
     type,
+    view,
   } as MenuItem;
 };
 const MANAGEMENT_TYPE = {

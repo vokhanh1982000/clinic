@@ -49,7 +49,7 @@ export const getMenuActiveIconName = (key: string, route: 'Admin' | 'AdminClinic
   } else if (route === 'Doctor') {
     switch (key) {
       case DOCTOR_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT:
-        return 'prescriptionTeamplateActive';
+        return 'bookingManagementIconActive';
       case DOCTOR_CLINIC_ROUTE_PATH.PRESCRIPTION_TEAMPLATE:
         return 'prescriptionTeamplateActive';
       default:
