@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, message } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
 import CustomButton from '../../../../components/buttons/CustomButton';
@@ -10,6 +10,8 @@ import { DoctorTable } from '../../../../components/table/DoctorTable';
 import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
 import { doctorClinicApi, doctorSupportApi } from '../../../../apis';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const ListDoctor = () => {
   const intl = useIntl();
@@ -19,12 +21,24 @@ const ListDoctor = () => {
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorSuppot)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorSuppot)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorSuppot)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorSuppot)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic, authUser)),
+      });
+    }
+  }, [authUser]);
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
@@ -69,7 +83,7 @@ const ListDoctor = () => {
       </div>
       {permisstion.read && (
         <DoctorTable
-          permission={permisstion}
+          // permission={permisstion}
           deleteFc={(id: string) => deleteAdmin.mutate(id)}
           doctorType={DoctorType.DOCTOR_SUPPORT}
         />

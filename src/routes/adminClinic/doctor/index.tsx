@@ -15,12 +15,12 @@ const ListDoctor = () => {
   const intl = useIntl();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic)),
-  });
+  // const [permisstion, setPermisstion] = useState<Permission>({
+  //   read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic)),
+  //   create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic)),
+  //   delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic)),
+  //   update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic)),
+  // });
 
   const deleteAdmin = useMutation((id: string) => doctorClinicApi.doctorClinicControllerDelete(id), {
     onSuccess: ({ data }) => {
@@ -54,7 +54,7 @@ const ListDoctor = () => {
         </CustomButton>
       </div>
       <DoctorTable
-        permission={permisstion}
+        // permission={permisstion}
         deleteFc={(id: string) => deleteAdmin.mutate(id)}
         doctorType={DoctorType.DOCTOR}
       />

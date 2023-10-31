@@ -25,6 +25,8 @@ import { CustomHandleError } from '../../../../components/response';
 import DatePickerCustom from '../../../../components/date/datePicker';
 import { regexImage } from '../../../../validate/validator.validate';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -37,12 +39,24 @@ const CreateCustomer = () => {
   const [loadingImg, setLoadingImg] = useState<boolean>(false);
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadCustomer)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateCustomer)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteCustomer)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateCustomer)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadCustomer, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateCustomer, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteCustomer, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateCustomer, authUser)),
+      });
+    }
+  }, [authUser]);
   const { data: datacustomer } = useQuery(
     ['getDetailCustomer', id],
     () => customerApi.customerControllerGetById(id as string),

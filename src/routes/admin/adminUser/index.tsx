@@ -33,12 +33,24 @@ const ListRole = () => {
   const [isShowListManager, setIsShowListManager] = useState<string>();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadAdministrator, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateAdministrator, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteAdministrator, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateAdministrator, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {

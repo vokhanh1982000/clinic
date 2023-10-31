@@ -24,6 +24,8 @@ import { formatPhoneNumberInput, handleInputChangeUpperCase } from '../../../../
 import { CustomHandleError } from '../../../../components/response';
 import { regexImage } from '../../../../validate/validator.validate';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -41,12 +43,24 @@ const CreateAdmin = () => {
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string | undefined; name: string | undefined }>();
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
   const [permisstion, setPermisstion] = useState<Permission>({
-    read: Boolean(CheckPermission(PERMISSIONS.ReadRole)),
-    create: Boolean(CheckPermission(PERMISSIONS.CreateRole)),
-    delete: Boolean(CheckPermission(PERMISSIONS.DeleteRole)),
-    update: Boolean(CheckPermission(PERMISSIONS.UpdateRole)),
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
   });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadAdministrator, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateAdministrator, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteAdministrator, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateAdministrator, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const n = (key: keyof CreateAdminDto) => {
     return key;

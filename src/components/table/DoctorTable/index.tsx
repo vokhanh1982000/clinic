@@ -26,7 +26,7 @@ interface DoctorTableProps {
   doctorType: DoctorType;
   data?: any;
   deleteFc?: (id: string) => void;
-  permission: Permission;
+  // permission: Permission;
 }
 
 interface OptionSpecialist {
@@ -40,7 +40,7 @@ interface OptionStatus {
 }
 
 export const DoctorTable = (props: DoctorTableProps) => {
-  const { placeHolder, doctorType, deleteFc, permission } = props;
+  const { placeHolder, doctorType, deleteFc } = props;
   const intl = useIntl();
   const navigate = useNavigate();
   const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
@@ -66,7 +66,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
     queryKey: ['getDoctorClinic', { page, size, sort, fullTextSearch, categoryId, status, clinicId }],
     queryFn: () =>
       doctorClinicApi.doctorClinicControllerGetAll(page, size, sort, fullTextSearch, categoryId, clinicId, status),
-    enabled: !!(doctorType === DoctorType.DOCTOR && clinicId) && permission.read,
+    enabled: !!(doctorType === DoctorType.DOCTOR && clinicId),
   });
 
   const { data: doctorSupports } = useQuery({
@@ -83,7 +83,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
         undefined,
         undefined
       ),
-    enabled: doctorType === DoctorType.DOCTOR_SUPPORT && permission.read,
+    enabled: doctorType === DoctorType.DOCTOR_SUPPORT,
   });
 
   const { data: category } = useQuery({
@@ -321,10 +321,7 @@ export const DoctorTable = (props: DoctorTableProps) => {
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div
-                className={permission.delete ? '' : 'disable'}
-                onClick={() => permission.delete && setIsShowModalDelete({ id: record.id, name: record.fullName })}
-              >
+              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.fullName })}>
                 <IconSVG type="delete" />
               </div>
             </div>
