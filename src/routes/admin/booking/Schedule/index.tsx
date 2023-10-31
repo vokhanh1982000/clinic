@@ -11,7 +11,7 @@ import { IFormData, NOTES, TimelineMode, n } from '../../../../components/Timeli
 import TimelineMonth from '../../../../components/TimelineMonth';
 import TimelineWeek from '../../../../components/TimelineWeek';
 import IconSVG from '../../../../components/icons/icons';
-import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { useAppSelector } from '../../../../store';
 import { DATE_TIME_FORMAT } from '../../../../util/constant';
 
@@ -124,7 +124,7 @@ const DoctorSchedule = () => {
             <Col>
               <div
                 className="width-52 height-52 timeline-custom-schedule-avatar cursor-pointer"
-                onClick={() => navigate(`${ADMIN_CLINIC_ROUTE_PATH.DETAIL_DOCTOR}/${id}`)}
+                onClick={() => navigate(`${ADMIN_ROUTE_PATH.DETAIL_DOCTOR}/${id}`)}
               >
                 {doctorClinicInformation?.data.avatar && !isImageError ? (
                   <Image
@@ -152,9 +152,7 @@ const DoctorSchedule = () => {
           />
         </Col>
 
-        <Col span={24} className="timeline-custom-container">
-          {renderTimeline(mode)}
-        </Col>
+        <Col span={24}>{renderTimeline(mode)}</Col>
 
         <Col span={24}>
           <Row align="middle" gutter={[0, 12]} wrap className="timeline-custom-note">

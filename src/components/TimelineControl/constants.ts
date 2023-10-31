@@ -46,3 +46,9 @@ export const NOTES = [
     messageId: 'timeline.doctor.note.dayOff',
   },
 ];
+
+export interface IFilter {
+  page: number;
+  size?: number;
+  sort?: string;
+}

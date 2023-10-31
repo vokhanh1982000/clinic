@@ -32,8 +32,8 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
   };
 
   return (
-    <Row gutter={[0, 24]} wrap style={{ marginTop: user.user.type !== 'doctor_clinic' ? 0 : 62 }}>
-      {user.user.type !== 'doctor_clinic' && (
+    <Row gutter={[0, 24]} wrap style={{ marginTop: user.user.type === 'administrator_clinic' ? 0 : 62 }}>
+      {user.user.type === 'administrator_clinic' && (
         <Col span={24}>
           <Row align="middle" justify="center" wrap gutter={4} className="timeline-custom-month-top">
             <Col>

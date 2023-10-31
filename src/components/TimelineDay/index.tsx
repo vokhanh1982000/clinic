@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Form, FormInstance, Popover, message } from 'antd';
 import dayjs from 'dayjs';
 import moment, { Moment } from 'moment';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Timeline, {
   DateHeader,
   IntervalRenderer,
@@ -28,12 +28,11 @@ import {
   DoctorClinicControllerGetAll200Response,
 } from '../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../constants/route';
-import { IFilter } from '../../routes/adminClinic/booking';
-import { TIME_FORMAT } from '../../util/constant';
-import { IFormData, NOTES, n } from '../TimelineControl/constants';
-import SidebarHeaderContent from './SidebarHeaderContent';
 import { useAppDispatch } from '../../store';
 import { updateClinic } from '../../store/clinicSlice';
+import { TIME_FORMAT } from '../../util/constant';
+import { IFilter, IFormData, NOTES, n } from '../TimelineControl/constants';
+import SidebarHeaderContent from './SidebarHeaderContent';
 
 interface TimelineDayProps {
   form: FormInstance<IFormData>;
@@ -70,7 +69,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
 
   useEffect(() => {
     dispatch(updateClinic);
-  }, [clinic]);
+  }, [clinic, dispatch]);
 
   useEffect(() => {
     if (
@@ -127,7 +126,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         groups.push(group);
       }
 
-      setGroups((prev) => [...prev, ...groups]);
+      setGroups((prev) => [...(new Map([...prev, ...groups].map((group) => [group.id, group])).values() as any)]);
     }
   }, [listDoctorClinics, intl]);
 
@@ -166,7 +165,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
 
       filterEmptyGroups.forEach((group, index) => {
         items.push({
-          id: index,
+          id: `empty_${index}`,
           group: group.id,
           title: '',
           start_time: moment(dayjs(time).toDate()).startOf('days'),
@@ -313,9 +312,9 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
     });
   };
 
-  const handleItemDoubleClick = (itemId: string, e: SyntheticEvent, time: number) => {
-    // when have an admin booking detail route change route variable like the line below
-    // const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
+  const handleItemDoubleClick = (itemId: string) => {
+    if (itemId.includes('empty')) return;
+
     const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
     const currentBooking = listBookingDay.find((booking) => booking.id === itemId);
     setClinicId(currentBooking?.clinicId);
@@ -353,7 +352,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
           canMove={true}
           onItemDoubleClick={handleItemDoubleClick}
         >
-          <TimelineHeaders>
+          <TimelineHeaders className="timeline-custom-day-header">
             <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
             <DateHeader unit="hour" height={72} labelFormat={TIME_FORMAT} intervalRenderer={renderIntervalRenderer} />
           </TimelineHeaders>
