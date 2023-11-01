@@ -12,7 +12,7 @@ import {
   WorkSchedule,
 } from '../../../apis/client-axios';
 import CustomButton from '../../../components/buttons/CustomButton';
-import { MedicineStatus, MedicineUnit } from '../../../constants/enum';
+import { ActionUser, MedicineStatus, MedicineUnit } from '../../../constants/enum';
 import useIntl from '../../../util/useIntl';
 import { CategorySelect } from './CategorySelect';
 import { ClinicInfo } from './ClinicInfo';
@@ -20,6 +20,8 @@ import { ScheduleSetting } from './ScheduleSetting';
 import { useAppSelector } from '../../../store';
 import dayjs from 'dayjs';
 import { CategoryCheckbox } from '../../../components/categoryCheckbox';
+import { CustomHandleSuccess } from '../../../components/response/success';
+import { CustomHandleError } from '../../../components/response/error';
 
 interface Unit {
   id: string;
@@ -122,10 +124,10 @@ const Setting = () => {
     {
       onSuccess: ({ data }) => {
         // queryClient.invalidateQueries(['getDetailClinic']);
-        message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

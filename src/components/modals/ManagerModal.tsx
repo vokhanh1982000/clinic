@@ -20,10 +20,14 @@ interface ManagerModalProps {
   onSubmit: Function;
   onDelete?: Function;
   onClose: () => void;
+  disableCreate?: boolean;
+  disableUpdate?: boolean;
+  disableDelete?: boolean;
 }
 
 export const ManagerModal = (props: ManagerModalProps) => {
-  const { form, visible, title, action, onSubmit, onDelete, onClose } = props;
+  const { form, visible, title, action, onSubmit, onDelete, onClose, disableCreate, disableUpdate, disableDelete } =
+    props;
   const intl = useIntl();
   const { id } = useParams();
 
@@ -162,7 +166,7 @@ export const ManagerModal = (props: ManagerModalProps) => {
           <div className="modal-manager__content__action">
             {action === ActionUser.CREATE ? (
               <>
-                <CustomButton className="button-submit" htmlType="submit">
+                <CustomButton className="button-submit" disabled={disableCreate} htmlType="submit">
                   {intl.formatMessage({
                     id: 'manager.modal.create.button.create',
                   })}
@@ -175,13 +179,13 @@ export const ManagerModal = (props: ManagerModalProps) => {
               </>
             ) : (
               <>
-                <CustomButton className="button-submit" htmlType="submit">
+                <CustomButton className="button-submit" disabled={disableUpdate} htmlType="submit">
                   {intl.formatMessage({
                     id: 'manager.modal.create.button.edit',
                   })}
                 </CustomButton>
                 {onDelete && (
-                  <CustomButton className="button-delete" onClick={() => onDelete()}>
+                  <CustomButton className="button-delete" disabled={disableDelete} onClick={() => onDelete()}>
                     {intl.formatMessage({
                       id: 'manager.modal.create.button.delete',
                     })}

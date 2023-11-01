@@ -7,11 +7,13 @@ import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
 import { ADMIN_CLINIC_ROUTE_NAME, ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { DoctorTable } from '../../../../components/table/DoctorTable';
-import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
+import { ActionUser, DoctorType, PERMISSIONS } from '../../../../constants/enum';
 import { doctorClinicApi, doctorSupportApi } from '../../../../apis';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const ListDoctor = () => {
   const intl = useIntl();
@@ -49,11 +51,11 @@ const ListDoctor = () => {
 
   const deleteAdmin = useMutation((id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id), {
     onSuccess: ({ data }) => {
-      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
       queryClient.invalidateQueries(['getDoctorSupport']);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: `${error}` }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 

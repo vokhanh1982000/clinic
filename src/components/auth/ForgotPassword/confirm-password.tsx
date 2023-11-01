@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { authApi } from '../../../apis';
 import { FindUserByIdentifierDto, UpdatePasswordDto } from '../../../apis/client-axios';
 import ConfirmCode from './confirm-code';
+import { ValidateLibrary } from '../../../validate';
 
 const ConfirmPassword = ({ data, userType }: any) => {
   const n = (key: keyof UpdatePasswordDto) => {
@@ -70,16 +71,7 @@ const ConfirmPassword = ({ data, userType }: any) => {
                 className="form-item-password"
                 label={intl.formatMessage({ id: 'sigin.password' })}
                 name={n('newPass')}
-                rules={[
-                  { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
-                  { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
-                  { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
-                  { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
-                  {
-                    pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
-                    message: intl.formatMessage({ id: 'common.password.regex' }),
-                  },
-                ]}
+                rules={ValidateLibrary(intl).password}
               >
                 <Input.Password placeholder={intl.formatMessage({ id: 'sigin.password.placeholder' })} />
               </Form.Item>
@@ -88,16 +80,7 @@ const ConfirmPassword = ({ data, userType }: any) => {
                 className="form-item-password"
                 label={intl.formatMessage({ id: 'forgot.confirmPassword' })}
                 name={n('confirmPass')}
-                rules={[
-                  { required: true, message: intl.formatMessage({ id: 'common.noti.input' }) },
-                  { min: 8, message: intl.formatMessage({ id: 'common.password.min' }) },
-                  { max: 16, message: intl.formatMessage({ id: 'common.password.max' }) },
-                  { pattern: /^\S*$/, message: intl.formatMessage({ id: 'common.password.space' }) },
-                  {
-                    pattern: /^[A-Za-z\d#$@!%&*?.]{8,16}$/,
-                    message: intl.formatMessage({ id: 'common.password.regex' }),
-                  },
-                ]}
+                rules={ValidateLibrary(intl).password}
               >
                 <Input.Password placeholder={intl.formatMessage({ id: 'forgot.confirmPassword.placeholder' })} />
               </Form.Item>

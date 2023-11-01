@@ -19,6 +19,8 @@ import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../util/check-permission';
 import { RootState } from '../../../store';
 import { useSelector } from 'react-redux';
+import { CustomHandleSuccess } from '../../../components/response/success';
+import { CustomHandleError } from '../../../components/response/error';
 
 interface Unit {
   id: string;
@@ -82,10 +84,10 @@ const ListMedicine = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['adminMedicineList']);
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
       },
       onError: (error: any): void => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -97,11 +99,11 @@ const ListMedicine = () => {
       onSuccess: (data) => {
         setIsShowModalUpdate(undefined);
         setIsShowModalDelete(undefined);
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         queryClient.invalidateQueries(['adminMedicineList']);
       },
       onError: (error: any): void => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -113,10 +115,10 @@ const ListMedicine = () => {
         setIsShowModalDelete(undefined);
         setIsShowModalUpdate(undefined);
         queryClient.invalidateQueries(['adminMedicineList']);
-        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
       },
       onError: (error: any): void => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

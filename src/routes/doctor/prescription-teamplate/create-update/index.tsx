@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
-import { PERMISSIONS, Status } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS, Status } from '../../../../constants/enum';
 import { doctorClinicApi, samplePrescriptionApi, samplePrescriptionMediceApi } from '../../../../apis';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
@@ -30,7 +30,8 @@ import {
   UpdatePrescriptionSampleDto,
   UpdatePrescriptionSampleMedicineDto,
 } from '../../../../apis/client-axios';
-import { CustomHandleError } from '../../../../components/response';
+import { CustomHandleError } from '../../../../components/response/error';
+import { CustomHandleSuccess } from '../../../../components/response/success';
 
 export interface medicine {
   id: string;
@@ -69,7 +70,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -82,7 +83,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -94,10 +95,10 @@ const CreateUpdatePrescriptionTeamplate = () => {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['prescriptionTeamplate']);
       navigate(-1);
-      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'doctor.create.error' }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 
@@ -105,10 +106,10 @@ const CreateUpdatePrescriptionTeamplate = () => {
     (id: string) => samplePrescriptionMediceApi.prescriptionSampleMediceControllerDelete(id),
     {
       onSuccess: ({ data }) => {
-        message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'doctor.create.error' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

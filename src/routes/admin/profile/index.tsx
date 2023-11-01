@@ -11,7 +11,7 @@ import { adminApi, assetsApi, authApi } from '../../../apis';
 import CustomSelect from '../../../components/select/CustomSelect';
 import { UpdateAdminDto } from '../../../apis/client-axios';
 import dayjs from 'dayjs';
-import { UserGender } from '../../../constants/enum';
+import { ActionUser, UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
 import { CadastalCustom } from '../../../components/Cadastral';
@@ -20,6 +20,8 @@ import { regexImage } from '../../../validate/validator.validate';
 import UploadAvatar from '../../../components/upload/UploadAvatar';
 import { formatPhoneNumberInput } from '../../../constants/function';
 import moment from 'moment';
+import { CustomHandleSuccess } from '../../../components/response/success';
+import { CustomHandleError } from '../../../components/response/error';
 
 const Profile = () => {
   const intl: IntlShape = useIntl();
@@ -47,11 +49,11 @@ const Profile = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['admin-profile']);
       queryClient.invalidateQueries(['adminMe']);
-      message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
+      CustomHandleSuccess(ActionUser.EDIT, intl);
     },
-    onError: () => {
+    onError: (error: any) => {
       queryClient.invalidateQueries(['admin-profile']);
-      message.success(intl.formatMessage({ id: 'admin-profile.save.fail' }));
+      CustomHandleError(error.response.data, intl);
     },
   });
 

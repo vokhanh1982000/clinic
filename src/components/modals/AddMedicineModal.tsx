@@ -9,7 +9,7 @@ import CustomArea from '../input/CustomArea';
 import IconSVG from '../icons/icons';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { medicineApi, samplePrescriptionMediceApi } from '../../apis';
-import { CustomHandleError } from '../response';
+import { CustomHandleError } from '../response/error';
 import { CreatePrescriptionSampleMedicineDto, UpdatePrescriptionSampleMedicineDto } from '../../apis/client-axios';
 import FormWrap from '../FormWrap';
 import { DefaultOptionType } from 'antd/es/select';

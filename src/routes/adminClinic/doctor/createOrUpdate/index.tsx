@@ -8,7 +8,7 @@ import CustomButton from '../../../../components/buttons/CustomButton';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import DoctorInfo from '../../../../components/table/DoctorTable/information';
 import Achievement from '../../../../components/table/DoctorTable/achievenment';
-import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
+import { ActionUser, DoctorType, PERMISSIONS } from '../../../../constants/enum';
 import {
   CreateDoctorClinicDto,
   CreateDoctorClinicDtoGenderEnum,
@@ -20,8 +20,9 @@ import { error } from 'console';
 import { isNumber, values } from 'lodash';
 import { FORMAT_DATE } from '../../../../constants/common';
 import dayjs from 'dayjs';
-import { CustomHandleError } from '../../../../components/response';
+import { CustomHandleError } from '../../../../components/response/error';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { CustomHandleSuccess } from '../../../../components/response/success';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -76,7 +77,7 @@ const CreateDoctor = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -90,7 +91,7 @@ const CreateDoctor = () => {
     {
       onSuccess: ({ data }) => {
         navigate(-1);
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -103,10 +104,10 @@ const CreateDoctor = () => {
       console.log(data);
       queryClient.invalidateQueries(['getAdminUser']);
       navigate(-1);
-      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'doctor.create.error' }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 

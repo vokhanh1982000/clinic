@@ -12,7 +12,7 @@ import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CustomSelect from '../../../../components/select/CustomSelect';
-import { PERMISSIONS, Status, UserGender } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS, Status, UserGender } from '../../../../constants/enum';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { MyUploadProps } from '../../../../constants/dto';
 import dayjs from 'dayjs';
@@ -21,12 +21,13 @@ import { FORMAT_DATE } from '../../../../constants/common';
 import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
 import { disabledFutureDate, formatPhoneNumberInput } from '../../../../constants/function';
-import { CustomHandleError } from '../../../../components/response';
+import { CustomHandleError } from '../../../../components/response/error';
 import DatePickerCustom from '../../../../components/date/datePicker';
 import { regexImage } from '../../../../validate/validator.validate';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
 
 const CreateCustomer = () => {
   const intl = useIntl();
@@ -84,7 +85,7 @@ const CreateCustomer = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['customerList']);
-        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -98,7 +99,7 @@ const CreateCustomer = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['getUsers']);
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -112,7 +113,7 @@ const CreateCustomer = () => {
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['getcustomerDetail', id]);
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.USER_MANAGEMENT}`);
       },
       onError: (error: any) => {

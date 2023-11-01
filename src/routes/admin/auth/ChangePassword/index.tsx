@@ -8,7 +8,7 @@ import CustomButton from '../../../../components/buttons/CustomButton';
 import { useMutation } from '@tanstack/react-query';
 import { ChangePasswordDto } from '../../../../apis/client-axios';
 import { authApi } from '../../../../apis';
-import { CustomHandleError } from '../../../../components/response';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const ChangePasswordAdmin = () => {
   const intl: IntlShape = useIntl();

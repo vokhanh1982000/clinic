@@ -12,7 +12,7 @@ import CustomArea from '../../../components/input/CustomArea';
 import { Cadastral, Category, DoctorClinic, UpdateDoctorClinicDto } from '../../../apis/client-axios';
 import { assetsApi, authApi, cadastralApi, categoryApi, doctorClinicApi } from '../../../apis';
 import dayjs from 'dayjs';
-import { UserGender } from '../../../constants/enum';
+import { ActionUser, UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
 import { MyUploadProps } from '../../../constants/dto';
@@ -20,6 +20,8 @@ import { regexImage } from '../../../validate/validator.validate';
 import UploadAvatar from '../../../components/upload/UploadAvatar';
 import { CadastalCustom } from '../../../components/Cadastral';
 import { formatPhoneNumberInput } from '../../../constants/function';
+import { CustomHandleSuccess } from '../../../components/response/success';
+import { CustomHandleError } from '../../../components/response/error';
 
 const DoctorProfile = () => {
   const intl = useIntl();
@@ -55,10 +57,10 @@ const DoctorProfile = () => {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['doctorProfile']);
         queryClient.invalidateQueries(['doctorMe']);
-        message.success(intl.formatMessage({ id: 'message.update-profile.success' }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'message.update-profile.fail' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

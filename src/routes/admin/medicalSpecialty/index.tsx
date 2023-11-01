@@ -13,10 +13,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { categoryApi } from '../../../apis';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../../apis/client-axios';
 import { debounce } from 'lodash';
-import { CustomHandleError } from '../../../components/response';
+import { CustomHandleError } from '../../../components/response/error';
 import CheckPermission, { Permission } from '../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
+import { CustomHandleSuccess } from '../../../components/response/success';
 
 const ListMedicalSpecialty = () => {
   const intl = useIntl();
@@ -61,7 +62,7 @@ const ListMedicalSpecialty = () => {
     (createCategory: CreateCategoryDto) => categoryApi.categoryControllerCreateCategory(createCategory),
     {
       onSuccess: (data) => {
-        message.success(intl.formatMessage({ id: 'common.createSuccess' }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
         queryClient.invalidateQueries(['categoryList']);
         setIsShowModalCreate(false);
       },
@@ -81,7 +82,7 @@ const ListMedicalSpecialty = () => {
     (updateCategory: UpdateCategoryDto) => categoryApi.categoryControllerUpdateCategory(updateCategory),
     {
       onSuccess: (data) => {
-        message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         queryClient.invalidateQueries(['categoryList']);
         setIsShowModalUpdate(undefined);
       },
@@ -102,7 +103,7 @@ const ListMedicalSpecialty = () => {
     (id: string) => categoryApi.categoryControllerDeleteCategory(id),
     {
       onSuccess: (data) => {
-        message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
         queryClient.invalidateQueries(['categoryList']);
       },
       onError: (error: any) => {

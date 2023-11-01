@@ -17,6 +17,8 @@ import CustomSelect from '../../../components/select/CustomSelect';
 import { ActionUser, MedicineStatus, MedicineUnit, PERMISSIONS } from '../../../constants/enum';
 import CheckPermission, { Permission } from '../../../util/check-permission';
 import useIntl from '../../../util/useIntl';
+import { CustomHandleSuccess } from '../../../components/response/success';
+import { CustomHandleError } from '../../../components/response/error';
 
 interface Unit {
   id: string;
@@ -67,10 +69,10 @@ const ListMedicine = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['medicineList']);
-        message.success(intl.formatMessage({ id: 'common.createSuccess' }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
       },
       onError: (error: any): void => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -82,10 +84,10 @@ const ListMedicine = () => {
         setIsShowModalUpdate(undefined);
         setIsShowModalDelete(undefined);
         queryClient.invalidateQueries(['medicineList']);
-        message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
       },
       onError: (error: any): void => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -97,10 +99,10 @@ const ListMedicine = () => {
         setIsShowModalDelete(undefined);
         setIsShowModalUpdate(undefined);
         queryClient.invalidateQueries(['medicineList']);
-        message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
       },
       onError: (error: any): void => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

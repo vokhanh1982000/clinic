@@ -12,6 +12,10 @@ export function CustomHandleError(error: any, intl: IntlShape) {
     message.error(intl.formatMessage({ id: 'error.400' }));
   } else {
     const errorMessage = (error.message || '').replace(/\s/g, '_').toUpperCase();
-    message.error(intl.formatMessage({ id: `error.${errorMessage}` }));
+    if (errorMessage) {
+      message.error(intl.formatMessage({ id: `error.${errorMessage}` }));
+    } else {
+      message.error(intl.formatMessage({ id: `common.message.err` }));
+    }
   }
 }

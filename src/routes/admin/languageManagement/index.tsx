@@ -13,10 +13,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { languageApi } from '../../../apis';
 import { CreateCategoryDto, UpdateCategoryDto, UpdateLanguageDto } from '../../../apis/client-axios';
 import { debounce } from 'lodash';
-import { CustomHandleError } from '../../../components/response';
+import { CustomHandleError } from '../../../components/response/error';
 import CheckPermission, { Permission } from '../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
+import { CustomHandleSuccess } from '../../../components/response/success';
 
 const LanguageManagement = () => {
   const intl = useIntl();
@@ -62,7 +63,7 @@ const LanguageManagement = () => {
     (createLanguage: CreateCategoryDto) => languageApi.languageControllerCreateLanguage(createLanguage),
     {
       onSuccess: (data) => {
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
         queryClient.invalidateQueries(['languageList']);
         setIsShowModalCreate(false);
       },
@@ -82,7 +83,7 @@ const LanguageManagement = () => {
     (updateLanguage: UpdateLanguageDto) => languageApi.languageControllerUpdateLanguage(updateLanguage),
     {
       onSuccess: (data) => {
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         queryClient.invalidateQueries(['languageList']);
         setIsShowModalUpdate(undefined);
       },
@@ -104,10 +105,10 @@ const LanguageManagement = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['languageList']);
-        message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
       },
       onError: (error: any) => {
-        message.error(intl.formatMessage({ id: 'language.noti.fail' }));
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
