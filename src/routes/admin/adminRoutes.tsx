@@ -44,8 +44,8 @@ export const AdminRoutes = () => (
         <Route path="" element={<SuspenseWrapper component={<ListBooking />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.CLINIC}/:id`} element={<ClinicTimeline />} />
         <Route path={`${ADMIN_ROUTE_NAME.SCHEDULE}/:id`} element={<DoctorSchedule />} />
-        <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<CreateOrUpdate />} />
-        <Route path={`${ADMIN_ROUTE_NAME.CREATE}`} element={<CreateOrUpdate />} />
+        <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateOrUpdate />} />} />
+        <Route path={`${ADMIN_ROUTE_NAME.CREATE}`} element={<SuspenseWrapper component={<CreateOrUpdate />} />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListClinic />} />} />

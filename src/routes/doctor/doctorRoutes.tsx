@@ -20,8 +20,14 @@ export const DoctorRoutes = () => (
     <Route path="" element={<SuspenseWrapper component={<Doctor />} />}>
       <Route path={DOCTOR_CLINIC_ROUTE_NAME.BOOKING_MANAGEMENT}>
         <Route path={''} element={<ListBooking />} />
-        <Route path={DOCTOR_CLINIC_ROUTE_NAME.CREATE} element={<CreateOrUpDateBooking />} />
-        <Route path={`${DOCTOR_CLINIC_ROUTE_NAME.DETAIL}/:id`} element={<CreateOrUpDateBooking />} />
+        <Route
+          path={DOCTOR_CLINIC_ROUTE_NAME.CREATE}
+          element={<SuspenseWrapper component={<CreateOrUpDateBooking />} />}
+        />
+        <Route
+          path={`${DOCTOR_CLINIC_ROUTE_NAME.DETAIL}/:id`}
+          element={<SuspenseWrapper component={<CreateOrUpDateBooking />} />}
+        />
       </Route>
       <Route path={DOCTOR_CLINIC_ROUTE_NAME.DOCTOR_PROFILE} element={<DoctorProfile />} />
       <Route path={DOCTOR_CLINIC_ROUTE_NAME.CHANGE_PASSWORD} element={<ChangePasswordDoctorClinic />} />
