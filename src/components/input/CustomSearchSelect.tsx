@@ -9,7 +9,6 @@ const CustomSearchSelect = <T extends any>(props: CustomSearchSelectProps<T>) =>
   return (
     <Select
       {...props}
-      suffixIcon={<IconSVG type="search" />}
       className={`ant-custom-select ${props.className}`}
       getPopupContainer={(trigger: any) => trigger.parentNode}
       placeholder={props?.placeholder ? props.placeholder : undefined}

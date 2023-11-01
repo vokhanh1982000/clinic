@@ -67,6 +67,7 @@ const ClinicInfo = (props: ClinicInfoProps) => {
             })}
           >
             <CustomSearchSelect
+              suffixIcon={<IconSVG type={'dropdown'} />}
               placeholder={intl.formatMessage({
                 id: 'booking.clinic.fullName',
               })}

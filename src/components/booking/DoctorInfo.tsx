@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { doctorClinicApi } from '../../apis';
 import CustomSearchSelect from '../input/CustomSearchSelect';
 import { debounce } from 'lodash';
+import IconSVG from '../icons/icons';
 
 interface DoctorInfoProps {
   form: FormInstance;
@@ -64,6 +65,7 @@ const DoctorInfo = (props: DoctorInfoProps) => {
             })}
           >
             <CustomSearchSelect
+              suffixIcon={<IconSVG type={'dropdown'} />}
               placeholder={intl.formatMessage({
                 id: 'doctor-profile.form.fullName',
               })}

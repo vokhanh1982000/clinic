@@ -94,7 +94,7 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
         <div className={'modal-sample-prescription__content__rows'}>
           <Form.Item className={'search-medicine'}>
             <CustomInput
-              suffix={<IconSVG type="search" />}
+              prefix={<IconSVG type="search" />}
               onChange={(event) => debouncedUpdateInputValue(event.target.value)}
             />
           </Form.Item>
