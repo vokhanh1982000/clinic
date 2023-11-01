@@ -22,7 +22,7 @@ export const AdminClinicRoutes = () => (
     <Route path={ADMIN_CLINIC_ROUTE_NAME.FORGOT_PASSWORD} element={<ForgotPassAdmin />} />
     <Route path="" element={<AdminClinic />}>
       <Route path={ADMIN_CLINIC_ROUTE_NAME.BOOKING_MANAGEMENT}>
-        <Route path={''} element={<ListBooking />} />
+        <Route path="" element={<SuspenseWrapper component={<ListBooking />} />} />
         <Route
           path={ADMIN_CLINIC_ROUTE_NAME.CREATE}
           element={<SuspenseWrapper component={<CreateOrUpDateBooking />} />}

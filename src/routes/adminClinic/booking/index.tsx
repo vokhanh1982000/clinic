@@ -38,20 +38,28 @@ const ListBooking = () => {
   }, []);
 
   const { data: listBookingDay, refetch: onRefetchBookingDay } = useQuery({
-    queryKey: ['adminClinicBookingDay', time, mode],
+    queryKey: ['adminClinicBookingDay', time, mode, keyword],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword),
     enabled: !!time && mode === TimelineMode.DATE,
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
-    queryKey: ['adminClinicGetDoctorClinic', filter],
-    queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword),
-    enabled: !!filter && mode === TimelineMode.DATE,
+    queryKey: ['adminClinicGetDoctorClinic', filter, keyword],
+    queryFn: () =>
+      doctorClinicApi.doctorClinicControllerGetAll(
+        filter.page,
+        filter.size,
+        filter.sort,
+        keyword,
+        undefined,
+        user.clinicId
+      ),
+    enabled: !!filter && mode === TimelineMode.DATE && !!user,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
-    queryKey: ['adminClinicBookingMonth', time, mode],
+    queryKey: ['adminClinicBookingMonth', time, mode, keyword],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByMonth(
         dayjs(time).format(DATE_TIME_FORMAT),
@@ -160,13 +168,7 @@ const ListBooking = () => {
         </Col>
 
         <Col span={24}>
-          <TimelineControl
-            form={form}
-            user={user}
-            onRefetchMonth={handleRefetchMonth}
-            onRefetchDay={handleRefetchDay}
-            onChangeFilter={handleChangeFilter}
-          />
+          <TimelineControl form={form} user={user} onChangeFilter={handleChangeFilter} />
         </Col>
 
         <Col span={24}>{renderTimeline(mode)}</Col>

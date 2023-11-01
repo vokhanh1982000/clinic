@@ -37,7 +37,7 @@ const DoctorSchedule = () => {
     });
   }, []);
 
-  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
+  const { data: listBookingWeek } = useQuery({
     queryKey: ['adminScheduleBookingWeek', time, mode],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetBookingByWeek(
@@ -74,10 +74,6 @@ const DoctorSchedule = () => {
   const handleRefetchMonth = () => {
     onRefetchBookingMonth();
     onRefetchHolidayMonth();
-  };
-
-  const handleRefetchWeek = () => {
-    onRefetchBookingWeek();
   };
 
   const renderTimeline = (mode?: TimelineMode) => {
@@ -144,12 +140,7 @@ const DoctorSchedule = () => {
         </Col>
 
         <Col span={24}>
-          <TimelineControl
-            form={form}
-            user={user}
-            onRefetchMonth={handleRefetchMonth}
-            onRefetchWeek={handleRefetchWeek}
-          />
+          <TimelineControl form={form} user={user} />
         </Col>
 
         <Col span={24}>{renderTimeline(mode)}</Col>

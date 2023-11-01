@@ -3,15 +3,16 @@ import { FC, Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { Administrator, AdministratorClinic, Customer, DoctorClinic } from '../../../apis/client-axios';
-import { TimelineMode, n } from '../constants';
+import { IFilter, TimelineMode, n } from '../constants';
 import { scheduleDoctorRoutes } from '../index';
 
 interface TimelineControlModeProps {
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
+  onChangeFilter?: (filter: IFilter) => void;
 }
 
 const TimelineControlMode: FC<TimelineControlModeProps> = (props) => {
-  const { user } = props;
+  const { user, onChangeFilter } = props;
 
   const intl = useIntl();
   const location = useLocation();
@@ -27,9 +28,13 @@ const TimelineControlMode: FC<TimelineControlModeProps> = (props) => {
       : index > 0
   );
 
+  const handleChangeRadio = () => {
+    if (onChangeFilter) onChangeFilter({ page: 1, size: 9 });
+  };
+
   return (
     <Form.Item name={n('mode')} className="timeline-custom-control-mode-form">
-      <Radio.Group buttonStyle="solid" className="d-flex align-items-center">
+      <Radio.Group buttonStyle="solid" className="d-flex align-items-center" onChange={handleChangeRadio}>
         {RADIO_MODE.map((mode, index) =>
           index % 2 === 1 ? (
             <Fragment key={mode.value}>
