@@ -109,6 +109,7 @@ const ListPrescriptionTeamplate = () => {
         <TableWrap
           className="custom-table"
           data={listPrescriptionTeamplate?.data.content}
+          total={listPrescriptionTeamplate?.data.total}
           isLoading={isLoading}
           page={page}
           size={size}
@@ -121,14 +122,14 @@ const ListPrescriptionTeamplate = () => {
               id: 'prescription-teamplate.list.status',
             })}
             dataIndex="status"
-            width={'5%'}
+            width={'22.5%'}
           />
           <Column
             title={intl.formatMessage({
               id: `prescription-teamplate.create.medice.label`,
             })}
             dataIndex="prescriptionSampleMedicine"
-            width={'12%'}
+            width={'22.5%'}
             render={(_, record: any) => {
               const data = _.map((item: any) => {
                 return {
@@ -190,14 +191,14 @@ const ListPrescriptionTeamplate = () => {
               id: `prescription-teamplate.detail.uses`,
             })}
             dataIndex="uses"
-            width={'12%'}
+            width={'22.5%'}
           />
           <Column
             title={intl.formatMessage({
               id: `prescription-teamplate.detail.note`,
             })}
             dataIndex="note"
-            width={'12%'}
+            width={'22.5%'}
           />
           <Column
             title={intl.formatMessage({

@@ -32,10 +32,10 @@ const ListDoctor = () => {
   useEffect(() => {
     if (authUser?.user?.roles) {
       setPermisstion({
-        read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorClinic, authUser)),
-        create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorClinic, authUser)),
-        delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorClinic, authUser)),
-        update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorClinic, authUser)),
+        read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorSuppot, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorSuppot, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorSuppot, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateDoctorSuppot, authUser)),
       });
     }
   }, [authUser]);

@@ -520,6 +520,10 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     ],
     statusPrescription: [
       {
+        required: true,
+        message: intl.formatMessage({ id: 'validate.prescription.medicine.required' }),
+      },
+      {
         validator: validator({
           normal: intl.formatMessage({ id: 'common.noti.special' }),
         }),
@@ -528,7 +532,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     usesPrescription: [
       {
         validator: validator({
-          normal: intl.formatMessage({ id: 'common.noti.special' }),
+          emoj: intl.formatMessage({ id: 'common.noti.special' }),
         }),
       },
     ],
@@ -549,7 +553,7 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
     guideMedicine: [
       {
         validator: validator({
-          normalLess: intl.formatMessage({ id: 'validate.medicine.normal' }),
+          emoj: intl.formatMessage({ id: 'common.noti.special' }),
         }),
       },
     ],

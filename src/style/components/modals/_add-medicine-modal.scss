@@ -1,7 +1,10 @@
 .modal-add-medicine {
   width: 608px !important;
-  :where(.css-dev-only-do-not-override-13wzhbh).ant-row {
+  .ant-row {
     display: unset;
+  }
+  .ant-form-item-label > label::after {
+    display: none;
   }
   &__content {
     padding: 5px 18px;
