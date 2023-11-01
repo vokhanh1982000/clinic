@@ -134,7 +134,7 @@ const ListPrescriptionTeamplate = () => {
               const data = _.map((item: any) => {
                 return {
                   name: item.medicine.name,
-                  des: item.guide,
+                  des: ' (' + item.guide + ') ',
                 };
               });
               if (data && data.length > 0) {

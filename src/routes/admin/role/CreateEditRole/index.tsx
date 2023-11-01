@@ -83,7 +83,7 @@ const CreateRole = () => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
       },
       onError: (error) => {
-        message.error(intl.formatMessage({ id: 'rocle.update.error' }));
+        message.error(intl.formatMessage({ id: 'role.update.error' }));
       },
     }
   );
