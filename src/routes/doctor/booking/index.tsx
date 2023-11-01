@@ -29,8 +29,8 @@ const ListBooking = () => {
     });
   }, []);
 
-  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
-    queryKey: ['doctorClinicBookingWeek', time, mode],
+  const { data: listBookingWeek } = useQuery({
+    queryKey: ['doctorClinicBookingWeek', time, mode, keyword],
     queryFn: () =>
       doctorClinicBookingApi.doctorClinicBookingControllerGetBookingByWeek(
         dayjs(time).startOf('week').format(DATE_TIME_FORMAT),
@@ -40,7 +40,7 @@ const ListBooking = () => {
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
-    queryKey: ['doctorClinicBookingMonth', time, mode],
+    queryKey: ['doctorClinicBookingMonth', time, mode, keyword],
     queryFn: () =>
       doctorClinicBookingApi.doctorClinicBookingControllerGetBookingByMonth(
         dayjs(time).format(DATE_TIME_FORMAT),
@@ -62,10 +62,6 @@ const ListBooking = () => {
   const handleRefetchMonth = () => {
     onRefetchBookingMonth();
     onRefetchHolidayMonth();
-  };
-
-  const handleRefetchWeek = () => {
-    onRefetchBookingWeek();
   };
 
   const renderTimeline = (mode?: TimelineMode) => {
@@ -103,12 +99,7 @@ const ListBooking = () => {
         </Col>
 
         <Col span={24}>
-          <TimelineControl
-            form={form}
-            user={user}
-            onRefetchMonth={handleRefetchMonth}
-            onRefetchWeek={handleRefetchWeek}
-          />
+          <TimelineControl form={form} user={user} />
         </Col>
 
         <Col span={24}>{renderTimeline(mode)}</Col>

@@ -15,7 +15,7 @@ import {
   DoctorClinic,
   HolidaySchedule,
 } from '../../apis/client-axios';
-import { IFormData, n } from '../TimelineControl/constants';
+import { IFormData, TimelineMode, n } from '../TimelineControl/constants';
 import TimelineMonthEvent from './Event';
 
 interface TimelineMonthProps {
@@ -132,7 +132,18 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
     }
   };
 
-  const handleSelectEvent = (event: TimelineEvent) => {};
+  const handleSelectEvent = (event: TimelineEvent) => {
+    if (
+      dayjs(event.start).startOf('days').isAfter(dayjs(new Date()).startOf('days')) ||
+      dayjs(event.start).startOf('days').isSame(dayjs(new Date()).startOf('days'))
+    )
+      return;
+
+    form.setFieldsValue({
+      [n('mode')]: user.user.type === 'doctor_clinic' ? TimelineMode.WEEK : TimelineMode.DATE,
+      [n('time')]: dayjs(event.start),
+    });
+  };
 
   return (
     <>

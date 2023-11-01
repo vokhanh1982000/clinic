@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import {
   Administrator,
   AdministratorClinic,
+  BookingStatusEnum,
   CountBookingByMonthDto,
   Customer,
   DoctorClinic,
@@ -57,23 +58,32 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
         <Row align="middle" justify="center" wrap gutter={4}>
           {eventProps.event.resource?.data &&
             eventProps.event.resource?.isWork &&
-            Object.keys(eventProps.event.resource?.data).map((status) => {
-              const findStatus = NOTES.find((note) => note.status === status);
+            Object.keys(eventProps.event.resource?.data)
+              .filter((status) => {
+                if (dayjs(eventProps.event.start).startOf('days').isSame(dayjs(new Date()).startOf('days')))
+                  return status;
+                else return status === BookingStatusEnum.Completed || status === BookingStatusEnum.Cancelled;
+              })
+              .map((status) => {
+                const findStatus = NOTES.find((note) => note.status === status);
+                const data = eventProps.event.resource?.data?.[status as keyof CountBookingByMonthDto];
 
-              return (
-                <Col key={status}>
-                  <span
-                    className="font-size-16 font-weight-600 timeline-custom-month-data"
-                    style={{
-                      border: `1px solid ${findStatus?.borderColor || '#E5E5E5'}`,
-                      background: findStatus?.backgroundColor || '#F2F2F2',
-                    }}
-                  >
-                    {eventProps.event.resource?.data?.[status as keyof CountBookingByMonthDto]}
-                  </span>
-                </Col>
-              );
-            })}
+                return (
+                  Number(data) > 0 && (
+                    <Col key={status}>
+                      <span
+                        className="font-size-16 font-weight-600 timeline-custom-month-data"
+                        style={{
+                          border: `1px solid ${findStatus?.borderColor || '#E5E5E5'}`,
+                          background: findStatus?.backgroundColor || '#F2F2F2',
+                        }}
+                      >
+                        {data}
+                      </span>
+                    </Col>
+                  )
+                );
+              })}
         </Row>
       </Col>
     </Row>
