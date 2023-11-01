@@ -136,7 +136,7 @@ const ListPrescriptionTeamplate = () => {
               const data = _.map((item: any) => {
                 return {
                   name: item.medicine.name,
-                  des: item.guide,
+                  des: ' (' + item.guide + ') ',
                 };
               });
               if (data && data.length > 0) {
@@ -170,7 +170,7 @@ const ListPrescriptionTeamplate = () => {
                             <div className="manager-clinic__more__list__content">
                               {data.map((e: any) => {
                                 return (
-                                  <div>
+                                  <div className="pb-2">
                                     <span className="manager-clinic__more__list__content__item">{e.name}</span>
                                     <span className="manager-clinic__more__list__content__item__des">{e.des}</span>
                                   </div>
