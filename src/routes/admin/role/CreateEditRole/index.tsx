@@ -128,6 +128,7 @@ const CreateRole = () => {
   }, [dataRole]);
 
   const onPermissionChecked = (permissionName: string, checked: boolean) => {
+    console.log(permissionName);
     const permissions = new Set((form.getFieldValue(n('permissions')) || []) as string[]);
     if (checked) {
       permissions.add(permissionName);
@@ -139,7 +140,15 @@ const CreateRole = () => {
 
   const renderColumn = (index: number, record: PermissionGroupDto) => {
     if (record.permissions[index].name) {
-      const permissionName = record.permissions[index].name;
+      let i;
+      if (index == 0) {
+        i = 1;
+      } else if (index == 1) {
+        i = 0;
+      } else {
+        i = index;
+      }
+      const permissionName = record.permissions[i].name;
       if (id) {
         if (dataRole?.data?.permissions) {
           const checked = dataRole?.data?.permissions.includes(permissionName);
