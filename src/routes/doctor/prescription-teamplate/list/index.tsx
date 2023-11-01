@@ -168,7 +168,7 @@ const ListPrescriptionTeamplate = () => {
                             <div className="manager-clinic__more__list__content">
                               {data.map((e: any) => {
                                 return (
-                                  <div>
+                                  <div className="pb-2">
                                     <span className="manager-clinic__more__list__content__item">{e.name}</span>
                                     <span className="manager-clinic__more__list__content__item__des">{e.des}</span>
                                   </div>
