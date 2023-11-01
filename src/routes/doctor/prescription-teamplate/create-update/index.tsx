@@ -354,7 +354,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
         name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
         visible={!!isShowModalDelete?.id}
         onSubmit={() => handelDelete()}
-        onClose={() => setIsShowModalDelete(undefined)}
+        onClose={() => setIsShowModalDelete({ id: undefined, name: isShowModalDelete?.name })}
       />
     </Card>
   );

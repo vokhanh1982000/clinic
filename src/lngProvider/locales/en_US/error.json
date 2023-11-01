@@ -17,5 +17,5 @@
   "error.CONFIRM_PASSWORD_NOT_MATCH": "Confirmation password is incorrect",
   "error.OLD_PASSWORD_INCORRECT": "Password is incorrect",
   "validate.password.space": "Must not contain whitespace characters",
-  "error.MEDICINE_IS_REQUIRED": "Please select a medicine"
+  "error.MEDICINE_IS_REQUIRED": "Please select minimum 2 medicine"
 }

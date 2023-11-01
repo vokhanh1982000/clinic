@@ -45,5 +45,6 @@
   "validate.password.space": "Không được chứa kí tự khoảng trắng",
   "validate.medicine.normal": "Vui lòng chỉ nhập kí tự đặc biệt như ()-:/",
   "validate.medicine.quantity": "Số lượng tối thiểu là 1",
-  "validate.required.quantity": "Vui lòng nhập số lượng"
+  "validate.required.quantity": "Vui lòng nhập số lượng",
+  "validate.prescription.medicine.required": "Vui lòng nhập tình trạng"
 }
