@@ -28,7 +28,7 @@
   "role.permisstion.Role": "Vai trò",
   "role.permisstion.Customer": "Bệnh nhân",
   "role.permisstion.Administrator": "Quản trị viên",
-  "role.permisstion.AdministratorClinic": "Quản trị viên",
+  "role.permisstion.AdministratorClinic": "Quản trị viên phòng khám",
   "role.permisstion.DoctorClinic": "Bác sĩ phòng khám",
   "role.permisstion.DoctorSuppot": "Bác sĩ tư vấn",
   "role.permisstion.Caregory": "Chuyên khoa",
