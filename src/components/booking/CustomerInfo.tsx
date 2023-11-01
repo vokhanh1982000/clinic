@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { customerApi } from '../../apis';
 import CustomSearchSelect from '../input/CustomSearchSelect';
 import { debounce } from 'lodash';
+import IconSVG from '../icons/icons';
 
 interface CustomerInfoProps {
   form: FormInstance;
@@ -62,6 +63,7 @@ const CustomerInfo = (props: CustomerInfoProps) => {
             })}
           >
             <CustomSearchSelect
+              suffixIcon={<IconSVG type={'dropdown'} />}
               disabled={role === 'doctor' || type === 'update'}
               placeholder={intl.formatMessage({
                 id: 'customer.create.name',

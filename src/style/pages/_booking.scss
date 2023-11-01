@@ -81,7 +81,11 @@
     display: flex;
     gap: 15px;
     max-width: 100% !important;
-
+    .ant-select-selection-search {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     .left-container {
       padding: 24px;
       width: 60%;
