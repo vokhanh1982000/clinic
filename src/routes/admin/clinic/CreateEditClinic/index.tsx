@@ -13,11 +13,12 @@ import { ClinicInfo } from './ClinicInfo';
 import { DoctorList } from './DoctorList';
 import { ManagerInfo } from './ManagerInfo';
 import { CategoryCheckbox } from '../../../../components/categoryCheckbox';
-import { CustomHandleError } from '../../../../components/response';
+import { CustomHandleError } from '../../../../components/response/error';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
-import { PERMISSIONS } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS } from '../../../../constants/enum';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
 
 const CreateClinic = () => {
   const intl = useIntl();
@@ -74,7 +75,7 @@ const CreateClinic = () => {
     (createclinic: CreateClinicDto) => clinicsApi.clinicControllerCreateClinic(createclinic),
     {
       onSuccess: ({ data }) => {
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -87,7 +88,7 @@ const CreateClinic = () => {
     (updateClinic: UpdateClinicDto) => clinicsApi.clinicControllerUpdateClinic(updateClinic),
     {
       onSuccess: ({ data }) => {
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -100,7 +101,7 @@ const CreateClinic = () => {
     (id: string) => clinicsApi.clinicControllerDeleteClinic(id),
     {
       onSuccess: (data) => {
-        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.CLINIC_MANAGEMENT}`);
       },
       onError: (error: any) => {

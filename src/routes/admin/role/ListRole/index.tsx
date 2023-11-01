@@ -15,9 +15,11 @@ import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
-import { PERMISSIONS } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS } from '../../../../constants/enum';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -61,12 +63,12 @@ const ListRole = () => {
 
   const deleteRole = useMutation((id: string) => roleApi.roleControllerDelete(id), {
     onSuccess: ({ data }) => {
-      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
       queryClient.invalidateQueries(['getUsers']);
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 

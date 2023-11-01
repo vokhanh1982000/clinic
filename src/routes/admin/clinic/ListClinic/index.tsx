@@ -13,11 +13,13 @@ import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CustomSelect from '../../../../components/select/CustomSelect';
-import { PERMISSIONS, Status } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS, Status } from '../../../../constants/enum';
 import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleError } from '../../../../components/response/error';
+import { CustomHandleSuccess } from '../../../../components/response/success';
 
 interface optionLocation {
   id: string;
@@ -95,11 +97,11 @@ const ListClinic = () => {
     (id: string) => clinicsApi.clinicControllerDeleteClinic(id),
     {
       onSuccess: (data) => {
-        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
         queryClient.invalidateQueries(['getClinics']);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

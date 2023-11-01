@@ -1,6 +1,7 @@
 export enum ActionUser {
   CREATE = 'create',
   EDIT = 'edit',
+  DELETE = 'delete',
 }
 
 export enum DoctorType {

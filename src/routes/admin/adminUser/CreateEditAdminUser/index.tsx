@@ -11,7 +11,7 @@ import { CreateAdminDto, CreateDoctorClinicDtoGenderEnum, Role, UpdateAdminDto }
 import { useNavigate, useParams } from 'react-router-dom';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import moment from 'moment';
-import { PERMISSIONS, UserGender } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS, UserGender } from '../../../../constants/enum';
 import dayjs from 'dayjs';
 import { FORMAT_DATE } from '../../../../constants/common';
 import UploadAvatar from '../../../../components/upload/UploadAvatar';
@@ -21,11 +21,12 @@ import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteM
 import { CadastalCustom } from '../../../../components/Cadastral';
 import { ValidateLibrary } from '../../../../validate';
 import { formatPhoneNumberInput, handleInputChangeUpperCase } from '../../../../constants/function';
-import { CustomHandleError } from '../../../../components/response';
+import { CustomHandleError } from '../../../../components/response/error';
 import { regexImage } from '../../../../validate/validator.validate';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
 
 const CreateAdmin = () => {
   const intl = useIntl();
@@ -105,7 +106,7 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -121,7 +122,7 @@ const CreateAdmin = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getDetailAdmin', id]);
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
       },
       onError: (error: any) => {
@@ -132,10 +133,10 @@ const CreateAdmin = () => {
   const deleteAdmin = useMutation((id: string) => adminApi.administratorControllerDelete(id), {
     onSuccess: ({ data }) => {
       navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
-      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'Fail' }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 

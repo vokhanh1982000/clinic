@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
-import { PERMISSIONS, Status } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS, Status } from '../../../../constants/enum';
 import { doctorClinicApi, samplePrescriptionApi } from '../../../../apis';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
@@ -17,6 +17,8 @@ import Column from 'antd/lib/table/Column';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { useAppSelector } from '../../../../store';
 import { debounce } from 'lodash';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const ListPrescriptionTeamplate = () => {
   const intl = useIntl();
@@ -46,10 +48,10 @@ const ListPrescriptionTeamplate = () => {
   const deleteMutation = useMutation((id: string) => samplePrescriptionApi.prescriptionSampleControllerDelete(id), {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['listPrescriptionTeamplate']);
-      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'doctor.create.error' }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
   const handleDelete = () => {

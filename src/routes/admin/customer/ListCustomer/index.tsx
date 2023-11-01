@@ -13,12 +13,14 @@ import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
-import { PERMISSIONS, Status } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS, Status } from '../../../../constants/enum';
 import { debounce } from 'lodash';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { formatPhoneNumber } from '../../../../constants/function';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const ListUser = () => {
   const intl = useIntl();
@@ -59,11 +61,10 @@ const ListUser = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['customerList']);
-        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
-        // message.success(intl.formatMessage({ id: `customer.delete.success` }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

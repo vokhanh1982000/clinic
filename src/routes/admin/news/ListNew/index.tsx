@@ -12,13 +12,15 @@ import { debounce } from 'lodash';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import TableWrap from '../../../../components/TableWrap';
 import Column from 'antd/es/table/Column';
-import { PERMISSIONS, Status } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS, Status } from '../../../../constants/enum';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import moment from 'moment';
 import { FORMAT_DATE, FORMAT_DATE_VN } from '../../../../constants/common';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const ListNew = () => {
   const intl = useIntl();
@@ -60,9 +62,10 @@ const ListNew = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['newList']);
+        CustomHandleSuccess(ActionUser.EDIT, intl);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -72,9 +75,10 @@ const ListNew = () => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['newList']);
+        CustomHandleSuccess(ActionUser.DELETE, intl);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

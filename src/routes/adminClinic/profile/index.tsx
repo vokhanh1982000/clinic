@@ -12,13 +12,15 @@ import CustomButton from '../../../components/buttons/CustomButton';
 import { AdministratorClinic, Cadastral, UpdateAdminClinicDto } from '../../../apis/client-axios';
 import { adminClinicApi, assetsApi, authApi, cadastralApi } from '../../../apis';
 import dayjs from 'dayjs';
-import { UserGender } from '../../../constants/enum';
+import { ActionUser, UserGender } from '../../../constants/enum';
 import { FORMAT_DATE } from '../../../constants/common';
 import { ValidateLibrary } from '../../../validate';
 import UploadAvatar from '../../../components/upload/UploadAvatar';
 import { MyUploadProps } from '../../../constants/dto';
 import { regexImage } from '../../../validate/validator.validate';
 import { formatPhoneNumberInput } from '../../../constants/function';
+import { CustomHandleSuccess } from '../../../components/response/success';
+import { CustomHandleError } from '../../../components/response/error';
 
 const AdminClinicProfile = () => {
   const intl = useIntl();
@@ -62,10 +64,10 @@ const AdminClinicProfile = () => {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(['adminClinicProfile']);
         queryClient.invalidateQueries(['adminClinicMe']);
-        message.success(intl.formatMessage({ id: 'common.updateSuccess' }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'message.update-profile.fail' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

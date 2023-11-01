@@ -15,8 +15,13 @@ import CustomButton from '../../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../../components/icons/icons';
 import { ConfirmDeleteModal } from '../../../../../components/modals/ConfirmDeleteModal';
 import { ManagerModal } from '../../../../../components/modals/ManagerModal';
-import { ActionUser } from '../../../../../constants/enum';
+import { ActionUser, PERMISSIONS } from '../../../../../constants/enum';
 import { generateRandomId } from '../../../../../constants/function';
+import { CustomHandleError } from '../../../../../components/response/error';
+import { CustomHandleSuccess } from '../../../../../components/response/success';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../../store';
+import CheckPermission, { Permission } from '../../../../../util/check-permission';
 
 interface ManagerInfoProps {
   form: FormInstance;
@@ -32,11 +37,31 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
   const [isShowManagerCreateModal, setIsShowManagerCreateModal] = useState<boolean>(false);
   const [isShowManagerUpdateModal, setIsShowManagerUpdateModal] = useState<string>();
   const [isDeleteManager, setIsDeleteManager] = useState<{ id: string; name: string }>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
+  });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadAdministratorClinic, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateAdministratorClinic, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteAdministratorClinic, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateAdministratorClinic, authUser)),
+      });
+    }
+  }, [authUser]);
+
+  console.log(permisstion);
 
   const { data: listAdminClinic, isLoading } = useQuery({
     queryKey: ['getAdminClinic', id],
     queryFn: () => adminClinicApi.administratorClinicControllerGetAllNoPagination(id!),
-    enabled: !!id,
+    enabled: !!(id && permisstion.read),
   });
 
   useEffect(() => {
@@ -52,10 +77,11 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
       onSuccess: ({ data }) => {
         setIsShowManagerCreateModal(false);
         form.resetFields();
+        CustomHandleSuccess(ActionUser.CREATE, intl);
         queryClient.invalidateQueries(['getAdminClinic']);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -67,10 +93,11 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
       onSuccess: ({ data }) => {
         setIsShowManagerUpdateModal(undefined);
         form.resetFields();
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         queryClient.invalidateQueries(['getAdminClinic']);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -79,10 +106,11 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
     (id: string) => adminClinicApi.administratorClinicControllerDeleteClinic(id),
     {
       onSuccess: (data) => {
+        CustomHandleSuccess(ActionUser.DELETE, intl);
         queryClient.invalidateQueries(['getAdminClinic']);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -148,6 +176,7 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
         </div>
         <CustomButton
           className="button-add"
+          disabled={!permisstion.create}
           icon={<IconSVG type="create-2" />}
           onClick={() => {
             setIsShowManagerCreateModal(true);
@@ -184,7 +213,9 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
                     className="manager-info__list__item__delete"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIsDeleteManager({ id: manager.id, name: manager.fullName || manager.phoneNumber });
+                      if (permisstion.delete) {
+                        setIsDeleteManager({ id: manager.id, name: manager.fullName || manager.phoneNumber });
+                      }
                     }}
                   >
                     <IconSVG type="close-black-light" />
@@ -208,6 +239,7 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
             setIsShowManagerCreateModal(false);
             form.resetFields();
           }}
+          disableCreate={!permisstion.create}
         />
       )}
       {isShowManagerUpdateModal && (
@@ -224,6 +256,8 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
             setIsShowManagerUpdateModal(undefined);
             form.resetFields();
           }}
+          disableUpdate={!permisstion.update}
+          disableDelete={!permisstion.delete}
         />
       )}
       <ConfirmDeleteModal

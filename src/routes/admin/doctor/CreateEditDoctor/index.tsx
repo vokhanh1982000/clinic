@@ -10,13 +10,14 @@ import FormWrap from '../../../../components/FormWrap';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import Achievement from '../../../../components/table/DoctorTable/achievenment';
 import DoctorInfo from '../../../../components/table/DoctorTable/information';
-import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
+import { ActionUser, DoctorType, PERMISSIONS } from '../../../../constants/enum';
 import dayjs from 'dayjs';
 import { FORMAT_DATE } from '../../../../constants/common';
-import { CustomHandleError } from '../../../../components/response';
+import { CustomHandleError } from '../../../../components/response/error';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -81,7 +82,7 @@ const CreateDoctor = () => {
       doctorSupportApi.doctorSupportControllerCreateDoctorSupport(createDoctorSupport),
     {
       onSuccess: ({ data }) => {
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
         navigate(-1);
       },
       onError: (error: any) => {
@@ -95,7 +96,7 @@ const CreateDoctor = () => {
       doctorSupportApi.doctorSupportControllerUpdateDoctorSupportForAdmin(updateDoctorSupport),
     {
       onSuccess: ({ data }) => {
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         navigate(-1);
       },
       onError: (error: any) => {
@@ -107,7 +108,7 @@ const CreateDoctor = () => {
   const deleteAdmin = useMutation((id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id), {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['getDoctorSupport']);
-      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
       navigate(-1);
     },
     onError: (error: any) => {

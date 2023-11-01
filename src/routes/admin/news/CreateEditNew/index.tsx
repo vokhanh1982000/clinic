@@ -13,6 +13,9 @@ import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteM
 import { MyUploadProps } from '../../../../constants/dto';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { regexImage } from '../../../../validate/validator.validate';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { ActionUser } from '../../../../constants/enum';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const CreateNew = () => {
   const intl = useIntl();
@@ -52,10 +55,10 @@ const CreateNew = () => {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['newList']);
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
-        message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+        CustomHandleSuccess(ActionUser.DELETE, intl);
       },
       onError: (error: any) => {
-        message.error(error.message);
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -65,10 +68,10 @@ const CreateNew = () => {
     {
       onSuccess: ({ data }) => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        CustomHandleSuccess(ActionUser.CREATE, intl);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'new.create.error' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -78,10 +81,10 @@ const CreateNew = () => {
     {
       onSuccess: ({ data }) => {
         navigate(`/admin/${ADMIN_ROUTE_NAME.NEWS_MANAGEMENT}`);
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'new.update.error' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );

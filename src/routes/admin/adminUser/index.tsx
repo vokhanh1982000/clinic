@@ -16,10 +16,12 @@ import DropdownCustom from '../../../components/dropdown/CustomDropdow';
 import { debounce } from 'lodash';
 import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import CheckPermission, { Permission } from '../../../util/check-permission';
-import { PERMISSIONS } from '../../../constants/enum';
+import { ActionUser, PERMISSIONS } from '../../../constants/enum';
 import { formatPhoneNumber } from '../../../constants/function';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
+import { CustomHandleError } from '../../../components/response/error';
+import { CustomHandleSuccess } from '../../../components/response/success';
 
 const ListRole = () => {
   const intl = useIntl();
@@ -56,10 +58,10 @@ const ListRole = () => {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['getAdminUser']);
       // navigate(`/admin/${ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}`);
-      message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: `common.message.err` }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 

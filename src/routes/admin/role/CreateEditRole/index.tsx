@@ -14,9 +14,11 @@ import CustomButton from '../../../../components/buttons/CustomButton';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
-import { PERMISSIONS } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS } from '../../../../constants/enum';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const CreateRole = () => {
   const intl = useIntl();
@@ -64,11 +66,11 @@ const CreateRole = () => {
       queryClient.invalidateQueries(['getUsers']);
       queryClient.invalidateQueries(['getAdminUser']);
       queryClient.invalidateQueries(['getAllAdmin']);
-      message.success(intl.formatMessage({ id: `common.createSuccess` }));
+      CustomHandleSuccess(ActionUser.CREATE, intl);
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'role.create.error' }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 
@@ -79,11 +81,11 @@ const CreateRole = () => {
         queryClient.invalidateQueries(['getAdminUser']);
         queryClient.invalidateQueries(['getAllAdmin']);
         queryClient.invalidateQueries(['getRoleDetail', id]);
-        message.success(intl.formatMessage({ id: `common.updateSuccess` }));
+        CustomHandleSuccess(ActionUser.EDIT, intl);
         navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
       },
-      onError: (error) => {
-        message.error(intl.formatMessage({ id: 'role.update.error' }));
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
       },
     }
   );
@@ -92,11 +94,11 @@ const CreateRole = () => {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['getPermissions']);
       queryClient.invalidateQueries(['getRoleDetail', id]);
-      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+      CustomHandleSuccess(ActionUser.DELETE, intl);
       navigate(`/admin/${ADMIN_ROUTE_NAME.ROLE_MANAGEMENT}`);
     },
-    onError: (error) => {
-      message.error(intl.formatMessage({ id: 'role.permission.delete.error' }));
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 
