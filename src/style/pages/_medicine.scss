@@ -39,6 +39,24 @@
       width: 350px;
     }
 
+    .select-unit,
+    .select-status {
+      width: 184px;
+
+      .ant-select-selection-search {
+        input {
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .ant-select-selection-placeholder {
+        display: flex;
+        align-items: center;
+      }
+    }
+
     .dropdown-unit,
     .dropdown-status {
       width: 184px;

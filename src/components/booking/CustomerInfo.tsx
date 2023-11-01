@@ -21,7 +21,7 @@ interface CustomerInfoProps {
 }
 const CustomerInfo = (props: CustomerInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { customer, customerNote, setCustomer, role, form, isSubmit }: CustomerInfoProps = props;
+  const { customer, customerNote, setCustomer, role, form, isSubmit, type }: CustomerInfoProps = props;
   const [listCustomer, setListCustomer] = useState<Customer[]>();
   const [searchNameCustomer, setSearchNameCustomer] = useState<string>();
   const { data: listCustomerData } = useQuery({
@@ -62,7 +62,7 @@ const CustomerInfo = (props: CustomerInfoProps) => {
             })}
           >
             <CustomSearchSelect
-              disabled={role !== 'admin'}
+              disabled={role === 'doctor' || type === 'update'}
               placeholder={intl.formatMessage({
                 id: 'customer.create.name',
               })}

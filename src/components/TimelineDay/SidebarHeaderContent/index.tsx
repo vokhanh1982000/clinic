@@ -21,7 +21,11 @@ const SidebarHeaderContent: FC<SidebarHeaderContentProps> = (props) => {
     const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
 
     if (type === 'doctor') {
-      navigate(`${route.DETAIL_DOCTOR}/${doctorClinicId}`);
+      navigate(
+        `${
+          user.user.type === 'administrator' ? ADMIN_ROUTE_PATH.DETAIL_DOCTOR_CLINIC : route.DETAIL_DOCTOR
+        }/${doctorClinicId}`
+      );
     } else if (type === 'schedule') {
       navigate(`${route.SCHEDULE_DOCTOR}/${doctorClinicId}`);
     }

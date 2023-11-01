@@ -79,7 +79,7 @@ export const MedicineModal = (props: MedicineModalProps) => {
               })}
               rules={ValidateLibrary(intl).nameMedicine}
             >
-              <CustomInput />
+              <CustomInput maxLength={255} />
             </Form.Item>
           </div>
           <Form.Item
@@ -89,7 +89,7 @@ export const MedicineModal = (props: MedicineModalProps) => {
             })}
             rules={ValidateLibrary(intl).usageMedicine}
           >
-            <CustomInput />
+            <CustomInput maxLength={255} />
           </Form.Item>
           <Form.Item
             name="feature"
@@ -98,7 +98,7 @@ export const MedicineModal = (props: MedicineModalProps) => {
             })}
             rules={ValidateLibrary(intl).featureMedicine}
           >
-            <CustomInput />
+            <CustomInput maxLength={255} />
           </Form.Item>
           {!isSuperAdmin && (
             <div className="modal-medicine__content__rows">

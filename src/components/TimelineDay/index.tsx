@@ -69,7 +69,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   });
 
   useEffect(() => {
-    dispatch(updateClinic);
+    dispatch(updateClinic(clinic?.data));
   }, [clinic, dispatch]);
 
   useEffect(() => {

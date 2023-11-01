@@ -49,6 +49,7 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
       let cloneData: Partial<PrescriptionMedicine>[] = [];
       for (const item of currentSelect.prescriptionSampleMedicine) {
         cloneData.push({
+          id: item.id,
           guide: item.guide,
           quantity: item.quantity,
           medicineId: item.medicineId,
@@ -71,6 +72,7 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
         });
       }
     }
+    onClose();
   };
 
   return (

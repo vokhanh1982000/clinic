@@ -52,7 +52,10 @@ const Action = (props: ActionProp) => {
         </CustomButton>
 
         <CustomButton className="button-cancel" onClick={onCancel}>
-          {role === 'admin' && intl.formatMessage({ id: 'booking.button.admin-cancel' })}
+          {(role === 'admin' || role === 'adminClinic') &&
+            type === 'update' &&
+            intl.formatMessage({ id: 'booking.button.admin-cancel-booking' })}
+          {role === 'admin' && type === 'create' && intl.formatMessage({ id: 'booking.button.admin-cancel' })}
         </CustomButton>
       </div>
     </div>
