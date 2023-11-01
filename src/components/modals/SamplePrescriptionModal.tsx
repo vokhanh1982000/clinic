@@ -49,6 +49,7 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
       let cloneData: Partial<PrescriptionMedicine>[] = [];
       for (const item of currentSelect.prescriptionSampleMedicine) {
         cloneData.push({
+          id: item.id,
           guide: item.guide,
           quantity: item.quantity,
           medicineId: item.medicineId,
@@ -71,6 +72,7 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
         });
       }
     }
+    onClose();
   };
 
   return (
@@ -92,7 +94,7 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
         <div className={'modal-sample-prescription__content__rows'}>
           <Form.Item className={'search-medicine'}>
             <CustomInput
-              suffix={<IconSVG type="search" />}
+              prefix={<IconSVG type="search" />}
               onChange={(event) => debouncedUpdateInputValue(event.target.value)}
             />
           </Form.Item>

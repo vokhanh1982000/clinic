@@ -108,7 +108,7 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
                 })}
                 showSearch={true}
                 filterOption={(input, option) => {
-                  return !!option?.label?.toString().includes(input);
+                  return !!option?.label?.toString().includes(input?.trim());
                 }}
                 allowClear
                 options={ListMedicine?.data.flatMap((item) => {
@@ -143,7 +143,13 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
                 id: 'medicine.order.modal.create.button.create',
               })}
             </CustomButton>
-            <CustomButton className="button-cancel" onClick={() => setShowModalCreate(false)}>
+            <CustomButton
+              className="button-cancel"
+              onClick={() => {
+                form.resetFields();
+                setShowModalCreate(false);
+              }}
+            >
               {intl.formatMessage({
                 id: 'medicine.order.modal.create.button.cancel',
               })}

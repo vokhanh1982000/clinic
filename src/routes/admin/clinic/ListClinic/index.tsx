@@ -63,18 +63,19 @@ const ListClinic = () => {
   const { data: listProvince } = useQuery({
     queryKey: ['provinceList'],
     queryFn: () => cadastralApi.cadastralControllerGetProvince(),
+    enabled: permisstion.read,
   });
 
   const { data: listDistrict } = useQuery({
     queryKey: ['districtList', provinceSelected],
     queryFn: () => cadastralApi.cadastralControllerGetDistrictByProvinceId(provinceSelected?.id, undefined),
-    enabled: !!provinceSelected,
+    enabled: !!provinceSelected && permisstion.read,
   });
 
   const { data: listWard } = useQuery({
     queryKey: ['wardList', districtSelected],
     queryFn: () => cadastralApi.cadastralControllerGetWardByDistrictId(undefined, districtSelected?.id),
-    enabled: !!districtSelected,
+    enabled: !!districtSelected && permisstion.read,
   });
 
   const { data: listClinic, isLoading } = useQuery({

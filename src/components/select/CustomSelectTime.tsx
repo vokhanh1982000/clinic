@@ -1,21 +1,21 @@
 import { Select, SelectProps } from 'antd';
-import { IntlShape, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import IconSVG from '../icons/icons';
 
-interface CustomSearchSelectProps<T = any> extends SelectProps<T> {}
+interface CustomSelectTimeProps<T = any> extends SelectProps<T> {}
 
-const CustomSearchSelect = <T extends any>(props: CustomSearchSelectProps<T>) => {
-  const intl: IntlShape = useIntl();
+const CustomSelectTime = <T extends any>(props: CustomSelectTimeProps<T>) => {
+  const intl = useIntl();
   return (
     <Select
       {...props}
+      suffixIcon={<IconSVG type="suffix-time" />}
       className={`ant-custom-select ${props.className}`}
       getPopupContainer={(trigger: any) => trigger.parentNode}
       placeholder={props?.placeholder ? props.placeholder : undefined}
-      allowClear
-      showSearch
+      // allowClear
     />
   );
 };
 
-export default CustomSearchSelect;
+export default CustomSelectTime;

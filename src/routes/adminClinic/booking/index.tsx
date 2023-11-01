@@ -12,7 +12,7 @@ import TimelineDay from '../../../components/TimelineDay';
 import TimelineMonth from '../../../components/TimelineMonth';
 import CustomButton from '../../../components/buttons/CustomButton';
 import IconSVG from '../../../components/icons/icons';
-import { ADMIN_CLINIC_ROUTE_NAME } from '../../../constants/route';
+import { ADMIN_CLINIC_ROUTE_NAME, ADMIN_CLINIC_ROUTE_PATH } from '../../../constants/route';
 import { useAppSelector } from '../../../store';
 import { DATE_TIME_FORMAT } from '../../../util/constant';
 
@@ -38,20 +38,28 @@ const ListBooking = () => {
   }, []);
 
   const { data: listBookingDay, refetch: onRefetchBookingDay } = useQuery({
-    queryKey: ['adminClinicBookingDay', time, mode],
+    queryKey: ['adminClinicBookingDay', time, mode, keyword],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword),
     enabled: !!time && mode === TimelineMode.DATE,
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
-    queryKey: ['adminClinicGetDoctorClinic', filter],
-    queryFn: () => doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword),
-    enabled: !!filter && mode === TimelineMode.DATE,
+    queryKey: ['adminClinicGetDoctorClinic', filter, keyword],
+    queryFn: () =>
+      doctorClinicApi.doctorClinicControllerGetAll(
+        filter.page,
+        filter.size,
+        filter.sort,
+        keyword,
+        undefined,
+        user.clinicId
+      ),
+    enabled: !!filter && mode === TimelineMode.DATE && !!user,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
-    queryKey: ['adminClinicBookingMonth', time, mode],
+    queryKey: ['adminClinicBookingMonth', time, mode, keyword],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByMonth(
         dayjs(time).format(DATE_TIME_FORMAT),
@@ -148,6 +156,9 @@ const ListBooking = () => {
                   <CustomButton
                     icon={<IconSVG type="create" />}
                     className="width-176 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
+                    onClick={() => {
+                      navigate(`${ADMIN_CLINIC_ROUTE_PATH.CREATE_BOOKING}`);
+                    }}
                   >
                     <span className="font-weight-600 color-ffffff">
                       {intl.formatMessage({ id: 'timeline.admin.button.create' })}
@@ -160,13 +171,7 @@ const ListBooking = () => {
         </Col>
 
         <Col span={24}>
-          <TimelineControl
-            form={form}
-            user={user}
-            onRefetchMonth={handleRefetchMonth}
-            onRefetchDay={handleRefetchDay}
-            onChangeFilter={handleChangeFilter}
-          />
+          <TimelineControl form={form} user={user} onChangeFilter={handleChangeFilter} />
         </Col>
 
         <Col span={24}>{renderTimeline(mode)}</Col>

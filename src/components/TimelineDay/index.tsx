@@ -49,6 +49,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
 
   const intl = useIntl();
   const time = Form.useWatch(n('time'), form);
+  const keyword = Form.useWatch(n('keyword'), form);
 
   const navigate = useNavigate();
 
@@ -68,7 +69,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   });
 
   useEffect(() => {
-    dispatch(updateClinic);
+    dispatch(updateClinic(clinic?.data));
   }, [clinic, dispatch]);
 
   useEffect(() => {
@@ -106,7 +107,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             overlayClassName="timeline-custom-day-popover"
           >
             <span
-              className="font-size-16 font-weight-400 cursor-pointer"
+              className="font-size-16 font-weight-400 cursor-pointer max-width-152 d-inline-block text-truncate"
               ref={index === listDoctorClinics.content.length ? ref : undefined}
             >
               {doctor?.fullName
@@ -126,9 +127,13 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         groups.push(group);
       }
 
-      setGroups((prev) => [...(new Map([...prev, ...groups].map((group) => [group.id, group])).values() as any)]);
+      if (keyword && filter.page === 1) {
+        setGroups((prev) => [...(new Map(groups.map((group) => [group.id, group])).values() as any)]);
+      } else {
+        setGroups((prev) => [...(new Map([...prev, ...groups].map((group) => [group.id, group])).values() as any)]);
+      }
     }
-  }, [listDoctorClinics, intl]);
+  }, [listDoctorClinics, intl, filter.page, keyword]);
 
   useEffect(() => {
     if (listBookingDay.length >= 0 && groups.length >= 0) {

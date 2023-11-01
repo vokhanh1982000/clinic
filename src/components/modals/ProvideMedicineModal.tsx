@@ -151,6 +151,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
             initialValue={prescriptionMedicine?.medicine?.name}
           >
             <CustomSearchSelect
+              suffixIcon={<IconSVG type="dropdown" />}
               placeholder={intl.formatMessage({
                 id: 'booking.provide-medicine.name',
               })}

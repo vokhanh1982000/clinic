@@ -16,6 +16,7 @@
   "prescription-teamplate.detail.pla.uses": "Nhập Công dụng",
   "prescription-teamplate.detail.note": "Ghi chú",
   "prescription-teamplate.detail.pla.note": "Nhập ghi chú",
+  "prescription-teamplate.detail.save": "Lưu đơn thuốc",
 
   "prescription-teamplate.create.title": "Tạo Đơn Thuốc Mẫu",
   "prescription-teamplate.create.idx": "STT",
@@ -24,7 +25,7 @@
   "prescription-teamplate.create.uses": "Cách dùng",
   "prescription-teamplate.create.medice.label": "Thuốc",
   "prescription-teamplate.create.quantity.label": "Số lượng",
-  "prescription-teamplate.create.save": "Lưu đơn thuốc",
+  "prescription-teamplate.create.save": "Tạo đơn thuốc",
   "prescription-teamplate.create.delete": "Xóa đơn",
   "prescription-teamplate.create.cancel": "Hủy"
 }
