@@ -38,6 +38,8 @@ const CreateOrUpDateBooking = () => {
   const [prescription, setPrescription] = useState<PrescriptionType>();
   const [currentStatus, setCurrentStatus] = useState<BookingStatusEnum>();
   const [date, setDate] = useState<dayjs.Dayjs>(dayjs(roundTimeToNearestHalfHour(new Date())));
+  const [status, setStatus] = useState<BookingStatusEnum>();
+
   const { data: bookingData } = useQuery({
     queryKey: ['bookingDetail'],
     queryFn: () => {
@@ -72,6 +74,7 @@ const CreateOrUpDateBooking = () => {
     setCustomer(data?.customer);
     setPrescription(data?.prescription);
     setCurrentStatus(bookingData?.data.status);
+    setStatus(bookingData?.data.status);
     if (data?.appointmentStartTime) {
       setDate(dayjs(data?.appointmentStartTime));
     }
@@ -146,15 +149,22 @@ const CreateOrUpDateBooking = () => {
             role={'doctor'}
             type={id ? 'update' : 'create'}
             setCustomer={setCustomer}
+            status={status}
           />
-          <Prescription prescription={prescription} role={'doctor'} setPrescription={setPrescription} />
+          <Prescription
+            prescription={prescription}
+            role={'doctor'}
+            setPrescription={setPrescription}
+            type={'update'}
+            status={status}
+          />
         </div>
         <div className={'right-container'}>
           <div className={'schedule-info-area'}>
-            <ScheduleInfo form={form} role={'doctor'} date={date} type={'update'} />
+            <ScheduleInfo form={form} role={'doctor'} date={date} type={'update'} status={status} />
           </div>
           <div className={'action-area'}>
-            <Action form={form} role={'doctor'} />
+            <Action form={form} role={'doctor'} type={id ? 'update' : 'create'} status={status} />
           </div>
         </div>
       </Form>
