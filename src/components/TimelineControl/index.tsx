@@ -1,4 +1,4 @@
-import { Col, Form, FormInstance, Input, Row } from 'antd';
+import { Col, Form, FormInstance, Row } from 'antd';
 import { debounce } from 'lodash';
 import { ChangeEvent, FC, KeyboardEvent } from 'react';
 import { useIntl } from 'react-intl';
@@ -55,20 +55,19 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
 
   return (
     <FormWrap name="timelineControl" form={form} className="timeline-custom-control-form">
-      <Form.Item name={n('keyword')} className="d-none">
-        <Input />
-      </Form.Item>
       <Row align="middle" justify="space-between" wrap gutter={[0, 10]}>
         {!scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/'))) && (
           <Col>
-            <CustomInput
-              placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
-              prefix={<IconSVG type="search" />}
-              className="input-search width-350"
-              allowClear
-              onChange={handleSearch}
-              onPressEnter={handlePressEnter}
-            />
+            <Form.Item name={n('keyword')} className="m-b-0">
+              <CustomInput
+                placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
+                prefix={<IconSVG type="search" />}
+                className="input-search width-350"
+                allowClear
+                onChange={handleSearch}
+                onPressEnter={handlePressEnter}
+              />
+            </Form.Item>
           </Col>
         )}
         <Col
@@ -79,7 +78,7 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
         <Col
           order={scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/'))) ? 1 : 2}
         >
-          <TimelineControlMode user={user} onChangeFilter={onChangeFilter} />
+          <TimelineControlMode user={user} onChangeFilter={onChangeFilter} form={form} />
         </Col>
         {scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/'))) && (
           <Col order={3}>

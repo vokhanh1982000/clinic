@@ -1,16 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { Card, Col, Form, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { debounce } from 'lodash';
 import moment from 'moment';
-import { useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { adminClinicBookingApi } from '../../../../apis';
 import { Booking } from '../../../../apis/client-axios';
-import FormSearch from '../../../../components/FormSearch';
 import FormWrap from '../../../../components/FormWrap';
 import TableWrap from '../../../../components/TableWrap';
 import { NOTES } from '../../../../components/TimelineControl/constants';
 import IconSVG from '../../../../components/icons/icons';
+import CustomInput from '../../../../components/input/CustomInput';
 import { statusBackgroundColor } from '../../../../util/constant';
 
 interface IFormData {
@@ -33,8 +34,8 @@ const ListBookingEmpty = () => {
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
 
-  const { data: listBookingEmpty, refetch: onRefetchBookingEmpty } = useQuery({
-    queryKey: ['adminClinicBookingEmpty', filter],
+  const { data: listBookingEmpty } = useQuery({
+    queryKey: ['adminClinicBookingEmpty', filter, keyword],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerFindBookingPendingDoctor(
         filter.page,
@@ -126,8 +127,23 @@ const ListBookingEmpty = () => {
     },
   ];
 
-  const onFinish = () => {
-    onRefetchBookingEmpty();
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    if (debouncedUpdateInputValue.cancel) {
+      debouncedUpdateInputValue.cancel();
+    }
+
+    debouncedUpdateInputValue(e.target.value);
+  };
+
+  const debouncedUpdateInputValue = debounce((value) => {
+    form.setFieldValue(n('keyword'), value);
+    setFilter((prev) => ({ ...prev, page: 1 }));
+  }, 500);
+
+  const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    form.setFieldValue(n('keyword'), value);
+    setFilter((prev) => ({ ...prev, page: 1 }));
   };
 
   return (
@@ -139,11 +155,17 @@ const ListBookingEmpty = () => {
           </h3>
         </Col>
         <Col span={24}>
-          <FormWrap name="bookingManagementEmpty" form={form} onFinish={onFinish}>
-            <FormSearch
-              name={n('keyword')}
-              inputProps={{ placeholder: intl.formatMessage({ id: 'customer.list.search' }) }}
-            />
+          <FormWrap name="bookingManagementEmpty" form={form}>
+            <Form.Item name={n('keyword')} className="m-b-0">
+              <CustomInput
+                placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
+                prefix={<IconSVG type="search" />}
+                className="input-search width-350"
+                allowClear
+                onChange={handleSearch}
+                onPressEnter={handlePressEnter}
+              />
+            </Form.Item>
           </FormWrap>
         </Col>
         <Col span={24}>
