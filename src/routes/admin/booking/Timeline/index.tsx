@@ -33,7 +33,7 @@ const ClinicTimeline = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
+  const route = user?.user?.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
 
   useEffect(() => {
     form.setFieldsValue({

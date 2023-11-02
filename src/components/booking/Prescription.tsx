@@ -5,7 +5,7 @@ import { Form, Input } from 'antd';
 import CustomArea from '../input/CustomArea';
 import TableWrap from '../TableWrap';
 import Column from 'antd/es/table/Column';
-import { Prescription as PrescriptionType, PrescriptionMedicine } from '../../apis/client-axios';
+import { BookingStatusEnum, Prescription as PrescriptionType, PrescriptionMedicine } from '../../apis/client-axios';
 import CustomButton from '../buttons/CustomButton';
 import IconSVG from '../icons/icons';
 import ProvideMedicineModal from '../modals/ProvideMedicineModal';
@@ -16,9 +16,10 @@ interface PrescriptionProp {
   type?: 'create' | 'update';
   prescription?: PrescriptionType;
   setPrescription?: Dispatch<SetStateAction<PrescriptionType | undefined>>;
+  status?: BookingStatusEnum;
 }
 const Prescription = (props: PrescriptionProp) => {
-  const { prescription, role, setPrescription, type }: PrescriptionProp = props;
+  const { prescription, role, setPrescription, type, status }: PrescriptionProp = props;
   const intl: IntlShape = useIntl();
   const [showProvideMedicineModalCreate, setShowProvideMedicineModalCreate] = useState<boolean>();
   const [showProvideMedicineModalUpdate, setShowProvideMedicineModalUpdate] = useState<PrescriptionMedicine>();
@@ -53,6 +54,10 @@ const Prescription = (props: PrescriptionProp) => {
       });
     }
   };
+
+  const isDisable = () => {
+    return !(status === BookingStatusEnum.Approved || status === BookingStatusEnum.Completed);
+  };
   return (
     <div className={'prescription'}>
       <div className="prescription__header">
@@ -66,13 +71,21 @@ const Prescription = (props: PrescriptionProp) => {
         </div>
         {role === 'doctor' && (
           <div className={'prescription__header__action'}>
-            <CustomButton className={'button-sample-prescription'} onClick={() => setShowSamplePrescriptionModal(true)}>
+            <CustomButton
+              className={'button-sample-prescription'}
+              onClick={() => setShowSamplePrescriptionModal(true)}
+              disabled={isDisable()}
+            >
               <span className={'icon-sample-prescription'}>
                 <IconSVG type={'sample-prescription'} />
               </span>
               {intl.formatMessage({ id: 'booking.button.sample-prescription' })}
             </CustomButton>
-            <CustomButton className={'button-provide-medicine'} onClick={() => setShowProvideMedicineModalCreate(true)}>
+            <CustomButton
+              className={'button-provide-medicine'}
+              onClick={() => setShowProvideMedicineModalCreate(true)}
+              disabled={isDisable()}
+            >
               <span className={'icon-provide-medicine'}>
                 <IconSVG type={'provide-medicine'} />
               </span>

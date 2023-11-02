@@ -11,12 +11,11 @@ import Action from '../../../../components/booking/Action';
 import IconSVG from '../../../../components/icons/icons';
 import useForm from 'antd/es/form/hooks/useForm';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { adminBookingApi, adminClinicApi, adminClinicBookingApi, clinicsApi } from '../../../../apis';
+import { adminClinicBookingApi } from '../../../../apis';
 import { useAppSelector } from '../../../../store';
 import {
   AdminClinicCreateBookingDto,
   AdminClinicUpdateBookingDto,
-  AdminCreateBookingDto,
   AdministratorClinic,
   Booking,
   BookingStatusEnum,
@@ -46,6 +45,8 @@ const CreateOrUpDateBooking = () => {
   const [amTime, setAmTime] = useState<any[]>();
   const [pmTime, setPmTime] = useState<any[]>();
   const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
+  const [status, setStatus] = useState<BookingStatusEnum>();
+
   const navigate = useNavigate();
   const { data: bookingData } = useQuery({
     queryKey: ['adminClinicBookingDetail'],
@@ -154,6 +155,7 @@ const CreateOrUpDateBooking = () => {
     setClinic(data?.clinic);
     setPrescription(data?.prescription);
     setCurrentStatus(bookingData?.data.status);
+    setStatus(bookingData?.data.status);
     if (data?.appointmentStartTime) {
       setDate(dayjs(data?.appointmentStartTime));
     }
@@ -182,7 +184,7 @@ const CreateOrUpDateBooking = () => {
       doctorClinicId: doctorClinic?.id,
       clinicId: user.clinicId,
       customerId: customer?.id,
-      status: BookingStatusEnum.Approved,
+      status: BookingStatusEnum.Pending,
       prescription: undefined,
     };
     // setIsSubmit(true);
@@ -212,28 +214,30 @@ const CreateOrUpDateBooking = () => {
               })}
         </span>
         <Form className={'header-form'} form={form}>
-          <span className={'create-booking-header__code'}>#{bookingData?.data.order} </span>
-          <span
-            className={'create-booking-header__copy'}
-            onClick={() => {
-              return navigator.clipboard.writeText(`#${bookingData?.data.order}`);
-            }}
-          >
-            <IconSVG type={'copy'} />
-          </span>
           {id && (
-            <Form.Item name={'status'} className={'status'}>
-              <Select
-                className={`create-booking-header__select-status ${statusClassName(currentStatus!)} `}
-                defaultValue="Hoàn thành"
-                options={BookingStatus.map((item) => ({
-                  label: intl.formatMessage({ id: item.label }),
-                  value: item.value,
-                }))}
-                suffixIcon={<IconSVG type={'dropdown'} />}
-                onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}
-              ></Select>
-            </Form.Item>
+            <>
+              <span className={'create-booking-header__code'}>#{bookingData?.data.order} </span>
+              <span
+                className={'create-booking-header__copy'}
+                onClick={() => {
+                  return navigator.clipboard.writeText(`#${bookingData?.data.order}`);
+                }}
+              >
+                <IconSVG type={'copy'} />
+              </span>
+              <Form.Item name={'status'} className={'status'}>
+                <Select
+                  className={`create-booking-header__select-status ${statusClassName(currentStatus!)} `}
+                  defaultValue="Hoàn thành"
+                  options={BookingStatus.map((item) => ({
+                    label: intl.formatMessage({ id: item.label }),
+                    value: item.value,
+                  }))}
+                  suffixIcon={<IconSVG type={'dropdown'} />}
+                  onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}
+                ></Select>
+              </Form.Item>
+            </>
           )}
         </Form>
       </div>
@@ -245,6 +249,7 @@ const CreateOrUpDateBooking = () => {
       >
         <div className={'left-container'}>
           <DoctorInfo
+            status={status}
             form={form}
             clinic={clinic}
             setDoctorClinic={setDoctorClinic}
@@ -253,6 +258,7 @@ const CreateOrUpDateBooking = () => {
             type={id ? 'update' : 'create'}
           />
           <CustomerInfo
+            status={status}
             customer={customer}
             form={form}
             setCustomer={setCustomer}
@@ -263,10 +269,20 @@ const CreateOrUpDateBooking = () => {
         </div>
         <div className={'right-container'}>
           <div className={'schedule-info-area'}>
-            <ScheduleInfo form={form} amTime={amTime} pmTime={pmTime} date={date} setDate={setDate} />
+            <ScheduleInfo
+              form={form}
+              amTime={amTime}
+              pmTime={pmTime}
+              date={date}
+              setDate={setDate}
+              status={status}
+              role={'adminClinic'}
+              type={id ? 'update' : 'create'}
+            />
           </div>
           <div className={'action-area'}>
             <Action
+              status={status}
               form={form}
               role={'adminClinic'}
               type={id ? 'update' : 'create'}

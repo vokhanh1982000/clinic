@@ -479,7 +479,7 @@ select[multiple] {
 }
 
 .custom-popup-picker {
-  top: 5px !important;
+  top: 0.5px !important;
   position: relative;
   z-index: 1;
   .ant-picker-panel-container {
@@ -488,7 +488,10 @@ select[multiple] {
     border: 0.4px solid $border_input_color;
     box-shadow: none;
 
-    .ant-picker-date-panel {
+    .ant-picker-date-panel,
+    .ant-picker-month-panel,
+    .ant-picker-decade-panel,
+    .ant-picker-year-panel {
       width: 100%;
     }
 
