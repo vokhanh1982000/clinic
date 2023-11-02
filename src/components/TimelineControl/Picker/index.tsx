@@ -72,12 +72,12 @@ const TimelineControlPicker: FC<TimelineControlPickerProps> = (props) => {
           />
         </Form.Item>
         {mode === TimelineMode.WEEK && (
-          <div className="d-flex align-items-center position-absolute gap-2 top-0 bg-transparent timeline-custom-control-picker-form-label">
-            <span className="font-size-24 font-weight-700 color-1A1A1A font-family-primary">
+          <div className="d-flex align-items-center position-absolute gap-2 bg-transparent timeline-custom-control-picker-form-label">
+            <span className="font-size-14 font-weight-700 color-1A1A1A font-family-primary">
               {dayjs(time).startOf('weeks').format(SHORT_DATE_FORMAT)}
             </span>
-            <span className="font-size-24 font-weight-700 color-1A1A1A font-family-primary">-</span>
-            <span className="font-size-24 font-weight-700 color-1A1A1A font-family-primary">
+            <span className="font-size-14 font-weight-700 color-1A1A1A font-family-primary">-</span>
+            <span className="font-size-14 font-weight-700 color-1A1A1A font-family-primary">
               {dayjs(time).endOf('weeks').format(SHORT_DATE_FORMAT)}
             </span>
           </div>

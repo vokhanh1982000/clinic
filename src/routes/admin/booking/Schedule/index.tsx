@@ -3,7 +3,7 @@ import { Card, Col, Form, Image, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { adminBookingApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
 import { DoctorClinic } from '../../../../apis/client-axios';
 import TimelineControl from '../../../../components/TimelineControl';
@@ -23,6 +23,8 @@ const DoctorSchedule = () => {
   const time = Form.useWatch(n('time'), form) as Dayjs | undefined;
 
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+  const params = Object.fromEntries([...(searchParams as any)]);
 
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
@@ -43,26 +45,32 @@ const DoctorSchedule = () => {
       adminBookingApi.adminBookingControllerGetBookingByWeek(
         dayjs(time).startOf('week').format(DATE_TIME_FORMAT),
         undefined,
+        params.clinicId,
         id
       ),
-    enabled: !!time && mode === TimelineMode.WEEK,
+    enabled: !!time && mode === TimelineMode.WEEK && !!params.clinicId,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
     queryKey: ['adminScheduleBookingMonth', time, mode],
     queryFn: () =>
-      adminBookingApi.adminBookingControllerGetBookingByMonth(dayjs(time).format(DATE_TIME_FORMAT), undefined, id),
-    enabled: !!time && mode === TimelineMode.MONTH,
+      adminBookingApi.adminBookingControllerGetBookingByMonth(
+        dayjs(time).format(DATE_TIME_FORMAT),
+        undefined,
+        params.clinicId,
+        id
+      ),
+    enabled: !!time && mode === TimelineMode.MONTH && !!params.clinicId,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
     queryKey: ['adminScheduleHolidayMonth', time, mode],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
-        user.clinicId,
+        params.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time && mode === TimelineMode.MONTH && !!params.clinicId,
   });
 
   const { data: doctorClinicInformation } = useQuery({
@@ -120,7 +128,7 @@ const DoctorSchedule = () => {
             <Col>
               <div
                 className="width-52 height-52 timeline-custom-schedule-avatar cursor-pointer"
-                onClick={() => navigate(`${ADMIN_ROUTE_PATH.DETAIL_DOCTOR}/${id}`)}
+                onClick={() => navigate(`${ADMIN_ROUTE_PATH.DETAIL_DOCTOR_CLINIC}/${id}`)}
               >
                 {doctorClinicInformation?.data.avatar && !isImageError ? (
                   <Image

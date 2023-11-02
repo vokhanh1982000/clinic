@@ -2,16 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, Col, DatePicker, Form, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs, { Dayjs } from 'dayjs';
+import { debounce } from 'lodash';
 import moment from 'moment';
-import { KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { adminBookingApi } from '../../../apis';
 import { Booking } from '../../../apis/client-axios';
-import FormSearch from '../../../components/FormSearch';
 import FormWrap from '../../../components/FormWrap';
 import TableWrap from '../../../components/TableWrap';
 import { NOTES } from '../../../components/TimelineControl/constants';
+import IconSVG from '../../../components/icons/icons';
+import CustomInput from '../../../components/input/CustomInput';
 import CustomSelect from '../../../components/select/CustomSelect';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
 import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../util/constant';
@@ -39,14 +41,14 @@ const ListBooking = () => {
   const keyword = Form.useWatch(n('keyword'), form) as string | undefined;
   const time = Form.useWatch(n('time'), form) as Dayjs[] | undefined;
   const status = Form.useWatch(n('status'), form) as
-    | Array<'completed' | 'pending' | 'cancelled' | 'approved'>
+    | Array<'completed' | 'pending' | 'cancelled' | 'approved' | 'all'>
     | undefined;
 
   const navigate = useNavigate();
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
 
-  const { data: listBookingDayPaginated, refetch: onRefetchBookingDayPaginated } = useQuery({
-    queryKey: ['adminBookingDayPaginated', time, filter, status],
+  const { data: listBookingDayPaginated } = useQuery({
+    queryKey: ['adminBookingDayPaginated', time, filter, status, keyword],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetPaginatedBooking(
         filter.page,
@@ -55,7 +57,9 @@ const ListBooking = () => {
         keyword,
         Array.isArray(time) && time.length === 2 ? dayjs(time[0]).format(DATE_TIME_FORMAT) : undefined,
         Array.isArray(time) && time.length === 2 ? dayjs(time[1]).format(DATE_TIME_FORMAT) : undefined,
-        Array.isArray(status) && status.length > 0 ? status : undefined
+        Array.isArray(status) && status.filter((item) => item !== 'all').length > 0
+          ? (status as Array<'completed' | 'pending' | 'cancelled' | 'approved'>)
+          : undefined
       ),
     enabled: !!filter,
   });
@@ -74,7 +78,13 @@ const ListBooking = () => {
       render: (value: Booking) => (
         <span
           className="font-size-16 font-family-primary color-1A1A1A cursor-pointer"
-          onClick={() => navigate(`${ADMIN_ROUTE_NAME.CLINIC}/${value.clinicId}`)}
+          onClick={() =>
+            navigate(
+              `${ADMIN_ROUTE_NAME.CLINIC}/${value.clinicId}?date=${moment(value.appointmentStartTime).format(
+                DATE_TIME_FORMAT
+              )}`
+            )
+          }
         >
           {value.clinic?.fullName}
         </span>
@@ -137,8 +147,23 @@ const ListBooking = () => {
     if (e.code === 'Enter') form.submit();
   };
 
-  const onFinish = () => {
-    onRefetchBookingDayPaginated();
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    if (debouncedUpdateInputValue.cancel) {
+      debouncedUpdateInputValue.cancel();
+    }
+
+    debouncedUpdateInputValue(e.target.value);
+  };
+
+  const debouncedUpdateInputValue = debounce((value) => {
+    form.setFieldValue(n('keyword'), value);
+    setFilter((prev) => ({ ...prev, page: 1 }));
+  }, 500);
+
+  const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    form.setFieldValue(n('keyword'), value);
+    setFilter((prev) => ({ ...prev, page: 1 }));
   };
 
   return (
@@ -150,17 +175,17 @@ const ListBooking = () => {
           </h3>
         </Col>
         <Col span={24}>
-          <FormWrap
-            name="bookingManagementEmpty"
-            form={form}
-            onFinish={onFinish}
-            onKeyDown={handleKeyDown}
-            layout="inline"
-          >
-            <FormSearch
-              name={n('keyword')}
-              inputProps={{ placeholder: intl.formatMessage({ id: 'customer.list.search' }) }}
-            />
+          <FormWrap name="bookingManagementEmpty" form={form} onKeyDown={handleKeyDown} layout="inline">
+            <Form.Item name={n('keyword')} className="m-b-0">
+              <CustomInput
+                placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
+                prefix={<IconSVG type="search" />}
+                className="input-search width-350 timeline-custom-input"
+                allowClear
+                onChange={handleSearch}
+                onPressEnter={handlePressEnter}
+              />
+            </Form.Item>
             <Form.Item name={n('time')} className="m-b-0">
               <RangePicker className="height-48 timeline-custom-range-picker" format={SHORT_DATE_FORMAT} />
             </Form.Item>
@@ -182,7 +207,7 @@ const ListBooking = () => {
                     value: note.status,
                   })),
                 ]}
-                className="width-184 height-48"
+                className="width-184 height-48 timeline-custom-select"
                 allowClear
               />
             </Form.Item>

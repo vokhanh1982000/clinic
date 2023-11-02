@@ -39,6 +39,7 @@ export const statusBackgroundColor = {
   [BookingStatusEnum.Approved]: '#3867D6',
   [BookingStatusEnum.Pending]: '#F7B731',
   [BookingStatusEnum.Cancelled]: '#D63A3A',
+  [BookingStatusEnum.Completed]: '#20BF6B',
 };
 
 export const BookingStatus = [

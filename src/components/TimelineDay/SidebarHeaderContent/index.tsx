@@ -8,10 +8,11 @@ import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../../constants/ro
 interface SidebarHeaderContentProps {
   doctorClinicId?: string;
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
+  clinicId?: string;
 }
 
 const SidebarHeaderContent: FC<SidebarHeaderContentProps> = (props) => {
-  const { doctorClinicId, user } = props;
+  const { doctorClinicId, user, clinicId } = props;
 
   const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ const SidebarHeaderContent: FC<SidebarHeaderContentProps> = (props) => {
         }/${doctorClinicId}`
       );
     } else if (type === 'schedule') {
-      navigate(`${route.SCHEDULE_DOCTOR}/${doctorClinicId}`);
+      navigate(`${route.SCHEDULE_DOCTOR}/${doctorClinicId}?clinicId=${clinicId}`);
     }
   };
 

@@ -3,7 +3,7 @@ import { Card, Col, Form, Row } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { adminBookingApi, clinicsApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
 import { DoctorClinic } from '../../../../apis/client-axios';
 import TimelineControl from '../../../../components/TimelineControl';
@@ -12,10 +12,10 @@ import TimelineDay from '../../../../components/TimelineDay';
 import TimelineMonth from '../../../../components/TimelineMonth';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
-import { useAppDispatch, useAppSelector } from '../../../../store';
-import { DATE_TIME_FORMAT } from '../../../../util/constant';
-import { updateClinic } from '../../../../store/clinicSlice';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../../../constants/route';
+import { useAppDispatch, useAppSelector } from '../../../../store';
+import { updateClinic } from '../../../../store/clinicSlice';
+import { DATE_TIME_FORMAT } from '../../../../util/constant';
 
 const ClinicTimeline = () => {
   const intl = useIntl();
@@ -26,6 +26,7 @@ const ClinicTimeline = () => {
   const keyword = Form.useWatch(n('keyword'), form) as string | undefined;
 
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
 
   const user = useAppSelector((state) => state.auth).authUser as DoctorClinic;
 
@@ -33,11 +34,12 @@ const ClinicTimeline = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const route = user?.user?.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
 
   useEffect(() => {
+    const params = Object.fromEntries([...(searchParams as any)]);
+
     form.setFieldsValue({
-      [n('time')]: dayjs(),
+      [n('time')]: dayjs(params.date, DATE_TIME_FORMAT),
       [n('mode')]: TimelineMode.DATE,
     });
   }, []);
@@ -92,9 +94,11 @@ const ClinicTimeline = () => {
   const handleChangeFilter = (newFilter: IFilter) => {
     setFilter((prev) => ({ ...prev, ...newFilter }));
   };
+
   useEffect(() => {
     dispatch(updateClinic(clinic?.data));
-  }, [clinic]);
+  }, [clinic, dispatch]);
+
   const renderTimeline = (mode?: TimelineMode) => {
     let currentScreen: ReactNode = null;
 
@@ -146,6 +150,7 @@ const ClinicTimeline = () => {
                 icon={<IconSVG type="create" />}
                 className="width-176 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
                 onClick={() => {
+                  const route = user?.user?.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
                   navigate(`${route.CREATE_BOOKING}`);
                 }}
               >

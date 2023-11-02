@@ -6,6 +6,7 @@ $color-808080: #808080;
 $color-ee5824: #ee5824;
 $color-333333: #333333;
 $color-E5E5E5: #e5e5e5;
+$color-999999: #999999;
 $font-family: Open-Sans;
 
 .timeline-custom {
@@ -75,6 +76,33 @@ $font-family: Open-Sans;
       margin-inline-start: 20px;
       width: 80px !important;
     }
+
+    & .ant-picker-input {
+      & > input {
+        &::placeholder {
+          font-size: 14px;
+          color: $color-999999;
+        }
+      }
+    }
+  }
+
+  &-select {
+    & .ant-select-selection-placeholder {
+      font-size: 14px;
+      color: $color-999999;
+      font-family: $font-family;
+    }
+  }
+
+  &-input {
+    & .ant-input {
+      &::placeholder {
+        font-size: 14px;
+        font-family: $font-family;
+        color: $color-999999;
+      }
+    }
   }
 
   &-day {
@@ -135,10 +163,14 @@ $font-family: Open-Sans;
 
           & .rct-sidebar-row {
             border-bottom: 1px solid $color-ccc;
-            padding-left: 20px;
+            padding: 0;
             color: $color-1A1A1A;
             background-color: $color-ffffff;
             font-family: $font-family;
+
+            & > div {
+              width: 100%;
+            }
           }
         }
 
@@ -305,6 +337,10 @@ $font-family: Open-Sans;
 
           & .ant-picker-week-panel-row-selected {
             & > .ant-picker-cell {
+              &::before {
+                background: $color-ee5824 !important;
+              }
+
               &.ant-picker-cell-week {
                 &::before {
                   background: $color-ee5824;
@@ -349,7 +385,8 @@ $font-family: Open-Sans;
         }
 
         &-label {
-          left: -11.5px;
+          left: 3px;
+          top: 5px;
         }
 
         & .ant-col {
