@@ -25,9 +25,7 @@ import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import ClinicInfo from '../../../../components/booking/ClinicInfo';
 import { useAppDispatch } from '../../../../store';
-import { updateClinic } from '../../../../store/clinicSlice';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
-import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
 
 const CreateOrUpDateBooking = () => {
@@ -40,7 +38,7 @@ const CreateOrUpDateBooking = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>();
   const [currentStatus, setCurrentStatus] = useState<BookingStatusEnum>();
   const [date, setDate] = useState<dayjs.Dayjs>(dayjs(roundTimeToNearestHalfHour(new Date())));
-  const [time, setTime] = useState<string>();
+  const [status, setStatus] = useState<BookingStatusEnum>();
   const [amTime, setAmTime] = useState<any[]>();
   const [pmTime, setPmTime] = useState<any[]>();
   const dispatch = useAppDispatch();
@@ -144,12 +142,13 @@ const CreateOrUpDateBooking = () => {
     setDoctorClinic(data?.doctorClinic);
     setCustomer(data?.customer);
     setClinic(data?.clinic);
-
     if (bookingData?.data.status) {
+      setStatus(bookingData?.data.status);
       setCurrentStatus(bookingData.data.status);
     }
     if (!bookingData?.data.status) {
       setCurrentStatus(BookingStatusEnum.Pending);
+      setStatus(BookingStatusEnum.Pending);
     }
 
     if (data?.appointmentStartTime) {
@@ -190,6 +189,7 @@ const CreateOrUpDateBooking = () => {
       doctorClinicId: doctorClinic?.id,
       clinicId: clinic?.id,
       customerId: customer?.id,
+      status: BookingStatusEnum.Pending,
     };
     setIsSubmit(true);
     if (!booking.customerId || !booking.clinicId) {
@@ -217,28 +217,31 @@ const CreateOrUpDateBooking = () => {
               })}
         </span>
         <Form className={'header-form'} form={form}>
-          <span className={'create-booking-header__code'}>#{bookingData?.data.order} </span>
-          <span
-            className={'create-booking-header__copy'}
-            onClick={() => {
-              return navigator.clipboard.writeText(`${bookingData?.data.order}`);
-            }}
-          >
-            <IconSVG type={'copy'} />
-          </span>
           {id && (
-            <Form.Item name={'status'} className={'status'}>
-              <Select
-                className={`create-booking-header__select-status ${statusClassName(currentStatus!)} `}
-                value={BookingStatusEnum.Pending}
-                options={BookingStatus.map((item) => ({
-                  label: intl.formatMessage({ id: item.label }),
-                  value: item.value,
-                }))}
-                suffixIcon={<IconSVG type={'dropdown'} />}
-                onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}
-              ></Select>
-            </Form.Item>
+            <>
+              <span className={'create-booking-header__code'}>#{bookingData?.data.order} </span>
+              <span
+                className={'create-booking-header__copy'}
+                onClick={() => {
+                  return navigator.clipboard.writeText(`${bookingData?.data.order}`);
+                }}
+              >
+                <IconSVG type={'copy'} />
+              </span>
+              <Form.Item name={'status'} className={'status'}>
+                <Select
+                  // disabled={status !== 'pending' && status !== 'approved'}
+                  className={`create-booking-header__select-status ${statusClassName(currentStatus!)} `}
+                  value={BookingStatusEnum.Pending}
+                  options={BookingStatus.map((item) => ({
+                    label: intl.formatMessage({ id: item.label }),
+                    value: item.value,
+                  }))}
+                  suffixIcon={<IconSVG type={'dropdown'} />}
+                  onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}
+                ></Select>
+              </Form.Item>
+            </>
           )}
         </Form>
       </div>
@@ -250,6 +253,7 @@ const CreateOrUpDateBooking = () => {
       >
         <div className={'left-container'}>
           <ClinicInfo
+            status={status}
             form={form}
             setDoctorClinic={setDoctorClinic}
             setClinic={setClinic}
@@ -259,6 +263,7 @@ const CreateOrUpDateBooking = () => {
             isSubmit={isSubmit}
           />
           <DoctorInfo
+            status={status}
             form={form}
             clinic={clinic}
             setDoctorClinic={setDoctorClinic}
@@ -267,6 +272,7 @@ const CreateOrUpDateBooking = () => {
             type={id ? 'update' : 'create'}
           />
           <CustomerInfo
+            status={status}
             customer={customer}
             form={form}
             setCustomer={setCustomer}
@@ -278,6 +284,7 @@ const CreateOrUpDateBooking = () => {
         <div className={'right-container'}>
           <div className={'schedule-info-area'}>
             <ScheduleInfo
+              status={status}
               form={form}
               type={id ? 'update' : 'create'}
               role={'admin'}
@@ -289,6 +296,7 @@ const CreateOrUpDateBooking = () => {
           </div>
           <div className={'action-area'}>
             <Action
+              status={status}
               form={form}
               type={id ? 'update' : 'create'}
               role={'admin'}

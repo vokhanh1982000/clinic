@@ -3,12 +3,11 @@ import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
 import { Form, FormInstance, Select } from 'antd';
 import CustomInput from '../input/CustomInput';
-import { Clinic, DoctorClinic } from '../../apis/client-axios';
+import { BookingStatusEnum, Clinic, DoctorClinic } from '../../apis/client-axios';
 import { debounce } from 'lodash';
 import IconSVG from '../icons/icons';
 import dayjs from 'dayjs';
 import CustomSearchSelect from '../input/CustomSearchSelect';
-import { Option } from 'antd/es/mentions';
 import { useQuery } from '@tanstack/react-query';
 import { clinicsApi } from '../../apis';
 
@@ -20,10 +19,11 @@ interface ClinicInfoProps {
   role: 'admin' | 'adminClinic' | 'doctor';
   type: 'create' | 'update';
   isSubmit?: boolean;
+  status?: BookingStatusEnum;
 }
 const ClinicInfo = (props: ClinicInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { form, clinic, setDoctorClinic, setClinic, isSubmit } = props;
+  const { form, clinic, setDoctorClinic, setClinic, isSubmit, status, type }: ClinicInfoProps = props;
   const [listClinic, setListClinic] = useState<Clinic[]>();
   const [searchNameClinic, setSearchNameClinic] = useState<string>();
 
@@ -45,7 +45,10 @@ const ClinicInfo = (props: ClinicInfoProps) => {
   useEffect(() => {
     setListClinic(listClinicData?.data);
   }, [listClinicData]);
-
+  const isDisabled = () => {
+    if (status === BookingStatusEnum.Pending && type === 'update') return false;
+    return type !== 'create';
+  };
   return (
     <div className={'clinic-info'}>
       <div className="clinic-info__header">
@@ -67,6 +70,7 @@ const ClinicInfo = (props: ClinicInfoProps) => {
             })}
           >
             <CustomSearchSelect
+              disabled={isDisabled()}
               suffixIcon={<IconSVG type={'dropdown'} />}
               placeholder={intl.formatMessage({
                 id: 'booking.clinic.fullName',
@@ -205,7 +209,7 @@ const ClinicInfo = (props: ClinicInfoProps) => {
           <Form.Item
             className="work-time"
             label={intl.formatMessage({
-              id: 'booking.clinic.phone',
+              id: 'booking.clinic.work-time',
             })}
           >
             <CustomInput
@@ -217,7 +221,11 @@ const ClinicInfo = (props: ClinicInfoProps) => {
                 const data: any = clinic?.workSchedules?.find(
                   (item) => item.day === dayjs(form.getFieldValue('appointmentStartTime')).day()
                 );
-                return `${data?.amFrom} - ${data?.pmTo}`;
+                if (data?.amFrom && data?.pmTo) {
+                  return `${data?.amFrom} - ${data?.pmTo}`;
+                } else {
+                  return '';
+                }
               })()}
             />
           </Form.Item>

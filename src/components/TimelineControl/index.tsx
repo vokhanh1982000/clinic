@@ -2,7 +2,7 @@ import { Col, Form, FormInstance, Row } from 'antd';
 import { debounce } from 'lodash';
 import { ChangeEvent, FC, KeyboardEvent } from 'react';
 import { useIntl } from 'react-intl';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Administrator, AdministratorClinic, Customer, DoctorClinic } from '../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../constants/route';
 import FormWrap from '../FormWrap';
@@ -28,6 +28,7 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
 
   const location = useLocation();
 
+  const navigate = useNavigate();
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     if (debouncedUpdateInputValue.cancel) {
       debouncedUpdateInputValue.cancel();
@@ -45,6 +46,11 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
     const value = e.currentTarget.value;
     form.setFieldValue(n('keyword'), value);
     if (onChangeFilter) onChangeFilter({ page: 1 });
+  };
+
+  const navigateCreate = () => {
+    const route = user?.user?.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
+    navigate(route.CREATE_BOOKING);
   };
 
   return (
@@ -77,6 +83,7 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
         {scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/'))) && (
           <Col order={3}>
             <CustomButton
+              onClick={navigateCreate}
               icon={<IconSVG type="create" />}
               className="width-176 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
             >
