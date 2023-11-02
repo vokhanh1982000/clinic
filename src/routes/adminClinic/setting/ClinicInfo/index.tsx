@@ -129,7 +129,11 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
           name={'fullName'}
           rules={ValidateLibrary(intl).nameClinic}
         >
-          <CustomInput />
+          <CustomInput
+            placeholder={intl.formatMessage({
+              id: 'setting.clinic.name',
+            })}
+          />
         </Form.Item>
 
         <CadastalCustom
@@ -147,7 +151,13 @@ export const ClinicInfo = (props: ClinicInfoParams) => {
           })}
           name={'introduce'}
         >
-          <CustomArea rows={4} style={{ resize: 'none' }} />
+          <CustomArea
+            rows={4}
+            style={{ resize: 'none' }}
+            placeholder={intl.formatMessage({
+              id: 'setting.clinic.introduce',
+            })}
+          />
         </Form.Item>
       </div>
     </div>

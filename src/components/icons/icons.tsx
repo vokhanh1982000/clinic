@@ -67,6 +67,53 @@ const IconSVG: React.FC<IIconProps> = (props) => {
           />
         </svg>
       );
+    case 'booking-active':
+      return (
+        <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16.2879 27.417H4.16667C2.69391 27.417 1.5 26.2231 1.5 24.7503V6.08366C1.5 4.6109 2.69391 3.41699 4.16667 3.41699H22.8333C24.3061 3.41699 25.5 4.6109 25.5 6.08366V16.2049"
+            stroke="white"
+            stroke-width="1.425"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M18.833 0.75V6.08333"
+            stroke="white"
+            stroke-width="1.425"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8.16699 0.75V6.08333"
+            stroke="white"
+            stroke-width="1.425"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M1.5 11.417H25.5"
+            stroke="white"
+            stroke-width="1.425"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M21.5003 28.2092C24.8393 28.2092 27.5462 25.5024 27.5462 22.1634C27.5462 18.8244 24.8393 16.1176 21.5003 16.1176C18.1613 16.1176 15.4545 18.8244 15.4545 22.1634C15.4545 25.5024 18.1613 28.2092 21.5003 28.2092Z"
+            stroke="white"
+            stroke-width="1.425"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M21.2334 20.2969V23.4969L23.3667 24.5635"
+            stroke="white"
+            stroke-width="1.425"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      );
     case 'user':
       return (
         <svg width="94" height="94" viewBox="0 0 94 94" fill="none" xmlns="http://www.w3.org/2000/svg">

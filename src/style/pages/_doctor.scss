@@ -39,12 +39,38 @@
 }
 
 #create-doctor-management {
+  .create-doctor-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .create-doctor-title {
     font-size: 14px;
     font-weight: 700;
     line-height: 36px;
     color: $text_black_light;
     margin-bottom: 10px;
+  }
+
+  .button-schedule {
+    border: unset;
+    display: flex;
+    align-items: center;
+    background-color: $primary_color;
+    color: $text_white;
+    justify-content: center;
+    width: 163px;
+
+    .ant-btn-icon {
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    span {
+      font-weight: 600;
+    }
   }
 
   .form-create-doctor {
