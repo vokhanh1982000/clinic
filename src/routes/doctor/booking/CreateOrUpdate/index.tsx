@@ -9,7 +9,7 @@ import ScheduleInfo from '../../../../components/booking/ScheduleInfo';
 import Action from '../../../../components/booking/Action';
 import IconSVG from '../../../../components/icons/icons';
 import useForm from 'antd/es/form/hooks/useForm';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { doctorClinicBookingApi } from '../../../../apis';
 import { useAppSelector } from '../../../../store';
 import {
@@ -39,7 +39,7 @@ const CreateOrUpDateBooking = () => {
   const [currentStatus, setCurrentStatus] = useState<BookingStatusEnum>();
   const [date, setDate] = useState<dayjs.Dayjs>(dayjs(roundTimeToNearestHalfHour(new Date())));
   const [status, setStatus] = useState<BookingStatusEnum>();
-
+  const queryClient: QueryClient = useQueryClient();
   const { data: bookingData } = useQuery({
     queryKey: ['bookingDetail'],
     queryFn: () => {
@@ -57,6 +57,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.update.success',
         })
       );
+      queryClient.invalidateQueries({ queryKey: ['bookingDetail'] });
     },
     onError: () => {
       message.error(
