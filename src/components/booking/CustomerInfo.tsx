@@ -4,7 +4,7 @@ import useIntl from '../../util/useIntl';
 import { Form, FormInstance, Select } from 'antd';
 import CustomInput from '../input/CustomInput';
 import CustomArea from '../input/CustomArea';
-import { Customer } from '../../apis/client-axios';
+import { BookingStatusEnum, Customer } from '../../apis/client-axios';
 import { useQuery } from '@tanstack/react-query';
 import { customerApi } from '../../apis';
 import CustomSearchSelect from '../input/CustomSearchSelect';
@@ -19,10 +19,11 @@ interface CustomerInfoProps {
   role: 'admin' | 'adminClinic' | 'doctor';
   type: 'create' | 'update';
   isSubmit?: boolean;
+  status?: BookingStatusEnum;
 }
 const CustomerInfo = (props: CustomerInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { customer, customerNote, setCustomer, role, form, isSubmit, type }: CustomerInfoProps = props;
+  const { customer, customerNote, setCustomer, role, form, isSubmit, type, status }: CustomerInfoProps = props;
   const [listCustomer, setListCustomer] = useState<Customer[]>();
   const [searchNameCustomer, setSearchNameCustomer] = useState<string>();
   const { data: listCustomerData } = useQuery({
@@ -41,7 +42,12 @@ const CustomerInfo = (props: CustomerInfoProps) => {
       setSearchNameCustomer(value);
     }
   }, 500);
-
+  const isDisabled = () => {
+    if (status === BookingStatusEnum.Pending && type === 'update' && role !== 'doctor') {
+      return false;
+    }
+    return !(type === 'create' && role !== 'doctor');
+  };
   return (
     <div className={'customer-info'}>
       <div className="customer-info__header">
@@ -64,7 +70,7 @@ const CustomerInfo = (props: CustomerInfoProps) => {
           >
             <CustomSearchSelect
               suffixIcon={<IconSVG type={'dropdown'} />}
-              disabled={role === 'doctor' || type === 'update'}
+              disabled={isDisabled()}
               placeholder={intl.formatMessage({
                 id: 'customer.create.name',
               })}

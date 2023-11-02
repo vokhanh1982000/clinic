@@ -1,18 +1,20 @@
-import { Divider, Form, Radio } from 'antd';
+import { Divider, Form, FormInstance, Radio } from 'antd';
 import { FC, Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { Administrator, AdministratorClinic, Customer, DoctorClinic } from '../../../apis/client-axios';
-import { IFilter, TimelineMode, n } from '../constants';
+import { IFilter, IFormData, TimelineMode, n } from '../constants';
 import { scheduleDoctorRoutes } from '../index';
+import dayjs from 'dayjs';
 
 interface TimelineControlModeProps {
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
   onChangeFilter?: (filter: IFilter) => void;
+  form: FormInstance<IFormData>;
 }
 
 const TimelineControlMode: FC<TimelineControlModeProps> = (props) => {
-  const { user, onChangeFilter } = props;
+  const { user, onChangeFilter, form } = props;
 
   const intl = useIntl();
   const location = useLocation();
@@ -30,6 +32,10 @@ const TimelineControlMode: FC<TimelineControlModeProps> = (props) => {
 
   const handleChangeRadio = () => {
     if (onChangeFilter) onChangeFilter({ page: 1, size: 9 });
+
+    form.setFieldsValue({
+      [n('time')]: dayjs(),
+    });
   };
 
   return (

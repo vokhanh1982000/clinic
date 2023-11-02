@@ -8,6 +8,7 @@ import { Option } from 'antd/es/mentions';
 import dayjs from 'dayjs';
 import IconSVG from '../icons/icons';
 import CustomSelectTime from '../select/CustomSelectTime';
+import { BookingStatusEnum } from '../../apis/client-axios';
 
 export type BookingTime = {
   time: string;
@@ -22,27 +23,19 @@ interface ScheduleInfoProp {
   pmTime?: BookingTime[];
   date?: dayjs.Dayjs;
   setDate?: Dispatch<SetStateAction<dayjs.Dayjs>>;
+  status?: BookingStatusEnum;
 }
 const ScheduleInfo = (props: ScheduleInfoProp) => {
-  const { role, type, pmTime, amTime, date, setDate }: ScheduleInfoProp = props;
+  const { role, type, pmTime, amTime, date, setDate, status }: ScheduleInfoProp = props;
   const intl: IntlShape = useIntl();
-
   const className = () => {
-    if (role === 'doctor') {
-      return 'disable';
-    }
-    if (role === 'admin' && type === 'create') {
+    if ((role === 'admin' || role === 'adminClinic') && type === 'create') {
       return '';
     }
-    if (role === 'admin' && type === 'update') {
+    if ((role === 'admin' || role === 'adminClinic') && type === 'update' && status === BookingStatusEnum.Pending) {
       return '';
     }
-    if (role === 'adminClinic' && type === 'update') {
-      return 'disable';
-    }
-    if (role === 'adminClinic' && type === 'create') {
-      return '';
-    }
+    return 'disable';
   };
 
   const handleSetTime = (item: BookingTime) => {
@@ -119,7 +112,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
               key={1}
               value={date?.format('HH:mm')}
               optionLabelProp={'label'}
-              disabled={type === 'update'}
+              disabled={className() === 'disable'}
               suffixIcon={<IconSVG type={'suffix-time'} />}
             >
               <Option>
@@ -168,11 +161,11 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
             name={'appointmentNote'}
           >
             <CustomArea
-              disabled={role === 'doctor'}
+              disabled={className() === 'disable'}
               rows={6}
               style={{ resize: 'none' }}
               placeholder={intl.formatMessage({
-                id: 'booking.create.customerNote',
+                id: 'booking.create.note',
               })}
             />
           </Form.Item>

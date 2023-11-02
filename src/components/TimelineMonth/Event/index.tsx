@@ -60,7 +60,10 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
             eventProps.event.resource?.isWork &&
             Object.keys(eventProps.event.resource?.data)
               .filter((status) => {
-                if (dayjs(eventProps.event.start).startOf('days').isSame(dayjs(new Date()).startOf('days')))
+                if (
+                  dayjs(eventProps.event.start).startOf('days').isSame(dayjs(new Date()).startOf('days')) ||
+                  dayjs(eventProps.event.start).startOf('days').isAfter(dayjs(new Date()).startOf('days'))
+                )
                   return status;
                 else return status === BookingStatusEnum.Completed || status === BookingStatusEnum.Cancelled;
               })

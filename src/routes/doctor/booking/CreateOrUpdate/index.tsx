@@ -9,7 +9,7 @@ import ScheduleInfo from '../../../../components/booking/ScheduleInfo';
 import Action from '../../../../components/booking/Action';
 import IconSVG from '../../../../components/icons/icons';
 import useForm from 'antd/es/form/hooks/useForm';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { doctorClinicBookingApi } from '../../../../apis';
 import { useAppSelector } from '../../../../store';
 import {
@@ -38,6 +38,8 @@ const CreateOrUpDateBooking = () => {
   const [prescription, setPrescription] = useState<PrescriptionType>();
   const [currentStatus, setCurrentStatus] = useState<BookingStatusEnum>();
   const [date, setDate] = useState<dayjs.Dayjs>(dayjs(roundTimeToNearestHalfHour(new Date())));
+  const [status, setStatus] = useState<BookingStatusEnum>();
+  const queryClient: QueryClient = useQueryClient();
   const { data: bookingData } = useQuery({
     queryKey: ['bookingDetail'],
     queryFn: () => {
@@ -55,6 +57,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.update.success',
         })
       );
+      queryClient.invalidateQueries({ queryKey: ['bookingDetail'] });
     },
     onError: () => {
       message.error(
@@ -72,6 +75,7 @@ const CreateOrUpDateBooking = () => {
     setCustomer(data?.customer);
     setPrescription(data?.prescription);
     setCurrentStatus(bookingData?.data.status);
+    setStatus(bookingData?.data.status);
     if (data?.appointmentStartTime) {
       setDate(dayjs(data?.appointmentStartTime));
     }
@@ -146,15 +150,22 @@ const CreateOrUpDateBooking = () => {
             role={'doctor'}
             type={id ? 'update' : 'create'}
             setCustomer={setCustomer}
+            status={status}
           />
-          <Prescription prescription={prescription} role={'doctor'} setPrescription={setPrescription} />
+          <Prescription
+            prescription={prescription}
+            role={'doctor'}
+            setPrescription={setPrescription}
+            type={'update'}
+            status={status}
+          />
         </div>
         <div className={'right-container'}>
           <div className={'schedule-info-area'}>
-            <ScheduleInfo form={form} role={'doctor'} date={date} type={'update'} />
+            <ScheduleInfo form={form} role={'doctor'} date={date} type={'update'} status={status} />
           </div>
           <div className={'action-area'}>
-            <Action form={form} role={'doctor'} />
+            <Action form={form} role={'doctor'} type={id ? 'update' : 'create'} status={status} />
           </div>
         </div>
       </Form>

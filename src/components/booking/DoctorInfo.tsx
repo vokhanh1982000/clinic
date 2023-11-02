@@ -4,7 +4,7 @@ import useIntl from '../../util/useIntl';
 import { Form, FormInstance, Select } from 'antd';
 import CustomInput from '../input/CustomInput';
 import CustomSelect from '../select/CustomSelect';
-import { Clinic, DoctorClinic } from '../../apis/client-axios';
+import { BookingStatusEnum, Clinic, DoctorClinic } from '../../apis/client-axios';
 import { DefaultOptionType } from 'antd/es/select';
 import { useQuery } from '@tanstack/react-query';
 import { doctorClinicApi } from '../../apis';
@@ -17,12 +17,13 @@ interface DoctorInfoProps {
   clinic?: Clinic;
   setDoctorClinic: Function;
   doctorClinic?: DoctorClinic;
-  role: 'admin' | 'adminClinic' | 'doctor';
-  type: 'create' | 'update';
+  role?: 'admin' | 'adminClinic' | 'doctor';
+  type?: 'create' | 'update';
+  status?: BookingStatusEnum;
 }
 const DoctorInfo = (props: DoctorInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { form, clinic, doctorClinic, setDoctorClinic, role, type } = props;
+  const { form, clinic, doctorClinic, setDoctorClinic, role, type, status }: DoctorInfoProps = props;
   const [listDoctor, setListDoctor] = useState<DoctorClinic[]>();
   const [searchNameDoctor, setSearchNameDoctor] = useState<string>();
 
@@ -44,6 +45,12 @@ const DoctorInfo = (props: DoctorInfoProps) => {
     setListDoctor(listDoctorData?.data);
   }, [listDoctorData]);
 
+  const isDisabled = () => {
+    if (status === BookingStatusEnum.Pending && type === 'update') {
+      return false;
+    }
+    return type !== 'create';
+  };
   return (
     <div className={'doctor-info'}>
       <div className="doctor-info__header">
@@ -65,6 +72,7 @@ const DoctorInfo = (props: DoctorInfoProps) => {
             })}
           >
             <CustomSearchSelect
+              disabled={isDisabled()}
               suffixIcon={<IconSVG type={'dropdown'} />}
               placeholder={intl.formatMessage({
                 id: 'doctor-profile.form.fullName',

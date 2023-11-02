@@ -15,9 +15,10 @@ import Timeline, {
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
-import { adminClinicBookingApi } from '../../apis';
+import { adminBookingApi, adminClinicBookingApi } from '../../apis';
 import {
   AdminClinicUpdateBookingDto,
+  AdminUpdateBookingDto,
   Administrator,
   AdministratorClinic,
   Booking,
@@ -25,9 +26,9 @@ import {
   Customer,
   DoctorClinic,
 } from '../../apis/client-axios';
-import { SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
-import { IFormData, NOTES, n } from '../TimelineControl/constants';
 import { DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
+import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
+import { IFormData, NOTES, n } from '../TimelineControl/constants';
 
 interface TimelineWeekProps {
   form: FormInstance<IFormData>;
@@ -62,20 +63,30 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     if (listBookingWeek.length >= 0) {
       const days = getAllDaysOfWeek(moment(dayjs(time).toDate()));
 
-      const timelineGroups: TimelineGroupBase[] = WEEK_DAYS.map((weekDay) => ({
-        id: days[weekDay.value === 0 ? 7 : weekDay.value],
-        title: (
-          <div className="d-flex align-items-center gap-2">
-            <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">
-              {intl.formatMessage({ id: weekDay.messageId })}
-            </span>
-            <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">-</span>
-            <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">
-              {days[weekDay.value === 0 ? 7 : weekDay.value]}
-            </span>
-          </div>
-        ),
-      }));
+      const timelineGroups: TimelineGroupBase[] = WEEK_DAYS.map((weekDay) => {
+        const day = days[weekDay.value === 0 ? 7 : weekDay.value];
+        const findCurrentDay = moment(new Date()).day();
+        const current = days[findCurrentDay === 0 ? 7 : findCurrentDay];
+
+        return {
+          id: day,
+          title: (
+            <div
+              className={`d-flex align-items-center gap-2 p-l-20 p-r-4 ${
+                current === day ? 'background-color-feefea' : ''
+              }`}
+            >
+              <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">
+                {intl.formatMessage({ id: weekDay.messageId })}
+              </span>
+              <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">-</span>
+              <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">
+                {days[weekDay.value === 0 ? 7 : weekDay.value]}
+              </span>
+            </div>
+          ),
+        };
+      });
 
       setGroups([...(new Map(timelineGroups.map((group) => [group.id, group])).values() as any)]);
     }
@@ -94,13 +105,23 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
         );
 
         const findStatus = NOTES.find((note) => note.status === booking.status);
+        const bookingTime = {
+          start: moment(booking.appointmentStartTime).format(FULL_TIME_FORMAT),
+          end: moment(booking.appointmentEndTime).format(FULL_TIME_FORMAT),
+        };
 
         const item: TimelineItemBase<Moment> = {
           id: booking.id,
           group: moment(booking.appointmentStartTime).format(SHORT_DATE_FORMAT),
           title: itemTitle,
-          start_time: moment(booking.appointmentStartTime),
-          end_time: moment(booking.appointmentEndTime),
+          start_time: moment(
+            `${dayjs(time).format(SHORT_DATE_FORMAT)} ${bookingTime.start}`,
+            `${SHORT_DATE_FORMAT} ${FULL_TIME_FORMAT}`
+          ),
+          end_time: moment(
+            `${dayjs(time).format(SHORT_DATE_FORMAT)} ${bookingTime.end}`,
+            `${SHORT_DATE_FORMAT} ${FULL_TIME_FORMAT}`
+          ),
           itemProps: {
             style: {
               border: `1px solid ${findStatus?.borderColor || '#E5E5E5'}`,
@@ -108,6 +129,9 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
               borderColor: findStatus?.borderColor || '#E5E5E5',
             },
           },
+          canResize: booking.status === BookingStatusEnum.Pending ? true : false,
+          canMove: booking.status === BookingStatusEnum.Pending ? true : false,
+          canChangeGroup: booking.status === BookingStatusEnum.Pending ? true : false,
         };
 
         items.push(item);
@@ -124,8 +148,12 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
             style: {
               border: 0,
               background: 'transparent',
+              userSelect: 'none',
             },
           },
+          canChangeGroup: false,
+          canMove: false,
+          canResize: false,
         });
       }
 
@@ -133,15 +161,22 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     }
   }, [listBookingWeek, time]);
 
-  const updateBookingMutation = useMutation(
+  const adminClinicUpdateBookingMutation = useMutation(
     (payload: { id: string; dto: AdminClinicUpdateBookingDto }) =>
       adminClinicBookingApi.adminClinicBookingControllerUpdate(payload.id, payload.dto),
     {
       onError: ({ response }) => {
         message.error(response?.data?.message);
       },
-      onSettled: () => {
-        // onRefetchDay();
+    }
+  );
+
+  const adminUpdateBookingMutation = useMutation(
+    (payload: { id: string; dto: AdminUpdateBookingDto }) =>
+      adminBookingApi.adminBookingControllerUpdate(payload.id, payload.dto),
+    {
+      onError: ({ response }) => {
+        message.error(response?.data?.message);
       },
     }
   );
@@ -224,32 +259,36 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     const findGroup = groups[newGroupOrder];
     const findBooking = listBookingWeek.find((booking) => booking.id === itemId);
 
-    if (findBooking?.status !== BookingStatusEnum.Pending) return;
-
     const newTime = moment(
       `${findGroup.id.toString()} ${moment(dragTime).format(TIME_FORMAT)}`,
       `${SHORT_DATE_FORMAT} ${TIME_FORMAT}`
     );
 
-    updateBookingMutation.mutate({
+    if (findGroup.id === -1) return;
+
+    const payload = {
       id: itemId,
       dto: {
-        doctorClinicId: findBooking?.doctorClinicId,
+        doctorClinicId: findBooking?.doctorClinicId?.toString(),
         id: itemId,
         appointmentStartTime: moment(newTime).toISOString(),
         appointmentEndTime: moment(newTime).add(30, 'minutes').toISOString(),
         clinicId: findBooking?.clinicId,
       },
-    });
+    };
+
+    if (user.user?.type === 'administrator_clinic') {
+      adminClinicUpdateBookingMutation.mutate(payload);
+    } else if (user.user?.type === 'administrator') {
+      adminUpdateBookingMutation.mutate(payload);
+    }
   };
 
   const handleItemResize = (itemId: string, endTimeOrStartTime: number, edge: 'left' | 'right') => {
     //change canResize Timeline's property from false to "both" to using this resize function
     const findBooking = listBookingWeek.find((booking) => booking.id === itemId);
 
-    if (findBooking?.status !== BookingStatusEnum.Pending) return;
-
-    updateBookingMutation.mutate({
+    const payload = {
       id: itemId,
       dto: {
         doctorClinicId: findBooking?.doctorClinicId,
@@ -264,7 +303,13 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
             : moment(endTimeOrStartTime).toISOString(),
         clinicId: findBooking?.clinicId,
       },
-    });
+    };
+
+    if (user.user?.type === 'administrator_clinic') {
+      adminClinicUpdateBookingMutation.mutate(payload);
+    } else if (user.user?.type === 'administrator') {
+      adminUpdateBookingMutation.mutate(payload);
+    }
   };
 
   const handleItemDoubleClick = (itemId: string, e: SyntheticEvent, time: number) => {
@@ -272,6 +317,20 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
     const route = DOCTOR_CLINIC_ROUTE_PATH;
     navigate(`${route.DETAIL_BOOKING}/${itemId}`);
+  };
+
+  const renderHorizontalLineClassNamesForGroup = (group: TimelineGroupBase) => {
+    const classes: string[] = [];
+
+    const days = getAllDaysOfWeek(moment(dayjs(time).toDate()));
+    const findCurrentDay = moment(new Date()).day();
+    const current = days[findCurrentDay === 0 ? 7 : findCurrentDay];
+
+    if (group.id === current) {
+      classes.push('background-color-feefea');
+    }
+
+    return classes;
   };
 
   return (
@@ -301,6 +360,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
           canMove={user?.user?.type !== 'doctor_clinic'}
           canChangeGroup={user?.user?.type !== 'doctor_clinic'}
           verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
+          horizontalLineClassNamesForGroup={renderHorizontalLineClassNamesForGroup}
           onItemMove={handleItemMove}
           onItemResize={handleItemResize}
           onItemDoubleClick={handleItemDoubleClick}
