@@ -16,9 +16,10 @@ import 'react-calendar-timeline/lib/Timeline.css';
 import { useInView } from 'react-intersection-observer';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { adminClinicBookingApi, clinicsApi } from '../../apis';
+import { adminBookingApi, adminClinicBookingApi, clinicsApi } from '../../apis';
 import {
   AdminClinicUpdateBookingDto,
+  AdminUpdateBookingDto,
   Administrator,
   AdministratorClinic,
   Booking,
@@ -100,14 +101,14 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         const groupTitle = (
           <Popover
             placement="right"
-            content={<SidebarHeaderContent doctorClinicId={doctor.id} user={user} />}
+            content={<SidebarHeaderContent doctorClinicId={doctor.id} user={user} clinicId={doctor.clinicId} />}
             title={null}
             arrow={false}
             trigger={['click']}
             overlayClassName="timeline-custom-day-popover"
           >
             <span
-              className="font-size-16 font-weight-400 cursor-pointer max-width-152 d-inline-block text-truncate"
+              className="font-size-16 font-weight-400 cursor-pointer max-width-170 d-inline-block text-truncate p-l-20 p-r-4"
               ref={index === listDoctorClinics.content.length ? ref : undefined}
             >
               {doctor?.fullName
@@ -161,6 +162,9 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
               borderColor: findStatus?.borderColor || '#E5E5E5',
             },
           },
+          canResize: booking.status === BookingStatusEnum.Pending ? true : false,
+          canMove: booking.status === BookingStatusEnum.Pending ? true : false,
+          canChangeGroup: booking.status === BookingStatusEnum.Pending ? true : false,
         };
 
         items.push(item);
@@ -179,8 +183,12 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             style: {
               border: 0,
               background: 'transparent',
+              userSelect: 'none',
             },
           },
+          canResize: false,
+          canMove: false,
+          canChangeGroup: false,
         });
       });
 
@@ -188,9 +196,22 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
     }
   }, [listBookingDay, time, intl, groups]);
 
-  const updateBookingMutation = useMutation(
+  const adminClinicUpdateBookingMutation = useMutation(
     (payload: { id: string; dto: AdminClinicUpdateBookingDto }) =>
       adminClinicBookingApi.adminClinicBookingControllerUpdate(payload.id, payload.dto),
+    {
+      onError: ({ response }) => {
+        message.error(response?.data?.message);
+      },
+      onSettled: () => {
+        onRefetchDay();
+      },
+    }
+  );
+
+  const adminUpdateBookingMutation = useMutation(
+    (payload: { id: string; dto: AdminUpdateBookingDto }) =>
+      adminBookingApi.adminBookingControllerUpdate(payload.id, payload.dto),
     {
       onError: ({ response }) => {
         message.error(response?.data?.message);
@@ -279,9 +300,9 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
     const findGroup = groups[newGroupOrder];
     const findBooking = listBookingDay.find((booking) => booking.id === itemId);
 
-    if (findBooking?.status !== BookingStatusEnum.Pending) return;
+    if (findGroup?.id === -1) return;
 
-    updateBookingMutation.mutate({
+    const payload = {
       id: itemId,
       dto: {
         doctorClinicId: findGroup.id.toString(),
@@ -290,16 +311,20 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         appointmentEndTime: moment(dragTime).add(30, 'minutes').toISOString(),
         clinicId: findBooking?.clinicId,
       },
-    });
+    };
+
+    if (user.user?.type === 'administrator_clinic') {
+      adminClinicUpdateBookingMutation.mutate(payload);
+    } else if (user.user?.type === 'administrator') {
+      adminUpdateBookingMutation.mutate(payload);
+    }
   };
 
   const handleItemResize = (itemId: string, endTimeOrStartTime: number, edge: 'left' | 'right') => {
     //change canResize Timeline's property from false to "both" to using this resize function
     const findBooking = listBookingDay.find((booking) => booking.id === itemId);
 
-    if (findBooking?.status !== BookingStatusEnum.Pending) return;
-
-    updateBookingMutation.mutate({
+    const payload = {
       id: itemId,
       dto: {
         doctorClinicId: findBooking?.doctorClinicId,
@@ -314,7 +339,13 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             : moment(endTimeOrStartTime).toISOString(),
         clinicId: findBooking?.clinicId,
       },
-    });
+    };
+
+    if (user.user?.type === 'administrator_clinic') {
+      adminClinicUpdateBookingMutation.mutate(payload);
+    } else if (user.user?.type === 'administrator') {
+      adminUpdateBookingMutation.mutate(payload);
+    }
   };
 
   const handleItemDoubleClick = (itemId: string) => {

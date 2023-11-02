@@ -133,11 +133,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
   };
 
   const handleSelectEvent = (event: TimelineEvent) => {
-    if (
-      dayjs(event.start).startOf('days').isAfter(dayjs(new Date()).startOf('days')) ||
-      dayjs(event.start).startOf('days').isSame(dayjs(new Date()).startOf('days'))
-    )
-      return;
+    if (dayjs(event.start).startOf('days').isAfter(dayjs(new Date()).startOf('days'))) return;
 
     form.setFieldsValue({
       [n('mode')]: user.user.type === 'doctor_clinic' ? TimelineMode.WEEK : TimelineMode.DATE,
