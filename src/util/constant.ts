@@ -5,6 +5,7 @@ export const DATE_FORMAT = 'dddd, DD/MM/YYYY';
 export const SHORT_DATE_FORMAT = 'DD/MM/YYYY';
 export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_FORMAT = 'HH:mm';
+export const FULL_TIME_FORMAT = 'HH:mm:ss';
 export const WEEK_DAYS = [
   {
     value: 1,

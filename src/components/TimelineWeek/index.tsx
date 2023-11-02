@@ -27,7 +27,7 @@ import {
   DoctorClinic,
 } from '../../apis/client-axios';
 import { DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
-import { SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
+import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
 import { IFormData, NOTES, n } from '../TimelineControl/constants';
 
 interface TimelineWeekProps {
@@ -105,13 +105,23 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
         );
 
         const findStatus = NOTES.find((note) => note.status === booking.status);
+        const bookingTime = {
+          start: moment(booking.appointmentStartTime).format(FULL_TIME_FORMAT),
+          end: moment(booking.appointmentEndTime).format(FULL_TIME_FORMAT),
+        };
 
         const item: TimelineItemBase<Moment> = {
           id: booking.id,
           group: moment(booking.appointmentStartTime).format(SHORT_DATE_FORMAT),
           title: itemTitle,
-          start_time: moment(booking.appointmentStartTime),
-          end_time: moment(booking.appointmentEndTime),
+          start_time: moment(
+            `${dayjs(time).format(SHORT_DATE_FORMAT)} ${bookingTime.start}`,
+            `${SHORT_DATE_FORMAT} ${FULL_TIME_FORMAT}`
+          ),
+          end_time: moment(
+            `${dayjs(time).format(SHORT_DATE_FORMAT)} ${bookingTime.end}`,
+            `${SHORT_DATE_FORMAT} ${FULL_TIME_FORMAT}`
+          ),
           itemProps: {
             style: {
               border: `1px solid ${findStatus?.borderColor || '#E5E5E5'}`,
@@ -259,7 +269,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     const payload = {
       id: itemId,
       dto: {
-        doctorClinicId: findGroup.id.toString(),
+        doctorClinicId: findBooking?.doctorClinicId?.toString(),
         id: itemId,
         appointmentStartTime: moment(newTime).toISOString(),
         appointmentEndTime: moment(newTime).add(30, 'minutes').toISOString(),
@@ -325,7 +335,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
   return (
     <>
-      {groups.length > 0 && items.length > 0 && listBookingWeek.length > 0 && (
+      {groups.length > 0 && items.length > 0 && (
         <Timeline
           groups={groups}
           items={items}
