@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Form, message, Select } from 'antd';
 import useIntl from '../../../../util/useIntl';
 import { IntlShape } from 'react-intl';
-import { Params, useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, Params, useNavigate, useParams } from 'react-router-dom';
 import DoctorInfo from '../../../../components/booking/DoctorInfo';
 import CustomerInfo from '../../../../components/booking/CustomerInfo';
 
@@ -10,7 +10,7 @@ import ScheduleInfo, { BookingTime } from '../../../../components/booking/Schedu
 import Action from '../../../../components/booking/Action';
 import IconSVG from '../../../../components/icons/icons';
 import useForm from 'antd/es/form/hooks/useForm';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminClinicBookingApi } from '../../../../apis';
 import { useAppSelector } from '../../../../store';
 import {
@@ -46,8 +46,8 @@ const CreateOrUpDateBooking = () => {
   const [pmTime, setPmTime] = useState<any[]>();
   const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
   const [status, setStatus] = useState<BookingStatusEnum>();
-
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
+  const queryClient: QueryClient = useQueryClient();
   const { data: bookingData } = useQuery({
     queryKey: ['adminClinicBookingDetail'],
     queryFn: () => {
@@ -80,6 +80,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.update.success',
         })
       );
+      queryClient.invalidateQueries({ queryKey: ['adminClinicBookingDetail'] });
     },
     onError: () => {
       message.error(
@@ -131,6 +132,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.update.success',
         })
       );
+      queryClient.invalidateQueries({ queryKey: ['adminClinicBookingDetail'] });
     },
     onError: () => {
       message.error(
