@@ -21,6 +21,7 @@
   "doctor.clinic.create.title": "Thêm Bác Sĩ Mới",
   "doctor.clinic.edit.title": "Chi tiết bác sĩ",
   "doctor-support.clinic.edit.title": "Chi Tiết Bác Sĩ Tư Vấn",
+  "doctor-detail.clinic.edit.title": "Chi Tiết Bác Sĩ Chuyên Khoa",
   "doctor.create.info.title": "Thông tin bác sĩ",
   "doctor.create.info.name": "Bác sĩ",
   "doctor.create.info.code": "Mã bác sĩ",
@@ -45,5 +46,6 @@
   "doctor.create.error": "Tạo mới thất bại. Mã nhân sự hoặc số điện thoại có thể đã được sử dụng. Vui lòng kiểm tra lại",
   "doctor.delete.success": "Xóa bác sĩ thành công",
   "doctor.delete.fail": "Đã có lỗi xảy ra. Vui lòng thử lại sau",
-  "doctor.language": "Ngôn ngữ"
+  "doctor.language": "Ngôn ngữ",
+  "doctor-detail.clinic.button.schedule": "Lịch làm việc"
 }
