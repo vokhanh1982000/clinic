@@ -3,7 +3,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
 import CustomArea from '../input/CustomArea';
-import CustomSelect from '../select/CustomSelect';
 import { Option } from 'antd/es/mentions';
 import dayjs from 'dayjs';
 import IconSVG from '../icons/icons';
@@ -12,7 +11,7 @@ import { BookingStatusEnum } from '../../apis/client-axios';
 
 export type BookingTime = {
   time: string;
-  status: 'EXPIRED' | 'AVAILABLE' | 'NOT_AVAILABLE' | 'FULL';
+  status: 'EXPIRED' | 'AVAILABLE' | 'NOT_AVAILABLE' | 'FULL' | 'DAY_OFF';
 };
 
 interface ScheduleInfoProp {
@@ -24,17 +23,16 @@ interface ScheduleInfoProp {
   date?: dayjs.Dayjs;
   setDate?: Dispatch<SetStateAction<dayjs.Dayjs>>;
   status?: BookingStatusEnum;
+  isCreatedByCustomer?: boolean;
 }
 const ScheduleInfo = (props: ScheduleInfoProp) => {
-  const { role, type, pmTime, amTime, date, setDate, status }: ScheduleInfoProp = props;
+  const { role, type, pmTime, amTime, date, setDate, status, isCreatedByCustomer }: ScheduleInfoProp = props;
   const intl: IntlShape = useIntl();
   const className = () => {
-    if ((role === 'admin' || role === 'adminClinic') && type === 'create') {
-      return '';
-    }
-    if ((role === 'admin' || role === 'adminClinic') && type === 'update' && status === BookingStatusEnum.Pending) {
-      return '';
-    }
+    if ((role === 'admin' || role === 'adminClinic') && type === 'create') return '';
+    if (role === 'adminClinic' && type === 'update' && status === BookingStatusEnum.Pending) return '';
+    if (role === 'admin' && type === 'update' && !isCreatedByCustomer) return '';
+    if (role === 'admin' && type === 'update' && isCreatedByCustomer) return 'disable';
     return 'disable';
   };
 
@@ -60,7 +58,12 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
     if (item.time === date?.format('HH:mm')) {
       status = 'current_select';
     }
-    if (item.status === 'FULL' || item.status === 'EXPIRED' || item.status === 'NOT_AVAILABLE')
+    if (
+      item.status === 'FULL' ||
+      item.status === 'EXPIRED' ||
+      item.status === 'NOT_AVAILABLE' ||
+      item.status === 'DAY_OFF'
+    )
       status = `${status} ${item.status.toLowerCase()} disable_select`;
     if (status !== '') return status;
     return item.status.toLowerCase();
