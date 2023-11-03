@@ -52,5 +52,7 @@
   "booking.modal-cancel.confirm-cancel": "Bạn có chắc muốn huỷ lịch khám",
   "booking.cancel-modal.button.cancel": "Huỷ",
   "booking.cancel-modal.button.confirm": "Xác nhận",
-  "booking.button.admin-cancel": "Huỷ"
+  "booking.button.admin-cancel": "Huỷ",
+  "booking.message.create.success": "Tạo thành công",
+  "booking.message.create.fail": "Tạo thất bại"
 }

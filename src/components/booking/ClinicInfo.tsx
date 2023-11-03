@@ -20,10 +20,21 @@ interface ClinicInfoProps {
   type: 'create' | 'update';
   isSubmit?: boolean;
   status?: BookingStatusEnum;
+  isCreatedByCustomer?: boolean;
 }
 const ClinicInfo = (props: ClinicInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { form, clinic, setDoctorClinic, setClinic, isSubmit, status, type }: ClinicInfoProps = props;
+  const {
+    form,
+    clinic,
+    setDoctorClinic,
+    setClinic,
+    isSubmit,
+    status,
+    type,
+    isCreatedByCustomer,
+    role,
+  }: ClinicInfoProps = props;
   const [listClinic, setListClinic] = useState<Clinic[]>();
   const [searchNameClinic, setSearchNameClinic] = useState<string>();
 
@@ -46,6 +57,7 @@ const ClinicInfo = (props: ClinicInfoProps) => {
     setListClinic(listClinicData?.data);
   }, [listClinicData]);
   const isDisabled = () => {
+    if (role === 'admin' && isCreatedByCustomer) return true;
     if (status === BookingStatusEnum.Pending && type === 'update') return false;
     return type !== 'create';
   };
