@@ -10,7 +10,7 @@ import Action from '../../../../components/booking/Action';
 import IconSVG from '../../../../components/icons/icons';
 import useForm from 'antd/es/form/hooks/useForm';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { adminBookingApi } from '../../../../apis';
+import { adminBookingApi, customerApi } from '../../../../apis';
 import {
   AdminCreateBookingDto,
   AdminUpdateBookingDto,
@@ -27,6 +27,7 @@ import ClinicInfo from '../../../../components/booking/ClinicInfo';
 import { useAppDispatch } from '../../../../store';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -83,6 +84,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.create.success',
         })
       );
+      navigate(ADMIN_ROUTE_PATH.BOOKING_MANAGEMENT);
     },
     onError: () => {
       message.error(
@@ -122,6 +124,12 @@ const CreateOrUpDateBooking = () => {
       );
     },
     enabled: !!clinic?.id,
+  });
+
+  const { data: checkCustomerData } = useQuery({
+    queryKey: ['checkCustomerData'],
+    queryFn: () => customerApi.customerControllerGetByUserId(bookingData?.data.createdByUserId || ''),
+    enabled: !!bookingData?.data.createdByUserId,
   });
 
   const statusClassName = (status: BookingStatusEnum) => {
@@ -207,6 +215,23 @@ const CreateOrUpDateBooking = () => {
     }
     navigate(-1);
   };
+  const isDisableItemStatus = (item: BookingStatusEnum) => {
+    if (status === BookingStatusEnum.Pending) {
+      if (item === BookingStatusEnum.Approved || item === BookingStatusEnum.Cancelled) {
+        return false;
+      }
+    }
+    if (status === BookingStatusEnum.Approved) {
+      if (item === BookingStatusEnum.Completed) {
+        return false;
+      }
+    }
+    if (status === BookingStatusEnum.Approved) {
+      return true;
+    }
+    return true;
+  };
+  console.log(checkCustomerData?.data, 'wapwap');
   return (
     <Card id={'create-booking-management'}>
       <div className={'create-booking-header'}>
@@ -239,6 +264,7 @@ const CreateOrUpDateBooking = () => {
                   options={BookingStatus.map((item) => ({
                     label: intl.formatMessage({ id: item.label }),
                     value: item.value,
+                    disabled: isDisableItemStatus(item.value),
                   }))}
                   suffixIcon={<IconSVG type={'dropdown'} />}
                   onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}
@@ -256,6 +282,7 @@ const CreateOrUpDateBooking = () => {
       >
         <div className={'left-container'}>
           <ClinicInfo
+            isCreatedByCustomer={!!checkCustomerData?.data.id}
             status={status}
             form={form}
             setDoctorClinic={setDoctorClinic}
@@ -266,6 +293,7 @@ const CreateOrUpDateBooking = () => {
             isSubmit={isSubmit}
           />
           <DoctorInfo
+            isCreatedByCustomer={!!checkCustomerData?.data.id}
             status={status}
             form={form}
             clinic={clinic}
@@ -275,6 +303,7 @@ const CreateOrUpDateBooking = () => {
             type={id ? 'update' : 'create'}
           />
           <CustomerInfo
+            isCreatedByCustomer={!!checkCustomerData?.data.id}
             status={status}
             customer={customer}
             form={form}
@@ -295,6 +324,7 @@ const CreateOrUpDateBooking = () => {
               pmTime={pmTime}
               date={date}
               setDate={setDate}
+              isCreatedByCustomer={!!checkCustomerData?.data.id}
             />
           </div>
           <div className={'action-area'}>
@@ -304,6 +334,7 @@ const CreateOrUpDateBooking = () => {
               type={id ? 'update' : 'create'}
               role={'admin'}
               onCancel={() => setShowModalCancel(true)}
+              isCreatedByCustomer={!!checkCustomerData?.data.id}
             />
           </div>
         </div>

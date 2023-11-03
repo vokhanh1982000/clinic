@@ -30,6 +30,7 @@ import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -101,6 +102,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.create.success',
         })
       );
+      navigate(ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
     },
     onError: () => {
       message.error(
@@ -202,7 +204,22 @@ const CreateOrUpDateBooking = () => {
     }
     navigate(-1);
   };
-
+  const isDisableItemStatus = (item: BookingStatusEnum) => {
+    if (status === BookingStatusEnum.Pending) {
+      if (item === BookingStatusEnum.Approved || item === BookingStatusEnum.Cancelled) {
+        return false;
+      }
+    }
+    if (status === BookingStatusEnum.Approved) {
+      if (item === BookingStatusEnum.Completed) {
+        return false;
+      }
+    }
+    if (status === BookingStatusEnum.Approved) {
+      return true;
+    }
+    return true;
+  };
   return (
     <Card id={'create-booking-management'}>
       <div className={'create-booking-header'}>
@@ -234,6 +251,7 @@ const CreateOrUpDateBooking = () => {
                   options={BookingStatus.map((item) => ({
                     label: intl.formatMessage({ id: item.label }),
                     value: item.value,
+                    disabled: isDisableItemStatus(item.value),
                   }))}
                   suffixIcon={<IconSVG type={'dropdown'} />}
                   onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}

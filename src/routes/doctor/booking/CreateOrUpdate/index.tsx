@@ -106,6 +106,22 @@ const CreateOrUpDateBooking = () => {
       return 'create-booking-header__select-status-completed';
     }
   };
+  const isDisableItemStatus = (item: BookingStatusEnum) => {
+    if (status === BookingStatusEnum.Pending) {
+      if (item === BookingStatusEnum.Approved || item === BookingStatusEnum.Cancelled) {
+        return false;
+      }
+    }
+    if (status === BookingStatusEnum.Approved) {
+      if (item === BookingStatusEnum.Completed) {
+        return false;
+      }
+    }
+    if (status === BookingStatusEnum.Approved) {
+      return true;
+    }
+    return true;
+  };
   return (
     <Card id={'create-booking-management'}>
       <div className={'create-booking-header'}>
@@ -135,6 +151,7 @@ const CreateOrUpDateBooking = () => {
               options={BookingStatus.map((item) => ({
                 label: intl.formatMessage({ id: item.label }),
                 value: item.value,
+                disabled: isDisableItemStatus(item.value),
               }))}
               suffixIcon={<IconSVG type={'dropdown'} />}
               onChange={(value) => setCurrentStatus(value as BookingStatusEnum)}

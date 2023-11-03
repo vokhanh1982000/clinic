@@ -20,10 +20,21 @@ interface CustomerInfoProps {
   type: 'create' | 'update';
   isSubmit?: boolean;
   status?: BookingStatusEnum;
+  isCreatedByCustomer?: boolean;
 }
 const CustomerInfo = (props: CustomerInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { customer, customerNote, setCustomer, role, form, isSubmit, type, status }: CustomerInfoProps = props;
+  const {
+    customer,
+    customerNote,
+    setCustomer,
+    role,
+    form,
+    isSubmit,
+    type,
+    status,
+    isCreatedByCustomer,
+  }: CustomerInfoProps = props;
   const [listCustomer, setListCustomer] = useState<Customer[]>();
   const [searchNameCustomer, setSearchNameCustomer] = useState<string>();
   const { data: listCustomerData } = useQuery({
@@ -43,9 +54,8 @@ const CustomerInfo = (props: CustomerInfoProps) => {
     }
   }, 500);
   const isDisabled = () => {
-    if (status === BookingStatusEnum.Pending && type === 'update' && role !== 'doctor') {
-      return false;
-    }
+    if (role === 'admin' && isCreatedByCustomer) return true;
+    if (status === BookingStatusEnum.Pending && type === 'update' && role !== 'doctor') return false;
     return !(type === 'create' && role !== 'doctor');
   };
   return (
@@ -87,7 +97,14 @@ const CustomerInfo = (props: CustomerInfoProps) => {
                 <Select.Option value={item.fullName} key={item.id}>
                   <div className={'option-item'}>
                     <div className={'option-item__avatar'}>
-                      <img src={`${process.env.REACT_APP_URL_IMG_S3}${item.avatar?.source}`} alt={''} />
+                      <img
+                        src={
+                          item.avatar?.source
+                            ? `${process.env.REACT_APP_URL_IMG_S3}${item.avatar?.source}`
+                            : '/assets/images/user_default.svg'
+                        }
+                        alt={''}
+                      />
                     </div>
                     <div className={'option-item__info'}>
                       <div className={'option-item__info__name'}>{item.fullName}</div>
