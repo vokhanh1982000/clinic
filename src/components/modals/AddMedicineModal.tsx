@@ -86,9 +86,20 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
       <Modal className="modal-add-medicine" open={visible} centered closable={false} maskClosable={false} footer={null}>
         <div className="modal-add-medicine__content">
           <div className="modal-add-medicine__content__title">
-            {intl.formatMessage({
-              id: 'medicine.order.modal.create.title',
-            })}
+            <span>
+              {intl.formatMessage({
+                id: 'medicine.order.modal.create.title',
+              })}
+            </span>
+            <span
+              onClick={() => {
+                form.resetFields();
+                setShowModalCreate(false);
+              }}
+              className="icon-close"
+            >
+              <IconSVG type="close" />
+            </span>
           </div>
           <div className="modal-add-medicine__content__rows">
             <Form.Item

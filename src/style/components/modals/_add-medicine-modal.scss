@@ -1,24 +1,35 @@
 .modal-add-medicine {
   width: 608px !important;
+
   .ant-row {
     display: unset;
   }
+
   .ant-form-item-label > label::after {
     display: none;
   }
+
   .ant-select-selection-search {
     display: flex;
     align-items: center;
   }
+
   &__content {
     padding: 5px 18px;
 
     &__title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 14px;
       font-weight: 700;
       line-height: 36px;
       color: $text_black;
       margin-bottom: 10px;
+
+      .icon-close {
+        cursor: pointer;
+      }
     }
 
     &__rows {

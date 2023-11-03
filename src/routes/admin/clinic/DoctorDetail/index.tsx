@@ -15,11 +15,15 @@ import { DoctorType, PERMISSIONS } from '../../../../constants/enum';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
+import CustomButton from '../../../../components/buttons/CustomButton';
+import IconSVG from '../../../../components/icons/icons';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const DoctorDetail = () => {
   const intl = useIntl();
   const { id } = useParams();
   const [form] = Form.useForm<any>();
+  const navigate = useNavigate();
   const [isDeleteDoctor, setIsDeleteDoctor] = useState<boolean>(false);
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
@@ -73,10 +77,23 @@ const DoctorDetail = () => {
 
   return (
     <Card id="create-doctor-management">
-      <div className="create-doctor-title">
-        {intl.formatMessage({
-          id: 'doctor.clinic.edit.title',
-        })}
+      <div className="create-doctor-header">
+        <div className="create-doctor-title">
+          {intl.formatMessage({
+            id: 'doctor-detail.clinic.edit.title',
+          })}
+        </div>
+        <CustomButton
+          className="button-schedule"
+          icon={<IconSVG type="booking-active" />}
+          onClick={() => {
+            navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${id}`);
+          }}
+        >
+          {intl.formatMessage({
+            id: 'doctor-detail.clinic.button.schedule',
+          })}
+        </CustomButton>
       </div>
       <FormWrap form={form} layout="vertical" className="form-create-doctor" disabled={true}>
         <DoctorInfo

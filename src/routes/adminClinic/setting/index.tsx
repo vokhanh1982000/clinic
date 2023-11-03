@@ -123,7 +123,7 @@ const Setting = () => {
       clinicsApi.clinicControllerUpdateClinicForAdminClinic(updateClinicForAdminClinic),
     {
       onSuccess: ({ data }) => {
-        // queryClient.invalidateQueries(['getDetailClinic']);
+        queryClient.invalidateQueries(['getDetailClinic']);
         CustomHandleSuccess(ActionUser.EDIT, intl);
       },
       onError: (error: any) => {
