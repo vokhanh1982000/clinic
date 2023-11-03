@@ -50,5 +50,7 @@
   "booking.button.doctor.provide-medicine": "Submit",
   "booking.modal-cancel.confirm-cancel": "Are you sure you want to cancel this item?",
   "booking.cancel-modal.button.cancel": "Cancel",
-  "booking.cancel-modal.button.confirm": "Confirm"
+  "booking.cancel-modal.button.confirm": "Confirm",
+  "booking.message.create.success": "Created",
+  "booking.message.create.fail": "Updated"
 }

@@ -30,6 +30,7 @@ import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -101,6 +102,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.create.success',
         })
       );
+      navigate(ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
     },
     onError: () => {
       message.error(
