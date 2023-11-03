@@ -87,7 +87,14 @@ const CustomerInfo = (props: CustomerInfoProps) => {
                 <Select.Option value={item.fullName} key={item.id}>
                   <div className={'option-item'}>
                     <div className={'option-item__avatar'}>
-                      <img src={`${process.env.REACT_APP_URL_IMG_S3}${item.avatar?.source}`} alt={''} />
+                      <img
+                        src={
+                          item.avatar?.source
+                            ? `${process.env.REACT_APP_URL_IMG_S3}${item.avatar?.source}`
+                            : '/assets/images/user_default.svg'
+                        }
+                        alt={''}
+                      />
                     </div>
                     <div className={'option-item__info'}>
                       <div className={'option-item__info__name'}>{item.fullName}</div>
