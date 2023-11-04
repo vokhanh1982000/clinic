@@ -39,7 +39,7 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
           <Row align="middle" justify="center" wrap gutter={4} className="timeline-custom-month-top">
             <Col>
               <span className="font-size-14 font-weight-600 timeline-custom-month-working">
-                {eventProps.event.resource?.isWork
+                {!eventProps.event.holiday
                   ? intl.formatMessage({ id: 'timeline.month.workingDay' })
                   : intl.formatMessage({ id: 'timeline.doctor.note.dayOff' })}
               </span>
@@ -47,7 +47,7 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
             <Col>
               <Switch
                 className="timeline-custom-month-switch"
-                checked={eventProps.event.resource?.isWork}
+                checked={!!!eventProps.event.holiday}
                 onChange={handleChangeSwitch}
               />
             </Col>
@@ -69,11 +69,12 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
               })
               .map((status) => {
                 const findStatus = NOTES.find((note) => note.status === status);
+                const findIndexStatus = NOTES.findIndex((note) => note.status === status);
                 const data = eventProps.event.resource?.data?.[status as keyof CountBookingByMonthDto];
 
                 return (
                   Number(data) > 0 && (
-                    <Col key={status}>
+                    <Col key={status} order={findIndexStatus}>
                       <span
                         className="font-size-14 font-weight-600 timeline-custom-month-data"
                         style={{

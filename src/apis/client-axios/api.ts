@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * PROJECT_NAME
+ * iHealth
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -7807,11 +7807,13 @@ export const AdminClinicBookingApiAxiosParamCreator = function (configuration?: 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
-         * @param {boolean} [isPendingDoctor] 
+         * @param {string} [fromDate] 
+         * @param {string} [toDate] 
+         * @param {Array<'completed' | 'pending' | 'cancelled' | 'approved'>} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminClinicBookingControllerFindAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, isPendingDoctor?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        adminClinicBookingControllerFindAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, fromDate?: string, toDate?: string, status?: Array<'completed' | 'pending' | 'cancelled' | 'approved'>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('adminClinicBookingControllerFindAll', 'page', page)
             const localVarPath = `/admin-clinic-booking/get-paginate-all-booking`;
@@ -7846,8 +7848,20 @@ export const AdminClinicBookingApiAxiosParamCreator = function (configuration?: 
                 localVarQueryParameter['fullTextSearch'] = fullTextSearch;
             }
 
-            if (isPendingDoctor !== undefined) {
-                localVarQueryParameter['isPendingDoctor'] = isPendingDoctor;
+            if (fromDate !== undefined) {
+                localVarQueryParameter['fromDate'] = (fromDate as any instanceof Date) ?
+                    (fromDate as any).toISOString() :
+                    fromDate;
+            }
+
+            if (toDate !== undefined) {
+                localVarQueryParameter['toDate'] = (toDate as any instanceof Date) ?
+                    (toDate as any).toISOString() :
+                    toDate;
+            }
+
+            if (status) {
+                localVarQueryParameter['status'] = status;
             }
 
 
@@ -8232,12 +8246,14 @@ export const AdminClinicBookingApiFp = function(configuration?: Configuration) {
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
-         * @param {boolean} [isPendingDoctor] 
+         * @param {string} [fromDate] 
+         * @param {string} [toDate] 
+         * @param {Array<'completed' | 'pending' | 'cancelled' | 'approved'>} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminClinicBookingControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, isPendingDoctor?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdminBookingControllerGetPaginatedBooking200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerFindAll(page, size, sort, fullTextSearch, isPendingDoctor, options);
+        async adminClinicBookingControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, fromDate?: string, toDate?: string, status?: Array<'completed' | 'pending' | 'cancelled' | 'approved'>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdminBookingControllerGetPaginatedBooking200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminClinicBookingControllerFindAll(page, size, sort, fullTextSearch, fromDate, toDate, status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -8366,12 +8382,14 @@ export const AdminClinicBookingApiFactory = function (configuration?: Configurat
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
-         * @param {boolean} [isPendingDoctor] 
+         * @param {string} [fromDate] 
+         * @param {string} [toDate] 
+         * @param {Array<'completed' | 'pending' | 'cancelled' | 'approved'>} [status] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminClinicBookingControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, isPendingDoctor?: boolean, options?: any): AxiosPromise<AdminBookingControllerGetPaginatedBooking200Response> {
-            return localVarFp.adminClinicBookingControllerFindAll(page, size, sort, fullTextSearch, isPendingDoctor, options).then((request) => request(axios, basePath));
+        adminClinicBookingControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, fromDate?: string, toDate?: string, status?: Array<'completed' | 'pending' | 'cancelled' | 'approved'>, options?: any): AxiosPromise<AdminBookingControllerGetPaginatedBooking200Response> {
+            return localVarFp.adminClinicBookingControllerFindAll(page, size, sort, fullTextSearch, fromDate, toDate, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -8498,13 +8516,15 @@ export class AdminClinicBookingApi extends BaseAPI {
      * @param {number} [size] 
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
-     * @param {boolean} [isPendingDoctor] 
+     * @param {string} [fromDate] 
+     * @param {string} [toDate] 
+     * @param {Array<'completed' | 'pending' | 'cancelled' | 'approved'>} [status] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminClinicBookingApi
      */
-    public adminClinicBookingControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, isPendingDoctor?: boolean, options?: AxiosRequestConfig) {
-        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerFindAll(page, size, sort, fullTextSearch, isPendingDoctor, options).then((request) => request(this.axios, this.basePath));
+    public adminClinicBookingControllerFindAll(page: number, size?: number, sort?: string, fullTextSearch?: string, fromDate?: string, toDate?: string, status?: Array<'completed' | 'pending' | 'cancelled' | 'approved'>, options?: AxiosRequestConfig) {
+        return AdminClinicBookingApiFp(this.configuration).adminClinicBookingControllerFindAll(page, size, sort, fullTextSearch, fromDate, toDate, status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
