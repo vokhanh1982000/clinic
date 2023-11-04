@@ -50,6 +50,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
   const [medicines, setMedicine] = useState<medicine[]>([]);
   const [showModalCreate, setShowModalCreate] = useState<boolean>(false);
   const doctor: DoctorClinic = useAppSelector((state) => state.auth).authUser as DoctorClinic;
+  const [medicineRemove, setMedicineRemove] = useState<string[]>([]);
 
   const n = (key: keyof CreatePrescriptionSampleDto) => {
     return key;
@@ -134,7 +135,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
   };
 
   const handleDeleteDetailPrescription = (id: string) => {
-    deleteDetailMutation.mutate(id);
+    setMedicineRemove([...medicineRemove, id]);
     setMedicine(medicines.filter((item) => item.id !== id));
   };
 
@@ -152,6 +153,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
         id: id,
       });
     }
+    medicineRemove.map((item) => deleteDetailMutation.mutate(item));
   };
 
   return (
@@ -352,7 +354,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
         setShowModalCreate={setShowModalCreate}
       />
       <ConfirmDeleteModal
-        name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+        name={/* isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name :  */ ''}
         visible={!!isShowModalDelete?.id}
         onSubmit={() => handelDelete()}
         onClose={() => setIsShowModalDelete({ id: undefined, name: isShowModalDelete?.name })}

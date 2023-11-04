@@ -119,7 +119,7 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
                 })}
                 showSearch={true}
                 filterOption={(input, option) => {
-                  return !!option?.label?.toString().includes(input?.trim());
+                  return !!option?.label?.toString().toLocaleLowerCase().includes(input?.trim().toLowerCase());
                 }}
                 allowClear
                 options={ListMedicine?.data.flatMap((item) => {

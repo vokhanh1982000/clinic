@@ -45,7 +45,7 @@ const Profile = () => {
   });
 
   const { mutate: UpdateAdmin, status: statusUpdateAdmin } = useMutation({
-    mutationFn: (updateAdmin: UpdateAdminDto) => adminApi.administratorControllerUpdate(updateAdmin),
+    mutationFn: (updateAdmin: UpdateAdminDto) => adminApi.administratorControllerUpdateMe(updateAdmin),
     onSuccess: () => {
       queryClient.invalidateQueries(['admin-profile']);
       queryClient.invalidateQueries(['adminMe']);
