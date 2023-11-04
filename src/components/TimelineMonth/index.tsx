@@ -17,6 +17,7 @@ import {
 } from '../../apis/client-axios';
 import { IFormData, TimelineMode, n } from '../TimelineControl/constants';
 import TimelineMonthEvent from './Event';
+import { useIntl } from 'react-intl';
 
 interface TimelineMonthProps {
   form: FormInstance<IFormData>;
@@ -33,6 +34,8 @@ export interface TimelineEvent extends Event {
 
 const TimelineMonth: FC<TimelineMonthProps> = (props) => {
   const { form, listBookingMonth, listHolidayMonth, onRefetchMonth, user } = props;
+
+  const intl = useIntl();
 
   const time = Form.useWatch(n('time'), form);
 
@@ -80,7 +83,11 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
         onRefetchMonth();
       },
       onError: ({ response }) => {
-        message.error(response?.data?.message);
+        message.error(
+          response?.data?.message
+            ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+            : response?.data?.message
+        );
       },
     }
   );
@@ -90,7 +97,11 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
       onRefetchMonth();
     },
     onError: ({ response }) => {
-      message.error(response?.data?.message);
+      message.error(
+        response?.data?.message
+          ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+          : response?.data?.message
+      );
     },
   });
 
@@ -137,7 +148,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
 
     form.setFieldsValue({
       [n('mode')]: user.user.type === 'doctor_clinic' ? TimelineMode.WEEK : TimelineMode.DATE,
-      [n('time')]: dayjs(event.start),
+      [n('time')]: dayjs(event.start).set('hour', dayjs(new Date()).hour()).set('minute', dayjs(new Date()).minute()),
     });
   };
 
@@ -148,7 +159,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
         defaultView={view}
         toolbar={false}
         formats={formats}
-        defaultDate={dayjs(time).startOf('days').toDate()}
+        date={dayjs(time).startOf('month').toDate()}
         events={events}
         showMultiDayTimes
         className="timeline-custom-month"

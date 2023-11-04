@@ -1,4 +1,4 @@
-import { Col, Form, FormInstance, Row } from 'antd';
+import { Col, Form, FormInstance, Input, Row } from 'antd';
 import { debounce } from 'lodash';
 import { ChangeEvent, FC, KeyboardEvent } from 'react';
 import { useIntl } from 'react-intl';
@@ -58,16 +58,17 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
       <Row align="middle" justify="space-between" wrap gutter={[0, 10]}>
         {!scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/'))) && (
           <Col>
-            <Form.Item name={n('keyword')} className="m-b-0">
-              <CustomInput
-                placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
-                prefix={<IconSVG type="search" />}
-                className="input-search width-350"
-                allowClear
-                onChange={handleSearch}
-                onPressEnter={handlePressEnter}
-              />
+            <Form.Item name={n('keyword')} className="d-none">
+              <Input />
             </Form.Item>
+            <CustomInput
+              placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
+              prefix={<IconSVG type="search" />}
+              className="input-search width-350"
+              allowClear
+              onChange={handleSearch}
+              onPressEnter={handlePressEnter}
+            />
           </Col>
         )}
         <Col

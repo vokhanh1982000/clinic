@@ -25,5 +25,19 @@
   "timeline.adminClinic.bookingManagement.status": "Trạng thái",
   "timeline.adminClinic.bookingManagement.action": "Thao tác",
   "timeline.adminClinic.bookingManagement.clinic": "Phòng khám",
-  "timeline.adminClinic.bookingManagement.doctor": "Bác sĩ"
+  "timeline.adminClinic.bookingManagement.doctor": "Bác sĩ",
+  "timeline.updateBooking.error.INVALID_BOOKING_ID": "Lịch khám không hợp lệ!",
+  "timeline.updateBooking.error.MUST_NOT_EXCEED_30_MINUTES": "Thời gian khám không được vượt quá 30 phút!",
+  "timeline.updateBooking.error.MUST_BE_A_WORKING_DAY": "Lịch khám không thuộc ngày làm việc!",
+  "timeline.updateBooking.error.INVALID_WORK_TIME_OF_CLINIC": "Thời gian khám không hợp lệ!",
+  "timeline.updateBooking.error.DUPLICATE_TIME": "Đã tồn tại lịch khám!",
+  "timeline.updateBooking.error.INVALID_DOCTOR_CLINIC_ID": "Bác sĩ không hợp lệ!",
+  "timeline.updateBooking.error.DOCTOR_HAS_ANOTHER_BOOKING": "Bác sĩ đã có lịch khám!",
+  "timeline.updateBooking.error.NO_DOCTOR_AVAILABLE": "Bác sĩ không hợp lệ!",
+  "timeline.updateBooking.error.EXPIRED_TIME": "Thời gian không hợp lệ!",
+  "timeline.updateBooking.error.NOT_FOUND_BOOKING": "Không tìm thấy lịch khám!",
+  "timeline.updateBooking.error.EXPIRED": "Lịch khám đã hết hạn!",
+  "timeline.updateBooking.error.NOT_AVAILABLE": "Lịch khám không hợp lệ!",
+  "timeline.updateBooking.error.DAY_OFF": "Ngày nghỉ!",
+  "timeline.updateBooking.error.FULL": "Số lượng lịch khám tối đa!"
 }

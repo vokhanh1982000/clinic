@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Form, Row } from 'antd';
+import { Card, Col, Form, Input, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { debounce } from 'lodash';
 import moment from 'moment';
@@ -156,16 +156,17 @@ const ListBookingEmpty = () => {
         </Col>
         <Col span={24}>
           <FormWrap name="bookingManagementEmpty" form={form}>
-            <Form.Item name={n('keyword')} className="m-b-0">
-              <CustomInput
-                placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
-                prefix={<IconSVG type="search" />}
-                className="input-search width-350"
-                allowClear
-                onChange={handleSearch}
-                onPressEnter={handlePressEnter}
-              />
+            <Form.Item name={n('keyword')} className="d-none">
+              <Input />
             </Form.Item>
+            <CustomInput
+              placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
+              prefix={<IconSVG type="search" />}
+              className="input-search width-350"
+              allowClear
+              onChange={handleSearch}
+              onPressEnter={handlePressEnter}
+            />
           </FormWrap>
         </Col>
         <Col span={24}>

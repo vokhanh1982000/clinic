@@ -45,7 +45,7 @@ const ClinicTimeline = () => {
   }, []);
 
   const { data: clinic } = useQuery({
-    queryKey: ['topbarClinic'],
+    queryKey: ['topbarClinic', id],
     queryFn: () => clinicsApi.clinicControllerGetById(id || ''),
     enabled: !!id,
   });
@@ -58,7 +58,7 @@ const ClinicTimeline = () => {
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
-    queryKey: ['adminGetDoctorClinic', filter, keyword],
+    queryKey: ['adminGetDoctorClinic', filter, keyword, id],
     queryFn: () =>
       doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword, undefined, id),
     enabled: !!filter && mode === TimelineMode.DATE && !!id,
