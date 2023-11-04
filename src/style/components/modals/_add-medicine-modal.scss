@@ -26,10 +26,9 @@
       line-height: 36px;
       color: $text_black;
       margin-bottom: 10px;
-
-      .icon-close {
-        cursor: pointer;
-      }
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     &__rows {

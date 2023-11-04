@@ -41,10 +41,11 @@ const CreateOrUpDateBooking = () => {
   const [status, setStatus] = useState<BookingStatusEnum>();
   const queryClient: QueryClient = useQueryClient();
   const { data: bookingData } = useQuery({
-    queryKey: ['bookingDetail'],
+    queryKey: ['bookingDetail', id],
     queryFn: () => {
       return doctorClinicBookingApi.doctorClinicBookingControllerFindOne(id!);
     },
+    enabled: !!id,
   });
 
   const { mutate: UpdateBooking } = useMutation({

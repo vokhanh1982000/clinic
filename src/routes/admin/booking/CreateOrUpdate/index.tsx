@@ -46,11 +46,13 @@ const CreateOrUpDateBooking = () => {
   const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
+
   const { data: bookingData } = useQuery({
-    queryKey: ['adminBookingDetail'],
+    queryKey: ['adminBookingDetail', id],
     queryFn: () => {
       return adminBookingApi.adminBookingControllerFindOne(id!);
     },
+    enabled: !!id,
   });
 
   const { mutate: UpdateBooking } = useMutation({
@@ -104,6 +106,7 @@ const CreateOrUpDateBooking = () => {
         })
       );
       queryClient.invalidateQueries({ queryKey: ['adminBookingDetail'] });
+      setShowModalCancel(false);
     },
     onError: () => {
       message.error(
@@ -127,9 +130,9 @@ const CreateOrUpDateBooking = () => {
   });
 
   const { data: checkCustomerData } = useQuery({
-    queryKey: ['checkCustomerData'],
+    queryKey: ['checkCustomerData', { id }],
     queryFn: () => customerApi.customerControllerGetByUserId(bookingData?.data.createdByUserId || ''),
-    enabled: !!bookingData?.data.createdByUserId,
+    enabled: !!id && !!bookingData?.data.createdByUserId,
   });
 
   const statusClassName = (status: BookingStatusEnum) => {
@@ -213,7 +216,6 @@ const CreateOrUpDateBooking = () => {
     if (id) {
       CancelBooking({ status: BookingStatusEnum.Cancelled });
     }
-    navigate(-1);
   };
   const isDisableItemStatus = (item: BookingStatusEnum) => {
     if (status === BookingStatusEnum.Pending) {
@@ -231,7 +233,7 @@ const CreateOrUpDateBooking = () => {
     }
     return true;
   };
-  console.log(checkCustomerData?.data, 'wapwap');
+
   return (
     <Card id={'create-booking-management'}>
       <div className={'create-booking-header'}>

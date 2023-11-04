@@ -136,7 +136,7 @@ const ListPrescriptionTeamplate = () => {
               const data = _.map((item: any) => {
                 return {
                   name: item.medicine.name,
-                  des: ' (' + item.guide + ') ',
+                  des: item.guide ? ' (' + item.guide + ') ' : '',
                 };
               });
               if (data && data.length > 0) {
@@ -226,7 +226,7 @@ const ListPrescriptionTeamplate = () => {
           />
         </TableWrap>
         <ConfirmDeleteModal
-          name={isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name : ''}
+          name={/* isShowModalDelete && isShowModalDelete.name ? isShowModalDelete.name :  */ ''}
           visible={!!isShowModalDelete?.id}
           onSubmit={handleDelete}
           onClose={() => setIsShowModalDelete(undefined)}

@@ -69,7 +69,7 @@ const ListBooking = () => {
       align: 'center',
       key: 'code',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.code' }),
-      render: (value: Booking) => <span className="font-size-16 font-family-primary color-1A1A1A">{value.order}</span>,
+      render: (value: Booking) => <span className="font-size-14 font-family-primary color-1A1A1A">{value.order}</span>,
     },
     {
       align: 'left',
@@ -77,7 +77,7 @@ const ListBooking = () => {
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.clinic' }),
       render: (value: Booking) => (
         <span
-          className="font-size-16 font-family-primary color-1A1A1A cursor-pointer"
+          className="font-size-14 font-family-primary color-1A1A1A cursor-pointer"
           onClick={() =>
             navigate(
               `${ADMIN_ROUTE_NAME.CLINIC}/${value.clinicId}?date=${moment(value.appointmentStartTime).format(
@@ -110,7 +110,7 @@ const ListBooking = () => {
       key: 'patient',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.patient' }),
       render: (value: Booking) => (
-        <span className="font-size-16 font-family-primary color-1A1A1A">{value.customer?.fullName}</span>
+        <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer?.fullName}</span>
       ),
     },
     {
@@ -118,7 +118,7 @@ const ListBooking = () => {
       key: 'time',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.time' }),
       render: (value: Booking) => (
-        <span className="font-size-16 font-family-primary color-1A1A1A">
+        <span className="font-size-14 font-family-primary color-1A1A1A">
           {moment(value.appointmentStartTime || new Date()).format('HH:mm DD/MM/YYYY')}
         </span>
       ),
@@ -136,7 +136,7 @@ const ListBooking = () => {
               className="border-radius-circle width-8 height-8 m-r-4"
               style={{ backgroundColor: statusBackgroundColor[value.status as keyof typeof statusBackgroundColor] }}
             />
-            <span className="font-size-16 font-family-primary color-1A1A1A">
+            <span className="font-size-14 font-family-primary color-1A1A1A">
               {intl.formatMessage({ id: findStatus?.messageId })}
             </span>
           </div>
@@ -169,7 +169,6 @@ const ListBooking = () => {
   };
 
   const handleChangeStatus = (value: string[]) => {
-    console.log('🚀 ~ handleChangeStatus ~ value:', value);
     setFilter((prev) => ({ ...prev, page: 1 }));
 
     const allStatus = NOTES.filter((_, index) => index < NOTES.length - 1);

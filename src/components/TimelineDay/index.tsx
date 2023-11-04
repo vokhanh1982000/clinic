@@ -108,7 +108,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             overlayClassName="timeline-custom-day-popover"
           >
             <span
-              className="font-size-16 font-weight-400 cursor-pointer max-width-170 d-inline-block text-truncate p-l-20 p-r-4"
+              className="font-size-14 font-weight-400 cursor-pointer max-width-170 d-inline-block text-truncate p-l-20 p-r-4"
               ref={index === listDoctorClinics.content.length ? ref : undefined}
             >
               {doctor?.fullName

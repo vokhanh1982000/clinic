@@ -51,14 +51,14 @@ const ListBookingEmpty = () => {
       align: 'center',
       key: 'code',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.code' }),
-      render: (value: Booking) => <span className="font-size-16 font-family-primary color-1A1A1A">{value.order}</span>,
+      render: (value: Booking) => <span className="font-size-14 font-family-primary color-1A1A1A">{value.order}</span>,
     },
     {
       align: 'left',
       key: 'patient',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.patient' }),
       render: (value: Booking) => (
-        <span className="font-size-16 font-family-primary color-1A1A1A">{value.customer?.fullName}</span>
+        <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer?.fullName}</span>
       ),
     },
     {
@@ -66,7 +66,7 @@ const ListBookingEmpty = () => {
       key: 'phoneNumber',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.phoneNumber' }),
       render: (value: Booking) => (
-        <span className="font-size-16 font-family-primary color-1A1A1A">{value.customer.phoneNumber}</span>
+        <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer.phoneNumber}</span>
       ),
     },
     {
@@ -74,7 +74,7 @@ const ListBookingEmpty = () => {
       key: 'gender',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.gender' }),
       render: (value: Booking) => (
-        <span className="font-size-16 font-family-primary color-1A1A1A">
+        <span className="font-size-14 font-family-primary color-1A1A1A">
           {intl.formatMessage({ id: `common.gender.${value.customer.gender}` })}
         </span>
       ),
@@ -84,7 +84,7 @@ const ListBookingEmpty = () => {
       key: 'time',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.time' }),
       render: (value: Booking) => (
-        <span className="font-size-16 font-family-primary color-1A1A1A">
+        <span className="font-size-14 font-family-primary color-1A1A1A">
           {moment(value.appointmentStartTime || new Date()).format('HH:mm DD/MM/YYYY')}
         </span>
       ),
@@ -102,7 +102,7 @@ const ListBookingEmpty = () => {
               className="border-radius-circle width-8 height-8 m-r-4"
               style={{ backgroundColor: statusBackgroundColor[value.status as keyof typeof statusBackgroundColor] }}
             />
-            <span className="font-size-16 font-family-primary color-1A1A1A">
+            <span className="font-size-14 font-family-primary color-1A1A1A">
               {intl.formatMessage({ id: findStatus?.messageId })}
             </span>
           </div>
