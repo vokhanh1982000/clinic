@@ -43,6 +43,7 @@
   "validate.required.clinic-code": "Clinic code is required",
   "validate.required.doctor-name": "Doctor name is required",
   "validate.medicine.normal": "Please enter special characters like ()-/",
-  "validate.medicine.quantity": "Minimum quantity is 1",
-  "validate.prescription.medicine.required": "Please input status"
+  "validate.medicine.quantity": "Minimum quantity is 1 and maximum 100000",
+  "validate.prescription.medicine.required": "Please input status",
+  "validate.medicine.required": "Please select medicine"
 }
