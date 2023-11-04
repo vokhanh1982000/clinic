@@ -49,7 +49,7 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
         medicines
           ? setMedicine([...medicines, { ...data.data, name: name }])
           : setMedicine([{ ...data.data, name: name }]);
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        // message.success(intl.formatMessage({ id: `common.createSuccess` }));
         setShowModalCreate(false);
       },
       onError: (error: any) => {
@@ -62,7 +62,7 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
       samplePrescriptionMediceApi.prescriptionSampleMediceControllerUpdate(UpdatePrescriptionSampleMedicineDto),
     {
       onSuccess: ({ data }) => {
-        message.success(intl.formatMessage({ id: `common.createSuccess` }));
+        // message.success(intl.formatMessage({ id: `common.createSuccess` }));
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -96,7 +96,7 @@ export const AddMedicineModal = (props: AddMedicineModalProps) => {
                 form.resetFields();
                 setShowModalCreate(false);
               }}
-              className="icon-close"
+              className="icon-close cursor-pointer"
             >
               <IconSVG type="close" />
             </span>

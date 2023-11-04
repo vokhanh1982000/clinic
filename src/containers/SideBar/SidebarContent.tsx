@@ -24,7 +24,7 @@ export const getItem = (
     view,
   } as MenuItem;
 };
-const MANAGEMENT_TYPE = {
+export const MANAGEMENT_TYPE = {
   ADMIN: '/admin/',
   ADMIN_CLINIC: '/admin-clinic/',
 };
@@ -82,6 +82,15 @@ const SidebarContent = (props: ISideBarContentProp) => {
     ADMIN_ROUTE_PATH.ADMIN_PROFILE,
     DOCTOR_CLINIC_ROUTE_PATH.DOCTOR_PROFILE,
   ];
+
+  useEffect(() => {
+    if (props.menuItems && props.menuItems[0]) {
+      if (location.pathname === MANAGEMENT_TYPE.ADMIN) {
+        const redirect = props.menuItems[0].key || MANAGEMENT_TYPE.ADMIN;
+        navigate(redirect.toString());
+      }
+    }
+  }, [props.menuItems]);
 
   useEffect(() => {
     if (location.pathname) {

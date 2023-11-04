@@ -37,7 +37,7 @@ const SignInCommon = (props: ISignInCommon) => {
     {
       onSuccess: ({ data }) => {
         dispatch(login(data));
-        navigate(ADMIN_CLINIC_ROUTE_PATH.DASHBOARD);
+        navigate(ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
       },
       onError: (error) => {
         message.error(intl.formatMessage({ id: 'sigin.emailOrPasswordWrong' }));
@@ -50,7 +50,7 @@ const SignInCommon = (props: ISignInCommon) => {
     {
       onSuccess: ({ data }) => {
         dispatch(login(data));
-        navigate(DOCTOR_CLINIC_ROUTE_PATH.DASHBOARD);
+        navigate(DOCTOR_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
       },
       onError: (error) => {
         message.error(intl.formatMessage({ id: 'sigin.emailOrPasswordWrong' }));

@@ -44,7 +44,8 @@
   "validate.required.doctor-name": "Vui lòng nhập tên bác sĩ",
   "validate.password.space": "Không được chứa kí tự khoảng trắng",
   "validate.medicine.normal": "Vui lòng chỉ nhập kí tự đặc biệt như ()-:/",
-  "validate.medicine.quantity": "Số lượng tối thiểu là 1",
+  "validate.medicine.quantity": "Vui lòng nhập số lượng 1-100000",
   "validate.required.quantity": "Vui lòng nhập số lượng",
-  "validate.prescription.medicine.required": "Vui lòng nhập tình trạng"
+  "validate.prescription.medicine.required": "Vui lòng nhập tình trạng",
+  "validate.medicine.required": "Vui lòng chọn thuốc"
 }

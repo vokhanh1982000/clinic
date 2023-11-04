@@ -33,6 +33,6 @@
   "menu.createClinic": "Tạo Phòng Khám Mới",
   "menu.detailClinic": "Chi Tiết Phòng Khám",
   "menu.prescriptonManagent": "Quản lý Đơn Thuốc Mẫu",
-  "menu.prescriptonManagent.create": "Tạo Tiết Đơn Thuốc Mẫu",
+  "menu.prescriptonManagent.create": "Tạo Đơn Thuốc Mẫu",
   "menu.prescriptonManagent.detail": "Chi Tiết Đơn Thuốc Mẫu"
 }
