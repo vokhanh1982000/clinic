@@ -19,10 +19,11 @@ interface MedicineModalProps {
   onClose: () => void;
   onDelete?: Function;
   isSuperAdmin: boolean;
+  permission?: Permission;
 }
 
 export const MedicineModal = (props: MedicineModalProps) => {
-  const { form, visible, title, action, onSubmit, onClose, onDelete, isSuperAdmin } = props;
+  const { form, visible, title, action, onSubmit, onClose, onDelete, isSuperAdmin, permission } = props;
 
   const intl = useIntl();
   const [unit, setUnit] = useState<MedicineUnit>();
@@ -167,7 +168,7 @@ export const MedicineModal = (props: MedicineModalProps) => {
           <div className="modal-medicine__content__action">
             {action === ActionUser.CREATE ? (
               <>
-                <CustomButton className="button-submit" htmlType="submit">
+                <CustomButton className="button-submit" htmlType="submit" disabled={permission && !permission.create}>
                   {intl.formatMessage({
                     id: 'medicine.modal.create.button.create',
                   })}
@@ -180,13 +181,17 @@ export const MedicineModal = (props: MedicineModalProps) => {
               </>
             ) : (
               <>
-                <CustomButton className="button-submit" htmlType="submit">
+                <CustomButton className="button-submit" htmlType="submit" disabled={permission && !permission.update}>
                   {intl.formatMessage({
                     id: 'medicine.modal.create.button.save',
                   })}
                 </CustomButton>
                 {onDelete && (
-                  <CustomButton className="button-delete" onClick={() => onDelete()}>
+                  <CustomButton
+                    className="button-delete"
+                    onClick={() => onDelete()}
+                    disabled={permission && !permission.delete}
+                  >
                     {intl.formatMessage({
                       id: 'medicine.modal.create.button.delete',
                     })}

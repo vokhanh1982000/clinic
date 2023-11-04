@@ -302,6 +302,7 @@ const ListMedicine = () => {
               id: 'medicine.list.modal.create',
             })}
             isSuperAdmin={true}
+            permission={permisstion}
           />
         )}
         {isShowModalUpdate && (
@@ -326,6 +327,7 @@ const ListMedicine = () => {
               form.resetFields();
             }}
             isSuperAdmin={true}
+            permission={permisstion}
           />
         )}
       </Form>

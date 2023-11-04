@@ -52,6 +52,8 @@ const CreateRole = () => {
     enabled: permisstion.read,
   });
 
+  console.log('dataPermissions: ', dataPermissions);
+
   const { data: dataRole } = useQuery({
     queryKey: ['getRoleDetail', id],
     queryFn: () => roleApi.roleControllerGetById(id as string),
