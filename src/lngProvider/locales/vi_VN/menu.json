@@ -11,7 +11,7 @@
   "menu.bookingManagement": "Quản lý Lịch Khám",
   "menu.prescriptionTeamplateManagement": "Quản lý Đơn Thuốc Mẫu",
   "menu.clinicBookingManagement": "Phòng khám",
-  "menu.bookingManagement.empty": "Lịch khám chưa nhận bác sĩ",
+  "menu.bookingManagement.empty": "Danh sách lịch khám",
   "menu.newsManagement": "Quản lý Tin tức, Bài viết",
   "menu.statisticsManagement": "Quản lý Thống Kê",
   "menu.medicineManagement": "Quản lý Thuốc",
@@ -33,6 +33,6 @@
   "menu.createClinic": "Tạo Phòng Khám Mới",
   "menu.detailClinic": "Chi Tiết Phòng Khám",
   "menu.prescriptonManagent": "Quản lý Đơn Thuốc Mẫu",
-  "menu.prescriptonManagent.create": "Tạo Tiết Đơn Thuốc Mẫu",
+  "menu.prescriptonManagent.create": "Tạo Đơn Thuốc Mẫu",
   "menu.prescriptonManagent.detail": "Chi Tiết Đơn Thuốc Mẫu"
 }

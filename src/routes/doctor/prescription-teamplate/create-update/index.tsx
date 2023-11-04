@@ -72,6 +72,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
       onSuccess: ({ data }) => {
         navigate(-1);
         CustomHandleSuccess(ActionUser.CREATE, intl);
+        medicineRemove.map((item) => deleteDetailMutation.mutate(item));
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -85,6 +86,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
       onSuccess: ({ data }) => {
         navigate(-1);
         CustomHandleSuccess(ActionUser.EDIT, intl);
+        medicineRemove.map((item) => deleteDetailMutation.mutate(item));
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -107,7 +109,7 @@ const CreateUpdatePrescriptionTeamplate = () => {
     (id: string) => samplePrescriptionMediceApi.prescriptionSampleMediceControllerDelete(id),
     {
       onSuccess: ({ data }) => {
-        CustomHandleSuccess(ActionUser.DELETE, intl);
+        // CustomHandleSuccess(ActionUser.DELETE, intl);
       },
       onError: (error: any) => {
         CustomHandleError(error.response.data, intl);
@@ -153,7 +155,6 @@ const CreateUpdatePrescriptionTeamplate = () => {
         id: id,
       });
     }
-    medicineRemove.map((item) => deleteDetailMutation.mutate(item));
   };
 
   return (
@@ -224,9 +225,11 @@ const CreateUpdatePrescriptionTeamplate = () => {
                 return (
                   <div className="uses">
                     {value}
-                    <Button type="text" onClick={() => handleDeleteDetailPrescription(record.id)}>
-                      <IconSVG type="close" />
-                    </Button>
+                    <span>
+                      <Button type="text" onClick={() => handleDeleteDetailPrescription(record.id)}>
+                        <IconSVG type="close" />
+                      </Button>
+                    </span>
                   </div>
                 );
               }}

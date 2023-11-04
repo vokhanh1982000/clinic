@@ -132,7 +132,7 @@ const ListPrescriptionTeamplate = () => {
             })}
             dataIndex="prescriptionSampleMedicine"
             width={'22.5%'}
-            render={(_, record: any) => {
+            render={(_, record: any, index) => {
               const data = _.map((item: any) => {
                 return {
                   name: item.medicine.name,
@@ -150,7 +150,11 @@ const ListPrescriptionTeamplate = () => {
                         </span>
                         {isShowListManager === record.id && (
                           <div
-                            className="manager-clinic__more__list"
+                            className={
+                              listPrescriptionTeamplate?.data.total && index > listPrescriptionTeamplate?.data.total / 2
+                                ? 'manager-clinic__more__list top'
+                                : 'manager-clinic__more__list'
+                            }
                             ref={isShowListManager === record.id ? wrapperRef : undefined}
                           >
                             <div className="manager-clinic__more__list__title">

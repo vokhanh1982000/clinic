@@ -58,7 +58,9 @@
 
     &__more {
       position: relative;
-
+      .top {
+        top: -320px !important;
+      }
       &__list {
         position: absolute;
         min-width: 408px;
@@ -70,8 +72,8 @@
         border-radius: 16px;
         width: 250px;
         box-shadow: 0px 4px 24px 0px #00000029;
-        max-height: 280px;
-        overflow: auto;
+        // max-height: 280px;
+        // overflow: auto;
 
         &__title {
           display: flex;
@@ -93,7 +95,8 @@
 
         &__content {
           padding: 10px;
-          max-height: 400px;
+          overflow: auto;
+          height: 260px;
           overflow: auto;
 
           &__item {
@@ -110,13 +113,13 @@
             }
           }
         }
-      }
-      &__list::-webkit-scrollbar {
-        width: 3px;
-      }
+        &__content::-webkit-scrollbar {
+          width: 3px;
+        }
 
-      &__list::-webkit-scrollbar-thumb {
-        background: $secondary_color;
+        &__content::-webkit-scrollbar-thumb {
+          background: $secondary_color;
+        }
       }
     }
   }
@@ -189,8 +192,7 @@
         .ant-btn-text:not(:disabled):hover {
           background-color: unset;
         }
-        button {
-          outline: none;
+        span {
           flex: 1;
           text-align: right;
           svg {

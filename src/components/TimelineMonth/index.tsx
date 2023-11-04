@@ -3,7 +3,16 @@ import { Form, FormInstance, Spin, message } from 'antd';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { FC, HTMLAttributes, useEffect, useMemo, useState } from 'react';
-import { Calendar, CalendarProps, Culture, Event, EventProps, Views, dayjsLocalizer } from 'react-big-calendar';
+import {
+  Calendar,
+  CalendarProps,
+  Culture,
+  Event,
+  EventProps,
+  SlotInfo,
+  Views,
+  dayjsLocalizer,
+} from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { holidayScheduleApi } from '../../apis';
 import {
@@ -17,6 +26,9 @@ import {
 } from '../../apis/client-axios';
 import { IFormData, TimelineMode, n } from '../TimelineControl/constants';
 import TimelineMonthEvent from './Event';
+import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
+import { scheduleDoctorRoutes } from '../TimelineControl';
 
 interface TimelineMonthProps {
   form: FormInstance<IFormData>;
@@ -34,9 +46,13 @@ export interface TimelineEvent extends Event {
 const TimelineMonth: FC<TimelineMonthProps> = (props) => {
   const { form, listBookingMonth, listHolidayMonth, onRefetchMonth, user } = props;
 
+  const intl = useIntl();
+
   const time = Form.useWatch(n('time'), form);
 
   const [events, setEvents] = useState<TimelineEvent[]>([]);
+
+  const location = useLocation();
 
   const { formats, view, localizer } = useMemo<CalendarProps<TimelineEvent>>(
     () => ({
@@ -80,7 +96,11 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
         onRefetchMonth();
       },
       onError: ({ response }) => {
-        message.error(response?.data?.message);
+        message.error(
+          response?.data?.message
+            ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+            : response?.data?.message
+        );
       },
     }
   );
@@ -90,7 +110,11 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
       onRefetchMonth();
     },
     onError: ({ response }) => {
-      message.error(response?.data?.message);
+      message.error(
+        response?.data?.message
+          ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+          : response?.data?.message
+      );
     },
   });
 
@@ -103,18 +127,19 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
   };
 
   const renderDayPropGetter = (date: Date): HTMLAttributes<HTMLDivElement> => {
-    const findBooking = listBookingMonth.find((booking) =>
-      dayjs(booking.day).startOf('days').isSame(dayjs(date).startOf('days'))
+    const findHoliday = listHolidayMonth.find((holiday) =>
+      dayjs(holiday.date).startOf('days').isSame(dayjs(date).startOf('days'))
     );
 
+    const isCurrentMonth = dayjs(time).startOf('days').isSame(dayjs(date).startOf('days'), 'month');
     const isCurrentDate = dayjs(new Date()).startOf('days').isSame(dayjs(date).startOf('days'));
 
     return {
       style: {
-        background: isCurrentDate
-          ? 'rgba(238, 88, 36, 0.10)'
-          : findBooking
-          ? findBooking?.isWork
+        background: isCurrentMonth
+          ? isCurrentDate
+            ? 'rgba(238, 88, 36, 0.10)'
+            : findHoliday
             ? '#ffffff'
             : '#F2F2F2'
           : '#e6e6e6',
@@ -132,12 +157,22 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
     }
   };
 
-  const handleSelectEvent = (event: TimelineEvent) => {
-    if (dayjs(event.start).startOf('days').isAfter(dayjs(new Date()).startOf('days'))) return;
+  const handleSelectSlot = (slotInfo: SlotInfo) => {
+    const findHoliday = listHolidayMonth.find((holiday) =>
+      dayjs(holiday.date).startOf('days').isSame(dayjs(slotInfo.start).startOf('days'))
+    );
+
+    if (findHoliday) return;
 
     form.setFieldsValue({
-      [n('mode')]: user.user.type === 'doctor_clinic' ? TimelineMode.WEEK : TimelineMode.DATE,
-      [n('time')]: dayjs(event.start),
+      [n('mode')]:
+        user?.user?.type === 'doctor_clinic' ||
+        scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/')))
+          ? TimelineMode.WEEK
+          : TimelineMode.DATE,
+      [n('time')]: dayjs(slotInfo.start)
+        .set('hour', dayjs(new Date()).hour())
+        .set('minute', dayjs(new Date()).minute()),
     });
   };
 
@@ -148,7 +183,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
         defaultView={view}
         toolbar={false}
         formats={formats}
-        defaultDate={dayjs(time).startOf('days').toDate()}
+        date={dayjs(time).startOf('month').toDate()}
         events={events}
         showMultiDayTimes
         className="timeline-custom-month"
@@ -157,7 +192,8 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
           event: renderEvent,
         }}
         drilldownView={null}
-        onSelectEvent={handleSelectEvent}
+        selectable
+        onSelectSlot={handleSelectSlot}
       />
     </>
   );
