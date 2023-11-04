@@ -126,12 +126,12 @@ const CreateCustomer = () => {
     if (id) {
       CustomerUpdate({
         ...values,
-        status: Boolean(Number(values.status)),
+        status: !!values.status,
       });
     } else {
       CustomerCreate({
         ...values,
-        status: values.status ? Boolean(Number(values.status)) : true,
+        status: !!values.status,
       });
     }
   };

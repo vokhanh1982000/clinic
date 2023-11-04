@@ -69,7 +69,7 @@
     border-end-end-radius: 12px;
 
     .ant-table-cell {
-      word-break: break-all;
+      word-break: break-word;
     }
   }
 
@@ -486,6 +486,7 @@ select[multiple] {
   top: 0.5px !important;
   position: relative;
   z-index: 1;
+
   .ant-picker-panel-container {
     width: 100%;
     border-radius: 16px;
