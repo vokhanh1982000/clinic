@@ -75,7 +75,7 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
                   Number(data) > 0 && (
                     <Col key={status}>
                       <span
-                        className="font-size-16 font-weight-600 timeline-custom-month-data"
+                        className="font-size-14 font-weight-600 timeline-custom-month-data"
                         style={{
                           border: `1px solid ${findStatus?.borderColor || '#E5E5E5'}`,
                           background: findStatus?.backgroundColor || '#F2F2F2',

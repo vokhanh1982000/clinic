@@ -38,7 +38,7 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     if (error?.response?.status === 401) {
-      logOut();
+      // logOut();
     }
     return Promise.reject(error);
   }

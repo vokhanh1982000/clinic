@@ -36,14 +36,14 @@ const SidebarHeaderContent: FC<SidebarHeaderContentProps> = (props) => {
     <div className="d-flex flex-column gap-16 justify-content-center">
       <Button
         type="text"
-        className="font-size-16 font-weight-400 timeline-custom-day-popover-button"
+        className="font-size-14 font-weight-400 timeline-custom-day-popover-button"
         onClick={() => handleClick('doctor')}
       >
         {intl.formatMessage({ id: 'timeline.doctor.information' })}
       </Button>
       <Button
         type="text"
-        className="font-size-16 font-weight-400 timeline-custom-day-popover-button"
+        className="font-size-14 font-weight-400 timeline-custom-day-popover-button"
         onClick={() => handleClick('schedule')}
       >
         {intl.formatMessage({ id: 'timeline.doctor.schedule' })}

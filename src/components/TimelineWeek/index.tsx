@@ -76,11 +76,11 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
                 current === day ? 'background-color-feefea' : ''
               }`}
             >
-              <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">
+              <span className="font-size-14 font-weight-400 color-1A1A1A font-family-primary">
                 {intl.formatMessage({ id: weekDay.messageId })}
               </span>
-              <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">-</span>
-              <span className="font-size-16 font-weight-400 color-1A1A1A font-family-primary">
+              <span className="font-size-14 font-weight-400 color-1A1A1A font-family-primary">-</span>
+              <span className="font-size-14 font-weight-400 color-1A1A1A font-family-primary">
                 {days[weekDay.value === 0 ? 7 : weekDay.value]}
               </span>
             </div>
