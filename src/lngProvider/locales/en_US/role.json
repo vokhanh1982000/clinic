@@ -36,5 +36,9 @@
   "role.permission.Booking": "Booking",
   "role.permisstion.Medicine": "Medicine",
   "role.permission.New": "News",
-  "role.permission.Language": "Language"
+  "role.permission.Language": "Language",
+  "role.permisstion.WorkSchedule": "Work Schedule",
+  "role.permisstion.HolidaySchedule": "Holiday Schedule",
+  "role.permisstion.Prescription": "Prescription",
+  "role.permisstion.Consulting": "Consulting"
 }
