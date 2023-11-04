@@ -50,10 +50,11 @@ const CreateOrUpDateBooking = () => {
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
   const { data: bookingData } = useQuery({
-    queryKey: ['adminClinicBookingDetail'],
+    queryKey: ['adminClinicBookingDetail', id],
     queryFn: () => {
       return adminClinicBookingApi.adminClinicBookingControllerFindOne(id!);
     },
+    enabled: !!id,
   });
 
   const statusClassName = (status: BookingStatusEnum) => {
