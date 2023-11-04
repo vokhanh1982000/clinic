@@ -46,11 +46,13 @@ const CreateOrUpDateBooking = () => {
   const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
+
   const { data: bookingData } = useQuery({
-    queryKey: ['adminBookingDetail'],
+    queryKey: ['adminBookingDetail', id],
     queryFn: () => {
       return adminBookingApi.adminBookingControllerFindOne(id!);
     },
+    enabled: !!id,
   });
 
   const { mutate: UpdateBooking } = useMutation({
