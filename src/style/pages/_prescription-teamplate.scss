@@ -58,7 +58,9 @@
 
     &__more {
       position: relative;
-
+      .top {
+        top: -320px !important;
+      }
       &__list {
         position: absolute;
         min-width: 408px;
@@ -93,9 +95,8 @@
 
         &__content {
           padding: 10px;
-          max-height: 400px;
           overflow: auto;
-          max-height: 260px;
+          height: 260px;
           overflow: auto;
 
           &__item {
