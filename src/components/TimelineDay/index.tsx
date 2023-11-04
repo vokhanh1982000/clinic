@@ -201,7 +201,11 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
       adminClinicBookingApi.adminClinicBookingControllerUpdate(payload.id, payload.dto),
     {
       onError: ({ response }) => {
-        message.error(response?.data?.message);
+        message.error(
+          response?.data?.message
+            ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+            : response?.data?.message
+        );
       },
       onSettled: () => {
         onRefetchDay();
@@ -214,7 +218,11 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
       adminBookingApi.adminBookingControllerUpdate(payload.id, payload.dto),
     {
       onError: ({ response }) => {
-        message.error(response?.data?.message);
+        message.error(
+          response?.data?.message
+            ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+            : response?.data?.message
+        );
       },
       onSettled: () => {
         onRefetchDay();

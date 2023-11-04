@@ -26,7 +26,7 @@ import {
   Customer,
   DoctorClinic,
 } from '../../apis/client-axios';
-import { DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
+import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
 import { IFormData, NOTES, n } from '../TimelineControl/constants';
 
@@ -166,7 +166,11 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
       adminClinicBookingApi.adminClinicBookingControllerUpdate(payload.id, payload.dto),
     {
       onError: ({ response }) => {
-        message.error(response?.data?.message);
+        message.error(
+          response?.data?.message
+            ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+            : response?.data?.message
+        );
       },
     }
   );
@@ -176,7 +180,11 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
       adminBookingApi.adminBookingControllerUpdate(payload.id, payload.dto),
     {
       onError: ({ response }) => {
-        message.error(response?.data?.message);
+        message.error(
+          response?.data?.message
+            ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+            : response?.data?.message
+        );
       },
     }
   );
@@ -315,7 +323,13 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
   const handleItemDoubleClick = (itemId: string, e: SyntheticEvent, time: number) => {
     if (itemId.includes('empty')) return;
 
-    const route = DOCTOR_CLINIC_ROUTE_PATH;
+    const route =
+      user.user.type === 'administrator'
+        ? ADMIN_ROUTE_PATH
+        : user.user.type === 'administrator_clinic'
+        ? ADMIN_CLINIC_ROUTE_PATH
+        : DOCTOR_CLINIC_ROUTE_PATH;
+
     navigate(`${route.DETAIL_BOOKING}/${itemId}`);
   };
 

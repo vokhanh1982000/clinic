@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, DatePicker, Form, Row } from 'antd';
+import { Card, Col, DatePicker, Form, Input, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs, { Dayjs } from 'dayjs';
 import { debounce } from 'lodash';
@@ -97,7 +97,9 @@ const ListBooking = () => {
       render: (value: Booking) => (
         <span
           className="font-size-16 font-family-primary color-1A1A1A cursor-pointer"
-          onClick={() => navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${value.clinicId}`)}
+          onClick={() =>
+            navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${value.doctorClinicId}?clinicId=${value.clinicId}`)
+          }
         >
           {value.doctorClinic?.fullName}
         </span>
@@ -166,6 +168,30 @@ const ListBooking = () => {
     setFilter((prev) => ({ ...prev, page: 1 }));
   };
 
+  const handleChangeStatus = (value: string[]) => {
+    console.log('🚀 ~ handleChangeStatus ~ value:', value);
+    setFilter((prev) => ({ ...prev, page: 1 }));
+
+    const allStatus = NOTES.filter((_, index) => index < NOTES.length - 1);
+
+    if (
+      (value.length === allStatus.length && !value.includes('all')) ||
+      (value.includes('all') && value.length !== 2)
+    ) {
+      form.setFieldValue(n('status'), ['all']);
+      return;
+    }
+
+    if (value.length === 2 && value.length < allStatus.length && value.includes('all')) {
+      form.setFieldValue(
+        n('status'),
+        value.filter((item) => item !== 'all')
+      );
+
+      return;
+    }
+  };
+
   return (
     <Card>
       <Row gutter={[0, 16]}>
@@ -176,18 +202,23 @@ const ListBooking = () => {
         </Col>
         <Col span={24}>
           <FormWrap name="bookingManagementEmpty" form={form} onKeyDown={handleKeyDown} layout="inline">
-            <Form.Item name={n('keyword')} className="m-b-0">
-              <CustomInput
-                placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
-                prefix={<IconSVG type="search" />}
-                className="input-search width-350 timeline-custom-input"
-                allowClear
-                onChange={handleSearch}
-                onPressEnter={handlePressEnter}
-              />
+            <Form.Item name={n('keyword')} className="d-none">
+              <Input />
             </Form.Item>
+            <CustomInput
+              placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
+              prefix={<IconSVG type="search" />}
+              className="input-search width-350 timeline-custom-input"
+              allowClear
+              onChange={handleSearch}
+              onPressEnter={handlePressEnter}
+            />
             <Form.Item name={n('time')} className="m-b-0">
-              <RangePicker className="height-48 timeline-custom-range-picker" format={SHORT_DATE_FORMAT} />
+              <RangePicker
+                className="height-48 timeline-custom-range-picker"
+                format={SHORT_DATE_FORMAT}
+                inputReadOnly
+              />
             </Form.Item>
             <Form.Item name={n('status')} className="m-b-0">
               <CustomSelect
@@ -209,6 +240,7 @@ const ListBooking = () => {
                 ]}
                 className="width-184 height-48 timeline-custom-select"
                 allowClear
+                onChange={handleChangeStatus}
               />
             </Form.Item>
           </FormWrap>

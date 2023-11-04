@@ -182,11 +182,11 @@ $font-family: Open-Sans;
             position: relative;
           }
 
-          & .rct-hl-even {
-            &:nth-last-child(2) {
-              border-bottom: none;
-            }
-          }
+          // & .rct-hl-even {
+          //   &:nth-last-child(2) {
+          //     border-bottom: none;
+          //   }
+          // }
 
           & .rct-vertical-lines {
             & > .rct-vl {
