@@ -11,7 +11,7 @@ import { adminBookingApi } from '../../../apis';
 import { Booking } from '../../../apis/client-axios';
 import FormWrap from '../../../components/FormWrap';
 import TableWrap from '../../../components/TableWrap';
-import { NOTES } from '../../../components/TimelineControl/constants';
+import { IFilter, NOTES } from '../../../components/TimelineControl/constants';
 import IconSVG from '../../../components/icons/icons';
 import CustomInput from '../../../components/input/CustomInput';
 import CustomSelect from '../../../components/select/CustomSelect';
@@ -22,12 +22,6 @@ interface IFormData {
   keyword?: string;
   time?: Dayjs;
   status?: string[];
-}
-
-interface IFilter {
-  page: number;
-  size?: number;
-  sort?: string;
 }
 
 const n = (key: keyof IFormData) => key;
@@ -96,7 +90,7 @@ const ListBooking = () => {
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.doctor' }),
       render: (value: Booking) => (
         <span
-          className="font-size-16 font-family-primary color-1A1A1A cursor-pointer"
+          className="font-size-14 font-family-primary color-1A1A1A cursor-pointer"
           onClick={() =>
             navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${value.doctorClinicId}?clinicId=${value.clinicId}`)
           }

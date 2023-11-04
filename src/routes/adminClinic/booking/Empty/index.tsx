@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Form, Input, Row } from 'antd';
+import { Card, Col, DatePicker, Form, Input, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { debounce } from 'lodash';
 import moment from 'moment';
@@ -9,41 +9,50 @@ import { adminClinicBookingApi } from '../../../../apis';
 import { Booking } from '../../../../apis/client-axios';
 import FormWrap from '../../../../components/FormWrap';
 import TableWrap from '../../../../components/TableWrap';
-import { NOTES } from '../../../../components/TimelineControl/constants';
+import { IFilter, NOTES } from '../../../../components/TimelineControl/constants';
 import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
-import { statusBackgroundColor } from '../../../../util/constant';
+import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../../util/constant';
+import dayjs, { Dayjs } from 'dayjs';
+import CustomSelect from '../../../../components/select/CustomSelect';
 
 interface IFormData {
   keyword?: string;
-}
-
-interface IFilter {
-  page: number;
-  size?: number;
-  sort?: string;
+  time?: Dayjs;
+  status?: string[];
 }
 
 const n = (key: keyof IFormData) => key;
+
+const { RangePicker } = DatePicker;
 
 const ListBookingEmpty = () => {
   const intl = useIntl();
 
   const [form] = Form.useForm<IFormData>();
-  const keyword = Form.useWatch(n('keyword'), form);
+  const keyword = Form.useWatch(n('keyword'), form) as string | undefined;
+  const time = Form.useWatch(n('time'), form) as Dayjs[] | undefined;
+  const status = Form.useWatch(n('status'), form) as
+    | Array<'completed' | 'pending' | 'cancelled' | 'approved' | 'all'>
+    | undefined;
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
 
-  const { data: listBookingEmpty } = useQuery({
-    queryKey: ['adminClinicBookingEmpty', filter, keyword],
+  const { data: listBookingDayPaginated } = useQuery({
+    queryKey: ['adminClinicBookingDayPaginated', time, filter, status, keyword],
     queryFn: () =>
-      adminClinicBookingApi.adminClinicBookingControllerFindBookingPendingDoctor(
+      adminClinicBookingApi.adminClinicBookingControllerFindAll(
         filter.page,
         filter.size,
         filter.sort,
-        keyword
+        keyword,
+        Array.isArray(time) && time.length === 2 ? dayjs(time[0]).format(DATE_TIME_FORMAT) : undefined,
+        Array.isArray(time) && time.length === 2 ? dayjs(time[1]).format(DATE_TIME_FORMAT) : undefined,
+        Array.isArray(status) && status.filter((item) => item !== 'all').length > 0
+          ? (status as Array<'completed' | 'pending' | 'cancelled' | 'approved'>)
+          : undefined
       ),
-    enabled: !!filter.page && !!filter.size,
+    enabled: !!filter,
   });
 
   const columns: ColumnsType<Booking> = [
@@ -52,6 +61,14 @@ const ListBookingEmpty = () => {
       key: 'code',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.code' }),
       render: (value: Booking) => <span className="font-size-14 font-family-primary color-1A1A1A">{value.order}</span>,
+    },
+    {
+      align: 'left',
+      key: 'doctor',
+      title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.doctor' }),
+      render: (value: Booking) => (
+        <span className="font-size-14 font-family-primary color-1A1A1A">{value.doctorClinic?.fullName}</span>
+      ),
     },
     {
       align: 'left',
@@ -75,7 +92,7 @@ const ListBookingEmpty = () => {
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.gender' }),
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">
-          {intl.formatMessage({ id: `common.gender.${value.customer.gender}` })}
+          {value.customer.gender && intl.formatMessage({ id: `common.gender.${value.customer.gender}` })}
         </span>
       ),
     },
@@ -127,6 +144,10 @@ const ListBookingEmpty = () => {
     },
   ];
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.code === 'Enter') form.submit();
+  };
+
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     if (debouncedUpdateInputValue.cancel) {
       debouncedUpdateInputValue.cancel();
@@ -146,6 +167,29 @@ const ListBookingEmpty = () => {
     setFilter((prev) => ({ ...prev, page: 1 }));
   };
 
+  const handleChangeStatus = (value: string[]) => {
+    setFilter((prev) => ({ ...prev, page: 1 }));
+
+    const allStatus = NOTES.filter((_, index) => index < NOTES.length - 1);
+
+    if (
+      (value.length === allStatus.length && !value.includes('all')) ||
+      (value.includes('all') && value.length !== 2)
+    ) {
+      form.setFieldValue(n('status'), ['all']);
+      return;
+    }
+
+    if (value.length === 2 && value.length < allStatus.length && value.includes('all')) {
+      form.setFieldValue(
+        n('status'),
+        value.filter((item) => item !== 'all')
+      );
+
+      return;
+    }
+  };
+
   return (
     <Card>
       <Row gutter={[0, 16]}>
@@ -155,18 +199,48 @@ const ListBookingEmpty = () => {
           </h3>
         </Col>
         <Col span={24}>
-          <FormWrap name="bookingManagementEmpty" form={form}>
+          <FormWrap name="bookingManagementEmpty" form={form} onKeyDown={handleKeyDown} layout="inline">
             <Form.Item name={n('keyword')} className="d-none">
               <Input />
             </Form.Item>
             <CustomInput
               placeholder={intl.formatMessage({ id: 'timeline.control.search.placeholder' })}
               prefix={<IconSVG type="search" />}
-              className="input-search width-350"
+              className="input-search width-350 timeline-custom-input"
               allowClear
               onChange={handleSearch}
               onPressEnter={handlePressEnter}
             />
+            <Form.Item name={n('time')} className="m-b-0">
+              <RangePicker
+                className="height-48 timeline-custom-range-picker"
+                format={SHORT_DATE_FORMAT}
+                inputReadOnly
+              />
+            </Form.Item>
+            <Form.Item name={n('status')} className="m-b-0">
+              <CustomSelect
+                maxTagCount={2}
+                showSearch={false}
+                mode="multiple"
+                placeholder={intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.status' })}
+                options={[
+                  {
+                    value: 'all',
+                    label: intl.formatMessage({
+                      id: 'common.option.all',
+                    }),
+                  },
+                  ...NOTES.filter((_, index) => index < NOTES.length - 1).map((note) => ({
+                    label: intl.formatMessage({ id: note.messageId }),
+                    value: note.status,
+                  })),
+                ]}
+                className="width-184 height-48 timeline-custom-select"
+                allowClear
+                onChange={handleChangeStatus}
+              />
+            </Form.Item>
           </FormWrap>
         </Col>
         <Col span={24}>
@@ -174,13 +248,13 @@ const ListBookingEmpty = () => {
             className="custom-table"
             showPagination
             columns={columns}
-            data={listBookingEmpty?.data.content}
+            data={listBookingDayPaginated?.data.content}
             setPage={(page) => setFilter((prev) => ({ ...prev, page }))}
             setSize={(size) => setFilter((prev) => ({ ...prev, size }))}
             rowKey="key"
             page={filter.page}
             size={filter.size}
-            total={listBookingEmpty?.data.total}
+            total={listBookingDayPaginated?.data.total}
           />
         </Col>
       </Row>

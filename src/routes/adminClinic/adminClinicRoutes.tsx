@@ -48,6 +48,10 @@ export const AdminClinicRoutes = () => (
           path={`${ADMIN_CLINIC_ROUTE_NAME.DETAIL}/:id`}
           element={<SuspenseWrapper component={<CreateDoctor />} />}
         />
+        <Route
+          path={`${ADMIN_CLINIC_ROUTE_NAME.SCHEDULE}/:id`}
+          element={<SuspenseWrapper component={<DoctorSchedule />} />}
+        />
       </Route>
       <Route path={ADMIN_CLINIC_ROUTE_NAME.SETTING} element={<Setting />} />
       <Route path={ADMIN_CLINIC_ROUTE_NAME.ADMIN_CLINIC_PROFILE} element={<AdminClinicProfile />} />

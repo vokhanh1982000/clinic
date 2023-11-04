@@ -143,7 +143,7 @@ const ListBooking = () => {
                 <Col>
                   <CustomButton
                     icon={<IconSVG type="category" />}
-                    className="width-283 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
+                    className="width-228 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
                     onClick={() => navigate(ADMIN_CLINIC_ROUTE_NAME.BOOKING_EMPTY)}
                   >
                     <span className="font-weight-600 color-ffffff">

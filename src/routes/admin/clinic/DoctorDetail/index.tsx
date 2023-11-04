@@ -87,7 +87,7 @@ const DoctorDetail = () => {
           className="button-schedule"
           icon={<IconSVG type="booking-active" />}
           onClick={() => {
-            navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${id}`);
+            navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${id}?clinicId=${doctorSupport?.data.clinicId}`);
           }}
         >
           {intl.formatMessage({

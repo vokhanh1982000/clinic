@@ -96,6 +96,8 @@ $font-family: Open-Sans;
   }
 
   &-input {
+    margin-right: 16px;
+
     & .ant-input {
       &::placeholder {
         font-size: 14px;
