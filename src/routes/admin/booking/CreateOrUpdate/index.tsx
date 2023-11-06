@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Form, message, Select } from 'antd';
 import useIntl from '../../../../util/useIntl';
 import { IntlShape } from 'react-intl';
-import { NavigateFunction, Params, useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, Params, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import DoctorInfo from '../../../../components/booking/DoctorInfo';
 import CustomerInfo from '../../../../components/booking/CustomerInfo';
 import ScheduleInfo, { BookingTime } from '../../../../components/booking/ScheduleInfo';
@@ -46,6 +46,20 @@ const CreateOrUpDateBooking = () => {
   const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
+
+  const navigateBack = () => {
+    const routeScheduleId: string | null = searchParams.get('routeScheduleId');
+    const routeClinicId: string | null = searchParams.get('routeClinicId');
+    const routeDate: string | null = searchParams.get('routeDate');
+    if (routeClinicId && routeScheduleId) {
+      navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${routeScheduleId}?clinicId=${routeClinicId}`);
+    } else if (routeClinicId && routeDate) {
+      navigate(`${ADMIN_ROUTE_PATH.CLINIC_BOOKING_MANAGEMENT}/${routeClinicId}?date=${routeDate}`);
+    } else {
+      navigate(ADMIN_ROUTE_PATH.BOOKING_MANAGEMENT);
+    }
+  };
 
   const { data: bookingData } = useQuery({
     queryKey: ['adminBookingDetail', id],
@@ -66,6 +80,7 @@ const CreateOrUpDateBooking = () => {
         })
       );
       queryClient.invalidateQueries({ queryKey: ['adminBookingDetail'] });
+      navigateBack();
     },
     onError: () => {
       message.error(
@@ -86,7 +101,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.create.success',
         })
       );
-      navigate(ADMIN_ROUTE_PATH.BOOKING_MANAGEMENT);
+      navigateBack();
     },
     onError: () => {
       message.error(
@@ -107,6 +122,7 @@ const CreateOrUpDateBooking = () => {
       );
       queryClient.invalidateQueries({ queryKey: ['adminBookingDetail'] });
       setShowModalCancel(false);
+      navigateBack();
     },
     onError: () => {
       message.error(
