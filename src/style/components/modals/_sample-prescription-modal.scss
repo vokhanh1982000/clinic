@@ -1,5 +1,6 @@
 .modal-sample-prescription {
   width: 608px !important;
+
   &__content {
     padding: 5px 18px;
 
@@ -25,6 +26,7 @@
       .search-medicine {
         width: 100%;
       }
+
       .prescription-list {
         width: 524px;
         flex-direction: column;
@@ -32,6 +34,7 @@
         gap: 15px;
         overflow: auto;
         height: 500px;
+
         .prescription-item {
           display: flex;
           height: 104px;
@@ -40,12 +43,14 @@
           border: 1px solid $border_input_color;
           padding: 8px 12px;
           gap: 12px;
+
           &__button {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 4%;
           }
+
           &__wrap {
             display: flex;
             flex-direction: column;
@@ -53,21 +58,32 @@
             height: 100%;
             justify-content: space-between;
             align-items: stretch;
+
             &__content {
               display: flex;
               justify-content: space-between;
+              gap: 5px;
+
               &__title {
                 font-weight: 400;
                 font-size: 14px;
                 line-height: 22px;
                 color: #666666;
+                white-space: pre;
               }
+
               &__content {
                 font-weight: 600;
                 font-size: 16px;
                 line-height: 24px;
                 color: $text_black_light;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
+
               &__content-mid {
                 font-weight: 600;
                 font-size: 16px;
@@ -79,6 +95,7 @@
         }
       }
     }
+
     .ant-select-selection-item {
       display: flex;
       align-items: center;

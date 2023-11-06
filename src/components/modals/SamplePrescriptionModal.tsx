@@ -109,15 +109,21 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
                   </div>
                   <div className={'prescription-item__wrap'}>
                     <div className={'prescription-item__wrap__content'}>
-                      <div className={'prescription-item__wrap__content__title'}>Status</div>
+                      <div className={'prescription-item__wrap__content__title'}>
+                        {intl.formatMessage({ id: 'booking.sample-prescription.modal.status' })}
+                      </div>
                       <div className={'prescription-item__wrap__content__content'}>{item.status}</div>
                     </div>
                     <div className={'prescription-item__wrap__content'}>
-                      <div className={'prescription-item__wrap__content__title'}>Prescription</div>
+                      <div className={'prescription-item__wrap__content__title'}>
+                        {intl.formatMessage({ id: 'booking.sample-prescription.modal.prescription' })}
+                      </div>
                       <div className={'prescription-item__wrap__content__content-mid'}>{item.note}</div>
                     </div>
                     <div className={'prescription-item__wrap__content'}>
-                      <div className={'prescription-item__wrap__content__title'}>Feature</div>
+                      <div className={'prescription-item__wrap__content__title'}>
+                        {intl.formatMessage({ id: 'booking.sample-prescription.modal.feature' })}
+                      </div>
                       <div className={'prescription-item__wrap__content__content'}>{item.uses}</div>
                     </div>
                   </div>
