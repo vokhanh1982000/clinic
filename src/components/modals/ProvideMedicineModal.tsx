@@ -44,7 +44,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
   const { data: medicineData } = useQuery({
     queryKey: ['medicineData', { fullTextSearch }],
     queryFn: () => medicineApi.medicineControllerGetAllForDoctor(fullTextSearch),
-    enabled: !!fullTextSearch,
+    // enabled: !!fullTextSearch,
   });
   const handleSearch = () => {};
 
