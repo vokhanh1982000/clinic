@@ -110,7 +110,9 @@ const ForgotPassComponent = (props: IForgotPassComponent) => {
             </Button>
           </Form.Item>
           <div className="d-flex justify-content-center txt-forgot">
-            <span onClick={backToLogin}>{intl.formatMessage({ id: 'forgot.backToLogin' })}</span>
+            <span className="cursor-pointer" onClick={backToLogin}>
+              {intl.formatMessage({ id: 'forgot.backToLogin' })}
+            </span>
           </div>
         </Form>
       </div>
