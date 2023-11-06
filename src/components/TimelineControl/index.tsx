@@ -2,7 +2,7 @@ import { Col, Form, FormInstance, Input, Row } from 'antd';
 import { debounce } from 'lodash';
 import { ChangeEvent, FC, KeyboardEvent } from 'react';
 import { useIntl } from 'react-intl';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Administrator, AdministratorClinic, Customer, DoctorClinic } from '../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../constants/route';
 import FormWrap from '../FormWrap';
@@ -27,7 +27,8 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
   const intl = useIntl();
 
   const location = useLocation();
-
+  const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     if (debouncedUpdateInputValue.cancel) {
@@ -50,7 +51,7 @@ const TimelineControl: FC<TimelineControlProps> = (props) => {
 
   const navigateCreate = () => {
     const route = user?.user?.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
-    navigate(route.CREATE_BOOKING);
+    navigate(`${route.CREATE_BOOKING}?routeScheduleId=${id}&routeClinicId=${searchParams.get('clinicId')}`);
   };
 
   return (

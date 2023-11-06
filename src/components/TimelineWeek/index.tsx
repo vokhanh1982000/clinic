@@ -29,6 +29,7 @@ import {
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
 import { IFormData, NOTES, n } from '../TimelineControl/constants';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 interface TimelineWeekProps {
   form: FormInstance<IFormData>;
@@ -58,6 +59,8 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
   const [groups, setGroups] = useState<TimelineGroupBase[]>([]);
   const [items, setItems] = useState<TimelineItemBase<Moment>[]>([]);
+  const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (listBookingWeek.length >= 0) {
@@ -331,6 +334,8 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
         : DOCTOR_CLINIC_ROUTE_PATH;
 
     navigate(`${route.DETAIL_BOOKING}/${itemId}`);
+    const currentBooking = listBookingWeek.find((booking) => booking.id === itemId);
+    navigate(`${route.DETAIL_BOOKING}/${itemId}?routeScheduleId=${id}&routeClinicId=${currentBooking?.clinicId}`);
   };
 
   const renderHorizontalLineClassNamesForGroup = (group: TimelineGroupBase) => {

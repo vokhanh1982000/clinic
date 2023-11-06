@@ -42,6 +42,7 @@ const Action = (props: ActionProp) => {
     }
     return !(type === 'update' && (status === BookingStatusEnum.Pending || status === BookingStatusEnum.Approved));
   };
+  console.log(type, status, 'aconga');
   return (
     <div className={'action'}>
       <div className={'rows'}>
@@ -62,7 +63,11 @@ const Action = (props: ActionProp) => {
           {role === 'doctor' && intl.formatMessage({ id: 'booking.button.doctor.provide-medicine' })}
         </CustomButton>
         {(role === 'admin' || role === 'adminClinic') && type === 'update' && (
-          <CustomButton className="button-cancel" onClick={onCancel} disabled={isDisabled()}>
+          <CustomButton
+            className="button-cancel"
+            onClick={onCancel}
+            disabled={!(type === 'update' && status === BookingStatusEnum.Pending)}
+          >
             {intl.formatMessage({ id: 'booking.button.admin-cancel-booking' })}
           </CustomButton>
         )}

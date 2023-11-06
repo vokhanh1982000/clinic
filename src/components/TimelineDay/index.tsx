@@ -15,7 +15,7 @@ import Timeline, {
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useInView } from 'react-intersection-observer';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { adminBookingApi, adminClinicBookingApi, clinicsApi } from '../../apis';
 import {
   AdminClinicUpdateBookingDto,
@@ -53,7 +53,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
   const keyword = Form.useWatch(n('keyword'), form);
 
   const navigate = useNavigate();
-
+  const [searchParams] = useSearchParams();
   const [groups, setGroups] = useState<TimelineGroupBase[]>([]);
   const [items, setItems] = useState<TimelineItemBase<Moment>[]>([]);
 
@@ -362,7 +362,11 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
     const route = user.user.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
     const currentBooking = listBookingDay.find((booking) => booking.id === itemId);
     setClinicId(currentBooking?.clinicId);
-    navigate(`${route.DETAIL_BOOKING}/${itemId}`);
+    navigate(
+      `${route.DETAIL_BOOKING}/${itemId}?&routeClinicId=${currentBooking?.clinicId}&routeDate=${searchParams.get(
+        'date'
+      )}`
+    );
   };
 
   return (

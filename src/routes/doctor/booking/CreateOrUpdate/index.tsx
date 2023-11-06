@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Form, message, Select } from 'antd';
 import useIntl from '../../../../util/useIntl';
 import { IntlShape } from 'react-intl';
-import { Params, useParams } from 'react-router-dom';
+import { Params, useNavigate, useParams } from 'react-router-dom';
 import CustomerInfo from '../../../../components/booking/CustomerInfo';
 
 import ScheduleInfo from '../../../../components/booking/ScheduleInfo';
@@ -26,6 +26,7 @@ import Prescription from '../../../../components/booking/Prescription';
 import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
+import { DOCTOR_CLINIC_ROUTE_PATH } from '../../../../constants/route';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -40,6 +41,7 @@ const CreateOrUpDateBooking = () => {
   const [date, setDate] = useState<dayjs.Dayjs>(dayjs(roundTimeToNearestHalfHour(new Date())));
   const [status, setStatus] = useState<BookingStatusEnum>();
   const queryClient: QueryClient = useQueryClient();
+  const navigate = useNavigate();
   const { data: bookingData } = useQuery({
     queryKey: ['bookingDetail', id],
     queryFn: () => {
@@ -59,6 +61,7 @@ const CreateOrUpDateBooking = () => {
         })
       );
       queryClient.invalidateQueries({ queryKey: ['bookingDetail'] });
+      navigate(DOCTOR_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
     },
     onError: () => {
       message.error(
