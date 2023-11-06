@@ -114,7 +114,7 @@ const Prescription = (props: PrescriptionProp) => {
             name={['prescription', 'diagnosticResults']}
           >
             <CustomArea
-              disabled={role !== 'doctor'}
+              disabled={role !== 'doctor' || isDisable()}
               rows={6}
               style={{ resize: 'none' }}
               placeholder={intl.formatMessage({
@@ -143,7 +143,7 @@ const Prescription = (props: PrescriptionProp) => {
               })}
               render={(_, record: PrescriptionMedicine) => (
                 <>
-                  {role === 'doctor' ? (
+                  {role === 'doctor' && !isDisable() ? (
                     <div className={'table-cell-name'} onClick={() => setShowProvideMedicineModalUpdate(record)}>
                       {record.medicine?.name}
                     </div>
@@ -170,7 +170,7 @@ const Prescription = (props: PrescriptionProp) => {
               render={(_, record: PrescriptionMedicine) => (
                 <div className="table-cell-guide">
                   <span>{record.guide}</span>
-                  {role === 'doctor' && (
+                  {role === 'doctor' && !isDisable() && (
                     <span
                       className={'table-cell-guide__icon'}
                       onClick={() => handleRemovePrescriptionMedicine(record.id)}
@@ -199,6 +199,7 @@ const Prescription = (props: PrescriptionProp) => {
         title={intl.formatMessage({ id: 'booking.provide-medicine.modal.update.title' })}
         setPrescriptionMedicine={setPrescriptionMedicine}
         onClose={() => setShowProvideMedicineModalUpdate(undefined)}
+        handleRemovePrescriptionMedicine={handleRemovePrescriptionMedicine}
       />
       <SamplePrescriptionModal
         visible={!!showSamplePrescriptionModal}
