@@ -55,5 +55,9 @@
   "booking.cancel-modal.button.cancel": "Cancel",
   "booking.cancel-modal.button.confirm": "Confirm",
   "booking.message.create.success": "Created",
-  "booking.message.create.fail": "Updated"
+  "booking.message.create.fail": "Updated",
+  "booking.sample-prescription.status": "Status",
+  "booking.sample-prescription.prescription": "Prescription",
+  "booking.sample-prescription.uses": "Uses",
+  "booking.sample-prescription.search": "Search"
 }

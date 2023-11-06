@@ -134,6 +134,11 @@ const ClinicTimeline = () => {
     return currentScreen;
   };
 
+  const navigateCreate = () => {
+    const route = user?.user?.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
+    navigate(`${route.CREATE_BOOKING}?routeClinicId=${id}&routeDate=${searchParams.get('date')}`);
+  };
+
   return (
     <Card>
       <Row gutter={[0, 10]}>
@@ -149,10 +154,7 @@ const ClinicTimeline = () => {
               <CustomButton
                 icon={<IconSVG type="create" />}
                 className="width-176 p-0 d-flex align-items-center justify-content-center background-color-primary timeline-custom-header-button"
-                onClick={() => {
-                  const route = user?.user?.type === 'administrator' ? ADMIN_ROUTE_PATH : ADMIN_CLINIC_ROUTE_PATH;
-                  navigate(`${route.CREATE_BOOKING}`);
-                }}
+                onClick={navigateCreate}
               >
                 <span className="font-weight-600 color-ffffff">
                   {intl.formatMessage({ id: 'timeline.admin.button.create' })}

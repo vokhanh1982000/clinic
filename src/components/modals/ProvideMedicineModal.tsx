@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Form, Modal } from 'antd';
 import IconSVG from '../icons/icons';
 import { ValidateLibrary } from '../../validate';
@@ -22,9 +22,18 @@ interface ProvideMedicineModal {
   onClose: () => void;
   prescriptionMedicine?: PrescriptionMedicine;
   setPrescriptionMedicine?: Function;
+  handleRemovePrescriptionMedicine?: Function;
 }
 const ProvideMedicineModal = (props: ProvideMedicineModal) => {
-  const { visible, title, onClose, prescriptionMedicine, type, setPrescriptionMedicine }: ProvideMedicineModal = props;
+  const {
+    visible,
+    title,
+    onClose,
+    prescriptionMedicine,
+    type,
+    setPrescriptionMedicine,
+    handleRemovePrescriptionMedicine,
+  }: ProvideMedicineModal = props;
   const intl: IntlShape = useIntl();
   const user: DoctorClinic = useAppSelector((state) => state.auth).authUser as DoctorClinic;
   const [currentItem, setCurrentItem] = useState<PrescriptionMedicine>();
@@ -124,7 +133,17 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
       setFullTextSearch(value);
     }
   }, 500);
+  const handleClose = () => {
+    setCurrentItem(undefined);
+    onClose();
+  };
 
+  const handleDelete = (id?: string) => {
+    if (handleRemovePrescriptionMedicine && id) {
+      handleRemovePrescriptionMedicine(id);
+    }
+    onClose();
+  };
   return (
     <Modal
       className={'modal-provide-medicine'}
@@ -137,7 +156,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
       <div className={'modal-provide-medicine__content'}>
         <div className={'modal-provide-medicine__content__title'}>
           <span>{title}</span>
-          <span onClick={onClose} className={'modal-medicine__content__title__button-close'}>
+          <span onClick={handleClose} className={'modal-medicine__content__title__button-close'}>
             <IconSVG type="close" />
           </span>
         </div>
@@ -231,7 +250,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
                   id: 'booking.provide-medicine.modal.button.create',
                 })}
               </CustomButton>
-              <CustomButton className="button-delete" onClick={onClose}>
+              <CustomButton className="button-delete" onClick={handleClose}>
                 {intl.formatMessage({
                   id: 'booking.provide-medicine.modal.button.cancel',
                 })}
@@ -245,7 +264,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
                   id: 'booking.provide-medicine.modal.button.save',
                 })}
               </CustomButton>
-              <CustomButton className="button-delete" onClick={onClose}>
+              <CustomButton className="button-delete" onClick={() => handleDelete(currentItem?.id)}>
                 {intl.formatMessage({
                   id: 'booking.provide-medicine.modal.button.delete',
                 })}

@@ -54,7 +54,7 @@ const CustomerInfo = (props: CustomerInfoProps) => {
     }
   }, 500);
   const isDisabled = () => {
-    if (role === 'admin' && isCreatedByCustomer) return true;
+    if (isCreatedByCustomer) return true;
     if (status === BookingStatusEnum.Pending && type === 'update' && role !== 'doctor') return false;
     return !(type === 'create' && role !== 'doctor');
   };

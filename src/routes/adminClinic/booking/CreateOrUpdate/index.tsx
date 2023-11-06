@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Form, message, Select } from 'antd';
 import useIntl from '../../../../util/useIntl';
 import { IntlShape } from 'react-intl';
-import { NavigateFunction, Params, useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, Params, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import DoctorInfo from '../../../../components/booking/DoctorInfo';
 import CustomerInfo from '../../../../components/booking/CustomerInfo';
 
@@ -30,7 +30,7 @@ import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
-import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -49,6 +49,8 @@ const CreateOrUpDateBooking = () => {
   const [status, setStatus] = useState<BookingStatusEnum>();
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
+
   const { data: bookingData } = useQuery({
     queryKey: ['adminClinicBookingDetail', id],
     queryFn: () => {
@@ -56,6 +58,19 @@ const CreateOrUpDateBooking = () => {
     },
     enabled: !!id,
   });
+
+  const navigateBack = () => {
+    const routeScheduleId: string | null = searchParams.get('routeScheduleId');
+    const routeClinicId: string | null = searchParams.get('routeClinicId');
+    const routeEmpty: string | null = searchParams.get('routeEmpty');
+    if (routeClinicId && routeScheduleId) {
+      navigate(`${ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR}/${routeScheduleId}?clinicId=${routeClinicId}`);
+    } else if (routeEmpty) {
+      navigate(ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT_EMPTY);
+    } else {
+      navigate(ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
+    }
+  };
 
   const statusClassName = (status: BookingStatusEnum) => {
     if (status === BookingStatusEnum.Approved) {
@@ -83,6 +98,7 @@ const CreateOrUpDateBooking = () => {
         })
       );
       queryClient.invalidateQueries({ queryKey: ['adminClinicBookingDetail'] });
+      navigateBack();
     },
     onError: () => {
       message.error(
@@ -103,7 +119,7 @@ const CreateOrUpDateBooking = () => {
           id: 'booking.message.create.success',
         })
       );
-      navigate(ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
+      navigateBack();
     },
     onError: () => {
       message.error(
@@ -136,6 +152,8 @@ const CreateOrUpDateBooking = () => {
         })
       );
       queryClient.invalidateQueries({ queryKey: ['adminClinicBookingDetail'] });
+
+      navigateBack();
     },
     onError: () => {
       message.error(

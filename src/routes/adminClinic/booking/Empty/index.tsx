@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { Card, Col, DatePicker, Form, Input, Row } from 'antd';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Card, Col, DatePicker, Form, Input, message, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { debounce } from 'lodash';
 import moment from 'moment';
@@ -15,6 +15,8 @@ import CustomInput from '../../../../components/input/CustomInput';
 import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../../util/constant';
 import dayjs, { Dayjs } from 'dayjs';
 import CustomSelect from '../../../../components/select/CustomSelect';
+import { useNavigate } from 'react-router-dom';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
 
 interface IFormData {
   keyword?: string;
@@ -37,6 +39,8 @@ const ListBookingEmpty = () => {
     | undefined;
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: listBookingDayPaginated } = useQuery({
     queryKey: ['adminClinicBookingDayPaginated', time, filter, status, keyword],
@@ -53,6 +57,17 @@ const ListBookingEmpty = () => {
           : undefined
       ),
     enabled: !!filter,
+  });
+
+  const { mutate: DeleteBooking } = useMutation({
+    mutationFn: (id: string) => adminClinicBookingApi.adminClinicBookingControllerRemove(id),
+    onSuccess: () => {
+      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+      queryClient.invalidateQueries(['adminClinicBookingDayPaginated']);
+    },
+    onError: () => {
+      message.error(intl.formatMessage({ id: 'common.common.deleteFail' }));
+    },
   });
 
   const columns: ColumnsType<Booking> = [
@@ -130,13 +145,16 @@ const ListBookingEmpty = () => {
       align: 'center',
       key: 'action',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.action' }),
-      render: () => (
+      render: (value: Booking) => (
         <div className="d-flex align-items-center justify-content-center gap-12">
-          <div className="cursor-pointer">
+          <div
+            className="cursor-pointer"
+            onClick={() => navigate(`${ADMIN_CLINIC_ROUTE_PATH.DETAIL_BOOKING}/${value.id}?routeEmpty=1`)}
+          >
             <IconSVG type="edit" />
           </div>
           <span className="divider"></span>
-          <div className="cursor-pointer">
+          <div className="cursor-pointer" onClick={() => DeleteBooking(value.id)}>
             <IconSVG type="delete" />
           </div>
         </div>

@@ -75,6 +75,11 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
     onClose();
   };
 
+  const handleClose = () => {
+    setCurrentSelectPrescription(undefined);
+    onClose();
+  };
+
   return (
     <Modal
       className={'modal-sample-prescription'}
@@ -87,13 +92,14 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
       <div className={'modal-sample-prescription__content'}>
         <div className={'modal-sample-prescription__content__title'}>
           <span>{intl.formatMessage({ id: 'booking.sample-prescription.modal.title' })}</span>
-          <span onClick={onClose} className={'modal-medicine__content__title__button-close'}>
+          <span onClick={handleClose} className={'modal-medicine__content__title__button-close'}>
             <IconSVG type="close" />
           </span>
         </div>
         <div className={'modal-sample-prescription__content__rows'}>
           <Form.Item className={'search-medicine'}>
             <CustomInput
+              placeholder={intl.formatMessage({ id: 'booking.sample-prescription.search' })}
               prefix={<IconSVG type="search" />}
               onChange={(event) => debouncedUpdateInputValue(event.target.value)}
             />
@@ -110,19 +116,21 @@ const SamplePrescriptionModal = (props: SamplePrescriptionModalProp) => {
                   <div className={'prescription-item__wrap'}>
                     <div className={'prescription-item__wrap__content'}>
                       <div className={'prescription-item__wrap__content__title'}>
-                        {intl.formatMessage({ id: 'booking.sample-prescription.modal.status' })}
+                        {intl.formatMessage({ id: 'booking.sample-prescription.status' })}
                       </div>
                       <div className={'prescription-item__wrap__content__content'}>{item.status}</div>
                     </div>
                     <div className={'prescription-item__wrap__content'}>
                       <div className={'prescription-item__wrap__content__title'}>
-                        {intl.formatMessage({ id: 'booking.sample-prescription.modal.prescription' })}
+                        {intl.formatMessage({ id: 'booking.sample-prescription.prescription' })}
                       </div>
-                      <div className={'prescription-item__wrap__content__content-mid'}>{item.note}</div>
+                      <div className={'prescription-item__wrap__content__content-mid'}>
+                        {item.prescriptionSampleMedicine?.map((item) => item.medicine.name).join(',')}
+                      </div>
                     </div>
                     <div className={'prescription-item__wrap__content'}>
                       <div className={'prescription-item__wrap__content__title'}>
-                        {intl.formatMessage({ id: 'booking.sample-prescription.modal.feature' })}
+                        {intl.formatMessage({ id: 'booking.sample-prescription.uses' })}
                       </div>
                       <div className={'prescription-item__wrap__content__content'}>{item.uses}</div>
                     </div>
