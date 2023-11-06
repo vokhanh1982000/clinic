@@ -34,9 +34,6 @@
   "booking.provide-medicine.modal.create.title": "Provide Medicine",
   "booking.provide-medicine.modal.update.title": "Detail",
   "booking.sample-prescription.modal.title": "List Sample Prescription",
-  "booking.sample-prescription.modal.status": "Status:",
-  "booking.sample-prescription.modal.prescription": "Prescription:",
-  "booking.sample-prescription.modal.feature": "Feature:",
   "booking.sample-prescription.button.save": "Save",
   "booking.clinic.fullName": "Clinic",
   "booking.clinic.phone": "Phone",
@@ -56,8 +53,8 @@
   "booking.cancel-modal.button.confirm": "Confirm",
   "booking.message.create.success": "Created",
   "booking.message.create.fail": "Updated",
-  "booking.sample-prescription.status": "Status",
-  "booking.sample-prescription.prescription": "Prescription",
-  "booking.sample-prescription.uses": "Uses",
+  "booking.sample-prescription.status": "Status:",
+  "booking.sample-prescription.prescription": "Prescription:",
+  "booking.sample-prescription.uses": "Uses:",
   "booking.sample-prescription.search": "Search"
 }

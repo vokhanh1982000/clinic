@@ -35,9 +35,6 @@
   "booking.provide-medicine.modal.create.title": "Cấp Thuốc",
   "booking.provide-medicine.modal.update.title": "Chi Tiết Thuốc",
   "booking.sample-prescription.modal.title": "Danh Sách Đơn Thuốc Mẫu",
-  "booking.sample-prescription.modal.status": "Tình trạng:",
-  "booking.sample-prescription.modal.prescription": "Đơn thuốc:",
-  "booking.sample-prescription.modal.feature": "Công dụng:",
   "booking.sample-prescription.button.save": "Kê đơn",
   "booking.clinic.fullName": "Phòng khám",
   "booking.clinic.phone": "Số điện thoại",
@@ -58,8 +55,8 @@
   "booking.button.admin-cancel": "Huỷ",
   "booking.message.create.success": "Tạo thành công",
   "booking.message.create.fail": "Tạo thất bại",
-  "booking.sample-prescription.status": "Tình trạng",
-  "booking.sample-prescription.prescription": "Đơn thuốc",
-  "booking.sample-prescription.uses": "Công dụng",
+  "booking.sample-prescription.status": "Tình trạng:",
+  "booking.sample-prescription.prescription": "Đơn thuốc:",
+  "booking.sample-prescription.uses": "Công dụng:",
   "booking.sample-prescription.search": "Tìm kiếm"
 }
