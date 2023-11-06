@@ -16,7 +16,10 @@ const CreateOrUpDateBooking = React.lazy(() => import('./booking/CreateOrUpdate'
 export const DoctorRoutes = () => (
   <Routes>
     <Route path={DOCTOR_CLINIC_ROUTE_NAME.SIGNIN} element={<SuspenseWrapper component={<SignInDoctor />} />} />
-    <Route path={DOCTOR_CLINIC_ROUTE_NAME.FORGOT_PASSWORD} element={<ForgotPassDoctor />} />
+    <Route
+      path={DOCTOR_CLINIC_ROUTE_NAME.FORGOT_PASSWORD}
+      element={<SuspenseWrapper component={<ForgotPassDoctor />} />}
+    />
     <Route path="" element={<SuspenseWrapper component={<Doctor />} />}>
       <Route path={DOCTOR_CLINIC_ROUTE_NAME.BOOKING_MANAGEMENT}>
         <Route path={''} element={<ListBooking />} />
