@@ -31,8 +31,8 @@ const LanguageManagement = React.lazy(() => import('./languageManagement'));
 const AdminProfile = React.lazy(() => import('./profile/index'));
 export const AdminRoutes = () => (
   <Routes>
-    <Route path={ADMIN_ROUTE_NAME.SIGNIN} element={<SignInAdmin />} />
-    <Route path={ADMIN_ROUTE_NAME.FORGOT_PASSWORD} element={<ForgotPassAdmin />} />
+    <Route path={ADMIN_ROUTE_NAME.SIGNIN} element={<SuspenseWrapper component={<SignInAdmin />} />} />
+    <Route path={ADMIN_ROUTE_NAME.FORGOT_PASSWORD} element={<SuspenseWrapper component={<ForgotPassAdmin />} />} />
     <Route path={ADMIN_ROUTE_NAME.DASHBOARD} element={<Admin />}>
       <Route path={ADMIN_ROUTE_NAME.ADMIN_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListAdmin />} />} />
@@ -70,7 +70,7 @@ export const AdminRoutes = () => (
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateNew />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateNew />} />} />
       </Route>
-      <Route path={ADMIN_ROUTE_NAME.STATISTIC} element={<Statistic />} />
+      <Route path={ADMIN_ROUTE_NAME.STATISTIC} element={<SuspenseWrapper component={<Statistic />} />} />
       <Route path={ADMIN_ROUTE_NAME.USER_MANAGEMENT}>
         <Route path="" element={<SuspenseWrapper component={<ListCustomer />} />} />
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateCustomer />} />} />
@@ -82,7 +82,10 @@ export const AdminRoutes = () => (
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateRole />} />} />
       </Route>
       <Route path={ADMIN_ROUTE_NAME.MEDICINE_MANAGEMENT} element={<SuspenseWrapper component={<ListMedicine />} />} />
-      <Route path={ADMIN_ROUTE_NAME.LANGUAGE_MANAGEMENT} element={<LanguageManagement />} />
+      <Route
+        path={ADMIN_ROUTE_NAME.LANGUAGE_MANAGEMENT}
+        element={<SuspenseWrapper component={<LanguageManagement />} />}
+      />
       <Route path={ADMIN_ROUTE_NAME.ADMIN_PROFILE} element={<SuspenseWrapper component={<AdminProfile />} />} />
       <Route
         path={ADMIN_ROUTE_NAME.CHANGE_PASSWORD}

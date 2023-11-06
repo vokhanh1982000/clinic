@@ -53,7 +53,7 @@ export const AdminClinicRoutes = () => (
           element={<SuspenseWrapper component={<DoctorSchedule />} />}
         />
       </Route>
-      <Route path={ADMIN_CLINIC_ROUTE_NAME.SETTING} element={<Setting />} />
+      <Route path={ADMIN_CLINIC_ROUTE_NAME.SETTING} element={<SuspenseWrapper component={<Setting />} />} />
       <Route path={ADMIN_CLINIC_ROUTE_NAME.ADMIN_CLINIC_PROFILE} element={<AdminClinicProfile />} />
       <Route path={ADMIN_CLINIC_ROUTE_NAME.CHANGE_PASSWORD} element={<ChangePasswordAdminClinic />} />
     </Route>
