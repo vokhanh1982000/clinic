@@ -62,9 +62,11 @@ const CreateOrUpDateBooking = () => {
   const navigateBack = () => {
     const routeScheduleId: string | null = searchParams.get('routeScheduleId');
     const routeClinicId: string | null = searchParams.get('routeClinicId');
-    const routeDate: string | null = searchParams.get('routeDate');
+    const routeEmpty: string | null = searchParams.get('routeEmpty');
     if (routeClinicId && routeScheduleId) {
       navigate(`${ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR}/${routeScheduleId}?clinicId=${routeClinicId}`);
+    } else if (routeEmpty) {
+      navigate(ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT_EMPTY);
     } else {
       navigate(ADMIN_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
     }

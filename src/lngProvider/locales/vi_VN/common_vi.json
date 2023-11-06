@@ -47,5 +47,6 @@
   "common.timeline.wednesday": "Thứ Tư",
   "common.timeline.thursday": "Thứ Năm",
   "common.timeline.friday": "Thứ Sáu",
-  "common.timeline.saturday": "Thứ Bảy"
+  "common.timeline.saturday": "Thứ Bảy",
+  "common.deleteFail": "Xóa thất bại"
 }
