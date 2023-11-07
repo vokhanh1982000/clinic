@@ -194,6 +194,14 @@ const CreateOrUpDateBooking = () => {
       doctorClinicId: doctorClinic?.id,
       customerId: customer?.id,
     };
+    if (booking.status === BookingStatusEnum.Approved && !booking.doctorClinicId) {
+      message.error(
+        intl.formatMessage({
+          id: 'booking.doctor-clinic.missing',
+        })
+      );
+      return;
+    }
     UpdateBooking(booking);
   };
 

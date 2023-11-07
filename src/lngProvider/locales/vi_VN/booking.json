@@ -59,5 +59,6 @@
   "booking.sample-prescription.prescription": "Đơn thuốc",
   "booking.sample-prescription.uses": "Công dụng",
   "booking.sample-prescription.search": "Tìm kiếm",
-  "booking.button.admin-create": "Tạo mới"
+  "booking.button.admin-create": "Tạo mới",
+  "booking.doctor-clinic.missing": "Vui lòng nhập đầy đủ thông tin trước khi chuyển trạng thái xét duyệt"
 }

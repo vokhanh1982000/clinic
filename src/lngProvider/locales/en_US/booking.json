@@ -56,5 +56,6 @@
   "booking.sample-prescription.status": "Status:",
   "booking.sample-prescription.prescription": "Prescription:",
   "booking.sample-prescription.uses": "Uses:",
-  "booking.sample-prescription.search": "Search"
+  "booking.sample-prescription.search": "Search",
+  "booking.doctor-clinic.missing": "Please enter complete information before changing the 'approved' status"
 }

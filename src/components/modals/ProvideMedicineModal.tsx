@@ -54,7 +54,8 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
       if (
         currentItem.medicine?.name.trim() === '' ||
         !currentItem.medicine?.name ||
-        currentItem.quantity === 0 ||
+        currentItem.quantity < 1 ||
+        currentItem.quantity > 100000 ||
         !currentItem.quantity ||
         currentItem.guide?.trim() === '' ||
         !currentItem.guide
