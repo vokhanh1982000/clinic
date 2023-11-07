@@ -111,7 +111,7 @@ const ListBooking = () => {
             </Col>
             <Col span={24}>
               <div className="d-flex align-items-center gap-20">
-                {NOTES.filter((_, index) => (mode === TimelineMode.MONTH ? index >= 0 : index < NOTES.length - 1)).map(
+                {NOTES.filter((_, index) => (mode === TimelineMode.DATE ? index < NOTES.length - 1 : index >= 0)).map(
                   (note) => (
                     <div key={note.messageId} className="d-flex align-items-center gap-8">
                       <div
