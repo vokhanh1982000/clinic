@@ -56,7 +56,7 @@ const Prescription = (props: PrescriptionProp) => {
   };
 
   const isDisable = () => {
-    return !(status === BookingStatusEnum.Approved || status === BookingStatusEnum.Completed);
+    return !(status === BookingStatusEnum.Completed);
   };
   return (
     <div className={'prescription'}>

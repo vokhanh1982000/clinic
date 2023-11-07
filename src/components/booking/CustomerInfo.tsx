@@ -20,21 +20,10 @@ interface CustomerInfoProps {
   type: 'create' | 'update';
   isSubmit?: boolean;
   status?: BookingStatusEnum;
-  isCreatedByCustomer?: boolean;
 }
 const CustomerInfo = (props: CustomerInfoProps) => {
   const intl: IntlShape = useIntl();
-  const {
-    customer,
-    customerNote,
-    setCustomer,
-    role,
-    form,
-    isSubmit,
-    type,
-    status,
-    isCreatedByCustomer,
-  }: CustomerInfoProps = props;
+  const { customer, customerNote, setCustomer, role, form, isSubmit, type, status }: CustomerInfoProps = props;
   const [listCustomer, setListCustomer] = useState<Customer[]>();
   const [searchNameCustomer, setSearchNameCustomer] = useState<string>();
   const { data: listCustomerData } = useQuery({
@@ -54,9 +43,10 @@ const CustomerInfo = (props: CustomerInfoProps) => {
     }
   }, 500);
   const isDisabled = () => {
-    if (isCreatedByCustomer) return true;
-    if (status === BookingStatusEnum.Pending && type === 'update' && role !== 'doctor') return false;
-    return !(type === 'create' && role !== 'doctor');
+    if ((role === 'adminClinic' || role === 'admin') && type === 'create') {
+      return false;
+    }
+    return !(status === BookingStatusEnum.Pending && type === 'update' && role !== 'doctor');
   };
   return (
     <div className={'customer-info'}>

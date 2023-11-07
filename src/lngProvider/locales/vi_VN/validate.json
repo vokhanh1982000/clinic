@@ -47,5 +47,6 @@
   "validate.medicine.quantity": "Vui lòng nhập số lượng 1-100000",
   "validate.required.quantity": "Vui lòng nhập số lượng",
   "validate.prescription.medicine.required": "Vui lòng nhập tình trạng",
-  "validate.medicine.required": "Vui lòng chọn thuốc"
+  "validate.medicine.required": "Vui lòng chọn thuốc",
+  "validate.medicine.guide.required": "Vui lòng nhập hướng dẫn sử dụng"
 }
