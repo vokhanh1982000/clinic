@@ -174,6 +174,7 @@ const CreateOrUpDateBooking = () => {
             status={status}
           />
           <Prescription
+            isPrescribed={!!bookingData?.data?.prescription?.id}
             prescription={prescription}
             role={'doctor'}
             setPrescription={setPrescription}
@@ -186,7 +187,13 @@ const CreateOrUpDateBooking = () => {
             <ScheduleInfo form={form} role={'doctor'} date={date} type={'update'} status={status} />
           </div>
           <div className={'action-area'}>
-            <Action form={form} role={'doctor'} type={id ? 'update' : 'create'} status={status} />
+            <Action
+              form={form}
+              role={'doctor'}
+              type={id ? 'update' : 'create'}
+              status={status}
+              isPrescribed={!!bookingData?.data?.prescription?.id}
+            />
           </div>
         </div>
       </Form>

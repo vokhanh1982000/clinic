@@ -17,9 +17,10 @@ interface PrescriptionProp {
   prescription?: PrescriptionType;
   setPrescription?: Dispatch<SetStateAction<PrescriptionType | undefined>>;
   status?: BookingStatusEnum;
+  isPrescribed?: boolean;
 }
 const Prescription = (props: PrescriptionProp) => {
-  const { prescription, role, setPrescription, type, status }: PrescriptionProp = props;
+  const { prescription, role, setPrescription, type, status, isPrescribed }: PrescriptionProp = props;
   const intl: IntlShape = useIntl();
   const [showProvideMedicineModalCreate, setShowProvideMedicineModalCreate] = useState<boolean>();
   const [showProvideMedicineModalUpdate, setShowProvideMedicineModalUpdate] = useState<PrescriptionMedicine>();
@@ -39,7 +40,6 @@ const Prescription = (props: PrescriptionProp) => {
     }
   }, [prescriptionMedicine]);
   const handleRemovePrescriptionMedicine = (medicineId: string) => {
-    console.log(medicineId);
     if (setPrescription) {
       setPrescriptionMedicine((prevState) => {
         if (!prevState) {
@@ -56,7 +56,7 @@ const Prescription = (props: PrescriptionProp) => {
   };
 
   const isDisable = () => {
-    return !(status === BookingStatusEnum.Completed);
+    return !(status === BookingStatusEnum.Completed) || isPrescribed;
   };
   return (
     <div className={'prescription'}>
