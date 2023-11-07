@@ -15,8 +15,9 @@ import { IFilter, NOTES } from '../../../components/TimelineControl/constants';
 import IconSVG from '../../../components/icons/icons';
 import CustomInput from '../../../components/input/CustomInput';
 import CustomSelect from '../../../components/select/CustomSelect';
-import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
+import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
 import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../util/constant';
+import CustomButton from '../../../components/buttons/CustomButton';
 
 interface IFormData {
   keyword?: string;
@@ -192,14 +193,14 @@ const ListBooking = () => {
   };
 
   return (
-    <Card>
+    <Card id={'list-booking'}>
       <Row gutter={[0, 16]}>
         <Col span={24}>
           <h3 className="font-size-14 font-weight-700 color-1A1A1A font-family-primary text-capitalize m-b-0">
             {intl.formatMessage({ id: 'menu.bookingManagement' })}
           </h3>
         </Col>
-        <Col span={24}>
+        <Col span={24} className={'form-area'}>
           <FormWrap name="bookingManagementEmpty" form={form} onKeyDown={handleKeyDown} layout="inline">
             <Form.Item name={n('keyword')} className="d-none">
               <Input />
@@ -243,6 +244,15 @@ const ListBooking = () => {
               />
             </Form.Item>
           </FormWrap>
+          <div className={'action'}>
+            <CustomButton
+              icon={<IconSVG type="create" />}
+              className={'action__create'}
+              onClick={() => navigate(ADMIN_ROUTE_PATH.CREATE_BOOKING)}
+            >
+              {intl.formatMessage({ id: 'timeline.admin.button.create' })}
+            </CustomButton>
+          </div>
         </Col>
         <Col span={24}>
           <TableWrap
