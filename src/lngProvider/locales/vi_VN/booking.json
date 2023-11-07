@@ -55,8 +55,9 @@
   "booking.button.admin-cancel": "Huỷ",
   "booking.message.create.success": "Tạo thành công",
   "booking.message.create.fail": "Tạo thất bại",
-  "booking.sample-prescription.status": "Tình trạng:",
-  "booking.sample-prescription.prescription": "Đơn thuốc:",
-  "booking.sample-prescription.uses": "Công dụng:",
-  "booking.sample-prescription.search": "Tìm kiếm"
+  "booking.sample-prescription.status": "Tình trạng",
+  "booking.sample-prescription.prescription": "Đơn thuốc",
+  "booking.sample-prescription.uses": "Công dụng",
+  "booking.sample-prescription.search": "Tìm kiếm",
+  "booking.button.admin-create": "Tạo mới"
 }

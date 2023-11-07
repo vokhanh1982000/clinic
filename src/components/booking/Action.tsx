@@ -11,20 +11,16 @@ interface ActionProp {
   type?: 'update' | 'create';
   onCancel?: () => void;
   status?: BookingStatusEnum;
-  isCreatedByCustomer?: boolean;
 }
 const Action = (props: ActionProp) => {
-  const { form, role, type, onCancel, status, isCreatedByCustomer }: ActionProp = props;
+  const { form, role, type, onCancel, status }: ActionProp = props;
   const intl: IntlShape = useIntl();
 
   const className = (): string => {
     if ((role === 'adminClinic' || role === 'admin') && type === 'create') {
       return 'custom-checkbox';
     }
-    if (role === 'adminClinic' && type === 'update' && status === BookingStatusEnum.Pending) {
-      return 'custom-checkbox';
-    }
-    if (role === 'admin' && type === 'update' && status === BookingStatusEnum.Pending && !isCreatedByCustomer) {
+    if ((role === 'adminClinic' || role === 'admin') && type === 'update' && status === BookingStatusEnum.Pending) {
       return 'custom-checkbox';
     }
     return 'custom-checkbox-disabled';
@@ -33,16 +29,11 @@ const Action = (props: ActionProp) => {
     if ((role === 'adminClinic' || role === 'admin') && type === 'create') {
       return false;
     }
-    if (
-      role === 'doctor' &&
-      type === 'update' &&
-      (status === BookingStatusEnum.Approved || status === BookingStatusEnum.Completed)
-    ) {
+    if (role === 'doctor' && type === 'update' && status === BookingStatusEnum.Completed) {
       return false;
     }
     return !(type === 'update' && (status === BookingStatusEnum.Pending || status === BookingStatusEnum.Approved));
   };
-  console.log(type, status, 'aconga');
   return (
     <div className={'action'}>
       <div className={'rows'}>
@@ -59,7 +50,12 @@ const Action = (props: ActionProp) => {
       </div>
       <div className={'rows'}>
         <CustomButton className="button-save" htmlType={'submit'} disabled={isDisabled()}>
-          {(role === 'admin' || role === 'adminClinic') && intl.formatMessage({ id: 'booking.button.admin-save' })}
+          {(role === 'admin' || role === 'adminClinic') &&
+            type === 'update' &&
+            intl.formatMessage({ id: 'booking.button.admin-save' })}
+          {(role === 'admin' || role === 'adminClinic') &&
+            type === 'create' &&
+            intl.formatMessage({ id: 'booking.button.admin-create' })}
           {role === 'doctor' && intl.formatMessage({ id: 'booking.button.doctor.provide-medicine' })}
         </CustomButton>
         {(role === 'admin' || role === 'adminClinic') && type === 'update' && (

@@ -19,12 +19,10 @@ interface DoctorInfoProps {
   role?: 'admin' | 'adminClinic' | 'doctor';
   type?: 'create' | 'update';
   status?: BookingStatusEnum;
-  isCreatedByCustomer?: boolean;
 }
 const DoctorInfo = (props: DoctorInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { form, clinic, doctorClinic, setDoctorClinic, role, type, status, isCreatedByCustomer }: DoctorInfoProps =
-    props;
+  const { form, clinic, doctorClinic, setDoctorClinic, role, type, status }: DoctorInfoProps = props;
   const [listDoctor, setListDoctor] = useState<DoctorClinic[]>();
   const [searchNameDoctor, setSearchNameDoctor] = useState<string>();
 
@@ -47,9 +45,10 @@ const DoctorInfo = (props: DoctorInfoProps) => {
   }, [listDoctorData]);
 
   const isDisabled = () => {
-    if (role === 'admin' && isCreatedByCustomer) return true;
-    if (status === BookingStatusEnum.Pending && type === 'update') return false;
-    return type !== 'create';
+    if ((role === 'adminClinic' || role === 'admin') && type === 'create') {
+      return false;
+    }
+    return !(status === BookingStatusEnum.Pending && type === 'update');
   };
   return (
     <div className={'doctor-info'}>

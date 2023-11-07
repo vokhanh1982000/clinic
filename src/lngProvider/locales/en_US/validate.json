@@ -45,5 +45,6 @@
   "validate.medicine.normal": "Please enter special characters like ()-/",
   "validate.medicine.quantity": "Minimum quantity is 1 and maximum 100000",
   "validate.prescription.medicine.required": "Please input status",
-  "validate.medicine.required": "Please select medicine"
+  "validate.medicine.required": "Please select medicine",
+  "validate.medicine.guide.required": "Please enter instructions for use"
 }

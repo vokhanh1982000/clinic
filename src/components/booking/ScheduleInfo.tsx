@@ -23,16 +23,14 @@ interface ScheduleInfoProp {
   date?: dayjs.Dayjs;
   setDate?: Dispatch<SetStateAction<dayjs.Dayjs>>;
   status?: BookingStatusEnum;
-  isCreatedByCustomer?: boolean;
 }
 const ScheduleInfo = (props: ScheduleInfoProp) => {
-  const { role, type, pmTime, amTime, date, setDate, status, isCreatedByCustomer }: ScheduleInfoProp = props;
+  const { role, type, pmTime, amTime, date, setDate, status }: ScheduleInfoProp = props;
   const intl: IntlShape = useIntl();
   const className = () => {
     if ((role === 'admin' || role === 'adminClinic') && type === 'create') return '';
-    if (role === 'adminClinic' && type === 'update' && status === BookingStatusEnum.Pending) return '';
-    if (role === 'admin' && type === 'update' && !isCreatedByCustomer) return '';
-    if (role === 'admin' && type === 'update' && isCreatedByCustomer) return 'disable';
+    if ((role === 'admin' || role === 'adminClinic') && type === 'update' && status === BookingStatusEnum.Pending)
+      return '';
     return 'disable';
   };
 

@@ -17,5 +17,7 @@
   "error.CONFIRM_PASSWORD_NOT_MATCH": "Confirmation password is incorrect",
   "error.OLD_PASSWORD_INCORRECT": "Password is incorrect",
   "validate.password.space": "Must not contain whitespace characters",
-  "error.MEDICINE_IS_REQUIRED": "Please select minimum 2 medicine"
+  "error.MEDICINE_IS_REQUIRED": "Please select minimum 2 medicine",
+  "error.INVALID_WORK_TIME_OF_CLINIC": "Out of working time",
+  "error.DUPLICATE_TIME": "Duplicate time"
 }
