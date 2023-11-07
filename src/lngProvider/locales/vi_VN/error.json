@@ -18,5 +18,6 @@
   "error.OLD_PASSWORD_INCORRECT": "Mật khẩu không chính xác",
   "error.MEDICINE_IS_REQUIRED": "Vui lòng chọn thuốc ít nhất 2 loại thuốc",
   "error.INVALID_WORK_TIME_OF_CLINIC": "Ngoài giờ làm việc của phòng khám",
-  "error.DUPLICATE_TIME": "Thời gian bị trùng"
+  "error.DUPLICATE_TIME": "Thời gian bị trùng",
+  "error.EXPIRED_TIME": "Thời gian đã hết hạn"
 }
