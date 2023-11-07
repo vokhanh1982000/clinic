@@ -62,6 +62,7 @@ const ListBooking = () => {
     {
       align: 'center',
       key: 'code',
+      width: '7%',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.code' }),
       render: (value: Booking) => <span className="font-size-14 font-family-primary color-1A1A1A">{value.order}</span>,
     },
@@ -69,6 +70,7 @@ const ListBooking = () => {
       align: 'left',
       key: 'clinic',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.clinic' }),
+      width: '25%',
       render: (value: Booking) => (
         <span
           className="font-size-14 font-family-primary color-1A1A1A cursor-pointer"
@@ -88,6 +90,7 @@ const ListBooking = () => {
       align: 'left',
       key: 'doctor',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.doctor' }),
+      width: '17%',
       render: (value: Booking) => (
         <span
           className="font-size-14 font-family-primary color-1A1A1A cursor-pointer"
@@ -103,6 +106,7 @@ const ListBooking = () => {
       align: 'left',
       key: 'patient',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.patient' }),
+      width: '17%',
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer?.fullName}</span>
       ),
@@ -111,6 +115,7 @@ const ListBooking = () => {
       align: 'left',
       key: 'time',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.time' }),
+      width: '17%',
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">
           {moment(value.appointmentStartTime || new Date()).format('HH:mm DD/MM/YYYY')}
@@ -121,6 +126,7 @@ const ListBooking = () => {
       align: 'left',
       key: 'status',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.status' }),
+      width: '17%',
       render: (value: Booking) => {
         const findStatus = NOTES.find((note) => note.status === value.status);
 
