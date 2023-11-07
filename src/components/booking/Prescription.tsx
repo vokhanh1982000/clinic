@@ -26,7 +26,6 @@ const Prescription = (props: PrescriptionProp) => {
   const [showSamplePrescriptionModal, setShowSamplePrescriptionModal] = useState<any>(false);
   const [selectedPrescriptionMedicine, setSelectedPrescriptionMedicine] = useState<PrescriptionMedicine>();
   const [prescriptionMedicine, setPrescriptionMedicine] = useState<PrescriptionMedicine[]>();
-  useEffect(() => {}, [selectedPrescriptionMedicine]);
 
   useEffect(() => {
     setPrescriptionMedicine(prescription?.prescriptionMedicine);
@@ -39,17 +38,18 @@ const Prescription = (props: PrescriptionProp) => {
       });
     }
   }, [prescriptionMedicine]);
-  const handleRemovePrescriptionMedicine = (id: string) => {
+  const handleRemovePrescriptionMedicine = (medicineId: string) => {
+    console.log(medicineId);
     if (setPrescription) {
       setPrescriptionMedicine((prevState) => {
         if (!prevState) {
           return;
         }
         const existingItemIndex: number | undefined = prevState?.findIndex(
-          (item: PrescriptionMedicine) => item.id === id
+          (item: PrescriptionMedicine) => item.medicineId === medicineId
         );
         if (existingItemIndex !== -1) {
-          return prevState.filter((item) => item.id !== id);
+          return prevState.filter((item) => item.medicineId !== medicineId);
         }
       });
     }
@@ -173,7 +173,7 @@ const Prescription = (props: PrescriptionProp) => {
                   {role === 'doctor' && !isDisable() && (
                     <span
                       className={'table-cell-guide__icon'}
-                      onClick={() => handleRemovePrescriptionMedicine(record.id)}
+                      onClick={() => handleRemovePrescriptionMedicine(record.medicineId)}
                     >
                       <IconSVG type="small-close" />
                     </span>
@@ -186,6 +186,7 @@ const Prescription = (props: PrescriptionProp) => {
       </div>
 
       <ProvideMedicineModal
+        role={'doctor'}
         type={'create'}
         visible={!!showProvideMedicineModalCreate}
         title={intl.formatMessage({ id: 'booking.provide-medicine.modal.create.title' })}
@@ -193,6 +194,7 @@ const Prescription = (props: PrescriptionProp) => {
         setPrescriptionMedicine={setPrescriptionMedicine}
       />
       <ProvideMedicineModal
+        role={'doctor'}
         type={'update'}
         visible={!!showProvideMedicineModalUpdate}
         prescriptionMedicine={showProvideMedicineModalUpdate}
