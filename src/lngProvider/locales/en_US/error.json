@@ -20,5 +20,6 @@
   "error.MEDICINE_IS_REQUIRED": "Please select minimum 2 medicine",
   "error.INVALID_WORK_TIME_OF_CLINIC": "Out of working time",
   "error.DUPLICATE_TIME": "Duplicate time",
-  "error.EXPIRED_TIME": "Expired time"
+  "error.EXPIRED_TIME": "Expired time",
+  "error.NO_DOCTOR_AVAILABLE": "There are no doctors available"
 }
