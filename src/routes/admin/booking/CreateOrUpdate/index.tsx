@@ -28,6 +28,9 @@ import { useAppDispatch } from '../../../../store';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
 import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { ActionUser } from '../../../../constants/enum';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -74,20 +77,12 @@ const CreateOrUpDateBooking = () => {
       return adminBookingApi.adminBookingControllerUpdate(id!, dto);
     },
     onSuccess: () => {
-      message.success(
-        intl.formatMessage({
-          id: 'booking.message.update.success',
-        })
-      );
+      CustomHandleSuccess(ActionUser.EDIT, intl);
       queryClient.invalidateQueries({ queryKey: ['adminBookingDetail'] });
       navigateBack();
     },
-    onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'booking.message.update.fail',
-        })
-      );
+    onError: (error: any): void => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 
@@ -103,12 +98,8 @@ const CreateOrUpDateBooking = () => {
       );
       navigateBack();
     },
-    onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'booking.message.create.fail',
-        })
-      );
+    onError: (error: any): void => {
+      CustomHandleError(error.response.data, intl);
     },
   });
 
@@ -145,11 +136,11 @@ const CreateOrUpDateBooking = () => {
     enabled: !!clinic?.id,
   });
 
-  const { data: checkCustomerData } = useQuery({
-    queryKey: ['checkCustomerData', { id }],
-    queryFn: () => customerApi.customerControllerGetByUserId(bookingData?.data.createdByUserId || ''),
-    enabled: !!id && !!bookingData?.data.createdByUserId,
-  });
+  // const { data: checkCustomerData } = useQuery({
+  //   queryKey: ['checkCustomerData', { id }],
+  //   queryFn: () => customerApi.customerControllerGetByUserId(bookingData?.data.createdByUserId || ''),
+  //   enabled: !!id && !!bookingData?.data.createdByUserId,
+  // });
 
   const statusClassName = (status: BookingStatusEnum) => {
     if (status === BookingStatusEnum.Approved) {
@@ -198,7 +189,7 @@ const CreateOrUpDateBooking = () => {
       appointmentStartTime: date.format(),
       id,
       appointmentEndTime: date.add(30, 'minute').format(),
-      doctorClinicId: doctorClinic?.id,
+      doctorClinicId: doctorClinic?.id ?? null,
       clinicId: clinic?.id,
       customerId: customer?.id,
     };
@@ -231,6 +222,8 @@ const CreateOrUpDateBooking = () => {
   const handleCancel = () => {
     if (id) {
       CancelBooking({ status: BookingStatusEnum.Cancelled });
+    } else {
+      navigateBack();
     }
   };
   const isDisableItemStatus = (item: BookingStatusEnum) => {
@@ -300,7 +293,6 @@ const CreateOrUpDateBooking = () => {
       >
         <div className={'left-container'}>
           <ClinicInfo
-            isCreatedByCustomer={!!checkCustomerData?.data.id}
             status={status}
             form={form}
             setDoctorClinic={setDoctorClinic}
@@ -311,7 +303,6 @@ const CreateOrUpDateBooking = () => {
             isSubmit={isSubmit}
           />
           <DoctorInfo
-            isCreatedByCustomer={!!checkCustomerData?.data.id}
             status={status}
             form={form}
             clinic={clinic}
@@ -321,7 +312,6 @@ const CreateOrUpDateBooking = () => {
             type={id ? 'update' : 'create'}
           />
           <CustomerInfo
-            isCreatedByCustomer={!!checkCustomerData?.data.id}
             status={status}
             customer={customer}
             form={form}
@@ -342,7 +332,6 @@ const CreateOrUpDateBooking = () => {
               pmTime={pmTime}
               date={date}
               setDate={setDate}
-              isCreatedByCustomer={!!checkCustomerData?.data.id}
             />
           </div>
           <div className={'action-area'}>
@@ -352,7 +341,6 @@ const CreateOrUpDateBooking = () => {
               type={id ? 'update' : 'create'}
               role={'admin'}
               onCancel={() => setShowModalCancel(true)}
-              isCreatedByCustomer={!!checkCustomerData?.data.id}
             />
           </div>
         </div>

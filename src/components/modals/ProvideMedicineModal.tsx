@@ -105,6 +105,9 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
       data = {} as PrescriptionMedicine;
     }
     const quantity = isNaN(value) ? null : Number(value);
+    if (!quantity || quantity > 1000000 || quantity < 1) {
+      setIsSubmit(true);
+    }
     setCurrentItem({ ...data, quantity } as PrescriptionMedicine);
   };
 
@@ -135,6 +138,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
   }, 500);
   const handleClose = () => {
     setCurrentItem(undefined);
+    setIsSubmit(false);
     onClose();
   };
 
@@ -192,10 +196,10 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
                 </Option>
               )}
             </CustomSearchSelect>
-            {isSubmit && (currentItem?.medicine.name.trim() === '' || !currentItem?.medicine.name) && (
+            {isSubmit && (currentItem?.medicine?.name?.trim() === '' || !currentItem?.medicine?.name) && (
               <span className="text-error">
                 {intl.formatMessage({
-                  id: 'new.create.error.content',
+                  id: 'validate.medicine.required',
                 })}
               </span>
             )}
@@ -205,13 +209,12 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
             label={intl.formatMessage({
               id: 'booking.provide-medicine.quantity',
             })}
-            rules={ValidateLibrary(intl).nameMedicine}
           >
             <CustomInput value={currentItem?.quantity ?? 0} onChange={(e) => handleChangeQuantity(e.target.value)} />
-            {isSubmit && (currentItem?.quantity === 0 || !currentItem?.quantity) && (
+            {isSubmit && (!currentItem?.quantity || currentItem?.quantity < 1 || currentItem?.quantity > 100000) && (
               <span className="text-error">
                 {intl.formatMessage({
-                  id: 'new.create.error.content',
+                  id: 'validate.medicine.quantity',
                 })}
               </span>
             )}
@@ -236,7 +239,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
             {isSubmit && (currentItem?.guide?.trim() === '' || !currentItem?.guide) && (
               <span className="text-error">
                 {intl.formatMessage({
-                  id: 'new.create.error.content',
+                  id: 'validate.medicine.guide.required',
                 })}
               </span>
             )}
