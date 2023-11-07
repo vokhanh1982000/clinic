@@ -20,7 +20,7 @@ export const ConfirmCancelModal = (props: ConfirmCancelModalProps) => {
         {intl.formatMessage({
           id: 'booking.modal-cancel.confirm-cancel',
         })}{' '}
-        {subName} <span className="name">{name}</span>?
+        <span className="text-lowercase">{subName}</span> <span className="name">{name}?</span>
       </div>
       <div className="action">
         <CustomButton className="button-cancel" onClick={onClose}>

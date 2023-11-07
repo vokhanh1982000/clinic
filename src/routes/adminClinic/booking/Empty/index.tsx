@@ -17,6 +17,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { useNavigate } from 'react-router-dom';
 import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 
 interface IFormData {
   keyword?: string;
@@ -39,6 +40,7 @@ const ListBookingEmpty = () => {
     | undefined;
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -69,6 +71,13 @@ const ListBookingEmpty = () => {
       message.error(intl.formatMessage({ id: 'common.common.deleteFail' }));
     },
   });
+
+  const handleDelete = () => {
+    if (isShowModalDelete && isShowModalDelete.id) {
+      DeleteBooking(isShowModalDelete.id);
+    }
+    setIsShowModalDelete(undefined);
+  };
 
   const columns: ColumnsType<Booking> = [
     {
@@ -154,7 +163,11 @@ const ListBookingEmpty = () => {
             <IconSVG type="edit" />
           </div>
           <span className="divider"></span>
-          <div className="cursor-pointer" onClick={() => DeleteBooking(value.id)}>
+          <div
+            className="cursor-pointer"
+            // onClick={() => DeleteBooking(value.id)}
+            onClick={() => setIsShowModalDelete({ id: value.id, name: value.order.toString() })}
+          >
             <IconSVG type="delete" />
           </div>
         </div>
@@ -276,6 +289,19 @@ const ListBookingEmpty = () => {
           />
         </Col>
       </Row>
+      <ConfirmDeleteModal
+        name={
+          isShowModalDelete && isShowModalDelete.name
+            ? intl.formatMessage({ id: 'common.code' }) + ' ' + isShowModalDelete.name
+            : ''
+        }
+        subName={intl.formatMessage({ id: 'timeline.schedule' })}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDelete}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
     </Card>
   );
 };
