@@ -10,6 +10,7 @@
   "common.setting.lightMode": "Light Mode",
   "common.cancel": "Cancel",
   "common.delete": "Delete",
+  "common.accept": "Accept",
   "common.active": "Active",
   "common.inactive": "Inactive",
   "common.user.active": "Active",
@@ -47,5 +48,6 @@
   "common.timeline.wednesday": "Wednesday",
   "common.timeline.thursday": "Thursday",
   "common.timeline.friday": "Friday",
-  "common.timeline.saturday": "Saturday"
+  "common.timeline.saturday": "Saturday",
+  "common.code": "code"
 }

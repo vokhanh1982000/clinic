@@ -50,7 +50,7 @@
         overflow: unset;
         text-overflow: unset;
         white-space: unset;
-        word-break: break-all;
+        word-break: break-word;
       }
     }
   }
@@ -546,4 +546,8 @@ select[multiple] {
   svg {
     cursor: no-drop !important;
   }
+}
+
+.text-lowercase {
+  text-transform: lowercase;
 }

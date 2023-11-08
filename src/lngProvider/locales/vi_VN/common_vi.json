@@ -10,6 +10,7 @@
   "common.setting.lightMode": "Light Mode",
   "common.cancel": "Hủy",
   "common.delete": "Xóa",
+  "common.accept": "Xác nhận",
   "common.active": "Hoạt động",
   "common.inactive": "Không hoạt động",
   "common.user.active": "Hoạt động",
@@ -48,5 +49,6 @@
   "common.timeline.thursday": "Thứ Năm",
   "common.timeline.friday": "Thứ Sáu",
   "common.timeline.saturday": "Thứ Bảy",
-  "common.deleteFail": "Xóa thất bại"
+  "common.deleteFail": "Xóa thất bại",
+  "common.code": "mã"
 }

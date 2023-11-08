@@ -338,7 +338,7 @@ const CreateOrUpDateBooking = () => {
           </div>
         </div>
         <ConfirmCancelModal
-          name={!id ? '' : `#${bookingData?.data.order}`}
+          name={!id ? '' : intl.formatMessage({ id: 'common.code' }) + ' ' + bookingData?.data.order}
           visible={showModalCancel}
           onSubmit={() => handleCancel()}
           onClose={() => setShowModalCancel(false)}
