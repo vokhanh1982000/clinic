@@ -30,7 +30,10 @@ import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
-import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../../../constants/route';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { ActionUser } from '../../../../constants/enum';
+import { CustomHandleError } from '../../../../components/response/error';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -47,10 +50,14 @@ const CreateOrUpDateBooking = () => {
   const [pmTime, setPmTime] = useState<any[]>();
   const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
   const [status, setStatus] = useState<BookingStatusEnum>();
+  const [isSubmit, setIsSubmit] = useState<boolean>();
+
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-
+  const routeScheduleId: string | null = searchParams.get('routeScheduleId');
+  const routeClinicId: string | null = searchParams.get('routeClinicId');
+  const routeEmpty: string | null = searchParams.get('routeEmpty');
   const { data: bookingData } = useQuery({
     queryKey: ['adminClinicBookingDetail', id],
     queryFn: () => {
@@ -60,9 +67,6 @@ const CreateOrUpDateBooking = () => {
   });
 
   const navigateBack = () => {
-    const routeScheduleId: string | null = searchParams.get('routeScheduleId');
-    const routeClinicId: string | null = searchParams.get('routeClinicId');
-    const routeEmpty: string | null = searchParams.get('routeEmpty');
     if (routeClinicId && routeScheduleId) {
       navigate(`${ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR}/${routeScheduleId}?clinicId=${routeClinicId}`);
     } else if (routeEmpty) {
@@ -92,20 +96,12 @@ const CreateOrUpDateBooking = () => {
       return adminClinicBookingApi.adminClinicBookingControllerUpdate(id!, dto);
     },
     onSuccess: () => {
-      message.success(
-        intl.formatMessage({
-          id: 'booking.message.update.success',
-        })
-      );
+      CustomHandleSuccess(ActionUser.EDIT, intl);
       queryClient.invalidateQueries({ queryKey: ['adminClinicBookingDetail'] });
       navigateBack();
     },
     onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'booking.message.update.fail',
-        })
-      );
+      CustomHandleError(ActionUser.EDIT, intl);
     },
   });
 
@@ -114,19 +110,11 @@ const CreateOrUpDateBooking = () => {
       return adminClinicBookingApi.adminClinicBookingControllerCreate(dto);
     },
     onSuccess: () => {
-      message.success(
-        intl.formatMessage({
-          id: 'booking.message.create.success',
-        })
-      );
+      CustomHandleSuccess(ActionUser.CREATE, intl);
       navigateBack();
     },
     onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'booking.message.create.fail',
-        })
-      );
+      CustomHandleError(ActionUser.CREATE, intl);
     },
   });
 
@@ -156,11 +144,7 @@ const CreateOrUpDateBooking = () => {
       navigateBack();
     },
     onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'booking.message.update.fail',
-        })
-      );
+      CustomHandleError(ActionUser.EDIT, intl);
     },
   });
 
@@ -202,6 +186,14 @@ const CreateOrUpDateBooking = () => {
       );
       return;
     }
+    if (!booking.customerId) {
+      message.error(
+        intl.formatMessage({
+          id: 'booking.doctor-clinic.missing',
+        })
+      );
+      return;
+    }
     UpdateBooking(booking);
   };
 
@@ -218,10 +210,10 @@ const CreateOrUpDateBooking = () => {
       status: BookingStatusEnum.Pending,
       prescription: undefined,
     };
-    // setIsSubmit(true);
-    // if (!booking.customerId || !booking.clinicId) {
-    //   return;
-    // }
+    setIsSubmit(true);
+    if (!booking.customerId || !booking.clinicId) {
+      return;
+    }
     CreateBooking(booking);
   };
 
@@ -229,7 +221,7 @@ const CreateOrUpDateBooking = () => {
     if (id) {
       CancelBooking({ status: BookingStatusEnum.Cancelled });
     }
-    navigate(-1);
+    navigateBack();
   };
   const isDisableItemStatus = (item: BookingStatusEnum) => {
     if (status === BookingStatusEnum.Pending) {
@@ -296,6 +288,7 @@ const CreateOrUpDateBooking = () => {
       >
         <div className={'left-container'}>
           <DoctorInfo
+            defaultDoctorClinicId={routeScheduleId}
             status={status}
             form={form}
             clinic={clinic}
@@ -311,8 +304,9 @@ const CreateOrUpDateBooking = () => {
             setCustomer={setCustomer}
             role={'adminClinic'}
             type={id ? 'update' : 'create'}
+            isSubmit={isSubmit}
           />
-          <Prescription prescription={prescription} />
+          <Prescription prescription={prescription} role={'adminClinic'} />
         </div>
         <div className={'right-container'}>
           <div className={'schedule-info-area'}>

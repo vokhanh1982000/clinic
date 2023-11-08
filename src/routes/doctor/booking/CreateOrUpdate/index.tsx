@@ -174,7 +174,12 @@ const CreateOrUpDateBooking = () => {
             status={status}
           />
           <Prescription
-            isPrescribed={!!bookingData?.data?.prescription?.id}
+            isPrescribed={
+              !!(
+                bookingData?.data?.prescription?.prescriptionMedicine?.length &&
+                bookingData?.data?.prescription?.prescriptionMedicine?.length > 0
+              )
+            }
             prescription={prescription}
             role={'doctor'}
             setPrescription={setPrescription}
@@ -192,7 +197,12 @@ const CreateOrUpDateBooking = () => {
               role={'doctor'}
               type={id ? 'update' : 'create'}
               status={status}
-              isPrescribed={!!bookingData?.data?.prescription?.id}
+              isPrescribed={
+                !!(
+                  bookingData?.data?.prescription?.prescriptionMedicine?.length &&
+                  bookingData?.data?.prescription?.prescriptionMedicine?.length > 0
+                )
+              }
             />
           </div>
         </div>
