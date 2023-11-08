@@ -186,7 +186,7 @@ const Prescription = (props: PrescriptionProp) => {
       </div>
 
       <ProvideMedicineModal
-        role={'doctor'}
+        role={role}
         type={'create'}
         visible={!!showProvideMedicineModalCreate}
         title={intl.formatMessage({ id: 'booking.provide-medicine.modal.create.title' })}
@@ -194,7 +194,7 @@ const Prescription = (props: PrescriptionProp) => {
         setPrescriptionMedicine={setPrescriptionMedicine}
       />
       <ProvideMedicineModal
-        role={'doctor'}
+        role={role}
         type={'update'}
         visible={!!showProvideMedicineModalUpdate}
         prescriptionMedicine={showProvideMedicineModalUpdate}

@@ -44,11 +44,10 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const { data: medicineData } = useQuery({
-    queryKey: ['medicineData', { fullTextSearch }],
+    queryKey: ['medicineData', { fullTextSearch, role }],
     queryFn: () => medicineApi.medicineControllerGetAllForDoctor(fullTextSearch),
     enabled: role === 'doctor',
   });
-  const handleSearch = () => {};
 
   const handleSave = () => {
     setIsSubmit(true);
