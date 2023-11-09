@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Form, message, Select } from 'antd';
+import { Card, Form, Select } from 'antd';
 import useIntl from '../../../../util/useIntl';
 import { IntlShape } from 'react-intl';
 import { Params, useNavigate, useParams } from 'react-router-dom';
@@ -27,6 +27,9 @@ import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { DOCTOR_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { CustomHandleError } from '../../../../components/response/error';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { ActionUser } from '../../../../constants/enum';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -55,20 +58,12 @@ const CreateOrUpDateBooking = () => {
       return doctorClinicBookingApi.doctorClinicBookingControllerUpdate(id!, dto);
     },
     onSuccess: () => {
-      message.success(
-        intl.formatMessage({
-          id: 'booking.message.update.success',
-        })
-      );
+      CustomHandleSuccess(ActionUser.CREATE, intl);
       queryClient.invalidateQueries({ queryKey: ['bookingDetail'] });
       navigate(DOCTOR_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
     },
-    onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'booking.message.update.fail',
-        })
-      );
+    onError: (error: any) => {
+      CustomHandleError(error?.response?.data, intl);
     },
   });
 

@@ -100,8 +100,8 @@ const CreateOrUpDateBooking = () => {
       queryClient.invalidateQueries({ queryKey: ['adminClinicBookingDetail'] });
       navigateBack();
     },
-    onError: () => {
-      CustomHandleError(ActionUser.EDIT, intl);
+    onError: (error: any) => {
+      CustomHandleError(error?.response?.data, intl);
     },
   });
 
@@ -113,8 +113,8 @@ const CreateOrUpDateBooking = () => {
       CustomHandleSuccess(ActionUser.CREATE, intl);
       navigateBack();
     },
-    onError: () => {
-      CustomHandleError(ActionUser.CREATE, intl);
+    onError: (error: any) => {
+      CustomHandleError(error?.response?.data, intl);
     },
   });
 
@@ -143,8 +143,8 @@ const CreateOrUpDateBooking = () => {
 
       navigateBack();
     },
-    onError: () => {
-      CustomHandleError(ActionUser.EDIT, intl);
+    onError: (error: any) => {
+      CustomHandleError(error?.response?.data, intl);
     },
   });
 
