@@ -1,6 +1,6 @@
 import { Col, Row, Switch } from 'antd';
 import dayjs from 'dayjs';
-import { FC } from 'react';
+import { FC, MutableRefObject } from 'react';
 import { EventProps } from 'react-big-calendar';
 import { useIntl } from 'react-intl';
 import {
@@ -18,14 +18,17 @@ interface TimelineMonthEventProps {
   eventProps: EventProps<TimelineEvent>;
   onChangeHoliday: (type: 'create' | 'delete', value?: string) => void;
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
+  isSwitchRef: MutableRefObject<boolean>;
 }
 
 const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
-  const { eventProps, onChangeHoliday, user } = props;
+  const { eventProps, onChangeHoliday, user, isSwitchRef } = props;
 
   const intl = useIntl();
 
   const handleChangeSwitch = (checked: boolean) => {
+    isSwitchRef.current = true;
+
     onChangeHoliday(
       !checked ? 'create' : 'delete',
       !checked ? dayjs(eventProps.event.resource?.day).toISOString() : eventProps.event.holiday?.id

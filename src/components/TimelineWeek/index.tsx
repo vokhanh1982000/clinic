@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Form, FormInstance, message } from 'antd';
 import dayjs from 'dayjs';
 import moment, { Moment } from 'moment';
-import { FC, SyntheticEvent, useEffect, useLayoutEffect, useState } from 'react';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import Timeline, {
   DateHeader,
   IntervalRenderer,
@@ -23,10 +23,10 @@ import {
   Administrator,
   AdministratorClinic,
   Booking,
+  BookingByMonthDto,
   BookingStatusEnum,
   Customer,
   DoctorClinic,
-  HolidaySchedule,
 } from '../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
@@ -36,7 +36,7 @@ interface TimelineWeekProps {
   form: FormInstance<IFormData>;
   listBookingWeek: Booking[];
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
-  listHolidayMonth: HolidaySchedule[];
+  listBookingMonth: BookingByMonthDto[];
   onRefetchWeek: () => void;
 }
 
@@ -53,7 +53,8 @@ const getAllDaysOfWeek = (date: Moment) => {
 };
 
 const TimelineWeek: FC<TimelineWeekProps> = (props) => {
-  const { form, listBookingWeek, user, listHolidayMonth, onRefetchWeek } = props;
+  const { form, listBookingWeek, user, listBookingMonth, onRefetchWeek } = props;
+
   const intl = useIntl();
   const time = Form.useWatch(n('time'), form);
 
@@ -61,47 +62,8 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
   const [groups, setGroups] = useState<TimelineGroupBase[]>([]);
   const [items, setItems] = useState<TimelineItemBase<Moment>[]>([]);
-  const [holidayMonth, setHolidayMonth] = useState<HolidaySchedule[]>([]);
 
   const { id } = useParams<{ id: string }>();
-
-  useLayoutEffect(() => {
-    let listHoliday: HolidaySchedule[] = [];
-
-    if (listHolidayMonth.length === 0) {
-      listHoliday.push({
-        date: '',
-        clinic: {
-          address: '',
-          phoneClinic: '',
-          status: false,
-          backgroundId: '',
-          introduce: '',
-          categories: [],
-          adminClinic: [],
-          doctorClinics: [],
-          medicines: [],
-          bookings: [],
-          id: '',
-          createdOnDate: '',
-          createdByUserId: '',
-          lastModifiedOnDate: '',
-          lastModifiedByUserId: '',
-          deletedAt: '',
-        },
-        id: 'empty',
-        createdOnDate: '',
-        createdByUserId: '',
-        lastModifiedOnDate: '',
-        lastModifiedByUserId: '',
-        deletedAt: '',
-      });
-    } else {
-      listHoliday = [...listHolidayMonth];
-    }
-
-    setHolidayMonth(listHoliday);
-  }, [listHolidayMonth]);
 
   useEffect(() => {
     if (listBookingWeek.length >= 0) {
@@ -398,11 +360,11 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
       classes.push('background-color-feefea');
     }
 
-    const findHoliday = holidayMonth.find((holiday) =>
-      dayjs(holiday.date).startOf('days').isSame(dayjs(group.id, SHORT_DATE_FORMAT).startOf('days'))
+    const booking = listBookingMonth.find((booking) =>
+      dayjs(booking.day).startOf('days').isSame(dayjs(group.id, SHORT_DATE_FORMAT).startOf('days'))
     );
 
-    if (findHoliday) {
+    if (!booking?.isWork) {
       classes.push('background-color-f2f2f2');
     }
 
@@ -411,7 +373,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
   return (
     <>
-      {groups.length > 0 && items.length > 0 && holidayMonth.length > 0 && (
+      {groups.length > 0 && items.length > 0 && listBookingMonth.length > 0 && (
         <Timeline
           groups={groups}
           items={items}
@@ -441,7 +403,6 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
           onItemResize={handleItemResize}
           onItemDoubleClick={handleItemDoubleClick}
           keys={timelineKeys}
-          key={Math.random()}
         >
           <TimelineHeaders className="timeline-custom-day-header">
             <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
