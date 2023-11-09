@@ -165,9 +165,9 @@
         &__list-item {
           display: grid;
           grid-template-rows: auto auto;
-          grid-template-columns: auto auto auto auto;
           gap: 4px;
           width: 100%;
+          grid-template-columns: repeat(auto-fill, 99px);
           &__item {
             width: 99px;
             height: 30px;

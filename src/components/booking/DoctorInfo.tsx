@@ -12,6 +12,7 @@ import CustomSearchSelect from '../input/CustomSearchSelect';
 import { debounce } from 'lodash';
 import IconSVG from '../icons/icons';
 import { useAppSelector } from '../../store';
+import list from '../../routes/doctor/prescription-teamplate/list';
 interface DoctorInfoProps {
   form: FormInstance;
   clinic?: Clinic;
@@ -20,14 +21,15 @@ interface DoctorInfoProps {
   role?: 'admin' | 'adminClinic' | 'doctor';
   type?: 'create' | 'update';
   status?: BookingStatusEnum;
+  defaultDoctorClinicId?: string | null;
 }
 const DoctorInfo = (props: DoctorInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { form, clinic, doctorClinic, setDoctorClinic, role, type, status }: DoctorInfoProps = props;
+  const { form, clinic, doctorClinic, setDoctorClinic, role, type, status, defaultDoctorClinicId }: DoctorInfoProps =
+    props;
   const [listDoctor, setListDoctor] = useState<DoctorClinic[]>();
   const [searchNameDoctor, setSearchNameDoctor] = useState<string>();
   const user: AdministratorClinic = useAppSelector((state) => state.auth).authUser as AdministratorClinic;
-
   const { data: listDoctorData } = useQuery({
     queryKey: ['listDoctor', { searchNameDoctor, clinic, user }],
     queryFn: () => {
@@ -45,7 +47,10 @@ const DoctorInfo = (props: DoctorInfoProps) => {
   }, 500);
   useEffect(() => {
     setListDoctor(listDoctorData?.data);
-  }, [listDoctorData]);
+    if (type === 'create' && defaultDoctorClinicId) {
+      setDoctorClinic(listDoctorData?.data.find((item) => item.id === defaultDoctorClinicId));
+    }
+  }, [listDoctorData, doctorClinic]);
 
   const isDisabled = () => {
     if ((role === 'adminClinic' || role === 'admin') && type === 'create') {

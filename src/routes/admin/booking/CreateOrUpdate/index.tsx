@@ -50,11 +50,10 @@ const CreateOrUpDateBooking = () => {
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-
+  const routeScheduleId: string | null = searchParams.get('routeScheduleId');
+  const routeClinicId: string | null = searchParams.get('routeClinicId');
+  const routeDate: string | null = searchParams.get('routeDate');
   const navigateBack = () => {
-    const routeScheduleId: string | null = searchParams.get('routeScheduleId');
-    const routeClinicId: string | null = searchParams.get('routeClinicId');
-    const routeDate: string | null = searchParams.get('routeDate');
     if (routeClinicId && routeScheduleId) {
       navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${routeScheduleId}?clinicId=${routeClinicId}`);
     } else if (routeClinicId && routeDate) {
@@ -301,6 +300,7 @@ const CreateOrUpDateBooking = () => {
       >
         <div className={'left-container'}>
           <ClinicInfo
+            defaultClinicId={routeClinicId}
             status={status}
             form={form}
             setDoctorClinic={setDoctorClinic}
@@ -311,6 +311,7 @@ const CreateOrUpDateBooking = () => {
             isSubmit={isSubmit}
           />
           <DoctorInfo
+            defaultDoctorClinicId={routeScheduleId}
             status={status}
             form={form}
             clinic={clinic}
