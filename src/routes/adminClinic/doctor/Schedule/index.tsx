@@ -37,7 +37,7 @@ const DoctorSchedule = () => {
     });
   }, []);
 
-  const { data: listBookingWeek } = useQuery({
+  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
     queryKey: ['adminClinicScheduleBookingWeek', time, mode],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByWeek(
@@ -60,13 +60,13 @@ const DoctorSchedule = () => {
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['adminClinicScheduleHolidayMonth', time, mode],
+    queryKey: ['adminClinicScheduleHolidayMonth', time, user, mode],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
         user.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time,
   });
 
   const { data: doctorClinicInformation } = useQuery({
@@ -80,12 +80,25 @@ const DoctorSchedule = () => {
     onRefetchHolidayMonth();
   };
 
+  const handleRefetchWeek = () => {
+    onRefetchBookingWeek();
+    onRefetchHolidayMonth();
+  };
+
   const renderTimeline = (mode?: TimelineMode) => {
     let currentScreen: ReactNode = null;
 
     switch (mode) {
       case TimelineMode.WEEK:
-        currentScreen = <TimelineWeek form={form} listBookingWeek={listBookingWeek?.data || []} user={user} />;
+        currentScreen = (
+          <TimelineWeek
+            form={form}
+            listBookingWeek={listBookingWeek?.data || []}
+            listHolidayMonth={listHolidayMonth?.data || []}
+            user={user}
+            onRefetchWeek={handleRefetchWeek}
+          />
+        );
         break;
       case TimelineMode.MONTH:
         currentScreen = (
@@ -128,8 +141,8 @@ const DoctorSchedule = () => {
               >
                 {doctorClinicInformation?.data.avatar && !isImageError ? (
                   <Image
-                    width={40}
-                    height={40}
+                    width={52}
+                    height={52}
                     src={process.env.REACT_APP_URL_IMG_S3 + doctorClinicInformation?.data.avatar.preview}
                     alt={doctorClinicInformation?.data.fullName || ''}
                     onError={handleErrorImage}

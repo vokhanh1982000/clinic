@@ -107,7 +107,7 @@ const ListBookingEmpty = () => {
       key: 'phoneNumber',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.phoneNumber' }),
       render: (value: Booking) => (
-        <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer.phoneNumber}</span>
+        <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer?.phoneNumber}</span>
       ),
     },
     {
@@ -116,7 +116,7 @@ const ListBookingEmpty = () => {
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.gender' }),
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">
-          {value.customer.gender && intl.formatMessage({ id: `common.gender.${value.customer.gender}` })}
+          {value.customer?.gender && intl.formatMessage({ id: `common.gender.${value.customer.gender}` })}
         </span>
       ),
     },
@@ -211,7 +211,7 @@ const ListBookingEmpty = () => {
       return;
     }
 
-    if (value.length === 2 && value.length < allStatus.length && value.includes('all')) {
+    if (value.length >= 2 && value.length < allStatus.length && value.includes('all')) {
       form.setFieldValue(
         n('status'),
         value.filter((item) => item !== 'all')
@@ -247,6 +247,7 @@ const ListBookingEmpty = () => {
                 className="height-48 timeline-custom-range-picker"
                 format={SHORT_DATE_FORMAT}
                 inputReadOnly
+                onChange={() => setFilter((prev) => ({ ...prev, page: 1 }))}
               />
             </Form.Item>
             <Form.Item name={n('status')} className="m-b-0">
