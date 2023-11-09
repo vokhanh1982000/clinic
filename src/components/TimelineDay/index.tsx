@@ -11,6 +11,7 @@ import Timeline, {
   TimelineGroupBase,
   TimelineHeaders,
   TimelineItemBase,
+  TimelineKeys,
 } from 'react-calendar-timeline';
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useInView } from 'react-intersection-observer';
@@ -32,7 +33,7 @@ import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../constants/route
 import { useAppDispatch } from '../../store';
 import { updateClinic } from '../../store/clinicSlice';
 import { TIME_FORMAT } from '../../util/constant';
-import { IFilter, IFormData, NOTES, n } from '../TimelineControl/constants';
+import { IFilter, IFormData, NOTES, n, timelineKeys } from '../TimelineControl/constants';
 import SidebarHeaderContent from './SidebarHeaderContent';
 
 interface TimelineDayProps {
@@ -165,7 +166,8 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
           canResize: booking.status === BookingStatusEnum.Pending ? true : false,
           canMove: booking.status === BookingStatusEnum.Pending ? true : false,
           canChangeGroup: booking.status === BookingStatusEnum.Pending ? true : false,
-        };
+          divTitle: booking.customer.fullName,
+        } as TimelineItemBase<Moment>;
 
         items.push(item);
       }
@@ -399,6 +401,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
           canChangeGroup={true}
           canMove={true}
           onItemDoubleClick={handleItemDoubleClick}
+          keys={timelineKeys}
         >
           <TimelineHeaders className="timeline-custom-day-header">
             <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>

@@ -39,7 +39,7 @@ const DoctorSchedule = () => {
     });
   }, []);
 
-  const { data: listBookingWeek } = useQuery({
+  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
     queryKey: ['adminScheduleBookingWeek', time, mode],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetBookingByWeek(
@@ -64,13 +64,13 @@ const DoctorSchedule = () => {
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['adminScheduleHolidayMonth', time, mode],
+    queryKey: ['adminScheduleHolidayMonth', time, mode, params.clinicId],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
         params.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && mode === TimelineMode.MONTH && !!params.clinicId,
+    enabled: !!time && !!params.clinicId,
   });
 
   const { data: doctorClinicInformation } = useQuery({
@@ -84,12 +84,25 @@ const DoctorSchedule = () => {
     onRefetchHolidayMonth();
   };
 
+  const handleRefetchWeek = () => {
+    onRefetchHolidayMonth();
+    onRefetchBookingWeek();
+  };
+
   const renderTimeline = (mode?: TimelineMode) => {
     let currentScreen: ReactNode = null;
 
     switch (mode) {
       case TimelineMode.WEEK:
-        currentScreen = <TimelineWeek form={form} listBookingWeek={listBookingWeek?.data || []} user={user} />;
+        currentScreen = (
+          <TimelineWeek
+            form={form}
+            listBookingWeek={listBookingWeek?.data || []}
+            listHolidayMonth={listHolidayMonth?.data || []}
+            user={user}
+            onRefetchWeek={handleRefetchWeek}
+          />
+        );
         break;
       case TimelineMode.MONTH:
         currentScreen = (

@@ -139,7 +139,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
         background: isCurrentMonth
           ? isCurrentDate
             ? 'rgba(238, 88, 36, 0.10)'
-            : findHoliday
+            : !findHoliday
             ? '#ffffff'
             : '#F2F2F2'
           : '#e6e6e6',
@@ -176,6 +176,23 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
     });
   };
 
+  const handleSelectEvent = (event: TimelineEvent) => {
+    const findHoliday = listHolidayMonth.find((holiday) =>
+      dayjs(holiday.date).startOf('days').isSame(dayjs(event.start).startOf('days'))
+    );
+
+    if (findHoliday) return;
+
+    form.setFieldsValue({
+      [n('mode')]:
+        user?.user?.type === 'doctor_clinic' ||
+        scheduleDoctorRoutes.includes(location.pathname.slice(0, location.pathname.lastIndexOf('/')))
+          ? TimelineMode.WEEK
+          : TimelineMode.DATE,
+      [n('time')]: dayjs(event.start).set('hour', dayjs(new Date()).hour()).set('minute', dayjs(new Date()).minute()),
+    });
+  };
+
   return (
     <>
       <Calendar
@@ -194,6 +211,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
         drilldownView={null}
         selectable
         onSelectSlot={handleSelectSlot}
+        onSelectEvent={handleSelectEvent}
       />
     </>
   );

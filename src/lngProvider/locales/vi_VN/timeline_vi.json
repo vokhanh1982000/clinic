@@ -35,6 +35,8 @@
   "timeline.updateBooking.error.DOCTOR_HAS_ANOTHER_BOOKING": "Bác sĩ đã có lịch khám!",
   "timeline.updateBooking.error.NO_DOCTOR_AVAILABLE": "Bác sĩ không hợp lệ!",
   "timeline.updateBooking.error.EXPIRED_TIME": "Thời gian không hợp lệ!",
+  "timeline.updateBooking.error.EXPIRED_DATE": "Thời gian không hợp lệ!",
+  "timeline.updateBooking.error.EXISTING_BOOKING": "Ngày làm việc đã có lịch khám!",
   "timeline.updateBooking.error.NOT_FOUND_BOOKING": "Không tìm thấy lịch khám!",
   "timeline.updateBooking.error.EXPIRED": "Lịch khám đã hết hạn!",
   "timeline.updateBooking.error.NOT_AVAILABLE": "Lịch khám không hợp lệ!",
