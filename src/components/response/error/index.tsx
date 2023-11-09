@@ -9,6 +9,7 @@ export function CustomHandleError(error: any, intl: IntlShape) {
   } else if (error.statusCode === 401) {
     message.error(intl.formatMessage({ id: 'error.401' }));
   } else {
+    console.log(error);
     const errorMessage = (error.message || '').replace(/\s/g, '_').toUpperCase();
     if (errorMessage) {
       message.error(intl.formatMessage({ id: `error.${errorMessage}` }));

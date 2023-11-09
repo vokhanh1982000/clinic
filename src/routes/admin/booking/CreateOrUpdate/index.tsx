@@ -114,12 +114,8 @@ const CreateOrUpDateBooking = () => {
       setShowModalCancel(false);
       navigateBack();
     },
-    onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'booking.message.update.fail',
-        })
-      );
+    onError: (error: any) => {
+      CustomHandleError(error?.response?.data, intl);
     },
   });
 
