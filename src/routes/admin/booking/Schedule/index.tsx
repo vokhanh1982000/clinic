@@ -60,17 +60,17 @@ const DoctorSchedule = () => {
         params.clinicId,
         id
       ),
-    enabled: !!time && mode === TimelineMode.MONTH && !!params.clinicId,
+    enabled: !!time && !!params.clinicId,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['adminScheduleHolidayMonth', time, mode, params.clinicId],
+    queryKey: ['adminScheduleHolidayMonth', time, mode],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
         params.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && !!params.clinicId,
+    enabled: !!time && !!params.clinicId && mode === TimelineMode.MONTH,
   });
 
   const { data: doctorClinicInformation } = useQuery({
@@ -98,7 +98,7 @@ const DoctorSchedule = () => {
           <TimelineWeek
             form={form}
             listBookingWeek={listBookingWeek?.data || []}
-            listHolidayMonth={listHolidayMonth?.data || []}
+            listBookingMonth={listBookingMonth?.data || []}
             user={user}
             onRefetchWeek={handleRefetchWeek}
           />
@@ -145,8 +145,8 @@ const DoctorSchedule = () => {
               >
                 {doctorClinicInformation?.data.avatar && !isImageError ? (
                   <Image
-                    width={40}
-                    height={40}
+                    width={52}
+                    height={52}
                     src={process.env.REACT_APP_URL_IMG_S3 + doctorClinicInformation?.data.avatar.preview}
                     alt={doctorClinicInformation?.data.fullName || ''}
                     onError={handleErrorImage}

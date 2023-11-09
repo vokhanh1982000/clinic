@@ -45,7 +45,7 @@ const ListBooking = () => {
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
-    queryKey: ['adminClinicGetDoctorClinic', filter, keyword],
+    queryKey: ['adminClinicGetDoctorClinic', filter],
     queryFn: () =>
       doctorClinicApi.doctorClinicControllerGetAll(
         filter.page,

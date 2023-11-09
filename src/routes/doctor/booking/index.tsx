@@ -52,17 +52,17 @@ const ListBooking = () => {
         dayjs(time).format(DATE_TIME_FORMAT),
         keyword
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['doctorClinicHolidayMonth', time, mode, user],
+    queryKey: ['doctorClinicHolidayMonth', time, mode],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
         user.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time,
+    enabled: !!time && mode === TimelineMode.MONTH,
   });
 
   const handleRefetchMonth = () => {
@@ -84,7 +84,7 @@ const ListBooking = () => {
           <TimelineWeek
             form={form}
             listBookingWeek={listBookingWeek?.data || []}
-            listHolidayMonth={listHolidayMonth?.data || []}
+            listBookingMonth={listBookingMonth?.data || []}
             user={user}
             onRefetchWeek={handleRefetchWeek}
           />

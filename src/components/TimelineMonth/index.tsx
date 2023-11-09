@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Form, FormInstance, Spin, message } from 'antd';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
-import { FC, HTMLAttributes, useEffect, useMemo, useState } from 'react';
+import { FC, HTMLAttributes, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Calendar,
   CalendarProps,
@@ -14,6 +14,8 @@ import {
   dayjsLocalizer,
 } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { holidayScheduleApi } from '../../apis';
 import {
   Administrator,
@@ -24,11 +26,9 @@ import {
   DoctorClinic,
   HolidaySchedule,
 } from '../../apis/client-axios';
+import { scheduleDoctorRoutes } from '../TimelineControl';
 import { IFormData, TimelineMode, n } from '../TimelineControl/constants';
 import TimelineMonthEvent from './Event';
-import { useIntl } from 'react-intl';
-import { useLocation } from 'react-router-dom';
-import { scheduleDoctorRoutes } from '../TimelineControl';
 
 interface TimelineMonthProps {
   form: FormInstance<IFormData>;
@@ -53,6 +53,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
   const [events, setEvents] = useState<TimelineEvent[]>([]);
 
   const location = useLocation();
+  const isSwitchRef = useRef<boolean>(false);
 
   const { formats, view, localizer } = useMemo<CalendarProps<TimelineEvent>>(
     () => ({
@@ -102,6 +103,9 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
             : response?.data?.message
         );
       },
+      onSettled: () => {
+        isSwitchRef.current = false;
+      },
     }
   );
 
@@ -116,19 +120,27 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
           : response?.data?.message
       );
     },
+    onSettled: () => {
+      isSwitchRef.current = false;
+    },
   });
 
   const renderEvent = (props: EventProps<TimelineEvent>) => {
     return createHolidayMutation.isLoading || deleteHolidayMutation.isLoading ? (
       <Spin />
     ) : (
-      <TimelineMonthEvent eventProps={props} onChangeHoliday={handleChangeHoliday} user={user} />
+      <TimelineMonthEvent
+        eventProps={props}
+        onChangeHoliday={handleChangeHoliday}
+        user={user}
+        isSwitchRef={isSwitchRef}
+      />
     );
   };
 
   const renderDayPropGetter = (date: Date): HTMLAttributes<HTMLDivElement> => {
-    const findHoliday = listHolidayMonth.find((holiday) =>
-      dayjs(holiday.date).startOf('days').isSame(dayjs(date).startOf('days'))
+    const booking = listBookingMonth.find((booking) =>
+      dayjs(booking.day).startOf('days').isSame(dayjs(date).startOf('days'))
     );
 
     const isCurrentMonth = dayjs(time).startOf('days').isSame(dayjs(date).startOf('days'), 'month');
@@ -139,7 +151,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
         background: isCurrentMonth
           ? isCurrentDate
             ? 'rgba(238, 88, 36, 0.10)'
-            : !findHoliday
+            : booking?.isWork
             ? '#ffffff'
             : '#F2F2F2'
           : '#e6e6e6',
@@ -158,11 +170,11 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
   };
 
   const handleSelectSlot = (slotInfo: SlotInfo) => {
-    const findHoliday = listHolidayMonth.find((holiday) =>
-      dayjs(holiday.date).startOf('days').isSame(dayjs(slotInfo.start).startOf('days'))
+    const booking = listBookingMonth.find((booking) =>
+      dayjs(booking.day).startOf('days').isSame(dayjs(slotInfo.start).startOf('days'))
     );
 
-    if (findHoliday) return;
+    if (!booking?.isWork) return;
 
     form.setFieldsValue({
       [n('mode')]:
@@ -177,11 +189,13 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
   };
 
   const handleSelectEvent = (event: TimelineEvent) => {
-    const findHoliday = listHolidayMonth.find((holiday) =>
-      dayjs(holiday.date).startOf('days').isSame(dayjs(event.start).startOf('days'))
+    if (isSwitchRef.current) return;
+
+    const booking = listBookingMonth.find((booking) =>
+      dayjs(booking.day).startOf('days').isSame(dayjs(event.start).startOf('days'))
     );
 
-    if (findHoliday) return;
+    if (!booking?.isWork) return;
 
     form.setFieldsValue({
       [n('mode')]:
