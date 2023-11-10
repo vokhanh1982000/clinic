@@ -10,7 +10,7 @@ import CustomButton from '../buttons/CustomButton';
 import CustomSearchSelect from '../input/CustomSearchSelect';
 import { DoctorClinic, Medicine, PrescriptionMedicine } from '../../apis/client-axios';
 import { useQuery } from '@tanstack/react-query';
-import { medicineApi } from '../../apis';
+import { adminMedicineApi, medicineApi } from '../../apis';
 import { useAppSelector } from '../../store';
 import { debounce } from 'lodash';
 import { Option } from 'antd/es/mentions';
@@ -45,8 +45,15 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
 
   const { data: medicineData } = useQuery({
     queryKey: ['medicineData', { fullTextSearch, role }],
-    queryFn: () => medicineApi.medicineControllerGetAllForDoctor(fullTextSearch),
-    enabled: role === 'doctor',
+    queryFn: () => {
+      if (role === 'admin') {
+        return adminMedicineApi.medicineAdminControllerGetAllMedicineAdmin(fullTextSearch);
+      }
+      if (role === 'doctor') {
+        return medicineApi.medicineControllerGetAllForDoctor(fullTextSearch);
+      }
+    },
+    enabled: role === 'doctor' || role === 'admin',
   });
 
   const handleSave = () => {

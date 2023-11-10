@@ -88,6 +88,7 @@ const CreateOrUpDateBooking = () => {
       clinicId: user.clinicId,
       id,
     };
+    console.log(booking, 'xu');
     UpdateBooking(booking);
   };
 

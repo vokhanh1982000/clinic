@@ -19,6 +19,7 @@ import {
   Clinic,
   Customer,
   DoctorClinic,
+  Prescription as PrescriptionType,
   UpdateStatusBookingDto,
 } from '../../../../apis/client-axios';
 import dayjs from 'dayjs';
@@ -31,6 +32,7 @@ import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { CustomHandleSuccess } from '../../../../components/response/success';
 import { ActionUser } from '../../../../constants/enum';
 import { CustomHandleError } from '../../../../components/response/error';
+import Prescription from '../../../../components/booking/Prescription';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -47,6 +49,8 @@ const CreateOrUpDateBooking = () => {
   const [pmTime, setPmTime] = useState<any[]>();
   const dispatch = useAppDispatch();
   const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
+  const [prescription, setPrescription] = useState<PrescriptionType>();
+
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
   const [searchParams] = useSearchParams();
@@ -158,6 +162,7 @@ const CreateOrUpDateBooking = () => {
     setDoctorClinic(data?.doctorClinic);
     setCustomer(data?.customer);
     setClinic(data?.clinic);
+    setPrescription(data?.prescription);
     if (bookingData?.data.status) {
       setStatus(bookingData?.data.status);
       setCurrentStatus(bookingData.data.status);
@@ -181,6 +186,10 @@ const CreateOrUpDateBooking = () => {
     const data = form.getFieldsValue();
     const booking: AdminUpdateBookingDto = {
       ...data,
+      prescription: {
+        ...prescription,
+        diagnosticResults: data.prescription.diagnosticResults,
+      },
       appointmentStartTime: date.format(),
       id,
       appointmentEndTime: date.add(30, 'minute').format(),
@@ -325,6 +334,21 @@ const CreateOrUpDateBooking = () => {
             type={id ? 'update' : 'create'}
             isSubmit={isSubmit}
           />
+          {id && (
+            <Prescription
+              isPrescribed={
+                !!(
+                  bookingData?.data?.prescription?.prescriptionMedicine?.length &&
+                  bookingData?.data?.prescription?.prescriptionMedicine?.length > 0
+                )
+              }
+              prescription={prescription}
+              role={'admin'}
+              setPrescription={setPrescription}
+              type={'update'}
+              status={status}
+            />
+          )}
         </div>
         <div className={'right-container'}>
           <div className={'schedule-info-area'}>
