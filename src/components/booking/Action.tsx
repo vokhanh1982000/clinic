@@ -30,7 +30,12 @@ const Action = (props: ActionProp) => {
     if ((role === 'adminClinic' || role === 'admin') && type === 'create') {
       return false;
     }
-    if (role === 'doctor' && type === 'update' && status === BookingStatusEnum.Completed && !isPrescribed) {
+    if (
+      (role === 'doctor' || role === 'admin') &&
+      type === 'update' &&
+      status === BookingStatusEnum.Completed &&
+      !isPrescribed
+    ) {
       return false;
     }
     return !(type === 'update' && (status === BookingStatusEnum.Pending || status === BookingStatusEnum.Approved));

@@ -69,8 +69,9 @@ const Prescription = (props: PrescriptionProp) => {
           </div>
           <div className="line-title"></div>
         </div>
-        {role === 'doctor' && (
-          <div className={'prescription__header__action'}>
+
+        <div className={'prescription__header__action'}>
+          {role === 'doctor' && (
             <CustomButton
               className={'button-sample-prescription'}
               onClick={() => setShowSamplePrescriptionModal(true)}
@@ -81,6 +82,8 @@ const Prescription = (props: PrescriptionProp) => {
               </span>
               {intl.formatMessage({ id: 'booking.button.sample-prescription' })}
             </CustomButton>
+          )}
+          {(role === 'doctor' || role === 'admin') && (
             <CustomButton
               className={'button-provide-medicine'}
               onClick={() => setShowProvideMedicineModalCreate(true)}
@@ -91,8 +94,8 @@ const Prescription = (props: PrescriptionProp) => {
               </span>
               {intl.formatMessage({ id: 'booking.button.provide-medicine' })}
             </CustomButton>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <div className={'prescription__content'}>
         <div className={'prescription__content__rows'}>
@@ -143,7 +146,7 @@ const Prescription = (props: PrescriptionProp) => {
               })}
               render={(_, record: PrescriptionMedicine) => (
                 <>
-                  {role === 'doctor' && !isDisable() ? (
+                  {(role === 'doctor' || role === 'admin') && !isDisable() ? (
                     <div className={'table-cell-name'} onClick={() => setShowProvideMedicineModalUpdate(record)}>
                       {record.medicine?.name}
                     </div>
@@ -170,7 +173,7 @@ const Prescription = (props: PrescriptionProp) => {
               render={(_, record: PrescriptionMedicine) => (
                 <div className="table-cell-guide">
                   <span>{record.guide}</span>
-                  {role === 'doctor' && !isDisable() && (
+                  {(role === 'doctor' || role === 'admin') && !isDisable() && (
                     <span
                       className={'table-cell-guide__icon'}
                       onClick={() => handleRemovePrescriptionMedicine(record.medicineId)}
