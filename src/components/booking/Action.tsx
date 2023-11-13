@@ -11,9 +11,10 @@ interface ActionProp {
   type?: 'update' | 'create';
   onCancel?: () => void;
   status?: BookingStatusEnum;
+  isPrescribed?: boolean;
 }
 const Action = (props: ActionProp) => {
-  const { form, role, type, onCancel, status }: ActionProp = props;
+  const { form, role, type, onCancel, status, isPrescribed }: ActionProp = props;
   const intl: IntlShape = useIntl();
 
   const className = (): string => {
@@ -29,7 +30,12 @@ const Action = (props: ActionProp) => {
     if ((role === 'adminClinic' || role === 'admin') && type === 'create') {
       return false;
     }
-    if (role === 'doctor' && type === 'update' && status === BookingStatusEnum.Completed) {
+    if (
+      (role === 'doctor' || role === 'admin') &&
+      type === 'update' &&
+      status === BookingStatusEnum.Completed &&
+      !isPrescribed
+    ) {
       return false;
     }
     return !(type === 'update' && (status === BookingStatusEnum.Pending || status === BookingStatusEnum.Approved));

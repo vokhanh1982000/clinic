@@ -10,12 +10,13 @@ import CustomButton from '../buttons/CustomButton';
 import CustomSearchSelect from '../input/CustomSearchSelect';
 import { DoctorClinic, Medicine, PrescriptionMedicine } from '../../apis/client-axios';
 import { useQuery } from '@tanstack/react-query';
-import { medicineApi } from '../../apis';
+import { adminMedicineApi, medicineApi } from '../../apis';
 import { useAppSelector } from '../../store';
 import { debounce } from 'lodash';
 import { Option } from 'antd/es/mentions';
 
 interface ProvideMedicineModal {
+  role?: 'admin' | 'adminClinic' | 'doctor';
   type: 'create' | 'update';
   visible: boolean;
   title: string;
@@ -33,6 +34,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
     type,
     setPrescriptionMedicine,
     handleRemovePrescriptionMedicine,
+    role,
   }: ProvideMedicineModal = props;
   const intl: IntlShape = useIntl();
   const user: DoctorClinic = useAppSelector((state) => state.auth).authUser as DoctorClinic;
@@ -42,11 +44,17 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const { data: medicineData } = useQuery({
-    queryKey: ['medicineData', { fullTextSearch }],
-    queryFn: () => medicineApi.medicineControllerGetAllForDoctor(fullTextSearch),
-    // enabled: !!fullTextSearch,
+    queryKey: ['medicineData', { fullTextSearch, role }],
+    queryFn: () => {
+      if (role === 'admin') {
+        return adminMedicineApi.medicineAdminControllerGetAllMedicineAdmin(fullTextSearch);
+      }
+      if (role === 'doctor') {
+        return medicineApi.medicineControllerGetAllForDoctor(fullTextSearch);
+      }
+    },
+    enabled: role === 'doctor' || role === 'admin',
   });
-  const handleSearch = () => {};
 
   const handleSave = () => {
     setIsSubmit(true);
@@ -73,7 +81,6 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
       const existingItemIndex = prevItems.findIndex(
         (item: PrescriptionMedicine) => item.medicineId === currentItem?.medicineId
       );
-
       if (existingItemIndex !== -1) {
         const updatedItems = [...prevItems];
         updatedItems[existingItemIndex] = {
@@ -89,8 +96,6 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
     setCurrentItem(undefined);
     onClose();
   };
-
-  useEffect(() => {}, [currentItem]);
 
   useEffect(() => {
     setCurrentItem(prescriptionMedicine);
@@ -121,6 +126,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
   };
 
   const handleChangeMedicine = (value: any, option: any) => {
+    console.log();
     // if (type === 'update' && setCurrentItem) {
     setCurrentItem({
       ...currentItem,
@@ -268,7 +274,7 @@ const ProvideMedicineModal = (props: ProvideMedicineModal) => {
                   id: 'booking.provide-medicine.modal.button.save',
                 })}
               </CustomButton>
-              <CustomButton className="button-delete" onClick={() => handleDelete(currentItem?.id)}>
+              <CustomButton className="button-delete" onClick={() => handleDelete(currentItem?.medicineId)}>
                 {intl.formatMessage({
                   id: 'booking.provide-medicine.modal.button.delete',
                 })}

@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, Col, DatePicker, Form, Input, message, Row } from 'antd';
+import { Card, Col, DatePicker, Form, Input, Row, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import dayjs, { Dayjs } from 'dayjs';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
 import { adminClinicBookingApi } from '../../../../apis';
 import { Booking } from '../../../../apis/client-axios';
 import FormWrap from '../../../../components/FormWrap';
@@ -12,12 +14,10 @@ import TableWrap from '../../../../components/TableWrap';
 import { IFilter, NOTES } from '../../../../components/TimelineControl/constants';
 import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
-import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../../util/constant';
-import dayjs, { Dayjs } from 'dayjs';
-import CustomSelect from '../../../../components/select/CustomSelect';
-import { useNavigate } from 'react-router-dom';
-import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import CustomSelect from '../../../../components/select/CustomSelect';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../../util/constant';
 
 interface IFormData {
   keyword?: string;
@@ -107,7 +107,7 @@ const ListBookingEmpty = () => {
       key: 'phoneNumber',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.phoneNumber' }),
       render: (value: Booking) => (
-        <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer.phoneNumber}</span>
+        <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer?.phoneNumber}</span>
       ),
     },
     {
@@ -116,7 +116,7 @@ const ListBookingEmpty = () => {
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.gender' }),
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">
-          {value.customer.gender && intl.formatMessage({ id: `common.gender.${value.customer.gender}` })}
+          {value.customer?.gender && intl.formatMessage({ id: `common.gender.${value.customer.gender}` })}
         </span>
       ),
     },
@@ -198,26 +198,23 @@ const ListBookingEmpty = () => {
     setFilter((prev) => ({ ...prev, page: 1 }));
   };
 
-  const handleChangeStatus = (value: string[]) => {
+  const handleSelectStatus = (value: string) => {
     setFilter((prev) => ({ ...prev, page: 1 }));
 
     const allStatus = NOTES.filter((_, index) => index < NOTES.length - 1);
+    const status = form.getFieldValue(n('status')) as string[];
 
-    if (
-      (value.length === allStatus.length && !value.includes('all')) ||
-      (value.includes('all') && value.length !== 2)
-    ) {
-      form.setFieldValue(n('status'), ['all']);
-      return;
-    }
-
-    if (value.length === 2 && value.length < allStatus.length && value.includes('all')) {
+    if (status.includes('all') && value !== 'all') {
       form.setFieldValue(
         n('status'),
-        value.filter((item) => item !== 'all')
+        status.filter((item) => item !== 'all')
       );
 
       return;
+    }
+
+    if ((status.length === allStatus.length && value !== 'all') || value === 'all') {
+      form.setFieldValue(n('status'), ['all']);
     }
   };
 
@@ -247,6 +244,7 @@ const ListBookingEmpty = () => {
                 className="height-48 timeline-custom-range-picker"
                 format={SHORT_DATE_FORMAT}
                 inputReadOnly
+                onChange={() => setFilter((prev) => ({ ...prev, page: 1 }))}
               />
             </Form.Item>
             <Form.Item name={n('status')} className="m-b-0">
@@ -269,7 +267,7 @@ const ListBookingEmpty = () => {
                 ]}
                 className="width-184 height-48 timeline-custom-select"
                 allowClear
-                onChange={handleChangeStatus}
+                onSelect={handleSelectStatus}
               />
             </Form.Item>
           </FormWrap>

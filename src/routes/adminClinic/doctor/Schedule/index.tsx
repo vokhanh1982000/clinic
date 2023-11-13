@@ -37,7 +37,7 @@ const DoctorSchedule = () => {
     });
   }, []);
 
-  const { data: listBookingWeek } = useQuery({
+  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
     queryKey: ['adminClinicScheduleBookingWeek', time, mode],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByWeek(
@@ -56,7 +56,7 @@ const DoctorSchedule = () => {
         undefined,
         id
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time,
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
@@ -80,12 +80,25 @@ const DoctorSchedule = () => {
     onRefetchHolidayMonth();
   };
 
+  const handleRefetchWeek = () => {
+    onRefetchBookingWeek();
+    onRefetchHolidayMonth();
+  };
+
   const renderTimeline = (mode?: TimelineMode) => {
     let currentScreen: ReactNode = null;
 
     switch (mode) {
       case TimelineMode.WEEK:
-        currentScreen = <TimelineWeek form={form} listBookingWeek={listBookingWeek?.data || []} user={user} />;
+        currentScreen = (
+          <TimelineWeek
+            form={form}
+            listBookingWeek={listBookingWeek?.data || []}
+            listBookingMonth={listBookingMonth?.data || []}
+            user={user}
+            onRefetchWeek={handleRefetchWeek}
+          />
+        );
         break;
       case TimelineMode.MONTH:
         currentScreen = (
@@ -128,8 +141,8 @@ const DoctorSchedule = () => {
               >
                 {doctorClinicInformation?.data.avatar && !isImageError ? (
                   <Image
-                    width={40}
-                    height={40}
+                    width={52}
+                    height={52}
                     src={process.env.REACT_APP_URL_IMG_S3 + doctorClinicInformation?.data.avatar.preview}
                     alt={doctorClinicInformation?.data.fullName || ''}
                     onError={handleErrorImage}

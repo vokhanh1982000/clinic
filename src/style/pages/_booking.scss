@@ -128,3 +128,21 @@
     }
   }
 }
+
+#list-booking {
+  display: flex;
+  .form-area {
+    display: flex;
+    justify-content: space-between;
+    .action {
+      display: flex;
+      justify-content: flex-end;
+      &__create {
+        width: 176px;
+        background-color: $primary_color;
+        color: $text_white;
+        border: unset;
+      }
+    }
+  }
+}

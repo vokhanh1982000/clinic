@@ -20,13 +20,14 @@ interface ClinicInfoProps {
   type: 'create' | 'update';
   isSubmit?: boolean;
   status?: BookingStatusEnum;
+  defaultClinicId?: string | null;
 }
 const ClinicInfo = (props: ClinicInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { form, clinic, setDoctorClinic, setClinic, isSubmit, status, type, role }: ClinicInfoProps = props;
+  const { form, clinic, setDoctorClinic, setClinic, isSubmit, status, type, role, defaultClinicId }: ClinicInfoProps =
+    props;
   const [listClinic, setListClinic] = useState<Clinic[]>();
   const [searchNameClinic, setSearchNameClinic] = useState<string>();
-
   const debouncedUpdateInputValue = debounce((value) => {
     if (!value.trim()) {
       setSearchNameClinic('');
@@ -44,6 +45,9 @@ const ClinicInfo = (props: ClinicInfoProps) => {
 
   useEffect(() => {
     setListClinic(listClinicData?.data);
+    if (type === 'create' && defaultClinicId) {
+      setClinic(listClinicData?.data.find((item) => item.id === defaultClinicId));
+    }
   }, [listClinicData]);
   const isDisabled = () => {
     if ((role === 'adminClinic' || role === 'admin') && type === 'create') {
@@ -51,6 +55,7 @@ const ClinicInfo = (props: ClinicInfoProps) => {
     }
     return !(status === BookingStatusEnum.Pending && type === 'update');
   };
+
   return (
     <div className={'clinic-info'}>
       <div className="clinic-info__header">
@@ -86,6 +91,7 @@ const ClinicInfo = (props: ClinicInfoProps) => {
               allowClear={false}
               value={clinic?.fullName}
               key={clinic?.id}
+              labelInValue={true}
             >
               {listClinic &&
                 listClinic?.map((item: Clinic) => {
@@ -214,47 +220,47 @@ const ClinicInfo = (props: ClinicInfoProps) => {
             />
           </Form.Item>
         </div>
-        <div className="clinic-info__content__rows">
-          <Form.Item
-            className="work-time"
-            label={intl.formatMessage({
-              id: 'booking.clinic.work-time',
-            })}
-          >
-            <CustomInput
-              disabled={true}
-              placeholder={intl.formatMessage({
-                id: 'booking.clinic.work-time',
-              })}
-              value={(() => {
-                const data: any = clinic?.workSchedules?.find(
-                  (item) => item.day === dayjs(form.getFieldValue('appointmentStartTime')).day()
-                );
-                if (data?.amFrom && data?.pmTo) {
-                  return `${data?.amFrom} - ${data?.pmTo}`;
-                } else {
-                  return '';
-                }
-              })()}
-            />
-          </Form.Item>
-          <Form.Item
-            className="status"
-            label={intl.formatMessage({
-              id: 'booking.clinic.status',
-            })}
-          >
-            <CustomInput
-              disabled={true}
-              placeholder={intl.formatMessage({
-                id: 'booking.clinic.status',
-              })}
-              value={intl.formatMessage({
-                id: clinic?.status ? 'common.active' : 'common.inactive',
-              })}
-            />
-          </Form.Item>
-        </div>
+        {/*<div className="clinic-info__content__rows">*/}
+        {/*  <Form.Item*/}
+        {/*    className="work-time"*/}
+        {/*    label={intl.formatMessage({*/}
+        {/*      id: 'booking.clinic.work-time',*/}
+        {/*    })}*/}
+        {/*  >*/}
+        {/*    <CustomInput*/}
+        {/*      disabled={true}*/}
+        {/*      placeholder={intl.formatMessage({*/}
+        {/*        id: 'booking.clinic.work-time',*/}
+        {/*      })}*/}
+        {/*      value={(() => {*/}
+        {/*        const data: any = clinic?.workSchedules?.find(*/}
+        {/*          (item) => item.day === dayjs(form.getFieldValue('appointmentStartTime')).day()*/}
+        {/*        );*/}
+        {/*        if (data?.amFrom && data?.pmTo) {*/}
+        {/*          return `${data?.amFrom} - ${data?.pmTo}`;*/}
+        {/*        } else {*/}
+        {/*          return '';*/}
+        {/*        }*/}
+        {/*      })()}*/}
+        {/*    />*/}
+        {/*  </Form.Item>*/}
+        {/*  <Form.Item*/}
+        {/*    className="status"*/}
+        {/*    label={intl.formatMessage({*/}
+        {/*      id: 'booking.clinic.status',*/}
+        {/*    })}*/}
+        {/*  >*/}
+        {/*    <CustomInput*/}
+        {/*      disabled={true}*/}
+        {/*      placeholder={intl.formatMessage({*/}
+        {/*        id: 'booking.clinic.status',*/}
+        {/*      })}*/}
+        {/*      value={intl.formatMessage({*/}
+        {/*        id: clinic?.status ? 'common.active' : 'common.inactive',*/}
+        {/*      })}*/}
+        {/*    />*/}
+        {/*  </Form.Item>*/}
+        {/*</div>*/}
       </div>
     </div>
   );

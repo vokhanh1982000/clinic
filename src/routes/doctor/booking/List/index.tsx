@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { Card, Col, DatePicker, Form, Input, Row } from 'antd';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Card, Col, DatePicker, Form, Input, Row, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs, { Dayjs } from 'dayjs';
 import { debounce } from 'lodash';
@@ -7,17 +7,17 @@ import moment from 'moment';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { adminBookingApi } from '../../../apis';
-import { Booking } from '../../../apis/client-axios';
-import FormWrap from '../../../components/FormWrap';
-import TableWrap from '../../../components/TableWrap';
-import { IFilter, NOTES } from '../../../components/TimelineControl/constants';
-import CustomButton from '../../../components/buttons/CustomButton';
-import IconSVG from '../../../components/icons/icons';
-import CustomInput from '../../../components/input/CustomInput';
-import CustomSelect from '../../../components/select/CustomSelect';
-import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
-import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../util/constant';
+import { adminClinicBookingApi } from '../../../../apis';
+import { Booking } from '../../../../apis/client-axios';
+import FormWrap from '../../../../components/FormWrap';
+import TableWrap from '../../../../components/TableWrap';
+import { IFilter, NOTES } from '../../../../components/TimelineControl/constants';
+import IconSVG from '../../../../components/icons/icons';
+import CustomInput from '../../../../components/input/CustomInput';
+import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
+import CustomSelect from '../../../../components/select/CustomSelect';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../../util/constant';
 
 interface IFormData {
   keyword?: string;
@@ -29,7 +29,7 @@ const n = (key: keyof IFormData) => key;
 
 const { RangePicker } = DatePicker;
 
-const ListBooking = () => {
+const ListBookingPaginated = () => {
   const intl = useIntl();
 
   const [form] = Form.useForm<IFormData>();
@@ -39,13 +39,15 @@ const ListBooking = () => {
     | Array<'completed' | 'pending' | 'cancelled' | 'approved' | 'all'>
     | undefined;
 
-  const navigate = useNavigate();
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: listBookingDayPaginated } = useQuery({
-    queryKey: ['adminBookingDayPaginated', time, filter, status, keyword],
+    queryKey: ['adminClinicBookingDayPaginated', time, filter, status, keyword],
     queryFn: () =>
-      adminBookingApi.adminBookingControllerGetPaginatedBooking(
+      adminClinicBookingApi.adminClinicBookingControllerFindAll(
         filter.page,
         filter.size,
         filter.sort,
@@ -59,64 +61,69 @@ const ListBooking = () => {
     enabled: !!filter,
   });
 
+  const { mutate: DeleteBooking } = useMutation({
+    mutationFn: (id: string) => adminClinicBookingApi.adminClinicBookingControllerRemove(id),
+    onSuccess: () => {
+      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+      queryClient.invalidateQueries(['adminClinicBookingDayPaginated']);
+    },
+    onError: () => {
+      message.error(intl.formatMessage({ id: 'common.common.deleteFail' }));
+    },
+  });
+
+  const handleDelete = () => {
+    if (isShowModalDelete && isShowModalDelete.id) {
+      DeleteBooking(isShowModalDelete.id);
+    }
+    setIsShowModalDelete(undefined);
+  };
+
   const columns: ColumnsType<Booking> = [
     {
       align: 'center',
       key: 'code',
-      width: '7%',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.code' }),
       render: (value: Booking) => <span className="font-size-14 font-family-primary color-1A1A1A">{value.order}</span>,
     },
     {
       align: 'left',
-      key: 'clinic',
-      title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.clinic' }),
-      width: '25%',
-      render: (value: Booking) => (
-        <span
-          className="font-size-14 font-family-primary color-1A1A1A cursor-pointer text-decoration-underline"
-          onClick={() =>
-            navigate(
-              `${ADMIN_ROUTE_NAME.CLINIC}/${value.clinicId}?date=${moment(value.appointmentStartTime).format(
-                DATE_TIME_FORMAT
-              )}`
-            )
-          }
-        >
-          {value.clinic?.fullName}
-        </span>
-      ),
-    },
-    {
-      align: 'left',
       key: 'doctor',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.doctor' }),
-      width: '17%',
       render: (value: Booking) => (
-        <span
-          className="font-size-14 font-family-primary color-1A1A1A cursor-pointer text-decoration-underline"
-          onClick={() =>
-            navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${value.doctorClinicId}?clinicId=${value.clinicId}`)
-          }
-        >
-          {value.doctorClinic?.fullName}
-        </span>
+        <span className="font-size-14 font-family-primary color-1A1A1A">{value.doctorClinic?.fullName}</span>
       ),
     },
     {
       align: 'left',
       key: 'patient',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.patient' }),
-      width: '17%',
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer?.fullName}</span>
       ),
     },
     {
       align: 'left',
+      key: 'phoneNumber',
+      title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.phoneNumber' }),
+      render: (value: Booking) => (
+        <span className="font-size-14 font-family-primary color-1A1A1A">{value.customer?.phoneNumber}</span>
+      ),
+    },
+    {
+      align: 'left',
+      key: 'gender',
+      title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.gender' }),
+      render: (value: Booking) => (
+        <span className="font-size-14 font-family-primary color-1A1A1A">
+          {value.customer?.gender && intl.formatMessage({ id: `common.gender.${value.customer.gender}` })}
+        </span>
+      ),
+    },
+    {
+      align: 'left',
       key: 'time',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.time' }),
-      width: '17%',
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">
           {moment(value.appointmentStartTime || new Date()).format('HH:mm DD/MM/YYYY')}
@@ -127,7 +134,6 @@ const ListBooking = () => {
       align: 'left',
       key: 'status',
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.status' }),
-      width: '17%',
       render: (value: Booking) => {
         const findStatus = NOTES.find((note) => note.status === value.status);
 
@@ -143,6 +149,29 @@ const ListBooking = () => {
           </div>
         );
       },
+    },
+    {
+      align: 'center',
+      key: 'action',
+      title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.action' }),
+      render: (value: Booking) => (
+        <div className="d-flex align-items-center justify-content-center gap-12">
+          <div
+            className="cursor-pointer"
+            onClick={() => navigate(`${ADMIN_CLINIC_ROUTE_PATH.DETAIL_BOOKING}/${value.id}?routeEmpty=1`)}
+          >
+            <IconSVG type="edit" />
+          </div>
+          <span className="divider"></span>
+          <div
+            className="cursor-pointer"
+            // onClick={() => DeleteBooking(value.id)}
+            onClick={() => setIsShowModalDelete({ id: value.id, name: value.order.toString() })}
+          >
+            <IconSVG type="delete" />
+          </div>
+        </div>
+      ),
     },
   ];
 
@@ -190,14 +219,14 @@ const ListBooking = () => {
   };
 
   return (
-    <Card id={'list-booking'}>
+    <Card>
       <Row gutter={[0, 16]}>
         <Col span={24}>
-          <h3 className="font-size-14 font-weight-700 color-1A1A1A font-family-primary text-capitalize m-b-0">
-            {intl.formatMessage({ id: 'menu.bookingManagement' })}
+          <h3 className="font-size-14 font-weight-700 color-1A1A1A font-family-primary text-capitalize m-t-24 m-b-0">
+            {intl.formatMessage({ id: 'menu.bookingManagement.empty' })}
           </h3>
         </Col>
-        <Col span={24} className={'form-area'}>
+        <Col span={24}>
           <FormWrap name="bookingManagementEmpty" form={form} onKeyDown={handleKeyDown} layout="inline">
             <Form.Item name={n('keyword')} className="d-none">
               <Input />
@@ -242,15 +271,6 @@ const ListBooking = () => {
               />
             </Form.Item>
           </FormWrap>
-          <div className={'action'}>
-            <CustomButton
-              icon={<IconSVG type="create" />}
-              className={'action__create'}
-              onClick={() => navigate(ADMIN_ROUTE_PATH.CREATE_BOOKING)}
-            >
-              {intl.formatMessage({ id: 'timeline.admin.button.create' })}
-            </CustomButton>
-          </div>
         </Col>
         <Col span={24}>
           <TableWrap
@@ -267,7 +287,21 @@ const ListBooking = () => {
           />
         </Col>
       </Row>
+      <ConfirmDeleteModal
+        name={
+          isShowModalDelete && isShowModalDelete.name
+            ? intl.formatMessage({ id: 'common.code' }) + ' ' + isShowModalDelete.name
+            : ''
+        }
+        subName={intl.formatMessage({ id: 'timeline.schedule' })}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDelete}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
     </Card>
   );
 };
-export default ListBooking;
+
+export default ListBookingPaginated;

@@ -4,13 +4,15 @@ import useIntl from '../../util/useIntl';
 import { Form, FormInstance, Select } from 'antd';
 import CustomInput from '../input/CustomInput';
 import CustomSelect from '../select/CustomSelect';
-import { BookingStatusEnum, Clinic, DoctorClinic } from '../../apis/client-axios';
+import { AdministratorClinic, BookingStatusEnum, Clinic, DoctorClinic } from '../../apis/client-axios';
 import { DefaultOptionType } from 'antd/es/select';
 import { useQuery } from '@tanstack/react-query';
 import { doctorClinicApi } from '../../apis';
 import CustomSearchSelect from '../input/CustomSearchSelect';
 import { debounce } from 'lodash';
 import IconSVG from '../icons/icons';
+import { useAppSelector } from '../../store';
+import list from '../../routes/doctor/prescription-teamplate/list';
 interface DoctorInfoProps {
   form: FormInstance;
   clinic?: Clinic;
@@ -19,20 +21,23 @@ interface DoctorInfoProps {
   role?: 'admin' | 'adminClinic' | 'doctor';
   type?: 'create' | 'update';
   status?: BookingStatusEnum;
+  defaultDoctorClinicId?: string | null;
 }
 const DoctorInfo = (props: DoctorInfoProps) => {
   const intl: IntlShape = useIntl();
-  const { form, clinic, doctorClinic, setDoctorClinic, role, type, status }: DoctorInfoProps = props;
+  const { form, clinic, doctorClinic, setDoctorClinic, role, type, status, defaultDoctorClinicId }: DoctorInfoProps =
+    props;
   const [listDoctor, setListDoctor] = useState<DoctorClinic[]>();
   const [searchNameDoctor, setSearchNameDoctor] = useState<string>();
-
+  const user: AdministratorClinic = useAppSelector((state) => state.auth).authUser as AdministratorClinic;
   const { data: listDoctorData } = useQuery({
-    queryKey: ['listDoctor', { searchNameDoctor, clinic }],
+    queryKey: ['listDoctor', { searchNameDoctor, clinic, user }],
     queryFn: () => {
-      return doctorClinicApi.doctorClinicControllerGetAllWithoutPaginate(searchNameDoctor, clinic?.id);
+      return doctorClinicApi.doctorClinicControllerGetAllWithoutPaginate(searchNameDoctor, clinic?.id || user.clinicId);
     },
-    enabled: role === 'adminClinic' || role === 'doctor' ? true : !!clinic?.id,
+    enabled: !!clinic?.id || !!user.clinicId,
   });
+
   const debouncedUpdateInputValue = debounce((value) => {
     if (!value.trim()) {
       setSearchNameDoctor('');
@@ -42,7 +47,10 @@ const DoctorInfo = (props: DoctorInfoProps) => {
   }, 500);
   useEffect(() => {
     setListDoctor(listDoctorData?.data);
-  }, [listDoctorData]);
+    if (type === 'create' && defaultDoctorClinicId) {
+      setDoctorClinic(listDoctorData?.data.find((item) => item.id === defaultDoctorClinicId));
+    }
+  }, [listDoctorData, doctorClinic]);
 
   const isDisabled = () => {
     if ((role === 'adminClinic' || role === 'admin') && type === 'create') {

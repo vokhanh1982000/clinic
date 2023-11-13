@@ -17,16 +17,16 @@ interface PrescriptionProp {
   prescription?: PrescriptionType;
   setPrescription?: Dispatch<SetStateAction<PrescriptionType | undefined>>;
   status?: BookingStatusEnum;
+  isPrescribed?: boolean;
 }
 const Prescription = (props: PrescriptionProp) => {
-  const { prescription, role, setPrescription, type, status }: PrescriptionProp = props;
+  const { prescription, role, setPrescription, type, status, isPrescribed }: PrescriptionProp = props;
   const intl: IntlShape = useIntl();
   const [showProvideMedicineModalCreate, setShowProvideMedicineModalCreate] = useState<boolean>();
   const [showProvideMedicineModalUpdate, setShowProvideMedicineModalUpdate] = useState<PrescriptionMedicine>();
   const [showSamplePrescriptionModal, setShowSamplePrescriptionModal] = useState<any>(false);
   const [selectedPrescriptionMedicine, setSelectedPrescriptionMedicine] = useState<PrescriptionMedicine>();
   const [prescriptionMedicine, setPrescriptionMedicine] = useState<PrescriptionMedicine[]>();
-  useEffect(() => {}, [selectedPrescriptionMedicine]);
 
   useEffect(() => {
     setPrescriptionMedicine(prescription?.prescriptionMedicine);
@@ -39,24 +39,24 @@ const Prescription = (props: PrescriptionProp) => {
       });
     }
   }, [prescriptionMedicine]);
-  const handleRemovePrescriptionMedicine = (id: string) => {
+  const handleRemovePrescriptionMedicine = (medicineId: string) => {
     if (setPrescription) {
       setPrescriptionMedicine((prevState) => {
         if (!prevState) {
           return;
         }
         const existingItemIndex: number | undefined = prevState?.findIndex(
-          (item: PrescriptionMedicine) => item.id === id
+          (item: PrescriptionMedicine) => item.medicineId === medicineId
         );
         if (existingItemIndex !== -1) {
-          return prevState.filter((item) => item.id !== id);
+          return prevState.filter((item) => item.medicineId !== medicineId);
         }
       });
     }
   };
 
   const isDisable = () => {
-    return !(status === BookingStatusEnum.Completed);
+    return !(status === BookingStatusEnum.Completed) || isPrescribed;
   };
   return (
     <div className={'prescription'}>
@@ -69,8 +69,9 @@ const Prescription = (props: PrescriptionProp) => {
           </div>
           <div className="line-title"></div>
         </div>
-        {role === 'doctor' && (
-          <div className={'prescription__header__action'}>
+
+        <div className={'prescription__header__action'}>
+          {role === 'doctor' && (
             <CustomButton
               className={'button-sample-prescription'}
               onClick={() => setShowSamplePrescriptionModal(true)}
@@ -81,6 +82,8 @@ const Prescription = (props: PrescriptionProp) => {
               </span>
               {intl.formatMessage({ id: 'booking.button.sample-prescription' })}
             </CustomButton>
+          )}
+          {(role === 'doctor' || role === 'admin') && (
             <CustomButton
               className={'button-provide-medicine'}
               onClick={() => setShowProvideMedicineModalCreate(true)}
@@ -91,8 +94,8 @@ const Prescription = (props: PrescriptionProp) => {
               </span>
               {intl.formatMessage({ id: 'booking.button.provide-medicine' })}
             </CustomButton>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <div className={'prescription__content'}>
         <div className={'prescription__content__rows'}>
@@ -143,7 +146,7 @@ const Prescription = (props: PrescriptionProp) => {
               })}
               render={(_, record: PrescriptionMedicine) => (
                 <>
-                  {role === 'doctor' && !isDisable() ? (
+                  {(role === 'doctor' || role === 'admin') && !isDisable() ? (
                     <div className={'table-cell-name'} onClick={() => setShowProvideMedicineModalUpdate(record)}>
                       {record.medicine?.name}
                     </div>
@@ -170,10 +173,10 @@ const Prescription = (props: PrescriptionProp) => {
               render={(_, record: PrescriptionMedicine) => (
                 <div className="table-cell-guide">
                   <span>{record.guide}</span>
-                  {role === 'doctor' && !isDisable() && (
+                  {(role === 'doctor' || role === 'admin') && !isDisable() && (
                     <span
                       className={'table-cell-guide__icon'}
-                      onClick={() => handleRemovePrescriptionMedicine(record.id)}
+                      onClick={() => handleRemovePrescriptionMedicine(record.medicineId)}
                     >
                       <IconSVG type="small-close" />
                     </span>
@@ -186,6 +189,7 @@ const Prescription = (props: PrescriptionProp) => {
       </div>
 
       <ProvideMedicineModal
+        role={role}
         type={'create'}
         visible={!!showProvideMedicineModalCreate}
         title={intl.formatMessage({ id: 'booking.provide-medicine.modal.create.title' })}
@@ -193,6 +197,7 @@ const Prescription = (props: PrescriptionProp) => {
         setPrescriptionMedicine={setPrescriptionMedicine}
       />
       <ProvideMedicineModal
+        role={role}
         type={'update'}
         visible={!!showProvideMedicineModalUpdate}
         prescriptionMedicine={showProvideMedicineModalUpdate}

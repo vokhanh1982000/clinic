@@ -6,6 +6,7 @@ import DoctorProfile from './profile';
 import ChangePasswordDoctorClinic from './auth/ChangePassword';
 import ListPrescriptionTeamplate from './prescription-teamplate/list';
 import CreateUpdatePrescriptionTeamplate from './prescription-teamplate/create-update';
+import ListBookingPaginated from './booking/List';
 
 const Doctor = React.lazy(() => import('.'));
 const SignInDoctor = React.lazy(() => import('./auth/SignInDoctor'));
@@ -30,6 +31,10 @@ export const DoctorRoutes = () => (
         <Route
           path={`${DOCTOR_CLINIC_ROUTE_NAME.DETAIL}/:id`}
           element={<SuspenseWrapper component={<CreateOrUpDateBooking />} />}
+        />
+        <Route
+          path={DOCTOR_CLINIC_ROUTE_NAME.LIST}
+          element={<SuspenseWrapper component={<ListBookingPaginated />} />}
         />
       </Route>
       <Route path={DOCTOR_CLINIC_ROUTE_NAME.DOCTOR_PROFILE} element={<DoctorProfile />} />

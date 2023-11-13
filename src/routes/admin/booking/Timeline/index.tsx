@@ -58,7 +58,7 @@ const ClinicTimeline = () => {
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
-    queryKey: ['adminGetDoctorClinic', filter, keyword, id],
+    queryKey: ['adminGetDoctorClinic', filter, id],
     queryFn: () =>
       doctorClinicApi.doctorClinicControllerGetAll(filter.page, filter.size, filter.sort, keyword, undefined, id),
     enabled: !!filter && mode === TimelineMode.DATE && !!id,

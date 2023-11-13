@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Form, message, Select } from 'antd';
+import { Card, Form, Select } from 'antd';
 import useIntl from '../../../../util/useIntl';
 import { IntlShape } from 'react-intl';
 import { Params, useNavigate, useParams } from 'react-router-dom';
@@ -27,6 +27,9 @@ import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { DOCTOR_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { CustomHandleError } from '../../../../components/response/error';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { ActionUser } from '../../../../constants/enum';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -55,20 +58,12 @@ const CreateOrUpDateBooking = () => {
       return doctorClinicBookingApi.doctorClinicBookingControllerUpdate(id!, dto);
     },
     onSuccess: () => {
-      message.success(
-        intl.formatMessage({
-          id: 'booking.message.update.success',
-        })
-      );
+      CustomHandleSuccess(ActionUser.CREATE, intl);
       queryClient.invalidateQueries({ queryKey: ['bookingDetail'] });
       navigate(DOCTOR_CLINIC_ROUTE_PATH.BOOKING_MANAGEMENT);
     },
-    onError: () => {
-      message.error(
-        intl.formatMessage({
-          id: 'booking.message.update.fail',
-        })
-      );
+    onError: (error: any) => {
+      CustomHandleError(error?.response?.data, intl);
     },
   });
 
@@ -93,6 +88,7 @@ const CreateOrUpDateBooking = () => {
       clinicId: user.clinicId,
       id,
     };
+    console.log(booking, 'xu');
     UpdateBooking(booking);
   };
 
@@ -174,6 +170,12 @@ const CreateOrUpDateBooking = () => {
             status={status}
           />
           <Prescription
+            isPrescribed={
+              !!(
+                bookingData?.data?.prescription?.prescriptionMedicine?.length &&
+                bookingData?.data?.prescription?.prescriptionMedicine?.length > 0
+              )
+            }
             prescription={prescription}
             role={'doctor'}
             setPrescription={setPrescription}
@@ -186,7 +188,18 @@ const CreateOrUpDateBooking = () => {
             <ScheduleInfo form={form} role={'doctor'} date={date} type={'update'} status={status} />
           </div>
           <div className={'action-area'}>
-            <Action form={form} role={'doctor'} type={id ? 'update' : 'create'} status={status} />
+            <Action
+              form={form}
+              role={'doctor'}
+              type={id ? 'update' : 'create'}
+              status={status}
+              isPrescribed={
+                !!(
+                  bookingData?.data?.prescription?.prescriptionMedicine?.length &&
+                  bookingData?.data?.prescription?.prescriptionMedicine?.length > 0
+                )
+              }
+            />
           </div>
         </div>
       </Form>

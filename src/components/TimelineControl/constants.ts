@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+import { TimelineKeys } from 'react-calendar-timeline';
 import { BookingStatusEnum } from '../../apis/client-axios';
 
 export enum TimelineMode {
@@ -52,3 +53,15 @@ export interface IFilter {
   size?: number;
   sort?: string;
 }
+
+export const timelineKeys: TimelineKeys = {
+  groupIdKey: 'id',
+  groupTitleKey: 'title',
+  groupRightTitleKey: 'rightTitle',
+  itemIdKey: 'id',
+  itemTitleKey: 'title',
+  itemDivTitleKey: 'divTitle',
+  itemGroupKey: 'group',
+  itemTimeStartKey: 'start_time',
+  itemTimeEndKey: 'end_time',
+};
