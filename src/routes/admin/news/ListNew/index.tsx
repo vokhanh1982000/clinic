@@ -251,7 +251,10 @@ const ListNew = () => {
             width={'20%'}
             render={(_, record: any) => (
               <div className="action-new">
-                <div onClick={() => navigate(`detail/${record.id}`)}>
+                <div
+                  className={permisstion.update ? '' : 'disable'}
+                  onClick={() => permisstion.update && navigate(`detail/${record.id}`)}
+                >
                   <IconSVG type="edit" />
                 </div>
                 <span className="divider"></span>

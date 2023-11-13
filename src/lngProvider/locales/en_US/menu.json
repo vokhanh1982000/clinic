@@ -11,6 +11,8 @@
   "menu.clinicBookingManagement": "Clinic",
   "menu.bookingManagement.empty": "List Booking Management",
   "menu.newsManagement": "News and Articles Management",
+  "menu.createNew": "Create New",
+  "menu.detailNew": "Detail New",
   "menu.statisticsManagement": "Statistics Management",
   "menu.medicineManagement": "Medicine Management",
   "menu.setting": "Clinic Setting",

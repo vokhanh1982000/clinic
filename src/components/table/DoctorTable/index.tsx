@@ -26,7 +26,7 @@ interface DoctorTableProps {
   doctorType: DoctorType;
   data?: any;
   deleteFc?: (id: string) => void;
-  // permission: Permission;
+  permission?: Permission;
 }
 
 interface OptionSpecialist {
@@ -40,7 +40,7 @@ interface OptionStatus {
 }
 
 export const DoctorTable = (props: DoctorTableProps) => {
-  const { placeHolder, doctorType, deleteFc } = props;
+  const { placeHolder, doctorType, deleteFc, permission } = props;
   const intl = useIntl();
   const navigate = useNavigate();
   const [specialistSelect, setSpecialistSelect] = useState<OptionSpecialist>();
@@ -317,11 +317,20 @@ export const DoctorTable = (props: DoctorTableProps) => {
                   <span className="divider"></span>
                 </>
               )}
-              <div onClick={() => navigate(`detail/${record.id}`)}>
+              <div
+                className={!permission || (permission && permission.update) ? '' : 'disable'}
+                onClick={() => (!permission || (permission && permission.update)) && navigate(`detail/${record.id}`)}
+              >
                 <IconSVG type="edit" />
               </div>
               <span className="divider"></span>
-              <div onClick={() => setIsShowModalDelete({ id: record.id, name: record.fullName })}>
+              <div
+                className={!permission || (permission && permission.delete) ? '' : 'disable'}
+                onClick={() =>
+                  (!permission || (permission && permission.delete)) &&
+                  setIsShowModalDelete({ id: record.id, name: record.fullName })
+                }
+              >
                 <IconSVG type="delete" />
               </div>
             </div>

@@ -24,7 +24,7 @@ const ListDoctor = () => {
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const { authUser } = useSelector((state: RootState) => state.auth);
-  const [permisstion, setPermisstion] = useState<Permission>({
+  const [permission, setPermission] = useState<Permission>({
     read: false,
     create: false,
     delete: false,
@@ -33,7 +33,7 @@ const ListDoctor = () => {
 
   useEffect(() => {
     if (authUser?.user?.roles) {
-      setPermisstion({
+      setPermission({
         read: Boolean(CheckPermission(PERMISSIONS.ReadDoctorSuppot, authUser)),
         create: Boolean(CheckPermission(PERMISSIONS.CreateDoctorSuppot, authUser)),
         delete: Boolean(CheckPermission(PERMISSIONS.DeleteDoctorSuppot, authUser)),
@@ -71,7 +71,7 @@ const ListDoctor = () => {
           })}
         </div>
         <CustomButton
-          disabled={!permisstion.create}
+          disabled={!permission.create}
           className="button-add"
           icon={<IconSVG type="create" />}
           onClick={() => {
@@ -83,9 +83,9 @@ const ListDoctor = () => {
           })}
         </CustomButton>
       </div>
-      {permisstion.read && (
+      {permission.read && (
         <DoctorTable
-          // permission={permisstion}
+          permission={permission}
           deleteFc={(id: string) => deleteAdmin.mutate(id)}
           doctorType={DoctorType.DOCTOR_SUPPORT}
         />

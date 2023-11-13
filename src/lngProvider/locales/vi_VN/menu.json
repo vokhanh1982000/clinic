@@ -13,6 +13,8 @@
   "menu.clinicBookingManagement": "Phòng khám",
   "menu.bookingManagement.empty": "Danh sách lịch khám",
   "menu.newsManagement": "Quản lý Tin tức, Bài viết",
+  "menu.createNew": "Tạo Mới Bài Viết",
+  "menu.detailNew": "Chi Tiết Bài Viết",
   "menu.statisticsManagement": "Quản lý Thống Kê",
   "menu.medicineManagement": "Quản lý Thuốc",
   "menu.setting": "Cài đặt phòng khám",
