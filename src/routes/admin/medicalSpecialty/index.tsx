@@ -224,16 +224,19 @@ const ListMedicalSpecialty = () => {
             render={(_, record: any) => (
               <div className="action-category">
                 <div
+                  className={permisstion.update ? '' : 'disable'}
                   onClick={() => {
-                    form.setFieldsValue({
-                      name: record.name,
-                      iconId: record.iconId ? record.iconId : undefined,
-                    });
-                    setIsShowModalUpdate({ id: record.id, name: record.name });
-                    if (record.icon) {
-                      setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
-                    } else {
-                      setAvatar(undefined);
+                    if (permisstion.update) {
+                      form.setFieldsValue({
+                        name: record.name,
+                        iconId: record.iconId ? record.iconId : undefined,
+                      });
+                      setIsShowModalUpdate({ id: record.id, name: record.name });
+                      if (record.icon) {
+                        setAvatar(process.env.REACT_APP_URL_IMG_S3 + record.icon.preview);
+                      } else {
+                        setAvatar(undefined);
+                      }
                     }
                   }}
                 >
@@ -242,7 +245,7 @@ const ListMedicalSpecialty = () => {
                 <span className="divider"></span>
                 <div
                   className={permisstion.delete ? '' : 'disable'}
-                  onClick={() => setIsShowModalDelete({ id: record.id, name: record.name })}
+                  onClick={() => permisstion.delete && setIsShowModalDelete({ id: record.id, name: record.name })}
                 >
                   <IconSVG type="delete" />
                 </div>

@@ -1,28 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, Form, message } from 'antd';
+import { Card, Form } from 'antd';
+import dayjs from 'dayjs';
+import { isNumber } from 'lodash';
+import moment from 'moment';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
+import { categoryApi, doctorClinicApi } from '../../../../apis';
+import { CreateDoctorClinicDto, UpdateDoctorClinicDto } from '../../../../apis/client-axios';
 import FormWrap from '../../../../components/FormWrap';
 import CustomButton from '../../../../components/buttons/CustomButton';
+import IconSVG from '../../../../components/icons/icons';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
-import DoctorInfo from '../../../../components/table/DoctorTable/information';
-import Achievement from '../../../../components/table/DoctorTable/achievenment';
-import { ActionUser, DoctorType, PERMISSIONS } from '../../../../constants/enum';
-import {
-  CreateDoctorClinicDto,
-  CreateDoctorClinicDtoGenderEnum,
-  UpdateDoctorClinicDto,
-} from '../../../../apis/client-axios';
-import { categoryApi, doctorClinicApi } from '../../../../apis';
-import moment from 'moment';
-import { error } from 'console';
-import { isNumber, values } from 'lodash';
-import { FORMAT_DATE } from '../../../../constants/common';
-import dayjs from 'dayjs';
 import { CustomHandleError } from '../../../../components/response/error';
-import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { CustomHandleSuccess } from '../../../../components/response/success';
+import Achievement from '../../../../components/table/DoctorTable/achievenment';
+import DoctorInfo from '../../../../components/table/DoctorTable/information';
+import { FORMAT_DATE } from '../../../../constants/common';
+import { ActionUser, DoctorType } from '../../../../constants/enum';
+import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { Permission } from '../../../../util/check-permission';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -137,14 +134,29 @@ const CreateDoctor = () => {
 
   return (
     <Card id="create-doctor-management">
-      <div className="create-doctor-title">
-        {id
-          ? intl.formatMessage({
-              id: 'doctor.clinic.edit.title',
-            })
-          : intl.formatMessage({
-              id: 'doctor.clinic.create.title',
+      <div className="create-doctor-header">
+        <div className="create-doctor-title">
+          {id
+            ? intl.formatMessage({
+                id: 'doctor.clinic.edit.title',
+              })
+            : intl.formatMessage({
+                id: 'doctor.clinic.create.title',
+              })}
+        </div>
+        {id && (
+          <CustomButton
+            className="button-schedule"
+            icon={<IconSVG type="booking-active" />}
+            onClick={() => {
+              navigate(`${ADMIN_CLINIC_ROUTE_PATH.SCHEDULE_DOCTOR}/${id}`);
+            }}
+          >
+            {intl.formatMessage({
+              id: 'doctor-detail.clinic.button.schedule',
             })}
+          </CustomButton>
+        )}
       </div>
       <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-doctor">
         <DoctorInfo

@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * PROJECT_NAME
+ * iHealth
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -2469,8 +2469,22 @@ export interface CreateHolidayScheduleDto {
      * @type {string}
      * @memberof CreateHolidayScheduleDto
      */
+    'status': CreateHolidayScheduleDtoStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateHolidayScheduleDto
+     */
     'clinicId'?: string;
 }
+
+export const CreateHolidayScheduleDtoStatusEnum = {
+    Off: 'off',
+    Work: 'work'
+} as const;
+
+export type CreateHolidayScheduleDtoStatusEnum = typeof CreateHolidayScheduleDtoStatusEnum[keyof typeof CreateHolidayScheduleDtoStatusEnum];
+
 /**
  * 
  * @export
@@ -3864,6 +3878,12 @@ export interface HolidaySchedule {
      * @type {string}
      * @memberof HolidaySchedule
      */
+    'status': HolidayScheduleStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof HolidaySchedule
+     */
     'clinicId'?: string;
     /**
      * 
@@ -3908,6 +3928,14 @@ export interface HolidaySchedule {
      */
     'deletedAt': string;
 }
+
+export const HolidayScheduleStatusEnum = {
+    Off: 'off',
+    Work: 'work'
+} as const;
+
+export type HolidayScheduleStatusEnum = typeof HolidayScheduleStatusEnum[keyof typeof HolidayScheduleStatusEnum];
+
 /**
  * 
  * @export
@@ -4369,6 +4397,219 @@ export interface NewControllerGet200ResponseAllOf {
      * @memberof NewControllerGet200ResponseAllOf
      */
     'content'?: Array<New>;
+}
+/**
+ * 
+ * @export
+ * @interface NotificationDetail
+ */
+export interface NotificationDetail {
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'oldStatus': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'currentStatus': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'bookingId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'newsId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'userId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'consultingId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'title': NotificationDetailTitleEnum;
+    /**
+     * 
+     * @type {Booking}
+     * @memberof NotificationDetail
+     */
+    'booking': Booking;
+    /**
+     * 
+     * @type {New}
+     * @memberof NotificationDetail
+     */
+    'new': New;
+    /**
+     * 
+     * @type {Consulting}
+     * @memberof NotificationDetail
+     */
+    'consulting': Consulting;
+    /**
+     * 
+     * @type {User}
+     * @memberof NotificationDetail
+     */
+    'user': User;
+    /**
+     * 
+     * @type {Array<NotificationDetailRead>}
+     * @memberof NotificationDetail
+     */
+    'notificationDetailRead'?: Array<NotificationDetailRead>;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetail
+     */
+    'deletedAt': string;
+}
+
+export const NotificationDetailTitleEnum = {
+    BookingStatusChange: 'BOOKING_STATUS_CHANGE',
+    PrescriptionBooking: 'PRESCRIPTION_BOOKING',
+    PrescriptionConsulting: 'PRESCRIPTION_CONSULTING',
+    ConsultingStart: 'CONSULTING_START',
+    ConsultingFee: 'CONSULTING_FEE',
+    ConsultingEnd: 'CONSULTING_END',
+    News: 'NEWS'
+} as const;
+
+export type NotificationDetailTitleEnum = typeof NotificationDetailTitleEnum[keyof typeof NotificationDetailTitleEnum];
+
+/**
+ * 
+ * @export
+ * @interface NotificationDetailRead
+ */
+export interface NotificationDetailRead {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof NotificationDetailRead
+     */
+    'isRead': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'timeRead': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'userId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'notificationDetailId': string;
+    /**
+     * 
+     * @type {User}
+     * @memberof NotificationDetailRead
+     */
+    'user': User;
+    /**
+     * 
+     * @type {NotificationDetail}
+     * @memberof NotificationDetailRead
+     */
+    'notificationDetail': NotificationDetail;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'createdOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'createdByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'lastModifiedOnDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'lastModifiedByUserId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationDetailRead
+     */
+    'deletedAt': string;
 }
 /**
  * 
@@ -5793,6 +6034,45 @@ export const UpdateDoctorSupportGenderEnum = {
 } as const;
 
 export type UpdateDoctorSupportGenderEnum = typeof UpdateDoctorSupportGenderEnum[keyof typeof UpdateDoctorSupportGenderEnum];
+
+/**
+ * 
+ * @export
+ * @interface UpdateHolidayScheduleDto
+ */
+export interface UpdateHolidayScheduleDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateHolidayScheduleDto
+     */
+    'date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateHolidayScheduleDto
+     */
+    'status'?: UpdateHolidayScheduleDtoStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateHolidayScheduleDto
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateHolidayScheduleDto
+     */
+    'clinicId'?: string;
+}
+
+export const UpdateHolidayScheduleDtoStatusEnum = {
+    Off: 'off',
+    Work: 'work'
+} as const;
+
+export type UpdateHolidayScheduleDtoStatusEnum = typeof UpdateHolidayScheduleDtoStatusEnum[keyof typeof UpdateHolidayScheduleDtoStatusEnum];
 
 /**
  * 
@@ -13978,6 +14258,68 @@ export const CustomerConsultingApiAxiosParamCreator = function (configuration?: 
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        customerConsultingControllerGetAllConsulting: async (page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('customerConsultingControllerGetAllConsulting', 'page', page)
+            // verify required parameter 'consultingStatus' is not null or undefined
+            assertParamExists('customerConsultingControllerGetAllConsulting', 'consultingStatus', consultingStatus)
+            const localVarPath = `/customer-consulting/get-all-consulting`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (consultingStatus !== undefined) {
+                localVarQueryParameter['consultingStatus'] = consultingStatus;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
          * @param {string} id 
          * @param {number} [size] 
          * @param {string} [sort] 
@@ -14074,15 +14416,18 @@ export const CustomerConsultingApiAxiosParamCreator = function (configuration?: 
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customerConsultingControllerGetPaginatedConsulting: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        customerConsultingControllerGetPaginatedConsulting: async (page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('customerConsultingControllerGetPaginatedConsulting', 'page', page)
+            // verify required parameter 'consultingStatus' is not null or undefined
+            assertParamExists('customerConsultingControllerGetPaginatedConsulting', 'consultingStatus', consultingStatus)
             const localVarPath = `/customer-consulting/get-paginated-consulting`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14113,6 +14458,10 @@ export const CustomerConsultingApiAxiosParamCreator = function (configuration?: 
 
             if (fullTextSearch !== undefined) {
                 localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (consultingStatus !== undefined) {
+                localVarQueryParameter['consultingStatus'] = consultingStatus;
             }
 
 
@@ -14214,6 +14563,20 @@ export const CustomerConsultingApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async customerConsultingControllerGetAllConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.customerConsultingControllerGetAllConsulting(page, consultingStatus, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
          * @param {string} id 
          * @param {number} [size] 
          * @param {string} [sort] 
@@ -14238,14 +14601,15 @@ export const CustomerConsultingApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customerConsultingControllerGetPaginatedConsulting(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerConsultingControllerGetPaginatedConsulting200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.customerConsultingControllerGetPaginatedConsulting(page, size, sort, fullTextSearch, options);
+        async customerConsultingControllerGetPaginatedConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerConsultingControllerGetPaginatedConsulting200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.customerConsultingControllerGetPaginatedConsulting(page, consultingStatus, size, sort, fullTextSearch, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -14301,6 +14665,19 @@ export const CustomerConsultingApiFactory = function (configuration?: Configurat
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        customerConsultingControllerGetAllConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.customerConsultingControllerGetAllConsulting(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
          * @param {string} id 
          * @param {number} [size] 
          * @param {string} [sort] 
@@ -14323,14 +14700,15 @@ export const CustomerConsultingApiFactory = function (configuration?: Configurat
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customerConsultingControllerGetPaginatedConsulting(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<CustomerConsultingControllerGetPaginatedConsulting200Response> {
-            return localVarFp.customerConsultingControllerGetPaginatedConsulting(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        customerConsultingControllerGetPaginatedConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<CustomerConsultingControllerGetPaginatedConsulting200Response> {
+            return localVarFp.customerConsultingControllerGetPaginatedConsulting(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -14390,6 +14768,21 @@ export class CustomerConsultingApi extends BaseAPI {
     /**
      * 
      * @param {number} page 
+     * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomerConsultingApi
+     */
+    public customerConsultingControllerGetAllConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return CustomerConsultingApiFp(this.configuration).customerConsultingControllerGetAllConsulting(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
      * @param {string} id 
      * @param {number} [size] 
      * @param {string} [sort] 
@@ -14416,6 +14809,7 @@ export class CustomerConsultingApi extends BaseAPI {
     /**
      * 
      * @param {number} page 
+     * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
      * @param {number} [size] 
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
@@ -14423,8 +14817,8 @@ export class CustomerConsultingApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CustomerConsultingApi
      */
-    public customerConsultingControllerGetPaginatedConsulting(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
-        return CustomerConsultingApiFp(this.configuration).customerConsultingControllerGetPaginatedConsulting(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    public customerConsultingControllerGetPaginatedConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return CustomerConsultingApiFp(this.configuration).customerConsultingControllerGetPaginatedConsulting(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -17542,6 +17936,68 @@ export const DoctorSupportConsultingApiAxiosParamCreator = function (configurati
         },
         /**
          * 
+         * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorSupportConsultingControllerGetAllConsulting: async (page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerGetAllConsulting', 'page', page)
+            // verify required parameter 'consultingStatus' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerGetAllConsulting', 'consultingStatus', consultingStatus)
+            const localVarPath = `/doctor-support-consulting/get-all-consulting`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (consultingStatus !== undefined) {
+                localVarQueryParameter['consultingStatus'] = consultingStatus;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -17580,15 +18036,18 @@ export const DoctorSupportConsultingApiAxiosParamCreator = function (configurati
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorSupportConsultingControllerGetPaginatedConsulting: async (page: number, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        doctorSupportConsultingControllerGetPaginatedConsulting: async (page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'page' is not null or undefined
             assertParamExists('doctorSupportConsultingControllerGetPaginatedConsulting', 'page', page)
+            // verify required parameter 'consultingStatus' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerGetPaginatedConsulting', 'consultingStatus', consultingStatus)
             const localVarPath = `/doctor-support-consulting/get-paginated-consulting`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -17619,6 +18078,72 @@ export const DoctorSupportConsultingApiAxiosParamCreator = function (configurati
 
             if (fullTextSearch !== undefined) {
                 localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (consultingStatus !== undefined) {
+                localVarQueryParameter['consultingStatus'] = consultingStatus;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorSupportConsultingControllerGetTotalConsultingUnread: async (page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerGetTotalConsultingUnread', 'page', page)
+            // verify required parameter 'consultingStatus' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerGetTotalConsultingUnread', 'consultingStatus', consultingStatus)
+            const localVarPath = `/doctor-support-consulting/get-total-consulting-unread`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (consultingStatus !== undefined) {
+                localVarQueryParameter['consultingStatus'] = consultingStatus;
             }
 
 
@@ -17708,6 +18233,20 @@ export const DoctorSupportConsultingApiFp = function(configuration?: Configurati
         },
         /**
          * 
+         * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorSupportConsultingControllerGetAllConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorSupportConsultingControllerGetAllConsulting(page, consultingStatus, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -17719,14 +18258,29 @@ export const DoctorSupportConsultingApiFp = function(configuration?: Configurati
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async doctorSupportConsultingControllerGetPaginatedConsulting(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerConsultingControllerGetPaginatedConsulting200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorSupportConsultingControllerGetPaginatedConsulting(page, size, sort, fullTextSearch, options);
+        async doctorSupportConsultingControllerGetPaginatedConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerConsultingControllerGetPaginatedConsulting200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorSupportConsultingControllerGetPaginatedConsulting(page, consultingStatus, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorSupportConsultingControllerGetTotalConsultingUnread(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorSupportConsultingControllerGetTotalConsultingUnread(page, consultingStatus, size, sort, fullTextSearch, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -17771,6 +18325,19 @@ export const DoctorSupportConsultingApiFactory = function (configuration?: Confi
         },
         /**
          * 
+         * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorSupportConsultingControllerGetAllConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.doctorSupportConsultingControllerGetAllConsulting(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -17781,14 +18348,28 @@ export const DoctorSupportConsultingApiFactory = function (configuration?: Confi
         /**
          * 
          * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
          * @param {number} [size] 
          * @param {string} [sort] 
          * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorSupportConsultingControllerGetPaginatedConsulting(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<CustomerConsultingControllerGetPaginatedConsulting200Response> {
-            return localVarFp.doctorSupportConsultingControllerGetPaginatedConsulting(page, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        doctorSupportConsultingControllerGetPaginatedConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<CustomerConsultingControllerGetPaginatedConsulting200Response> {
+            return localVarFp.doctorSupportConsultingControllerGetPaginatedConsulting(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorSupportConsultingControllerGetTotalConsultingUnread(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.doctorSupportConsultingControllerGetTotalConsultingUnread(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -17835,6 +18416,21 @@ export class DoctorSupportConsultingApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} page 
+     * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorSupportConsultingApi
+     */
+    public doctorSupportConsultingControllerGetAllConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerGetAllConsulting(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17847,6 +18443,7 @@ export class DoctorSupportConsultingApi extends BaseAPI {
     /**
      * 
      * @param {number} page 
+     * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
      * @param {number} [size] 
      * @param {string} [sort] 
      * @param {string} [fullTextSearch] 
@@ -17854,8 +18451,23 @@ export class DoctorSupportConsultingApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DoctorSupportConsultingApi
      */
-    public doctorSupportConsultingControllerGetPaginatedConsulting(page: number, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
-        return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerGetPaginatedConsulting(page, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    public doctorSupportConsultingControllerGetPaginatedConsulting(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerGetPaginatedConsulting(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorSupportConsultingApi
+     */
+    public doctorSupportConsultingControllerGetTotalConsultingUnread(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerGetTotalConsultingUnread(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -18024,7 +18636,7 @@ export const HolidayScheduleApiAxiosParamCreator = function (configuration?: Con
         holidayScheduleControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('holidayScheduleControllerRemove', 'id', id)
-            const localVarPath = `/holiday-schedule/update-holiday-schedule-by-id/{id}`
+            const localVarPath = `/holiday-schedule/delete-holiday-schedule-by-id/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -18046,6 +18658,49 @@ export const HolidayScheduleApiAxiosParamCreator = function (configuration?: Con
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        holidayScheduleControllerUpdate: async (id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('holidayScheduleControllerUpdate', 'id', id)
+            // verify required parameter 'updateHolidayScheduleDto' is not null or undefined
+            assertParamExists('holidayScheduleControllerUpdate', 'updateHolidayScheduleDto', updateHolidayScheduleDto)
+            const localVarPath = `/holiday-schedule/update-holiday-status-by-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateHolidayScheduleDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -18104,6 +18759,17 @@ export const HolidayScheduleApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.holidayScheduleControllerRemove(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HolidaySchedule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -18151,6 +18817,16 @@ export const HolidayScheduleApiFactory = function (configuration?: Configuration
          */
         holidayScheduleControllerRemove(id: string, options?: any): AxiosPromise<HolidaySchedule> {
             return localVarFp.holidayScheduleControllerRemove(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: any): AxiosPromise<HolidaySchedule> {
+            return localVarFp.holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -18206,6 +18882,18 @@ export class HolidayScheduleApi extends BaseAPI {
      */
     public holidayScheduleControllerRemove(id: string, options?: AxiosRequestConfig) {
         return HolidayScheduleApiFp(this.configuration).holidayScheduleControllerRemove(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {UpdateHolidayScheduleDto} updateHolidayScheduleDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof HolidayScheduleApi
+     */
+    public holidayScheduleControllerUpdate(id: string, updateHolidayScheduleDto: UpdateHolidayScheduleDto, options?: AxiosRequestConfig) {
+        return HolidayScheduleApiFp(this.configuration).holidayScheduleControllerUpdate(id, updateHolidayScheduleDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -20013,14 +20701,11 @@ export const NotificationDetailApiAxiosParamCreator = function (configuration?: 
     return {
         /**
          * 
-         * @param {string} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        notificationDetailControllerGetAll: async (body: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('notificationDetailControllerGetAll', 'body', body)
-            const localVarPath = `/notification-detai/update-seen`;
+        notificationDetailControllerGetAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/notification-detail/get-all-notification-by-customer`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -20038,12 +20723,46 @@ export const NotificationDetailApiAxiosParamCreator = function (configuration?: 
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        notificationDetailControllerReadNotification: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('notificationDetailControllerReadNotification', 'id', id)
+            const localVarPath = `/notification-detail/read-notification/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -20062,12 +20781,21 @@ export const NotificationDetailApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async notificationDetailControllerGetAll(body: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.notificationDetailControllerGetAll(body, options);
+        async notificationDetailControllerGetAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<NotificationDetailRead>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.notificationDetailControllerGetAll(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async notificationDetailControllerReadNotification(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.notificationDetailControllerReadNotification(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -20082,12 +20810,20 @@ export const NotificationDetailApiFactory = function (configuration?: Configurat
     return {
         /**
          * 
-         * @param {string} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        notificationDetailControllerGetAll(body: string, options?: any): AxiosPromise<void> {
-            return localVarFp.notificationDetailControllerGetAll(body, options).then((request) => request(axios, basePath));
+        notificationDetailControllerGetAll(options?: any): AxiosPromise<Array<NotificationDetailRead>> {
+            return localVarFp.notificationDetailControllerGetAll(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        notificationDetailControllerReadNotification(id: string, options?: any): AxiosPromise<object> {
+            return localVarFp.notificationDetailControllerReadNotification(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -20101,13 +20837,23 @@ export const NotificationDetailApiFactory = function (configuration?: Configurat
 export class NotificationDetailApi extends BaseAPI {
     /**
      * 
-     * @param {string} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof NotificationDetailApi
      */
-    public notificationDetailControllerGetAll(body: string, options?: AxiosRequestConfig) {
-        return NotificationDetailApiFp(this.configuration).notificationDetailControllerGetAll(body, options).then((request) => request(this.axios, this.basePath));
+    public notificationDetailControllerGetAll(options?: AxiosRequestConfig) {
+        return NotificationDetailApiFp(this.configuration).notificationDetailControllerGetAll(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationDetailApi
+     */
+    public notificationDetailControllerReadNotification(id: string, options?: AxiosRequestConfig) {
+        return NotificationDetailApiFp(this.configuration).notificationDetailControllerReadNotification(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

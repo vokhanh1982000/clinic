@@ -21,7 +21,7 @@
   "clinic.create.clinic.workTime": "Giờ làm việc",
   "clinic.create.clinic.status": "Trạng thái",
   "clinic.create.manager.title": "Quản lý",
-  "clinic.create.doctor-list.title": "Danh sách bác sĩ chuyên khoa",
+  "clinic.create.doctor-list.title": "Danh sách Bác sĩ Chuyên khoa",
   "clinic.list.doctor-list.table.code": "Mã",
   "clinic.list.doctor-list.table.doctor": "Bác sĩ",
   "clinic.list.doctor-list.table.email": "Email",
@@ -33,7 +33,7 @@
   "clinic.create.button.create": "Tạo mới",
   "clinic.create.button.cancel": "Hủy",
   "clinic.edit.title": "Chi Tiết Phòng Khám",
-  "clinic.edit.button.save": "Lưu thông tin",
+  "clinic.edit.button.save": "Lưu thay đổi",
   "clinic.edit.button.delete": "Xóa phòng khám",
   "clinic.create.error": "Thêm mới thất bại. Mã hoặc vai trò đã được sử dụng!",
   "clinic.update.error": "Cập nhật thất bại!"

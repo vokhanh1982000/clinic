@@ -14,8 +14,11 @@ import { MyUploadProps } from '../../../../constants/dto';
 import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
 import { regexImage } from '../../../../validate/validator.validate';
 import { CustomHandleSuccess } from '../../../../components/response/success';
-import { ActionUser } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS } from '../../../../constants/enum';
 import { CustomHandleError } from '../../../../components/response/error';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const CreateNew = () => {
   const intl = useIntl();
@@ -31,6 +34,24 @@ const CreateNew = () => {
   const [status, setStatus] = useState<boolean>(true);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [loadingImgOnEditor, setLoadingImgOnEditor] = useState<boolean>(false);
+  const { authUser } = useSelector((state: RootState) => state.auth);
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
+  });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadNew, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateNew, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteNew, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateNew, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const { data: dataNew } = useQuery(['getDetailnew', id], () => newsApi.newControllerGetDetail(id as string), {
     onError: (error) => {},
@@ -329,7 +350,13 @@ const CreateNew = () => {
           <div className="right-container__action">
             {id ? (
               <div className="more-action">
-                <CustomButton className="button-save" onClick={onFinish} disabled={loadingImg || loadingImgOnEditor}>
+                <CustomButton
+                  className="button-save"
+                  onClick={() => {
+                    permisstion.update && onFinish();
+                  }}
+                  disabled={loadingImg || loadingImgOnEditor || !permisstion.update}
+                >
                   {intl.formatMessage({
                     id: 'new.edit.button.save',
                   })}
@@ -337,8 +364,9 @@ const CreateNew = () => {
                 <CustomButton
                   className="button-delete"
                   onClick={() => {
-                    setIsDeleteNew(true);
+                    permisstion.delete && setIsDeleteNew(true);
                   }}
+                  disabled={!permisstion.delete}
                 >
                   {intl.formatMessage({
                     id: 'new.edit.button.delete',
@@ -368,7 +396,7 @@ const CreateNew = () => {
         </div>
       </div>
       <ConfirmDeleteModal
-        name={''}
+        name={dataNew?.data.title || ''}
         visible={isDeleteNew}
         onSubmit={handleDelete}
         onClose={() => setIsDeleteNew(false)}

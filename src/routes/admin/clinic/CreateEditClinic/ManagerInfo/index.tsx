@@ -56,8 +56,6 @@ export const ManagerInfo = (props: ManagerInfoProps) => {
     }
   }, [authUser]);
 
-  console.log(permisstion);
-
   const { data: listAdminClinic, isLoading } = useQuery({
     queryKey: ['getAdminClinic', id],
     queryFn: () => adminClinicApi.administratorClinicControllerGetAllNoPagination(id!),

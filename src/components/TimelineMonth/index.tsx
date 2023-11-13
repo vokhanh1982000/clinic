@@ -163,7 +163,7 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
     if (!value) return;
 
     if (type === 'create') {
-      createHolidayMutation.mutate({ date: value });
+      // createHolidayMutation.mutate({ date: value });
     } else if (type === 'delete') {
       deleteHolidayMutation.mutate(value);
     }
