@@ -392,15 +392,6 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       },
     ],
     address: [
-      {
-        max: 36,
-        message: intl.formatMessage({ id: 'common.noti.fullName.limit' }),
-      },
-      {
-        validator: validator({
-          normal: intl.formatMessage({ id: 'common.noti.special' }),
-        }),
-      },
       // {
       //   validator(_: RuleObject, value: string) {
       //     const regex = new RegExp(START_SPACE);

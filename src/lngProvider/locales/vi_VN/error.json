@@ -21,5 +21,6 @@
   "error.DUPLICATE_TIME": "Thời gian bị trùng",
   "error.EXPIRED_TIME": "Thời gian đã hết hạn",
   "error.NO_DOCTOR_AVAILABLE": "Không có bác sĩ nào đang rảnh",
-  "error.THERE_WERE_A_FEW_APPOINTMENTS_BOOKED": "Đang có lịch hẹn"
+  "error.THERE_WERE_A_FEW_APPOINTMENTS_BOOKED": "Đang có lịch hẹn",
+  "error.MUST_BE_A_WORKING_DAY": "Ngoài giờ làm việc của phòng khám"
 }

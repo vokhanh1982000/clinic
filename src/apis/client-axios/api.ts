@@ -9109,6 +9109,246 @@ export class AdminClinicBookingApi extends BaseAPI {
 
 
 /**
+ * AdminConsultingApi - axios parameter creator
+ * @export
+ */
+export const AdminConsultingApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminConsultingControllerGetChatByGroupIdForCustomer: async (page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('adminConsultingControllerGetChatByGroupIdForCustomer', 'page', page)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminConsultingControllerGetChatByGroupIdForCustomer', 'id', id)
+            const localVarPath = `/admin-consulting/get-chat-by-id-for-doctor-customer/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminConsultingControllerGetChatByGroupIdForDocter: async (page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('adminConsultingControllerGetChatByGroupIdForDocter', 'page', page)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('adminConsultingControllerGetChatByGroupIdForDocter', 'id', id)
+            const localVarPath = `/admin-consulting/get-chat-by-id-for-doctor-support/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AdminConsultingApi - functional programming interface
+ * @export
+ */
+export const AdminConsultingApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AdminConsultingApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminConsultingControllerGetChatByGroupIdForCustomer(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminConsultingControllerGetChatByGroupIdForCustomer(page, id, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminConsultingControllerGetChatByGroupIdForDocter(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminConsultingControllerGetChatByGroupIdForDocter(page, id, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * AdminConsultingApi - factory interface
+ * @export
+ */
+export const AdminConsultingApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AdminConsultingApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminConsultingControllerGetChatByGroupIdForCustomer(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.adminConsultingControllerGetChatByGroupIdForCustomer(page, id, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminConsultingControllerGetChatByGroupIdForDocter(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.adminConsultingControllerGetChatByGroupIdForDocter(page, id, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AdminConsultingApi - object-oriented interface
+ * @export
+ * @class AdminConsultingApi
+ * @extends {BaseAPI}
+ */
+export class AdminConsultingApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} page 
+     * @param {string} id 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminConsultingApi
+     */
+    public adminConsultingControllerGetChatByGroupIdForCustomer(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return AdminConsultingApiFp(this.configuration).adminConsultingControllerGetChatByGroupIdForCustomer(page, id, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {string} id 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminConsultingApi
+     */
+    public adminConsultingControllerGetChatByGroupIdForDocter(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return AdminConsultingApiFp(this.configuration).adminConsultingControllerGetChatByGroupIdForDocter(page, id, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * AdminMedicineApi - axios parameter creator
  * @export
  */
@@ -17998,6 +18238,65 @@ export const DoctorSupportConsultingApiAxiosParamCreator = function (configurati
         },
         /**
          * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorSupportConsultingControllerGetChatByGroupId: async (page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerGetChatByGroupId', 'page', page)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerGetChatByGroupId', 'id', id)
+            const localVarPath = `/doctor-support-consulting/get-chat-by-consulting-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -18097,19 +18396,10 @@ export const DoctorSupportConsultingApiAxiosParamCreator = function (configurati
         },
         /**
          * 
-         * @param {number} page 
-         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
-         * @param {number} [size] 
-         * @param {string} [sort] 
-         * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorSupportConsultingControllerGetTotalConsultingUnread: async (page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'page' is not null or undefined
-            assertParamExists('doctorSupportConsultingControllerGetTotalConsultingUnread', 'page', page)
-            // verify required parameter 'consultingStatus' is not null or undefined
-            assertParamExists('doctorSupportConsultingControllerGetTotalConsultingUnread', 'consultingStatus', consultingStatus)
+        doctorSupportConsultingControllerGetTotalConsultingUnread: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/doctor-support-consulting/get-total-consulting-unread`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -18125,26 +18415,6 @@ export const DoctorSupportConsultingApiAxiosParamCreator = function (configurati
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
-
-            if (sort !== undefined) {
-                localVarQueryParameter['sort'] = sort;
-            }
-
-            if (fullTextSearch !== undefined) {
-                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
-            }
-
-            if (consultingStatus !== undefined) {
-                localVarQueryParameter['consultingStatus'] = consultingStatus;
-            }
 
 
     
@@ -18247,6 +18517,20 @@ export const DoctorSupportConsultingApiFp = function(configuration?: Configurati
         },
         /**
          * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorSupportConsultingControllerGetChatByGroupId(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorSupportConsultingControllerGetChatByGroupId(page, id, size, sort, fullTextSearch, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -18271,16 +18555,11 @@ export const DoctorSupportConsultingApiFp = function(configuration?: Configurati
         },
         /**
          * 
-         * @param {number} page 
-         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
-         * @param {number} [size] 
-         * @param {string} [sort] 
-         * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async doctorSupportConsultingControllerGetTotalConsultingUnread(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorSupportConsultingControllerGetTotalConsultingUnread(page, consultingStatus, size, sort, fullTextSearch, options);
+        async doctorSupportConsultingControllerGetTotalConsultingUnread(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorSupportConsultingControllerGetTotalConsultingUnread(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -18338,6 +18617,19 @@ export const DoctorSupportConsultingApiFactory = function (configuration?: Confi
         },
         /**
          * 
+         * @param {number} page 
+         * @param {string} id 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorSupportConsultingControllerGetChatByGroupId(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.doctorSupportConsultingControllerGetChatByGroupId(page, id, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -18360,16 +18652,11 @@ export const DoctorSupportConsultingApiFactory = function (configuration?: Confi
         },
         /**
          * 
-         * @param {number} page 
-         * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
-         * @param {number} [size] 
-         * @param {string} [sort] 
-         * @param {string} [fullTextSearch] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        doctorSupportConsultingControllerGetTotalConsultingUnread(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: any): AxiosPromise<object> {
-            return localVarFp.doctorSupportConsultingControllerGetTotalConsultingUnread(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(axios, basePath));
+        doctorSupportConsultingControllerGetTotalConsultingUnread(options?: any): AxiosPromise<object> {
+            return localVarFp.doctorSupportConsultingControllerGetTotalConsultingUnread(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -18431,6 +18718,21 @@ export class DoctorSupportConsultingApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} page 
+     * @param {string} id 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorSupportConsultingApi
+     */
+    public doctorSupportConsultingControllerGetChatByGroupId(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
+        return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerGetChatByGroupId(page, id, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -18457,17 +18759,12 @@ export class DoctorSupportConsultingApi extends BaseAPI {
 
     /**
      * 
-     * @param {number} page 
-     * @param {'completed' | 'pending' | 'cancelled' | 'accept'} consultingStatus 
-     * @param {number} [size] 
-     * @param {string} [sort] 
-     * @param {string} [fullTextSearch] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DoctorSupportConsultingApi
      */
-    public doctorSupportConsultingControllerGetTotalConsultingUnread(page: number, consultingStatus: 'completed' | 'pending' | 'cancelled' | 'accept', size?: number, sort?: string, fullTextSearch?: string, options?: AxiosRequestConfig) {
-        return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerGetTotalConsultingUnread(page, consultingStatus, size, sort, fullTextSearch, options).then((request) => request(this.axios, this.basePath));
+    public doctorSupportConsultingControllerGetTotalConsultingUnread(options?: AxiosRequestConfig) {
+        return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerGetTotalConsultingUnread(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
