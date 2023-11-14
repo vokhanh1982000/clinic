@@ -25,8 +25,10 @@ import {
   Booking,
   BookingByMonthDto,
   BookingStatusEnum,
+  CreateHolidayScheduleDtoStatusEnum,
   Customer,
   DoctorClinic,
+  HolidaySchedule,
 } from '../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
@@ -37,6 +39,7 @@ interface TimelineWeekProps {
   listBookingWeek: Booking[];
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
   listBookingMonth: BookingByMonthDto[];
+  listHolidayMonth: HolidaySchedule[];
   onRefetchWeek: () => void;
 }
 
@@ -53,7 +56,7 @@ const getAllDaysOfWeek = (date: Moment) => {
 };
 
 const TimelineWeek: FC<TimelineWeekProps> = (props) => {
-  const { form, listBookingWeek, user, listBookingMonth, onRefetchWeek } = props;
+  const { form, listBookingWeek, user, listBookingMonth, onRefetchWeek, listHolidayMonth } = props;
 
   const intl = useIntl();
   const time = Form.useWatch(n('time'), form);
@@ -135,7 +138,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
               borderColor: findStatus?.borderColor || '#E5E5E5',
             },
           },
-          canResize: booking.status === BookingStatusEnum.Pending && user.user?.type !== 'doctor_clinic' ? true : false,
+          // canResize: booking.status === BookingStatusEnum.Pending && user.user?.type !== 'doctor_clinic' ? true : false,
           canMove: booking.status === BookingStatusEnum.Pending && user.user?.type !== 'doctor_clinic' ? true : false,
           canChangeGroup:
             booking.status === BookingStatusEnum.Pending && user.user?.type !== 'doctor_clinic' ? true : false,
@@ -364,7 +367,16 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
       dayjs(booking.day).startOf('days').isSame(dayjs(group.id, SHORT_DATE_FORMAT).startOf('days'))
     );
 
-    if (!booking?.isWork) {
+    const findHoliday = listHolidayMonth.find((holiday) =>
+      dayjs(holiday.date).startOf('days').isSame(dayjs(group.id, SHORT_DATE_FORMAT).startOf('days'))
+    );
+
+    if (
+      !(
+        (findHoliday && findHoliday.status === CreateHolidayScheduleDtoStatusEnum.Work) ||
+        (!findHoliday && booking?.isWork)
+      )
+    ) {
       classes.push('background-color-f2f2f2');
     }
 

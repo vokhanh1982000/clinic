@@ -11,12 +11,11 @@ import Timeline, {
   TimelineGroupBase,
   TimelineHeaders,
   TimelineItemBase,
-  TimelineKeys,
 } from 'react-calendar-timeline';
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useInView } from 'react-intersection-observer';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { adminBookingApi, adminClinicBookingApi, clinicsApi } from '../../apis';
 import {
   AdminClinicUpdateBookingDto,
@@ -130,7 +129,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
       }
 
       if (keyword && filter.page === 1) {
-        setGroups((prev) => [...(new Map(groups.map((group) => [group.id, group])).values() as any)]);
+        setGroups([...(new Map(groups.map((group) => [group.id, group])).values() as any)]);
       } else {
         setGroups((prev) => [...(new Map([...prev, ...groups].map((group) => [group.id, group])).values() as any)]);
       }
@@ -163,7 +162,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
               borderColor: findStatus?.borderColor || '#E5E5E5',
             },
           },
-          canResize: booking.status === BookingStatusEnum.Pending ? true : false,
+          // canResize: booking.status === BookingStatusEnum.Pending ? true : false,
           canMove: booking.status === BookingStatusEnum.Pending ? true : false,
           canChangeGroup: booking.status === BookingStatusEnum.Pending ? true : false,
           divTitle: booking.customer.fullName,
