@@ -52,7 +52,7 @@ const DoctorSchedule = () => {
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
-    queryKey: ['adminScheduleBookingMonth', time, mode],
+    queryKey: ['adminScheduleBookingMonth', time, mode, params.clinicId],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetBookingByMonth(
         dayjs(time).format(DATE_TIME_FORMAT),
@@ -64,13 +64,13 @@ const DoctorSchedule = () => {
   });
 
   const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
-    queryKey: ['adminScheduleHolidayMonth', time, mode],
+    queryKey: ['adminScheduleHolidayMonth', time, mode, params.clinicId],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
         params.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && !!params.clinicId && mode === TimelineMode.MONTH,
+    enabled: !!time && !!params.clinicId,
   });
 
   const { data: doctorClinicInformation } = useQuery({
@@ -99,6 +99,7 @@ const DoctorSchedule = () => {
             form={form}
             listBookingWeek={listBookingWeek?.data || []}
             listBookingMonth={listBookingMonth?.data || []}
+            listHolidayMonth={listHolidayMonth?.data || []}
             user={user}
             onRefetchWeek={handleRefetchWeek}
           />

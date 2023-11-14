@@ -22,9 +22,11 @@ import {
   AdministratorClinic,
   BookingByMonthDto,
   CreateHolidayScheduleDto,
+  CreateHolidayScheduleDtoStatusEnum,
   Customer,
   DoctorClinic,
   HolidaySchedule,
+  UpdateHolidayScheduleDto,
 } from '../../apis/client-axios';
 import { scheduleDoctorRoutes } from '../TimelineControl';
 import { IFormData, TimelineMode, n } from '../TimelineControl/constants';
@@ -109,24 +111,28 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
     }
   );
 
-  const deleteHolidayMutation = useMutation((id: string) => holidayScheduleApi.holidayScheduleControllerRemove(id), {
-    onSuccess: () => {
-      onRefetchMonth();
-    },
-    onError: ({ response }) => {
-      message.error(
-        response?.data?.message
-          ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
-          : response?.data?.message
-      );
-    },
-    onSettled: () => {
-      isSwitchRef.current = false;
-    },
-  });
+  const updateHolidayMutation = useMutation(
+    (payload: { id: string; dto: UpdateHolidayScheduleDto }) =>
+      holidayScheduleApi.holidayScheduleControllerUpdate(payload.id, payload.dto),
+    {
+      onSuccess: () => {
+        onRefetchMonth();
+      },
+      onError: ({ response }) => {
+        message.error(
+          response?.data?.message
+            ? intl.formatMessage({ id: `timeline.updateBooking.error.${response?.data?.message}` })
+            : response?.data?.message
+        );
+      },
+      onSettled: () => {
+        isSwitchRef.current = false;
+      },
+    }
+  );
 
   const renderEvent = (props: EventProps<TimelineEvent>) => {
-    return createHolidayMutation.isLoading || deleteHolidayMutation.isLoading ? (
+    return createHolidayMutation.isLoading || updateHolidayMutation.isLoading ? (
       <Spin />
     ) : (
       <TimelineMonthEvent
@@ -143,29 +149,52 @@ const TimelineMonth: FC<TimelineMonthProps> = (props) => {
       dayjs(booking.day).startOf('days').isSame(dayjs(date).startOf('days'))
     );
 
+    const findHoliday = listHolidayMonth.find((holiday) =>
+      dayjs(holiday.date).startOf('days').isSame(dayjs(date).startOf('days'))
+    );
+
     const isCurrentMonth = dayjs(time).startOf('days').isSame(dayjs(date).startOf('days'), 'month');
     const isCurrentDate = dayjs(new Date()).startOf('days').isSame(dayjs(date).startOf('days'));
 
+    if (!isCurrentMonth) {
+      return { style: { background: '#e6e6e6' } };
+    }
+
+    if (isCurrentDate) {
+      return { style: { background: 'rgba(238, 88, 36, 0.10)' } };
+    }
+
+    if (
+      (findHoliday && findHoliday.status === CreateHolidayScheduleDtoStatusEnum.Work) ||
+      (!findHoliday && booking?.isWork)
+    ) {
+      return { style: { background: '#ffffff' } };
+    }
+
     return {
       style: {
-        background: isCurrentMonth
-          ? isCurrentDate
-            ? 'rgba(238, 88, 36, 0.10)'
-            : booking?.isWork
-            ? '#ffffff'
-            : '#F2F2F2'
-          : '#e6e6e6',
+        background: '#F2F2F2',
       },
     };
   };
 
-  const handleChangeHoliday = (type: 'create' | 'delete', value?: string) => {
-    if (!value) return;
-
+  const handleChangeHoliday = (
+    type: 'create' | 'update',
+    date: string,
+    status: CreateHolidayScheduleDtoStatusEnum,
+    id?: string
+  ) => {
     if (type === 'create') {
-      // createHolidayMutation.mutate({ date: value });
-    } else if (type === 'delete') {
-      deleteHolidayMutation.mutate(value);
+      createHolidayMutation.mutate({
+        date,
+        status,
+        clinicId: (user as AdministratorClinic).clinicId,
+      });
+    } else if (type === 'update') {
+      updateHolidayMutation.mutate({
+        id: id as string,
+        dto: { status, clinicId: (user as AdministratorClinic).clinicId, id: id as string },
+      });
     }
   };
 
