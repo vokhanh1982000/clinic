@@ -35,6 +35,9 @@ const DoctorDetail = () => {
     delete: false,
     update: false,
   });
+  const [permisstionBooking, setPermisstionBooking] = useState<Permission>({
+    read: false,
+  });
 
   useEffect(() => {
     if (authUser?.user?.roles) {
@@ -43,6 +46,9 @@ const DoctorDetail = () => {
         create: Boolean(CheckPermission(PERMISSIONS.CreateClinic, authUser)),
         delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic, authUser)),
         update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic, authUser)),
+      });
+      setPermisstionBooking({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadBooking, authUser)),
       });
     }
   }, [authUser]);
@@ -89,6 +95,7 @@ const DoctorDetail = () => {
           onClick={() => {
             navigate(`${ADMIN_ROUTE_PATH.SCHEDULE_DOCTOR}/${id}?clinicId=${doctorSupport?.data.clinicId}`);
           }}
+          disabled={!permisstionBooking.read}
         >
           {intl.formatMessage({
             id: 'doctor-detail.clinic.button.schedule',

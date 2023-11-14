@@ -392,11 +392,6 @@ export const ValidateLibrary: (intl: IntlShape) => Validate = (intl) => {
       },
     ],
     address: [
-      {
-        validator: validator({
-          normal: intl.formatMessage({ id: 'common.noti.special' }),
-        }),
-      },
       // {
       //   validator(_: RuleObject, value: string) {
       //     const regex = new RegExp(START_SPACE);
