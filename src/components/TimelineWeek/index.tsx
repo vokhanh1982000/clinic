@@ -401,7 +401,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
       const stateTo = timelineComponentRef.current.state.visibleTimeEnd;
 
       const zoomMillis = Math.round(stateTo - stateFrom);
-      const closeToBorderTolerance = 5; // How close item to border enables the auto-scroll canvas, 2-5 are good values.
+      const closeToBorderTolerance = 2; // How close item to border enables the auto-scroll canvas, 2-5 are good values.
 
       // Percent of the window area will be used for activanting the move Time window, will change base on zoom level
       const timeBorderArea = Math.round((zoomMillis * closeToBorderTolerance) / 100);
@@ -416,11 +416,9 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
         if (newTo > maxTime) {
           timelineComponentRef.current.updateScrollCanvas(maxTime - (newTo - newFrom), maxTime);
-
-          return timeValidator;
+        } else {
+          timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
         }
-
-        timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
 
         return time + dragStart.offset;
       }
@@ -433,11 +431,9 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
         if (newFrom < minTime) {
           timelineComponentRef.current.updateScrollCanvas(minTime, minTime + (newTo - newFrom));
-
-          return timeValidator;
+        } else {
+          timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
         }
-
-        timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
 
         return time + dragStart.offset;
       }
@@ -456,15 +452,27 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
       if (resizeEdge === 'right' && time > stateTo - timeBorderArea) {
         const newFrom = stateFrom + timeBorderArea / closeToBorderTolerance;
         const newTo = stateTo + timeBorderArea / closeToBorderTolerance;
+        const maxTime = moment(new Date()).endOf('days').valueOf();
 
-        timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
+        if (newTo > maxTime) {
+          timelineComponentRef.current.updateScrollCanvas(maxTime - (newTo - newFrom), maxTime);
+        } else {
+          timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
+        }
+
         return time + timeBorderArea / 2;
       } else if (time < stateFrom + timeBorderArea) {
         // Moves canvas to left, when item close to left border
         const newFrom = stateFrom - timeBorderArea / closeToBorderTolerance;
         const newTo = stateTo - timeBorderArea / closeToBorderTolerance;
+        const minTime = moment(new Date()).startOf('days').valueOf();
 
-        timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
+        if (newFrom < minTime) {
+          timelineComponentRef.current.updateScrollCanvas(minTime, minTime + (newTo - newFrom));
+        } else {
+          timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
+        }
+
         return time - timeBorderArea / 2;
       }
     }
@@ -509,7 +517,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
             onItemDoubleClick={handleItemDoubleClick}
             keys={timelineKeys}
             moveResizeValidator={handleMoveResizeValidator as any}
-            buffer={5}
+            buffer={6}
             itemTouchSendsClick={false}
           >
             <TimelineHeaders className="timeline-custom-day-header">
