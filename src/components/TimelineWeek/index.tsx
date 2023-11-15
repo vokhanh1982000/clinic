@@ -516,8 +516,8 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
             onItemResize={handleItemResize}
             onItemDoubleClick={handleItemDoubleClick}
             keys={timelineKeys}
-            moveResizeValidator={handleMoveResizeValidator as any}
-            buffer={6}
+            // moveResizeValidator={handleMoveResizeValidator as any}
+            // buffer={6}
             itemTouchSendsClick={false}
           >
             <TimelineHeaders className="timeline-custom-day-header">
