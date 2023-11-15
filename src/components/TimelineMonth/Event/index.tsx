@@ -1,6 +1,6 @@
 import { Col, Row, Switch } from 'antd';
 import dayjs from 'dayjs';
-import { FC, MutableRefObject } from 'react';
+import { FC, MutableRefObject, useMemo } from 'react';
 import { EventProps } from 'react-big-calendar';
 import { useIntl } from 'react-intl';
 import {
@@ -8,6 +8,7 @@ import {
   AdministratorClinic,
   BookingStatusEnum,
   CountBookingByMonthDto,
+  CreateHolidayScheduleDtoStatusEnum,
   Customer,
   DoctorClinic,
 } from '../../../apis/client-axios';
@@ -16,7 +17,12 @@ import { TimelineEvent } from '../index';
 
 interface TimelineMonthEventProps {
   eventProps: EventProps<TimelineEvent>;
-  onChangeHoliday: (type: 'create' | 'delete', value?: string) => void;
+  onChangeHoliday: (
+    type: 'create' | 'update',
+    date: string,
+    status: CreateHolidayScheduleDtoStatusEnum,
+    id?: string
+  ) => void;
   user: Administrator | Customer | AdministratorClinic | DoctorClinic;
   isSwitchRef: MutableRefObject<boolean>;
 }
@@ -26,13 +32,24 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
 
   const intl = useIntl();
 
+  const isWork = useMemo(() => {
+    const { event } = eventProps;
+
+    if (event.holiday) return event.holiday.status === CreateHolidayScheduleDtoStatusEnum.Work;
+
+    return event.resource?.isWork;
+  }, [eventProps]);
+
   const handleChangeSwitch = (checked: boolean) => {
     isSwitchRef.current = true;
 
-    onChangeHoliday(
-      !checked ? 'create' : 'delete',
-      !checked ? dayjs(eventProps.event.resource?.day).toISOString() : eventProps.event.holiday?.id
-    );
+    const { event } = eventProps;
+
+    if (!event.holiday) {
+      onChangeHoliday('create', dayjs(event.resource?.day).toISOString(), checked ? 'work' : 'off');
+    } else {
+      onChangeHoliday('update', dayjs(event.resource?.day).toISOString(), checked ? 'work' : 'off', event.holiday.id);
+    }
   };
 
   return (
@@ -42,17 +59,13 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
           <Row align="middle" justify="center" wrap gutter={4} className="timeline-custom-month-top">
             <Col>
               <span className="font-size-14 font-weight-600 timeline-custom-month-working">
-                {!eventProps.event.holiday
+                {isWork
                   ? intl.formatMessage({ id: 'timeline.month.workingDay' })
                   : intl.formatMessage({ id: 'timeline.doctor.note.dayOff' })}
               </span>
             </Col>
             <Col>
-              <Switch
-                className="timeline-custom-month-switch"
-                checked={!!!eventProps.event.holiday}
-                onChange={handleChangeSwitch}
-              />
+              <Switch className="timeline-custom-month-switch" checked={isWork} onChange={handleChangeSwitch} />
             </Col>
           </Row>
         </Col>
@@ -60,7 +73,7 @@ const TimelineMonthEvent: FC<TimelineMonthEventProps> = (props) => {
       <Col span={24}>
         <Row align="middle" justify="center" wrap gutter={4}>
           {eventProps.event.resource?.data &&
-            eventProps.event.resource?.isWork &&
+            isWork &&
             Object.keys(eventProps.event.resource?.data)
               .filter((status) => {
                 if (

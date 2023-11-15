@@ -62,7 +62,7 @@ const ListBooking = () => {
         user.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time,
   });
 
   const handleRefetchMonth = () => {
@@ -87,6 +87,7 @@ const ListBooking = () => {
             listBookingMonth={listBookingMonth?.data || []}
             user={user}
             onRefetchWeek={handleRefetchWeek}
+            listHolidayMonth={listHolidayMonth?.data || []}
           />
         );
         break;

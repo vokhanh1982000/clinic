@@ -66,7 +66,7 @@ const DoctorSchedule = () => {
         user.clinicId,
         dayjs(time).startOf('month').format(DATE_TIME_FORMAT)
       ),
-    enabled: !!time && mode === TimelineMode.MONTH,
+    enabled: !!time,
   });
 
   const { data: doctorClinicInformation } = useQuery({
@@ -97,6 +97,7 @@ const DoctorSchedule = () => {
             listBookingMonth={listBookingMonth?.data || []}
             user={user}
             onRefetchWeek={handleRefetchWeek}
+            listHolidayMonth={listHolidayMonth?.data || []}
           />
         );
         break;
