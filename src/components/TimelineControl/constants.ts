@@ -65,11 +65,3 @@ export const timelineKeys: TimelineKeys = {
   itemTimeStartKey: 'start_time',
   itemTimeEndKey: 'end_time',
 };
-
-export interface TimelineDragStart {
-  x: number;
-  y: number;
-  clientX: number;
-  offset: number;
-  itemTimeStart: string;
-}
