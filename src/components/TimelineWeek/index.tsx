@@ -443,7 +443,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
       const stateTo = timelineComponentRef.current.state.visibleTimeEnd;
 
       const zoomMillis = Math.round(stateTo - stateFrom);
-      const closeToBorderTolerance = 2; // How close item to border enables the auto-scroll canvas, 2-5 are good values.
+      const closeToBorderTolerance = 3; // How close item to border enables the auto-scroll canvas, 2-5 are good values.
 
       // Percent of the window area will be used for activanting the move Time window, will change base on zoom level
       const timeBorderArea = Math.round((zoomMillis * closeToBorderTolerance) / 100);
@@ -516,8 +516,8 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
             onItemResize={handleItemResize}
             onItemDoubleClick={handleItemDoubleClick}
             keys={timelineKeys}
-            // moveResizeValidator={handleMoveResizeValidator as any}
-            // buffer={6}
+            moveResizeValidator={handleMoveResizeValidator as any}
+            buffer={8}
             itemTouchSendsClick={false}
           >
             <TimelineHeaders className="timeline-custom-day-header">

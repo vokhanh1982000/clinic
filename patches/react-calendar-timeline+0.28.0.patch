@@ -1,0 +1,60 @@
+diff --git a/node_modules/react-calendar-timeline/lib/lib/items/Item.js b/node_modules/react-calendar-timeline/lib/lib/items/Item.js
+index 1b57c5a..b9e62e8 100644
+--- a/node_modules/react-calendar-timeline/lib/lib/items/Item.js
++++ b/node_modules/react-calendar-timeline/lib/lib/items/Item.js
+@@ -330,7 +330,9 @@ function (_Component) {
+             dragStart: {
+               x: e.pageX,
+               y: e.pageY,
+-              offset: _this2.itemTimeStart - clickTime
++              clientX: e.clientX,
++              offset: _this2.itemTimeStart - clickTime,
++              itemTimeStart: _this2.itemTimeStart
+             },
+             preDragPosition: {
+               x: e.target.offsetLeft,
+@@ -349,7 +351,7 @@ function (_Component) {
+           var dragGroupDelta = _this2.dragGroupDelta(e);
+ 
+           if (_this2.props.moveResizeValidator) {
+-            dragTime = _this2.props.moveResizeValidator('move', _this2.props.item, dragTime);
++            dragTime = _this2.props.moveResizeValidator('move', _this2.props.item, dragTime, null, e, _this2.state.dragStart);
+           }
+ 
+           if (_this2.props.onDrag) {
+@@ -367,7 +369,7 @@ function (_Component) {
+             var dragTime = _this2.dragTime(e);
+ 
+             if (_this2.props.moveResizeValidator) {
+-              dragTime = _this2.props.moveResizeValidator('move', _this2.props.item, dragTime);
++              dragTime = _this2.props.moveResizeValidator('move', _this2.props.item, dragTime, null, e, _this2.state.dragStart);
+             }
+ 
+             _this2.props.onDrop(_this2.itemId, dragTime, _this2.props.order.index + _this2.dragGroupDelta(e));
+@@ -408,7 +410,7 @@ function (_Component) {
+           var resizeTime = _this2.resizeTimeSnap(_this2.timeFor(e));
+ 
+           if (_this2.props.moveResizeValidator) {
+-            resizeTime = _this2.props.moveResizeValidator('resize', _this2.props.item, resizeTime, resizeEdge);
++            resizeTime = _this2.props.moveResizeValidator('resize', _this2.props.item, resizeTime, resizeEdge, e, _this2.state.dragStart);
+           }
+ 
+           if (_this2.props.onResizing) {
+@@ -426,7 +428,7 @@ function (_Component) {
+           var resizeTime = _this2.resizeTimeSnap(_this2.timeFor(e));
+ 
+           if (_this2.props.moveResizeValidator) {
+-            resizeTime = _this2.props.moveResizeValidator('resize', _this2.props.item, resizeTime, resizeEdge);
++            resizeTime = _this2.props.moveResizeValidator('resize', _this2.props.item, resizeTime, resizeEdge, e, _this2.state.dragStart);
+           }
+ 
+           if (_this2.props.onResized) {
+@@ -489,7 +491,7 @@ function (_Component) {
+       var willBeAbleToResizeLeft = this.props.selected && this.canResizeLeft(this.props);
+       var willBeAbleToResizeRight = this.props.selected && this.canResizeRight(this.props);
+ 
+-      if (!!this.item) {
++      if (this.item) {
+         if (this.props.selected && !interactMounted) {
+           this.mountInteract();
+           interactMounted = true;
