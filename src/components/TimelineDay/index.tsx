@@ -503,8 +503,8 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             canMove
             onItemDoubleClick={handleItemDoubleClick}
             keys={timelineKeys}
-            // moveResizeValidator={handleMoveResizeValidator as any}
-            // buffer={6}
+            moveResizeValidator={handleMoveResizeValidator as any}
+            buffer={8}
             itemTouchSendsClick={false}
           >
             <TimelineHeaders className="timeline-custom-day-header">
