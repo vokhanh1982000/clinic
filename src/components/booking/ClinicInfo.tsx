@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { IntlShape } from 'react-intl';
 import useIntl from '../../util/useIntl';
-import { Form, FormInstance, Select } from 'antd';
+import { Form, FormInstance, Select, Tooltip } from 'antd';
 import CustomInput from '../input/CustomInput';
 import { BookingStatusEnum, Clinic, DoctorClinic } from '../../apis/client-axios';
 import { debounce } from 'lodash';
@@ -109,7 +109,9 @@ const ClinicInfo = (props: ClinicInfoProps) => {
                           />
                         </div>
                         <div className={'option-item__info'}>
-                          <div className={'option-item__info__name'}>{item.fullName}</div>
+                          <Tooltip placement="top" title={item.fullName}>
+                            <div className={'option-item__info__name'}>{item.fullName}</div>
+                          </Tooltip>
                           <div className={'option-item__info__mail'}>{item.phoneClinic}</div>
                           <div className={'option-item__info__category'}>{item.address}</div>
                         </div>

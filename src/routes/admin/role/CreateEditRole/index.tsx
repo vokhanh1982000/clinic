@@ -29,6 +29,7 @@ const CreateRole = () => {
   const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string | undefined }>();
   const [roleName, setRoleName] = useState<string>();
   const { authUser } = useSelector((state: RootState) => state.auth);
+  const [formPermission, setFormPermission] = useState<string[]>([]);
   const [permisstion, setPermisstion] = useState<Permission>({
     read: false,
     create: false,
@@ -52,14 +53,13 @@ const CreateRole = () => {
     enabled: permisstion.read,
   });
 
-  console.log('dataPermissions: ', dataPermissions);
-
   const { data: dataRole } = useQuery({
     queryKey: ['getRoleDetail', id],
     queryFn: () => roleApi.roleControllerGetById(id as string),
     enabled: !!id && permisstion.read,
     onSuccess: ({ data }) => {
       setRoleName(data.name);
+      setFormPermission(data.permissions);
     },
   });
 
@@ -131,13 +131,21 @@ const CreateRole = () => {
     }
   }, [dataRole]);
 
-  const onPermissionChecked = (permissionName: string, checked: boolean) => {
-    console.log(permissionName);
+  const onPermissionChecked = (permissionName: string, checked: boolean, readPermission: string) => {
     const permissions = new Set((form.getFieldValue(n('permissions')) || []) as string[]);
     if (checked) {
-      permissions.add(permissionName);
+      if (!formPermission.includes(readPermission)) {
+        const arrPermission = [...formPermission, permissionName, readPermission].filter(
+          (item, index) => [...formPermission, permissionName, readPermission].indexOf(item) === index
+        );
+        setFormPermission(arrPermission);
+      } else {
+        setFormPermission([...formPermission, permissionName]);
+        // permissions.add(permissionName);
+      }
     } else {
-      permissions.delete(permissionName);
+      // permissions.delete(permissionName);
+      setFormPermission(formPermission.filter((item) => item !== permissionName));
     }
     form.setFieldValue(n('permissions'), Array.from(permissions));
   };
@@ -154,13 +162,20 @@ const CreateRole = () => {
       }
       const permissionName = record.permissions[i].name;
       if (id) {
-        if (dataRole?.data?.permissions) {
-          const checked = dataRole?.data?.permissions.includes(permissionName);
+        if (formPermission && formPermission.length > 0) {
+          // const checked = dataRole?.data?.permissions.includes(permissionName);
           return (
             <Checkbox
-              defaultChecked={checked}
+              checked={formPermission && formPermission.includes(permissionName)}
+              disabled={
+                permissionName === record.permissions[1].name &&
+                formPermission &&
+                (formPermission.includes(record.permissions[0].name) ||
+                  (formPermission.includes(record.permissions[2].name) &&
+                    formPermission.includes(record.permissions[3].name)))
+              }
               onChange={(e) => {
-                onPermissionChecked(permissionName, e.target.checked);
+                onPermissionChecked(permissionName, e.target.checked, record.permissions[1].name);
               }}
             ></Checkbox>
           );
@@ -168,8 +183,16 @@ const CreateRole = () => {
       } else {
         return (
           <Checkbox
+            disabled={
+              permissionName === record.permissions[1].name &&
+              formPermission &&
+              (formPermission.includes(record.permissions[0].name) ||
+                (formPermission.includes(record.permissions[2].name) &&
+                  formPermission.includes(record.permissions[3].name)))
+            }
+            checked={formPermission && formPermission.includes(permissionName)}
             onChange={(e) => {
-              onPermissionChecked(permissionName, e.target.checked);
+              onPermissionChecked(permissionName, e.target.checked, record.permissions[1].name);
             }}
           ></Checkbox>
         );
@@ -187,19 +210,18 @@ const CreateRole = () => {
   };
 
   const onFinish = (values: any) => {
-    const permissions = Array.from(new Set(form.getFieldValue(n('permissions')))) as string[];
-
+    // const permissions = Array.from(new Set(form.getFieldValue(n('permissions')))) as string[];
     id
       ? updateRole.mutate({
           // code: values.code,
           name: values.name,
-          permissions: permissions,
+          permissions: formPermission,
           id: id,
         })
       : createRole.mutate({
           // code: values.code,
           name: values.name,
-          permissions: permissions,
+          permissions: formPermission,
         });
   };
 
@@ -226,7 +248,6 @@ const CreateRole = () => {
     }
   };
 
-  console.log(dataPermissions?.data);
   return (
     <Card id="create-role-management">
       {/* <SaveButton className="float-end" onClick={form.submit} /> */}
