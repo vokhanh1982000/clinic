@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Form, FormInstance, message } from 'antd';
 import dayjs from 'dayjs';
 import moment, { Moment } from 'moment';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
 import Timeline, {
   DateHeader,
   IntervalRenderer,
@@ -32,7 +32,7 @@ import {
 } from '../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
-import { IFormData, NOTES, n, timelineKeys } from '../TimelineControl/constants';
+import { IFormData, NOTES, TimelineDragStart, n, timelineKeys } from '../TimelineControl/constants';
 
 interface TimelineWeekProps {
   form: FormInstance<IFormData>;
@@ -65,6 +65,8 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
   const [groups, setGroups] = useState<TimelineGroupBase[]>([]);
   const [items, setItems] = useState<TimelineItemBase<Moment>[]>([]);
+
+  const timelineComponentRef = useRef<any>(null);
 
   const { id } = useParams<{ id: string }>();
 
@@ -383,45 +385,139 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
     return classes;
   };
 
+  const handleMoveResizeValidator = (
+    action: 'move' | 'resize',
+    item: TimelineItemBase<Moment>,
+    timeValidator: number,
+    resizeEdge: 'left' | 'right',
+    e: DragEvent,
+    dragStart: TimelineDragStart
+  ) => {
+    if (!timelineComponentRef.current || (timelineComponentRef.current && !timelineComponentRef.current?.state)) return;
+
+    if (action === 'move') {
+      const time = timelineComponentRef.current.timeFromItemEvent(e); // time from drag/resize event, DO NOT USE "time" param
+      const stateFrom = timelineComponentRef.current.state.visibleTimeStart;
+      const stateTo = timelineComponentRef.current.state.visibleTimeEnd;
+
+      const zoomMillis = Math.round(stateTo - stateFrom);
+      const closeToBorderTolerance = 5; // How close item to border enables the auto-scroll canvas, 2-5 are good values.
+
+      // Percent of the window area will be used for activanting the move Time window, will change base on zoom level
+      const timeBorderArea = Math.round((zoomMillis * closeToBorderTolerance) / 100);
+      const duration = item.end_time.valueOf() - item.start_time.valueOf();
+      const rightBorderTime = time + duration;
+
+      // Moves timeline to right, when item close to right border
+      if (rightBorderTime > stateTo - timeBorderArea) {
+        const newFrom = stateFrom + timeBorderArea / closeToBorderTolerance;
+        const newTo = stateTo + timeBorderArea / closeToBorderTolerance;
+        const maxTime = moment(new Date()).endOf('days').valueOf();
+
+        if (newTo > maxTime) {
+          timelineComponentRef.current.updateScrollCanvas(maxTime - (newTo - newFrom), maxTime);
+
+          return timeValidator;
+        }
+
+        timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
+
+        return time + dragStart.offset;
+      }
+
+      // Moves canvas to left, when item close to left border
+      if (time < stateFrom + timeBorderArea) {
+        const newFrom = stateFrom - timeBorderArea / closeToBorderTolerance;
+        const newTo = stateTo - timeBorderArea / closeToBorderTolerance;
+        const minTime = moment(new Date()).startOf('days').valueOf();
+
+        if (newFrom < minTime) {
+          timelineComponentRef.current.updateScrollCanvas(minTime, minTime + (newTo - newFrom));
+
+          return timeValidator;
+        }
+
+        timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
+
+        return time + dragStart.offset;
+      }
+    } else if (action === 'resize') {
+      const time = timelineComponentRef.current.timeFromItemEvent(e); // time from drag/resize event, DO NOT USE "time" param
+      const stateFrom = timelineComponentRef.current.state.visibleTimeStart;
+      const stateTo = timelineComponentRef.current.state.visibleTimeEnd;
+
+      const zoomMillis = Math.round(stateTo - stateFrom);
+      const closeToBorderTolerance = 2; // How close item to border enables the auto-scroll canvas, 2-5 are good values.
+
+      // Percent of the window area will be used for activanting the move Time window, will change base on zoom level
+      const timeBorderArea = Math.round((zoomMillis * closeToBorderTolerance) / 100);
+
+      // Moves timeline to right, when item close to right border
+      if (resizeEdge === 'right' && time > stateTo - timeBorderArea) {
+        const newFrom = stateFrom + timeBorderArea / closeToBorderTolerance;
+        const newTo = stateTo + timeBorderArea / closeToBorderTolerance;
+
+        timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
+        return time + timeBorderArea / 2;
+      } else if (time < stateFrom + timeBorderArea) {
+        // Moves canvas to left, when item close to left border
+        const newFrom = stateFrom - timeBorderArea / closeToBorderTolerance;
+        const newTo = stateTo - timeBorderArea / closeToBorderTolerance;
+
+        timelineComponentRef.current.updateScrollCanvas(newFrom, newTo);
+        return time - timeBorderArea / 2;
+      }
+    }
+
+    return timeValidator;
+  };
+
   return (
     <>
-      {groups.length > 0 && items.length > 0 && listBookingMonth.length > 0 && (
-        <Timeline
-          groups={groups}
-          items={items}
-          defaultTimeStart={moment(dayjs(time).toDate())}
-          defaultTimeEnd={moment(dayjs(time).toDate()).add(4, 'hour')}
-          timeSteps={{
-            second: 0,
-            minute: 0,
-            hour: 0.5,
-            day: 0,
-            month: 0,
-            year: 0,
-          }}
-          stackItems
-          itemHeightRatio={0.78125}
-          lineHeight={64}
-          sidebarWidth={210}
-          className="timeline-custom-day"
-          maxZoom={4 * 60 * 60 * 1000}
-          onTimeChange={handleTimeChange}
-          canResize={false}
-          canMove={user?.user?.type !== 'doctor_clinic'}
-          canChangeGroup={user?.user?.type !== 'doctor_clinic'}
-          verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
-          horizontalLineClassNamesForGroup={renderHorizontalLineClassNamesForGroup}
-          onItemMove={handleItemMove}
-          onItemResize={handleItemResize}
-          onItemDoubleClick={handleItemDoubleClick}
-          keys={timelineKeys}
-        >
-          <TimelineHeaders className="timeline-custom-day-header">
-            <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
-            <DateHeader unit="hour" height={72} labelFormat={TIME_FORMAT} intervalRenderer={renderIntervalRenderer} />
-          </TimelineHeaders>
-        </Timeline>
-      )}
+      {groups.length > 0 &&
+        items.length > 0 &&
+        listBookingMonth.length > 0 &&
+        !adminClinicUpdateBookingMutation.isLoading &&
+        !adminUpdateBookingMutation.isLoading && (
+          <Timeline
+            groups={groups}
+            items={items}
+            defaultTimeStart={moment(dayjs(time).toDate())}
+            defaultTimeEnd={moment(dayjs(time).toDate()).add(4, 'hour')}
+            timeSteps={{
+              second: 0,
+              minute: 0,
+              hour: 0.5,
+              day: 0,
+              month: 0,
+              year: 0,
+            }}
+            stackItems
+            itemHeightRatio={0.78125}
+            lineHeight={64}
+            sidebarWidth={210}
+            className="timeline-custom-day"
+            maxZoom={4 * 60 * 60 * 1000}
+            onTimeChange={handleTimeChange}
+            canResize={false}
+            canMove={user?.user?.type !== 'doctor_clinic'}
+            canChangeGroup={user?.user?.type !== 'doctor_clinic'}
+            verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
+            horizontalLineClassNamesForGroup={renderHorizontalLineClassNamesForGroup}
+            onItemMove={handleItemMove}
+            onItemResize={handleItemResize}
+            onItemDoubleClick={handleItemDoubleClick}
+            keys={timelineKeys}
+            moveResizeValidator={handleMoveResizeValidator as any}
+            buffer={5}
+            itemTouchSendsClick={false}
+          >
+            <TimelineHeaders className="timeline-custom-day-header">
+              <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
+              <DateHeader unit="hour" height={72} labelFormat={TIME_FORMAT} intervalRenderer={renderIntervalRenderer} />
+            </TimelineHeaders>
+          </Timeline>
+        )}
     </>
   );
 };
