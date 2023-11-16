@@ -204,6 +204,9 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
     (payload: { id: string; dto: AdminClinicUpdateBookingDto }) =>
       adminClinicBookingApi.adminClinicBookingControllerUpdate(payload.id, payload.dto),
     {
+      onSuccess: ({ data }) => {
+        form.setFieldValue(n('time'), dayjs(data.appointmentStartTime));
+      },
       onError: ({ response }) => {
         message.error(
           response?.data?.message
@@ -211,7 +214,15 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             : response?.data?.message
         );
       },
-      onSettled: () => {
+      onSettled: (_, error, variables) => {
+        if (error) {
+          const findBooking = listBookingDay.find((booking) => booking.id === variables.id);
+
+          if (findBooking) {
+            form.setFieldValue(n('time'), dayjs(findBooking.appointmentStartTime));
+          }
+        }
+
         onRefetchDay();
       },
     }
@@ -221,6 +232,9 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
     (payload: { id: string; dto: AdminUpdateBookingDto }) =>
       adminBookingApi.adminBookingControllerUpdate(payload.id, payload.dto),
     {
+      onSuccess: ({ data }) => {
+        form.setFieldValue(n('time'), dayjs(data.appointmentStartTime));
+      },
       onError: ({ response }) => {
         message.error(
           response?.data?.message
@@ -228,7 +242,15 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             : response?.data?.message
         );
       },
-      onSettled: () => {
+      onSettled: (_, error, variables) => {
+        if (error) {
+          const findBooking = listBookingDay.find((booking) => booking.id === variables.id);
+
+          if (findBooking) {
+            form.setFieldValue(n('time'), dayjs(findBooking.appointmentStartTime));
+          }
+        }
+
         onRefetchDay();
       },
     }
@@ -431,7 +453,7 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
       const stateTo = timelineComponentRef.current.state.visibleTimeEnd;
 
       const zoomMillis = Math.round(stateTo - stateFrom);
-      const closeToBorderTolerance = 3; // How close item to border enables the auto-scroll canvas, 2-5 are good values.
+      const closeToBorderTolerance = 2; // How close item to border enables the auto-scroll canvas, 2-5 are good values.
 
       // Percent of the window area will be used for activanting the move Time window, will change base on zoom level
       const timeBorderArea = Math.round((zoomMillis * closeToBorderTolerance) / 100);
