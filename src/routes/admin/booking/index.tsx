@@ -4,7 +4,7 @@ import type { ColumnsType } from 'antd/es/table';
 import dayjs, { Dayjs } from 'dayjs';
 import { debounce } from 'lodash';
 import moment from 'moment';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { adminBookingApi } from '../../../apis';
@@ -18,6 +18,10 @@ import CustomInput from '../../../components/input/CustomInput';
 import CustomSelect from '../../../components/select/CustomSelect';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
 import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../util/constant';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
+import CheckPermission, { Permission } from '../../../util/check-permission';
+import { PERMISSIONS } from '../../../constants/enum';
 
 interface IFormData {
   keyword?: string;
@@ -41,6 +45,36 @@ const ListBooking = () => {
 
   const navigate = useNavigate();
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
+  const { authUser } = useSelector((state: RootState) => state.auth);
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
+  });
+  const [permisstionClinic, setPermisstionClinic] = useState<Permission>({
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
+  });
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadBooking, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateBooking, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking, authUser)),
+      });
+      setPermisstionClinic({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadClinic, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateClinic, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteClinic, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateClinic, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const { data: listBookingDayPaginated } = useQuery({
     queryKey: ['adminBookingDayPaginated', time, filter, status, keyword],
@@ -76,6 +110,7 @@ const ListBooking = () => {
         <span
           className="font-size-14 font-family-primary color-1A1A1A cursor-pointer text-decoration-underline"
           onClick={() =>
+            permisstionClinic.read &&
             navigate(
               `${ADMIN_ROUTE_NAME.CLINIC}/${value.clinicId}?date=${moment(value.appointmentStartTime).format(
                 DATE_TIME_FORMAT
@@ -247,6 +282,7 @@ const ListBooking = () => {
               icon={<IconSVG type="create" />}
               className={'action__create'}
               onClick={() => navigate(ADMIN_ROUTE_PATH.CREATE_BOOKING)}
+              disabled={!permisstion.create}
             >
               {intl.formatMessage({ id: 'timeline.admin.button.create' })}
             </CustomButton>
