@@ -25,14 +25,16 @@ import {
 import dayjs from 'dayjs';
 import { BookingStatus } from '../../../../util/constant';
 import ClinicInfo from '../../../../components/booking/ClinicInfo';
-import { useAppDispatch } from '../../../../store';
+import { RootState, useAppDispatch } from '../../../../store';
 import { roundTimeToNearestHalfHour } from '../../../../util/comm.func';
 import { ConfirmCancelModal } from '../../../../components/booking/ConfirmCancelModal';
 import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { CustomHandleSuccess } from '../../../../components/response/success';
-import { ActionUser } from '../../../../constants/enum';
+import { ActionUser, PERMISSIONS } from '../../../../constants/enum';
 import { CustomHandleError } from '../../../../components/response/error';
 import Prescription from '../../../../components/booking/Prescription';
+import { useSelector } from 'react-redux';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
 
 const CreateOrUpDateBooking = () => {
   const intl: IntlShape = useIntl();
@@ -50,6 +52,13 @@ const CreateOrUpDateBooking = () => {
   const dispatch = useAppDispatch();
   const [showModalCancel, setShowModalCancel] = useState<boolean>(false);
   const [prescription, setPrescription] = useState<PrescriptionType>();
+  const { authUser } = useSelector((state: RootState) => state.auth);
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
+  });
 
   const navigate: NavigateFunction = useNavigate();
   const queryClient: QueryClient = useQueryClient();
@@ -67,12 +76,23 @@ const CreateOrUpDateBooking = () => {
     }
   };
 
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadBooking, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateBooking, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking, authUser)),
+      });
+    }
+  }, [authUser]);
+
   const { data: bookingData } = useQuery({
     queryKey: ['adminBookingDetail', id],
     queryFn: () => {
       return adminBookingApi.adminBookingControllerFindOne(id!);
     },
-    enabled: !!id,
+    enabled: !!(id && permisstion.read),
   });
 
   const { mutate: UpdateBooking } = useMutation({
@@ -369,7 +389,10 @@ const CreateOrUpDateBooking = () => {
               form={form}
               type={id ? 'update' : 'create'}
               role={'admin'}
-              onCancel={() => setShowModalCancel(true)}
+              onCancel={() => {
+                id ? setShowModalCancel(true) : navigateBack();
+              }}
+              disableSubmit={id ? !permisstion.update : !permisstion.create}
             />
           </div>
         </div>

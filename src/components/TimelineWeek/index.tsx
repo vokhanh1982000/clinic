@@ -33,6 +33,7 @@ import {
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
 import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
 import { IFormData, NOTES, n, timelineKeys } from '../TimelineControl/constants';
+import { Permission } from '../../util/check-permission';
 
 interface TimelineWeekProps {
   form: FormInstance<IFormData>;
@@ -41,6 +42,7 @@ interface TimelineWeekProps {
   listBookingMonth: BookingByMonthDto[];
   listHolidayMonth: HolidaySchedule[];
   onRefetchWeek: () => void;
+  permission?: Permission;
 }
 
 const getAllDaysOfWeek = (date: Moment) => {
@@ -56,7 +58,7 @@ const getAllDaysOfWeek = (date: Moment) => {
 };
 
 const TimelineWeek: FC<TimelineWeekProps> = (props) => {
-  const { form, listBookingWeek, user, listBookingMonth, onRefetchWeek, listHolidayMonth } = props;
+  const { form, listBookingWeek, user, listBookingMonth, onRefetchWeek, listHolidayMonth, permission } = props;
 
   const intl = useIntl();
   const time = Form.useWatch(n('time'), form);
@@ -139,9 +141,18 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
             },
           },
           // canResize: booking.status === BookingStatusEnum.Pending && user.user?.type !== 'doctor_clinic' ? true : false,
-          canMove: booking.status === BookingStatusEnum.Pending && user.user?.type !== 'doctor_clinic' ? true : false,
+          canMove:
+            (!permission || (permission && permission.update)) &&
+            booking.status === BookingStatusEnum.Pending &&
+            user.user?.type !== 'doctor_clinic'
+              ? true
+              : false,
           canChangeGroup:
-            booking.status === BookingStatusEnum.Pending && user.user?.type !== 'doctor_clinic' ? true : false,
+            (!permission || (permission && permission.update)) &&
+            booking.status === BookingStatusEnum.Pending &&
+            user.user?.type !== 'doctor_clinic'
+              ? true
+              : false,
           divTitle: booking.customer.fullName,
         } as TimelineItemBase<Moment>;
 
