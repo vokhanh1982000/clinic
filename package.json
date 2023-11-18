@@ -9,7 +9,8 @@
     "eject": "react-scripts eject",
     "format": "npx prettier --write .",
     "generate:apis": "dotenv -- cross-var openapi-generator-cli generate -i %REACT_APP_API_URL%/apidoc-json --skip-validate-spec -g typescript-axios -o src/apis/client-axios",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^40.0.0",
@@ -37,6 +38,8 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "node-sass": "^9.0.0",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "react": "^18.2.0",
     "react-big-calendar": "^1.8.4",
     "react-calendar-timeline": "^0.28.0",
