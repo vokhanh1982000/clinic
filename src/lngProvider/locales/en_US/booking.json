@@ -11,6 +11,7 @@
   "booking.create.is-prioritize": "Is prioritize",
   "booking.create.has-booked-assistant": "Is booking assistant",
   "booking.create.hour": "Select hour",
+  "booking.create.categories": "Specialist",
   "booking.create.note": "Note",
   "booking.prescription.medicine.order": "Order",
   "booking.prescription.medicine.name": "Medicine name",

@@ -252,8 +252,8 @@ const ListNew = () => {
             render={(_, record: any) => (
               <div className="action-new">
                 <div
-                  className={permisstion.update ? '' : 'disable'}
-                  onClick={() => permisstion.update && navigate(`detail/${record.id}`)}
+                  className={permisstion.read ? '' : 'disable'}
+                  onClick={() => permisstion.read && navigate(`detail/${record.id}`)}
                 >
                   <IconSVG type="edit" />
                 </div>

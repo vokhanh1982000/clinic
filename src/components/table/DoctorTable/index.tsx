@@ -318,8 +318,8 @@ export const DoctorTable = (props: DoctorTableProps) => {
                 </>
               )}
               <div
-                className={!permission || (permission && permission.update) ? '' : 'disable'}
-                onClick={() => (!permission || (permission && permission.update)) && navigate(`detail/${record.id}`)}
+                className={!permission || (permission && permission.read) ? '' : 'disable'}
+                onClick={() => (!permission || (permission && permission.read)) && navigate(`detail/${record.id}`)}
               >
                 <IconSVG type="edit" />
               </div>

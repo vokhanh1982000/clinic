@@ -69,7 +69,11 @@ const CreateOrUpDateBooking = () => {
 
   useEffect(() => {
     const data: Booking | undefined = bookingData?.data;
-    form.setFieldsValue({ ...data, appointmentStartTime: dayjs(data?.appointmentStartTime) });
+    form.setFieldsValue({
+      ...data,
+      appointmentStartTime: dayjs(data?.appointmentStartTime),
+      categoryName: data?.category ? data.category.name : null,
+    });
     setDoctorClinic(data?.doctorClinic);
     setCustomer(data?.customer);
     setPrescription(data?.prescription);

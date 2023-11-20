@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import IconSVG from '../icons/icons';
 import CustomSelectTime from '../select/CustomSelectTime';
 import { BookingStatusEnum } from '../../apis/client-axios';
+import CustomInput from '../input/CustomInput';
 
 export type BookingTime = {
   time: string;
@@ -152,6 +153,16 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
                 </div>
               </Option>
             </CustomSelectTime>
+          </Form.Item>
+        </div>
+        <div className={'schedule-info__content__rows'}>
+          <Form.Item
+            label={intl.formatMessage({
+              id: 'booking.create.categories',
+            })}
+            name={'categoryName'}
+          >
+            <CustomInput disabled />
           </Form.Item>
         </div>
         <div className={'schedule-info__content__rows'}>
