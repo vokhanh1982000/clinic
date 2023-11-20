@@ -37,7 +37,9 @@ const Action = (props: ActionProp) => {
     ) {
       return !disableSubmit ? false : disableSubmit;
     }
-    return !(type === 'update' && (status === BookingStatusEnum.Pending || status === BookingStatusEnum.Approved));
+    return !disableSubmit
+      ? !(type === 'update' && (status === BookingStatusEnum.Pending || status === BookingStatusEnum.Approved))
+      : disableSubmit;
   };
 
   return (
