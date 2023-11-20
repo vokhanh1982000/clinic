@@ -236,7 +236,9 @@ const ListNew = () => {
                   <Switch
                     checked={record.status}
                     onChange={() => {
-                      UpdateStatusNew(record.id);
+                      if (permisstion.update) {
+                        UpdateStatusNew(record.id);
+                      }
                     }}
                   />
                 </div>

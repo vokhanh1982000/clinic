@@ -446,7 +446,7 @@ const CreateCustomer = () => {
       </FormWrap>
 
       <ConfirmDeleteModal
-        name={''}
+        name={datacustomer?.data.fullName || ''}
         visible={isDeleteCustomer}
         onSubmit={handleDelete}
         onClose={() => setIsDeleteCustomer(false)}
