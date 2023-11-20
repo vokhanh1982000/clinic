@@ -174,7 +174,7 @@ const CreateDoctor = () => {
         />
       </FormWrap>
       <ConfirmDeleteModal
-        name={''}
+        name={doctorSupport?.data.fullName || ''}
         visible={isDeleteDoctor}
         onSubmit={() => handelDelete()}
         onClose={() => setIsDeleteDoctor(false)}
