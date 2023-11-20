@@ -70,7 +70,7 @@ const Action = (props: ActionProp) => {
           <CustomButton
             className="button-cancel"
             onClick={onCancel}
-            disabled={!(type === 'update' && status === BookingStatusEnum.Pending)}
+            disabled={!disableSubmit ? !(type === 'update' && status === BookingStatusEnum.Pending) : disableSubmit}
           >
             {intl.formatMessage({ id: 'booking.button.admin-cancel-booking' })}
           </CustomButton>

@@ -12,6 +12,7 @@
   "booking.create.is-prioritize": " Dịch vụ ưu tiên",
   "booking.create.has-booked-assistant": "Thư kí y khoa",
   "booking.create.hour": "Chọn giờ",
+  "booking.create.categories": "Chuyên khoa",
   "booking.create.note": "Ghi chú",
   "booking.prescription.medicine.order": "STT",
   "booking.prescription.medicine.name": "Tên thuốc",

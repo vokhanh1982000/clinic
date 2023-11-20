@@ -34,6 +34,7 @@ import { updateClinic } from '../../store/clinicSlice';
 import { TIME_FORMAT } from '../../util/constant';
 import { IFilter, IFormData, NOTES, TimelineDragStart, n, timelineKeys } from '../TimelineControl/constants';
 import SidebarHeaderContent from './SidebarHeaderContent';
+import { Permission } from '../../util/check-permission';
 
 interface TimelineDayProps {
   form: FormInstance<IFormData>;
@@ -43,10 +44,11 @@ interface TimelineDayProps {
   listDoctorClinics?: DoctorClinicControllerGetAll200Response;
   filter: IFilter;
   onChangeFilter: (newFilter: IFilter) => void;
+  permission?: Permission;
 }
 
 const TimelineDay: FC<TimelineDayProps> = (props) => {
-  const { form, listBookingDay, onRefetchDay, user, listDoctorClinics, filter, onChangeFilter } = props;
+  const { form, listBookingDay, onRefetchDay, user, listDoctorClinics, filter, onChangeFilter, permission } = props;
 
   const intl = useIntl();
   const time = Form.useWatch(n('time'), form);
@@ -166,8 +168,14 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
             },
           },
           // canResize: booking.status === BookingStatusEnum.Pending ? true : false,
-          canMove: booking.status === BookingStatusEnum.Pending ? true : false,
-          canChangeGroup: booking.status === BookingStatusEnum.Pending ? true : false,
+          canMove:
+            (!permission || (permission && permission.update)) && booking.status === BookingStatusEnum.Pending
+              ? true
+              : false,
+          canChangeGroup:
+            (!permission || (permission && permission.update)) && booking.status === BookingStatusEnum.Pending
+              ? true
+              : false,
           divTitle: booking.customer.fullName,
         } as TimelineItemBase<Moment>;
 

@@ -239,7 +239,10 @@ const ListUser = () => {
             width={'15%'}
             render={(_, record: any) => (
               <div className="action-customer">
-                <div onClick={() => navigate(`detail/${record.id}`)}>
+                <div
+                  className={!permisstion.read ? 'disable' : ''}
+                  onClick={() => permisstion.read && navigate(`detail/${record.id}`)}
+                >
                   <IconSVG type="edit" />
                 </div>
                 <span className="divider"></span>
