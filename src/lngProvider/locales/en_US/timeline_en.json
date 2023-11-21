@@ -41,5 +41,6 @@
   "timeline.updateBooking.error.EXPIRED": "Lịch khám đã hết hạn!",
   "timeline.updateBooking.error.NOT_AVAILABLE": "Lịch khám không hợp lệ!",
   "timeline.updateBooking.error.DAY_OFF": "Ngày nghỉ!",
-  "timeline.updateBooking.error.FULL": "Số lượng lịch khám tối đa!"
+  "timeline.updateBooking.error.FULL": "Số lượng lịch khám tối đa!",
+  "timeline.updateBooking.error.DUPLICATE_HOLIDAY": "Đã tổn tại ngày nghỉ!"
 }
