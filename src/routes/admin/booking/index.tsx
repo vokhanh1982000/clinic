@@ -1,11 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-import { Card, Col, DatePicker, Form, Input, Row } from 'antd';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Card, Col, DatePicker, Form, Input, Row, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs, { Dayjs } from 'dayjs';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { adminBookingApi } from '../../../apis';
 import { Booking } from '../../../apis/client-axios';
@@ -15,13 +16,13 @@ import { IFilter, NOTES } from '../../../components/TimelineControl/constants';
 import CustomButton from '../../../components/buttons/CustomButton';
 import IconSVG from '../../../components/icons/icons';
 import CustomInput from '../../../components/input/CustomInput';
+import { ConfirmDeleteModal } from '../../../components/modals/ConfirmDeleteModal';
 import CustomSelect from '../../../components/select/CustomSelect';
+import { PERMISSIONS } from '../../../constants/enum';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
-import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../util/constant';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
 import CheckPermission, { Permission } from '../../../util/check-permission';
-import { PERMISSIONS } from '../../../constants/enum';
+import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../util/constant';
 
 interface IFormData {
   keyword?: string;
@@ -58,6 +59,7 @@ const ListBooking = () => {
     delete: false,
     update: false,
   });
+  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
 
   useEffect(() => {
     if (authUser?.user?.roles) {
@@ -76,7 +78,7 @@ const ListBooking = () => {
     }
   }, [authUser]);
 
-  const { data: listBookingDayPaginated } = useQuery({
+  const { data: listBookingDayPaginated, refetch: onRefetchListBooking } = useQuery({
     queryKey: ['adminBookingDayPaginated', time, filter, status, keyword],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetPaginatedBooking(
@@ -92,6 +94,24 @@ const ListBooking = () => {
       ),
     enabled: !!filter,
   });
+
+  const { mutate: DeleteBooking } = useMutation({
+    mutationFn: (id: string) => adminBookingApi.adminBookingControllerRemove(id),
+    onSuccess: () => {
+      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
+      onRefetchListBooking();
+    },
+    onError: () => {
+      message.error(intl.formatMessage({ id: 'common.common.deleteFail' }));
+    },
+  });
+
+  const handleDelete = () => {
+    if (isShowModalDelete && isShowModalDelete.id) {
+      DeleteBooking(isShowModalDelete.id);
+    }
+    setIsShowModalDelete(undefined);
+  };
 
   const columns: ColumnsType<Booking> = [
     {
@@ -178,6 +198,28 @@ const ListBooking = () => {
           </div>
         );
       },
+    },
+    {
+      align: 'center',
+      key: 'action',
+      title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.action' }),
+      render: (value: Booking) => (
+        <div className="d-flex align-items-center justify-content-center gap-12">
+          <div
+            className="cursor-pointer"
+            onClick={() => navigate(`${ADMIN_ROUTE_PATH.DETAIL_BOOKING}/${value.id}?routeEmpty=1`)}
+          >
+            <IconSVG type="edit" />
+          </div>
+          <span className="divider"></span>
+          <div
+            className="cursor-pointer"
+            onClick={() => setIsShowModalDelete({ id: value.id, name: value.order.toString() })}
+          >
+            <IconSVG type="delete" />
+          </div>
+        </div>
+      ),
     },
   ];
 
@@ -303,6 +345,20 @@ const ListBooking = () => {
           />
         </Col>
       </Row>
+
+      <ConfirmDeleteModal
+        name={
+          isShowModalDelete && isShowModalDelete.name
+            ? intl.formatMessage({ id: 'common.code' }) + ' ' + isShowModalDelete.name
+            : ''
+        }
+        subName={intl.formatMessage({ id: 'timeline.schedule' })}
+        visible={!!isShowModalDelete}
+        onSubmit={handleDelete}
+        onClose={() => {
+          setIsShowModalDelete(undefined);
+        }}
+      />
     </Card>
   );
 };

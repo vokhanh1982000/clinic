@@ -7,7 +7,7 @@ import moment from 'moment';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { adminClinicBookingApi } from '../../../../apis';
+import { adminClinicBookingApi, doctorClinicBookingApi } from '../../../../apis';
 import { Booking } from '../../../../apis/client-axios';
 import FormWrap from '../../../../components/FormWrap';
 import TableWrap from '../../../../components/TableWrap';
@@ -47,7 +47,7 @@ const ListBookingPaginated = () => {
   const { data: listBookingDayPaginated } = useQuery({
     queryKey: ['adminClinicBookingDayPaginated', time, filter, status, keyword],
     queryFn: () =>
-      adminClinicBookingApi.adminClinicBookingControllerFindAll(
+      doctorClinicBookingApi.doctorClinicBookingControllerGetPaginated(
         filter.page,
         filter.size,
         filter.sort,
