@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Card, Col, DatePicker, Form, Input, Row, message } from 'antd';
+import { useQuery } from '@tanstack/react-query';
+import { Card, Col, DatePicker, Form, Input, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs, { Dayjs } from 'dayjs';
 import { debounce } from 'lodash';
@@ -7,16 +7,15 @@ import moment from 'moment';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { adminClinicBookingApi, doctorClinicBookingApi } from '../../../../apis';
+import { doctorClinicBookingApi } from '../../../../apis';
 import { Booking } from '../../../../apis/client-axios';
 import FormWrap from '../../../../components/FormWrap';
 import TableWrap from '../../../../components/TableWrap';
 import { IFilter, NOTES } from '../../../../components/TimelineControl/constants';
 import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
-import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CustomSelect from '../../../../components/select/CustomSelect';
-import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
+import { DOCTOR_CLINIC_ROUTE_PATH } from '../../../../constants/route';
 import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../../util/constant';
 
 interface IFormData {
@@ -40,12 +39,10 @@ const ListBookingPaginated = () => {
     | undefined;
 
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
-  const [isShowModalDelete, setIsShowModalDelete] = useState<{ id: string; name: string }>();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const { data: listBookingDayPaginated } = useQuery({
-    queryKey: ['adminClinicBookingDayPaginated', time, filter, status, keyword],
+    queryKey: ['doctorlinicBookingDayPaginated', time, filter, status, keyword],
     queryFn: () =>
       doctorClinicBookingApi.doctorClinicBookingControllerGetPaginated(
         filter.page,
@@ -60,24 +57,6 @@ const ListBookingPaginated = () => {
       ),
     enabled: !!filter,
   });
-
-  const { mutate: DeleteBooking } = useMutation({
-    mutationFn: (id: string) => adminClinicBookingApi.adminClinicBookingControllerRemove(id),
-    onSuccess: () => {
-      message.success(intl.formatMessage({ id: 'common.deleteeSuccess' }));
-      queryClient.invalidateQueries(['adminClinicBookingDayPaginated']);
-    },
-    onError: () => {
-      message.error(intl.formatMessage({ id: 'common.common.deleteFail' }));
-    },
-  });
-
-  const handleDelete = () => {
-    if (isShowModalDelete && isShowModalDelete.id) {
-      DeleteBooking(isShowModalDelete.id);
-    }
-    setIsShowModalDelete(undefined);
-  };
 
   const columns: ColumnsType<Booking> = [
     {
@@ -158,17 +137,9 @@ const ListBookingPaginated = () => {
         <div className="d-flex align-items-center justify-content-center gap-12">
           <div
             className="cursor-pointer"
-            onClick={() => navigate(`${ADMIN_CLINIC_ROUTE_PATH.DETAIL_BOOKING}/${value.id}?routeEmpty=1`)}
+            onClick={() => navigate(`${DOCTOR_CLINIC_ROUTE_PATH.DETAIL_BOOKING}/${value.id}?routeEmpty=1`)}
           >
             <IconSVG type="edit" />
-          </div>
-          <span className="divider"></span>
-          <div
-            className="cursor-pointer"
-            // onClick={() => DeleteBooking(value.id)}
-            onClick={() => setIsShowModalDelete({ id: value.id, name: value.order.toString() })}
-          >
-            <IconSVG type="delete" />
           </div>
         </div>
       ),
@@ -287,19 +258,6 @@ const ListBookingPaginated = () => {
           />
         </Col>
       </Row>
-      <ConfirmDeleteModal
-        name={
-          isShowModalDelete && isShowModalDelete.name
-            ? intl.formatMessage({ id: 'common.code' }) + ' ' + isShowModalDelete.name
-            : ''
-        }
-        subName={intl.formatMessage({ id: 'timeline.schedule' })}
-        visible={!!isShowModalDelete}
-        onSubmit={handleDelete}
-        onClose={() => {
-          setIsShowModalDelete(undefined);
-        }}
-      />
     </Card>
   );
 };
