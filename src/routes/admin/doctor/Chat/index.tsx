@@ -1,33 +1,29 @@
-import { Avatar, Badge, Button, Card, Input, Layout, List, Popover } from 'antd';
-import Sider from 'antd/es/layout/Sider';
-import { Content } from 'antd/es/layout/layout';
-import React, { useEffect, useRef, useState } from 'react';
-import CustomInput from '../../../../components/input/CustomInput';
-import IconSVG from '../../../../components/icons/icons';
-import { useIntl } from 'react-intl';
-import { ConfirmModal, confirmModalDto } from '../../../../components/modals/ComfirmDeleteUserModal';
 import { useQuery } from '@tanstack/react-query';
+import { Avatar, Button, Card, List, Popover } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+import { debounce } from 'lodash';
+import moment from 'moment';
+import { useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useParams } from 'react-router-dom';
 import { adminConsultingApi } from '../../../../apis';
 import { ConsultingStatusEnum } from '../../../../apis/client-axios';
-import { useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
-import moment from 'moment';
-import { FORMAT_DATE, FORMAT_DETAIL_TIME } from '../../../../constants/common';
-import { useInView } from 'react-intersection-observer';
-import { debounce } from 'lodash';
+import IconSVG from '../../../../components/icons/icons';
+import CustomInput from '../../../../components/input/CustomInput';
+import { ConfirmModal, confirmModalDto } from '../../../../components/modals/ComfirmDeleteUserModal';
+import { FORMAT_DETAIL_TIME } from '../../../../constants/common';
 
 const DoctorChat = () => {
   const intl = useIntl();
   const { id } = useParams();
-  const { ref, inView, entry } = useInView({
-    threshold: 0,
-  });
+
+  const listRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(20);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [msgPage, setMsgPage] = useState<number>(1);
-  const [msgSize, setMsgSize] = useState<number>(10);
+  const [msgSize, setMsgSize] = useState<number>(20);
   // const [sort, setSort] = useState<string>('');
   const [msgFullTextSearch, setMsgFullTextSearch] = useState<string>('');
   const [consultingStatus, setConsultingStatus] = useState<ConsultingStatusEnum | undefined>(undefined);
@@ -72,18 +68,34 @@ const DoctorChat = () => {
         msgFullTextSearch
       ),
     onSuccess: ({ data }) => {
-      setMessengerData(data as any[]);
+      let reMap: any[] = data as any[];
+      reMap = reMap.reverse();
+      if (msgPage == 1) {
+        setMessengerData(reMap);
+      } else {
+        setMessengerData([...reMap, ...messengerData]);
+      }
     },
     enabled: !!user.consultingId,
   });
-  const scrollChat = document.getElementById('scroll-chat');
-  console.log(scrollChat);
-  if (scrollChat) {
-    scrollChat.scrollIntoView({
-      block: 'start',
-      inline: 'start',
-    });
-  }
+
+  useEffect(() => {
+    if (msgPage == 1 && messengerData.length > 0) {
+      handleScrollDown();
+    }
+  }, [msgPage, messengerData]);
+
+  const handleScrollDown = () => {
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
+  };
+
+  const handleOnScrollDown = (e: any) => {
+    if (listRef?.current?.scrollTop == 0) {
+      loadMore();
+    }
+  };
 
   const debouncedUpdateInputValue = debounce((value) => {
     if (!value.trim()) {
@@ -100,8 +112,9 @@ const DoctorChat = () => {
       return value;
     });
   };
+
   return (
-    <Card style={{ paddingLeft: '0' }}>
+    <Card style={{ paddingLeft: '0', height: '100%' }} bodyStyle={{ height: '100%' }}>
       <div id="chat">
         <div className="chat-user">
           <div className="chat-user__search">
@@ -194,7 +207,7 @@ const DoctorChat = () => {
               </Popover>
             </div>
             <Content>
-              <div className="chat-box__content" id="list-chat">
+              <div className="chat-box__content" id="list-chat" ref={listRef} onScroll={handleOnScrollDown}>
                 <div className="d-flex justify-content-center" onClick={loadMore}>
                   {' '}
                   <Button type="text">...</Button>{' '}
