@@ -16,7 +16,12 @@ import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { DOCTOR_CLINIC_ROUTE_PATH } from '../../../../constants/route';
-import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../../util/constant';
+import {
+  DATE_TIME_FORMAT,
+  SHORT_DATE_FORMAT,
+  TABLE_DATE_TIME_FORMAT,
+  statusBackgroundColor,
+} from '../../../../util/constant';
 
 interface IFormData {
   keyword?: string;
@@ -105,7 +110,7 @@ const ListBookingPaginated = () => {
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.time' }),
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">
-          {moment(value.appointmentStartTime || new Date()).format('HH:mm DD/MM/YYYY')}
+          {moment(value.appointmentStartTime || new Date()).format(TABLE_DATE_TIME_FORMAT)}
         </span>
       ),
     },

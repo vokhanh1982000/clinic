@@ -17,7 +17,12 @@ import CustomInput from '../../../../components/input/CustomInput';
 import { ConfirmDeleteModal } from '../../../../components/modals/ConfirmDeleteModal';
 import CustomSelect from '../../../../components/select/CustomSelect';
 import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
-import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../../util/constant';
+import {
+  DATE_TIME_FORMAT,
+  SHORT_DATE_FORMAT,
+  TABLE_DATE_TIME_FORMAT,
+  statusBackgroundColor,
+} from '../../../../util/constant';
 
 interface IFormData {
   keyword?: string;
@@ -126,7 +131,7 @@ const ListBookingEmpty = () => {
       title: intl.formatMessage({ id: 'timeline.adminClinic.bookingManagement.time' }),
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">
-          {moment(value.appointmentStartTime || new Date()).format('HH:mm DD/MM/YYYY')}
+          {moment(value.appointmentStartTime || new Date()).format(TABLE_DATE_TIME_FORMAT)}
         </span>
       ),
     },

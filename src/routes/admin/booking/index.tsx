@@ -22,7 +22,12 @@ import { PERMISSIONS } from '../../../constants/enum';
 import { ADMIN_ROUTE_NAME, ADMIN_ROUTE_PATH } from '../../../constants/route';
 import { RootState } from '../../../store';
 import CheckPermission, { Permission } from '../../../util/check-permission';
-import { DATE_TIME_FORMAT, SHORT_DATE_FORMAT, statusBackgroundColor } from '../../../util/constant';
+import {
+  DATE_TIME_FORMAT,
+  SHORT_DATE_FORMAT,
+  TABLE_DATE_TIME_FORMAT,
+  statusBackgroundColor,
+} from '../../../util/constant';
 
 interface IFormData {
   keyword?: string;
@@ -174,7 +179,7 @@ const ListBooking = () => {
       width: '17%',
       render: (value: Booking) => (
         <span className="font-size-14 font-family-primary color-1A1A1A">
-          {moment(value.appointmentStartTime || new Date()).format('HH:mm DD/MM/YYYY')}
+          {moment(value.appointmentStartTime || new Date()).format(TABLE_DATE_TIME_FORMAT)}
         </span>
       ),
     },

@@ -29,5 +29,7 @@
   "menu.detail-booking": "Detail Booking",
   "menu.createClinic": "Create Clinic",
   "menu.detailClinic": "Detail Clinic",
-  "menu.schedule.doctor": "Doctor Schedule"
+  "menu.schedule.doctor": "Doctor Schedule",
+  "menu.report": "List Report",
+  "menu.patient": "List Patient"
 }

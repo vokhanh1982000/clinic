@@ -24,6 +24,7 @@ import {
   AdminBookingApi,
   PrescriptionSampleApi,
   PrescriptionSampleMedicineApi,
+  ReportApi,
 } from './client-axios';
 
 const config = new Configuration({
@@ -64,6 +65,7 @@ const doctorSupportApi = new DoctorSupportApi(config, undefined, axiosInstance);
 const newsApi = new NewsApi(config, undefined, axiosInstance);
 const languageApi = new LanguageApi(config, undefined, axiosInstance);
 const holidayScheduleApi: HolidayScheduleApi = new HolidayScheduleApi(config, undefined, axiosInstance);
+const reportApi: ReportApi = new ReportApi(config, undefined, axiosInstance);
 const samplePrescriptionApi: PrescriptionSampleApi = new PrescriptionSampleApi(config, undefined, axiosInstance);
 const samplePrescriptionMediceApi: PrescriptionSampleMedicineApi = new PrescriptionSampleMedicineApi(
   config,
@@ -93,4 +95,5 @@ export {
   holidayScheduleApi,
   samplePrescriptionApi,
   samplePrescriptionMediceApi,
+  reportApi,
 };
