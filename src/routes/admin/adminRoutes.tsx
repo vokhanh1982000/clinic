@@ -20,6 +20,7 @@ const ListClinic = React.lazy(() => import('./clinic/ListClinic'));
 const CreateClinic = React.lazy(() => import('./clinic/CreateEditClinic'));
 const DoctorDetail = React.lazy(() => import('./clinic/DoctorDetail'));
 const ListDoctor = React.lazy(() => import('./doctor/ListDoctor'));
+const DoctorChat = React.lazy(() => import('./doctor/Chat'));
 const CreateDoctor = React.lazy(() => import('./doctor/CreateEditDoctor'));
 const ListMedicalSpecialty = React.lazy(() => import('./medicalSpecialty/index'));
 const ListNew = React.lazy(() => import('./news/ListNew'));
@@ -60,6 +61,10 @@ export const AdminRoutes = () => (
         <Route path="" element={<SuspenseWrapper component={<ListDoctor />} />} />
         <Route path={ADMIN_ROUTE_NAME.CREATE} element={<SuspenseWrapper component={<CreateDoctor />} />} />
         <Route path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`} element={<SuspenseWrapper component={<CreateDoctor />} />} />
+        <Route
+          path={`${ADMIN_ROUTE_NAME.HISTORY_CONSULTING}/:id`}
+          element={<SuspenseWrapper component={<DoctorChat />} />}
+        />
       </Route>
       <Route
         path={ADMIN_ROUTE_NAME.MEDICAL_SPECIALTY_MANAGEMENT}

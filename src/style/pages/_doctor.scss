@@ -243,6 +243,16 @@
   .ant-select-selector {
     align-items: center;
   }
+
+  .button-add {
+    width: 177px;
+    border: unset;
+    display: flex;
+    align-items: center;
+    background-color: $primary_color;
+    color: $text_white;
+    float: right;
+  }
 }
 
 .ant-btn-primary {
