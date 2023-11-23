@@ -2,6 +2,7 @@ import { BookingStatusEnum } from '../apis/client-axios';
 
 export const MONTH_FORMAT = 'MM/YYYY';
 export const DATE_FORMAT = 'dddd, DD/MM/YYYY';
+export const TABLE_DATE_TIME_FORMAT = 'HH:mm DD/MM/YYYY';
 export const SHORT_DATE_FORMAT = 'DD/MM/YYYY';
 export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const TIME_FORMAT = 'HH:mm';

@@ -28,6 +28,7 @@ export const ADMIN_ROUTE_NAME = {
   ADMIN_PROFILE: 'admin-profile',
   CHANGE_PASSWORD: 'change-password',
   LANGUAGE_MANAGEMENT: 'language-management',
+  REPORT_MANAGEMENT: 'report-management',
 
   CREATE: 'create',
   DETAIL: 'detail',
@@ -81,6 +82,8 @@ export const ADMIN_ROUTE_PATH = {
 
   DETAIL_BOOKING: `${ADMIN}/${ADMIN_ROUTE_NAME.BOOKING_MANAGEMENT}/${ACTION.DETAIL}`,
   CREATE_BOOKING: `${ADMIN}/${ADMIN_ROUTE_NAME.BOOKING_MANAGEMENT}/${ACTION.CREATE}`,
+
+  REPORT_MANAGEMENT: `${ADMIN}/${ADMIN_ROUTE_NAME.REPORT_MANAGEMENT}`,
 };
 
 export const ADMIN_CLINIC_ROUTE_NAME = {
