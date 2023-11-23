@@ -9663,6 +9663,7 @@ export class AdminConsultingApi extends BaseAPI {
      * @memberof AdminConsultingApi
      */
     public adminConsultingControllerGetAllConsultingDoctor(page: number, id: string, size?: number, sort?: string, fullTextSearch?: string, consultingStatus?: 'completed' | 'pending' | 'cancelled' | 'accept' | 'inProgress', options?: AxiosRequestConfig) {
+    console.log(fullTextSearch)
         return AdminConsultingApiFp(this.configuration).adminConsultingControllerGetAllConsultingDoctor(page, id, size, sort, fullTextSearch, consultingStatus, options).then((request) => request(this.axios, this.basePath));
     }
 

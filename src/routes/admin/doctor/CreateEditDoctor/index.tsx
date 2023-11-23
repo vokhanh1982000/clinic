@@ -142,6 +142,7 @@ const CreateDoctor = () => {
     }
   };
 
+  console.log(doctorSupport);
   return (
     <Card id="create-doctor-management">
       <div className="create-doctor-title">
@@ -159,7 +160,7 @@ const CreateDoctor = () => {
             className="button-add"
             icon={<IconSVG type="chat" />}
             onClick={() => {
-              navigate(ADMIN_ROUTE_PATH.HISTORY_CONSULTING);
+              navigate(ADMIN_ROUTE_PATH.HISTORY_CONSULTING + `/${doctorSupport?.data.userId}`);
               // console.log(ADMIN_ROUTE_PATH.HISTORY_CONSULTING)
             }}
           >

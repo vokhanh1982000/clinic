@@ -1,18 +1,10 @@
-import { Avatar, Button, Form, FormInstance, Modal, Spin, Upload, message } from 'antd';
+import { Avatar, Modal } from 'antd';
 import { useIntl } from 'react-intl';
-import CustomInput from '../input/CustomInput';
-import { ActionUser, MENU_ITEM_TYPE } from '../../constants/enum';
 import CustomButton from '../buttons/CustomButton';
-import CustomSelect from '../select/CustomSelect';
 import IconSVG from '../icons/icons';
 import FormWrap from '../FormWrap';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { assetsApi } from '../../apis';
-import { MyUploadProps } from '../../constants/dto';
-import { ValidateLibrary } from '../../validate';
-import { regexImage } from '../../validate/validator.validate';
-import { Permission } from '../../util/check-permission';
+import { UserDto } from '../../routes/admin/doctor/Chat';
 
 interface dataModalProps {
   visible: boolean;
@@ -20,15 +12,7 @@ interface dataModalProps {
   onSubmit: Function;
   onDelete?: Function;
   onClose: () => void;
-  data: confirmModalDto;
-}
-
-export interface confirmModalDto {
-  id: string | null;
-  avatar: string | null;
-  name: string | null;
-  email: string | null;
-  consultingId: string | null;
+  data: UserDto;
 }
 
 export const ConfirmModal = (props: dataModalProps) => {
@@ -61,7 +45,7 @@ export const ConfirmModal = (props: dataModalProps) => {
           </div>
 
           <div className="modal-confirm__content__action">
-            <CustomButton className="button-submit" htmlType="submit">
+            <CustomButton className="button-submit" htmlType="submit" onClick={onSubmit()}>
               {intl.formatMessage({
                 id: 'common.accept',
               })}

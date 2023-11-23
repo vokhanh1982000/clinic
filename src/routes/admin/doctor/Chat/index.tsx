@@ -1,49 +1,59 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Avatar, Button, Card, List, Popover } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import { debounce } from 'lodash';
+import { debounce, set } from 'lodash';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useParams } from 'react-router-dom';
-import { adminConsultingApi } from '../../../../apis';
+import { useNavigate, useParams } from 'react-router-dom';
+import { adminConsultingApi, doctorSupportApi } from '../../../../apis';
 import { ConsultingStatusEnum } from '../../../../apis/client-axios';
 import IconSVG from '../../../../components/icons/icons';
 import CustomInput from '../../../../components/input/CustomInput';
-import { ConfirmModal, confirmModalDto } from '../../../../components/modals/ComfirmDeleteUserModal';
+import { ConfirmModal } from '../../../../components/modals/ComfirmDeleteUserModal';
 import { FORMAT_DETAIL_TIME } from '../../../../constants/common';
+import { ADMIN_ROUTE_NAME } from '../../../../constants/route';
+import { CustomHandleSuccess } from '../../../../components/response/success';
+import { ActionUser } from '../../../../constants/enum';
+import { CustomHandleError } from '../../../../components/response/error';
+import { useInView } from 'react-intersection-observer';
+
+export interface UserDto {
+  id?: string | null;
+  avatar?: string | null;
+  name?: string | null;
+  email?: string | null;
+  userId?: string | null;
+  consultingId?: string | null;
+}
 
 const DoctorChat = () => {
   const intl = useIntl();
   const { id } = useParams();
-
   const listRef = useRef<HTMLDivElement>(null);
+  const { ref, inView, entry } = useInView({
+    threshold: 0,
+  });
+
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(20);
+  const [size, setSize] = useState<number>(6);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [msgPage, setMsgPage] = useState<number>(1);
-  const [msgSize, setMsgSize] = useState<number>(20);
+  const [msgSize, setMsgSize] = useState<number>(10);
   // const [sort, setSort] = useState<string>('');
   const [msgFullTextSearch, setMsgFullTextSearch] = useState<string>('');
   const [consultingStatus, setConsultingStatus] = useState<ConsultingStatusEnum | undefined>(undefined);
   const [messengerData, setMessengerData] = useState<any[]>([]);
+  const [customerData, setCustomerData] = useState<any[]>([]);
   const [showModal, setShowModal] = useState<boolean | undefined>(undefined);
-
-  const [avatar, setAvatar] = useState<{ doctor: string | null; customer: string | null }>({
-    doctor: null,
-    customer: null,
-  });
-  const [user, setUser] = useState<confirmModalDto>({
-    id: null,
-    avatar: null,
-    name: null,
-    email: null,
-    consultingId: null,
-  });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [user, setUser] = useState<UserDto>({});
+  const [doctor, setDotor] = useState<UserDto>({});
 
   const { data: consulting, isLoading } = useQuery({
-    queryKey: ['consultings'],
+    queryKey: ['consultings', { page, id, size, sort, fullTextSearch, consultingStatus }],
     queryFn: () =>
       adminConsultingApi.adminConsultingControllerGetAllConsultingDoctor(
         page,
@@ -53,7 +63,15 @@ const DoctorChat = () => {
         fullTextSearch,
         consultingStatus
       ),
-    onSuccess: ({ data }) => {},
+    onSuccess: ({ data }) => {
+      console.log(data);
+      const customers: any[] = data.content as any[];
+      if (page === 1) {
+        setCustomerData(customers);
+      } else {
+        setCustomerData([...customerData, ...customers]);
+      }
+    },
     enabled: !!id,
   });
 
@@ -93,21 +111,61 @@ const DoctorChat = () => {
 
   const handleOnScrollDown = (e: any) => {
     if (listRef?.current?.scrollTop == 0) {
-      loadMore();
+      loadMoreMessenger();
     }
+  };
+
+  // const handleOnScrollTop = (e: any) => {
+  //   if (consulting?.data.total) {
+  //     if (inView && customerData.length < consulting?.data.total) {
+  //       loadMoreUser();
+  //     }
+  //   }
+  // }
+
+  useEffect(() => {
+    if (inView) {
+      loadMoreUser();
+    }
+  }, [customerData]);
+
+  const deleteDoctorSupport = useMutation(
+    (id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id),
+    {
+      onSuccess: ({ data }) => {
+        queryClient.invalidateQueries(['consultings']);
+        CustomHandleSuccess(ActionUser.DELETE, intl);
+        navigate(ADMIN_ROUTE_NAME.DOCTOR_MANAGEMENT);
+      },
+      onError: (error: any) => {
+        CustomHandleError(error.response.data, intl);
+      },
+    }
+  );
+
+  const submitDelete = () => {
+    if (!!doctor.id) deleteDoctorSupport.mutate(doctor.id);
   };
 
   const debouncedUpdateInputValue = debounce((value) => {
     if (!value.trim()) {
       setFullTextSearch('');
     } else {
+      setPage(1);
       setFullTextSearch(value);
     }
     setPage(1);
   }, 500);
 
-  const loadMore = () => {
+  const loadMoreMessenger = () => {
     setMsgPage((lastValue) => {
+      const value = lastValue + 1;
+      return value;
+    });
+  };
+
+  const loadMoreUser = () => {
+    setPage((lastValue) => {
       const value = lastValue + 1;
       return value;
     });
@@ -132,55 +190,65 @@ const DoctorChat = () => {
               // onChange={handleSearch}
             />
           </div>
-          <List
-            dataSource={consulting?.data.content} // Replace with your user list
-            loading={isLoading}
-            renderItem={(item: any) => {
-              return (
-                <List.Item key={item.id}>
-                  <div
-                    className="chat-user__item"
-                    onClick={() => {
-                      setMsgPage(1);
-                      setUser({
-                        id: item.customerUser?.id,
-                        name: item.customerUser?.customer?.fullName,
-                        email: item.customerUser?.customer?.email ?? null,
-                        avatar: item.customerUser?.customer?.avatar?.preview ?? null,
-                        consultingId: item.id,
-                      });
-                      setAvatar({
-                        doctor: item.doctorSupportUser?.doctorSupport?.avatar?.preview || null,
-                        customer: item.customerUser?.customer?.avatar?.preview || null,
-                      });
-                    }}
-                  >
-                    {item.id === user.consultingId && <div className="select"></div>}
-                    <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          alt="alt"
-                          src={process.env.REACT_APP_URL_IMG_S3 + item.customerUser?.customer?.avatar?.preview}
-                          className="avatar"
-                        />
-                      }
-                      title={
-                        <div className="chat-user__name">
-                          <span className="chat-user__name__title">{item.customerUser?.customer?.fullName}</span>
-                          <div className="chat-user__name__time">
-                            <span>{moment(item.groupChat?.latestMessage.updated_at).format(FORMAT_DETAIL_TIME)}</span>
+          <div className="list-chat-scroll" /* onScroll={handleOnScrollTop} */>
+            <List
+              dataSource={customerData}
+              loading={isLoading}
+              renderItem={(item: any) => {
+                return (
+                  <List.Item key={item.id}>
+                    <div
+                      className="chat-user__item"
+                      onClick={() => {
+                        setMessengerData([]);
+                        setMsgPage(1);
+                        setUser({
+                          id: item.customerUser?.id,
+                          name: item.customerUser?.customer?.fullName,
+                          email: item.customerUser?.customer?.email,
+                          avatar: item.customerUser?.customer?.avatar?.preview,
+                          consultingId: item.id,
+                        });
+                        setDotor({
+                          id: item.doctorSupportUser?.doctorSupport.id,
+                          name: item.doctorSupportUser?.doctorSupport?.fullName,
+                          email: item.doctorSupportUser?.doctorSupport?.email,
+                          avatar: item.doctorSupportUser?.doctorSupport?.avatar?.preview,
+                          userId: item.doctorSupportUser?.id,
+                        });
+                      }}
+                    >
+                      {item.id === user.consultingId && <div className="select"></div>}
+                      <List.Item.Meta
+                        avatar={
+                          <Avatar
+                            alt="alt"
+                            src={process.env.REACT_APP_URL_IMG_S3 + item.customerUser?.customer?.avatar?.preview}
+                            className="avatar"
+                          />
+                        }
+                        title={
+                          <div className="chat-user__name">
+                            <div className="chat-user__name__title">
+                              <span className="category">{item.category?.name}</span>
+                              <span className="name">{item.customerUser?.customer?.fullName}</span>
+                            </div>
+                            <div className="chat-user__name__time">
+                              <span>{moment(item.groupChat?.latestMessage.updated_at).format(FORMAT_DETAIL_TIME)}</span>
+                            </div>
                           </div>
-                        </div>
-                      }
-                      description={
-                        <span className="chat-user__item__chat">{item.groupChat?.latestMessage?.messenger}</span>
-                      }
-                    />
-                  </div>
-                </List.Item>
-              );
-            }}
-          />
+                        }
+                        description={
+                          <span className="chat-user__item__chat">{item.groupChat?.latestMessage?.messenger}</span>
+                        }
+                      />
+                    </div>
+                  </List.Item>
+                );
+              }}
+            />
+            <div ref={ref} style={{ height: '20px' }}></div>
+          </div>
         </div>
         {!!user.id && (
           <div className="chat-box">
@@ -208,10 +276,7 @@ const DoctorChat = () => {
             </div>
             <Content>
               <div className="chat-box__content" id="list-chat" ref={listRef} onScroll={handleOnScrollDown}>
-                <div className="d-flex justify-content-center" onClick={loadMore}>
-                  {' '}
-                  <Button type="text">...</Button>{' '}
-                </div>
+                <div className="d-flex justify-content-center"></div>
                 <div>
                   {!!messengerData &&
                     messengerData.map((item) => {
@@ -221,7 +286,7 @@ const DoctorChat = () => {
                             <div className="msg-item">
                               <Avatar
                                 alt="alt"
-                                src={avatar.customer && process.env.REACT_APP_URL_IMG_S3 + avatar.customer}
+                                src={user.avatar && process.env.REACT_APP_URL_IMG_S3 + user.avatar}
                                 className="avatar"
                               />
                               <span className="other">
@@ -243,7 +308,7 @@ const DoctorChat = () => {
                             <div className="msg-item me">
                               <Avatar
                                 alt="alt"
-                                src={avatar.doctor && process.env.REACT_APP_URL_IMG_S3 + avatar.doctor}
+                                src={doctor.avatar && process.env.REACT_APP_URL_IMG_S3 + doctor.avatar}
                                 className="avatar"
                               />
                               <span className="me">
@@ -267,20 +332,18 @@ const DoctorChat = () => {
                     bottom: '0px',
                     // scrollMarginTop: !showTranslate ? "204px" : undefined,
                   }}
-                >
-                  XXXXXXXXXXX
-                </p>
+                ></p>
               </div>
             </Content>
           </div>
         )}
       </div>
       <ConfirmModal
-        data={user}
+        data={doctor}
         visible={!!user.id && !!showModal}
         title={'Phê duyệt yêu cầu đồng nghĩa với việc khóa người dùng'}
         onClose={() => setShowModal(false)}
-        onSubmit={() => console.log('hihi')}
+        onSubmit={() => submitDelete}
       />
     </Card>
   );
