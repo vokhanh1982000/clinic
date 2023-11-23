@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Form, Row } from 'antd';
+import { Card, Col, Form, Row, Spin } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { adminBookingApi, clinicsApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
 import { DoctorClinic } from '../../../../apis/client-axios';
@@ -12,13 +13,12 @@ import TimelineDay from '../../../../components/TimelineDay';
 import TimelineMonth from '../../../../components/TimelineMonth';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
+import { PERMISSIONS } from '../../../../constants/enum';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { RootState, useAppDispatch, useAppSelector } from '../../../../store';
 import { updateClinic } from '../../../../store/clinicSlice';
-import { DATE_TIME_FORMAT } from '../../../../util/constant';
-import { useSelector } from 'react-redux';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
-import { PERMISSIONS } from '../../../../constants/enum';
+import { DATE_TIME_FORMAT } from '../../../../util/constant';
 
 const ClinicTimeline = () => {
   const intl = useIntl();
@@ -72,7 +72,12 @@ const ClinicTimeline = () => {
     enabled: !!id,
   });
 
-  const { data: listBookingDay, refetch: onRefetchBookingDay } = useQuery({
+  const {
+    data: listBookingDay,
+    refetch: onRefetchBookingDay,
+    isFetching: isFetchingBookingDay,
+    isLoading: isLoadingBookingDay,
+  } = useQuery({
     queryKey: ['adminBookingDay', time, mode, id, keyword],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword, id),
@@ -126,18 +131,21 @@ const ClinicTimeline = () => {
 
     switch (mode) {
       case TimelineMode.DATE:
-        currentScreen = (
-          <TimelineDay
-            form={form}
-            listBookingDay={listBookingDay?.data || []}
-            onRefetchDay={handleRefetchDay}
-            user={user}
-            listDoctorClinics={listDoctorClinics?.data}
-            filter={filter}
-            onChangeFilter={handleChangeFilter}
-            permission={permisstion}
-          />
-        );
+        currentScreen =
+          !isFetchingBookingDay && !isLoadingBookingDay ? (
+            <TimelineDay
+              form={form}
+              listBookingDay={listBookingDay?.data || []}
+              onRefetchDay={handleRefetchDay}
+              user={user}
+              listDoctorClinics={listDoctorClinics?.data}
+              filter={filter}
+              onChangeFilter={handleChangeFilter}
+              permission={permisstion}
+            />
+          ) : (
+            <Spin />
+          );
         break;
       case TimelineMode.MONTH:
         currentScreen = (

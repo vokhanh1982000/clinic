@@ -31,8 +31,8 @@ import {
   HolidaySchedule,
 } from '../../apis/client-axios';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH, DOCTOR_CLINIC_ROUTE_PATH } from '../../constants/route';
-import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
 import { Permission } from '../../util/check-permission';
+import { FULL_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, WEEK_DAYS } from '../../util/constant';
 import { IFormData, NOTES, TimelineDragStart, n, timelineKeys } from '../TimelineControl/constants';
 
 interface TimelineWeekProps {
@@ -106,7 +106,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
   }, [listBookingWeek, user, intl, time]);
 
   useEffect(() => {
-    if (listBookingWeek.length >= 0) {
+    if (listBookingWeek.length >= 0 && user?.user?.type) {
       const items: TimelineItemBase<Moment>[] = [];
 
       for (const booking of listBookingWeek) {
@@ -183,7 +183,7 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
       setItems(items);
     }
-  }, [listBookingWeek, time]);
+  }, [listBookingWeek, time, user?.user?.type, permission]);
 
   const adminClinicUpdateBookingMutation = useMutation(
     (payload: { id: string; dto: AdminClinicUpdateBookingDto }) =>
@@ -515,50 +515,46 @@ const TimelineWeek: FC<TimelineWeekProps> = (props) => {
 
   return (
     <>
-      {groups.length > 0 &&
-        items.length > 0 &&
-        listBookingMonth.length > 0 &&
-        !adminClinicUpdateBookingMutation.isLoading &&
-        !adminUpdateBookingMutation.isLoading && (
-          <Timeline
-            groups={groups}
-            items={items}
-            defaultTimeStart={moment(dayjs(time).toDate())}
-            defaultTimeEnd={moment(dayjs(time).toDate()).add(4, 'hour')}
-            timeSteps={{
-              second: 0,
-              minute: 0,
-              hour: 0.5,
-              day: 0,
-              month: 0,
-              year: 0,
-            }}
-            stackItems
-            itemHeightRatio={0.78125}
-            lineHeight={64}
-            sidebarWidth={210}
-            className="timeline-custom-day"
-            maxZoom={4 * 60 * 60 * 1000}
-            onTimeChange={handleTimeChange}
-            canResize={false}
-            canMove={user?.user?.type !== 'doctor_clinic'}
-            canChangeGroup={user?.user?.type !== 'doctor_clinic'}
-            verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
-            horizontalLineClassNamesForGroup={renderHorizontalLineClassNamesForGroup}
-            onItemMove={handleItemMove}
-            onItemResize={handleItemResize}
-            onItemDoubleClick={handleItemDoubleClick}
-            keys={timelineKeys}
-            moveResizeValidator={handleMoveResizeValidator as any}
-            buffer={8}
-            itemTouchSendsClick={false}
-          >
-            <TimelineHeaders className="timeline-custom-day-header">
-              <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
-              <DateHeader unit="hour" height={72} labelFormat={TIME_FORMAT} intervalRenderer={renderIntervalRenderer} />
-            </TimelineHeaders>
-          </Timeline>
-        )}
+      {groups.length > 0 && items.length > 0 && (
+        <Timeline
+          groups={groups}
+          items={items}
+          defaultTimeStart={moment(dayjs(time).toDate())}
+          defaultTimeEnd={moment(dayjs(time).toDate()).add(4, 'hour')}
+          timeSteps={{
+            second: 0,
+            minute: 0,
+            hour: 0.5,
+            day: 0,
+            month: 0,
+            year: 0,
+          }}
+          stackItems
+          itemHeightRatio={0.78125}
+          lineHeight={64}
+          sidebarWidth={210}
+          className="timeline-custom-day"
+          maxZoom={4 * 60 * 60 * 1000}
+          onTimeChange={handleTimeChange}
+          canResize={false}
+          canMove={user?.user?.type !== 'doctor_clinic'}
+          canChangeGroup={user?.user?.type !== 'doctor_clinic'}
+          verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
+          horizontalLineClassNamesForGroup={renderHorizontalLineClassNamesForGroup}
+          onItemMove={handleItemMove}
+          onItemResize={handleItemResize}
+          onItemDoubleClick={handleItemDoubleClick}
+          keys={timelineKeys}
+          moveResizeValidator={handleMoveResizeValidator as any}
+          buffer={8}
+          itemTouchSendsClick={false}
+        >
+          <TimelineHeaders className="timeline-custom-day-header">
+            <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
+            <DateHeader unit="hour" height={72} labelFormat={TIME_FORMAT} intervalRenderer={renderIntervalRenderer} />
+          </TimelineHeaders>
+        </Timeline>
+      )}
     </>
   );
 };

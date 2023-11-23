@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Form, Image, Row } from 'antd';
+import { Card, Col, Form, Image, Row, Spin } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { adminBookingApi, doctorClinicApi, holidayScheduleApi } from '../../../../apis';
 import { DoctorClinic } from '../../../../apis/client-axios';
@@ -11,12 +12,11 @@ import { IFormData, NOTES, TimelineMode, n } from '../../../../components/Timeli
 import TimelineMonth from '../../../../components/TimelineMonth';
 import TimelineWeek from '../../../../components/TimelineWeek';
 import IconSVG from '../../../../components/icons/icons';
+import { PERMISSIONS } from '../../../../constants/enum';
 import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 import { RootState, useAppSelector } from '../../../../store';
-import { DATE_TIME_FORMAT } from '../../../../util/constant';
-import { useSelector } from 'react-redux';
 import CheckPermission, { Permission } from '../../../../util/check-permission';
-import { PERMISSIONS } from '../../../../constants/enum';
+import { DATE_TIME_FORMAT } from '../../../../util/constant';
 
 const DoctorSchedule = () => {
   const intl = useIntl();
@@ -61,8 +61,13 @@ const DoctorSchedule = () => {
     }
   }, [authUser]);
 
-  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
-    queryKey: ['adminScheduleBookingWeek', time, mode],
+  const {
+    data: listBookingWeek,
+    refetch: onRefetchBookingWeek,
+    isLoading: isLoadingBookingWeek,
+    isFetching: isFetchingBookingWeek,
+  } = useQuery({
+    queryKey: ['adminScheduleBookingWeek', time, mode, params.clinicId],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetBookingByWeek(
         dayjs(time).startOf('week').format(DATE_TIME_FORMAT),
@@ -73,7 +78,11 @@ const DoctorSchedule = () => {
     enabled: !!time && mode === TimelineMode.WEEK && !!params.clinicId,
   });
 
-  const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
+  const {
+    data: listBookingMonth,
+    refetch: onRefetchBookingMonth,
+    isLoading: isLoadingBookingMonth,
+  } = useQuery({
     queryKey: ['adminScheduleBookingMonth', time, mode, params.clinicId],
     queryFn: () =>
       adminBookingApi.adminBookingControllerGetBookingByMonth(
@@ -85,7 +94,11 @@ const DoctorSchedule = () => {
     enabled: !!time && !!params.clinicId,
   });
 
-  const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
+  const {
+    data: listHolidayMonth,
+    refetch: onRefetchHolidayMonth,
+    isLoading: isLoadingHolidayMonth,
+  } = useQuery({
     queryKey: ['adminScheduleHolidayMonth', time, mode, params.clinicId],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
@@ -116,17 +129,20 @@ const DoctorSchedule = () => {
 
     switch (mode) {
       case TimelineMode.WEEK:
-        currentScreen = (
-          <TimelineWeek
-            form={form}
-            listBookingWeek={listBookingWeek?.data || []}
-            listBookingMonth={listBookingMonth?.data || []}
-            listHolidayMonth={listHolidayMonth?.data || []}
-            user={user}
-            onRefetchWeek={handleRefetchWeek}
-            permission={permisstion}
-          />
-        );
+        currentScreen =
+          !isFetchingBookingWeek && !isLoadingBookingWeek && !isLoadingHolidayMonth && !isLoadingBookingMonth ? (
+            <TimelineWeek
+              form={form}
+              listBookingWeek={listBookingWeek?.data || []}
+              listBookingMonth={listBookingMonth?.data || []}
+              listHolidayMonth={listHolidayMonth?.data || []}
+              user={user}
+              onRefetchWeek={handleRefetchWeek}
+              permission={permisstion}
+            />
+          ) : (
+            <Spin />
+          );
         break;
       case TimelineMode.MONTH:
         currentScreen = (
