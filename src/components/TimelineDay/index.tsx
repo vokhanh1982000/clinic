@@ -31,10 +31,10 @@ import {
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../constants/route';
 import { useAppDispatch } from '../../store';
 import { updateClinic } from '../../store/clinicSlice';
+import { Permission } from '../../util/check-permission';
 import { TIME_FORMAT } from '../../util/constant';
 import { IFilter, IFormData, NOTES, TimelineDragStart, n, timelineKeys } from '../TimelineControl/constants';
 import SidebarHeaderContent from './SidebarHeaderContent';
-import { Permission } from '../../util/check-permission';
 
 interface TimelineDayProps {
   form: FormInstance<IFormData>;
@@ -182,12 +182,10 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
         items.push(item);
       }
 
-      const filterEmptyGroups = groups.filter((group) => items.findIndex((item) => item.group === group.id) === -1);
-
-      filterEmptyGroups.forEach((group, index) => {
+      if (items.length === 0) {
         items.push({
-          id: `empty_${index}`,
-          group: group.id,
+          id: 'empty',
+          group: -1,
           title: '',
           start_time: moment(dayjs(time).toDate()).startOf('days'),
           end_time: moment(dayjs(time).toDate()).endOf('days'),
@@ -198,15 +196,15 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
               userSelect: 'none',
             },
           },
-          canResize: false,
-          canMove: false,
           canChangeGroup: false,
+          canMove: false,
+          canResize: false,
         });
-      });
+      }
 
       setItems(items);
     }
-  }, [listBookingDay, time, intl, groups]);
+  }, [listBookingDay, time, intl, groups, permission]);
 
   const adminClinicUpdateBookingMutation = useMutation(
     (payload: { id: string; dto: AdminClinicUpdateBookingDto }) =>
@@ -500,49 +498,46 @@ const TimelineDay: FC<TimelineDayProps> = (props) => {
 
   return (
     <>
-      {groups.length > 0 &&
-        items.length > 0 &&
-        !adminClinicUpdateBookingMutation.isLoading &&
-        !adminUpdateBookingMutation.isLoading && (
-          <Timeline
-            ref={timelineComponentRef}
-            groups={groups}
-            items={items}
-            defaultTimeStart={moment(dayjs(time).toDate())}
-            defaultTimeEnd={moment(dayjs(time).toDate()).add(4, 'hour')}
-            timeSteps={{
-              second: 0,
-              minute: 0,
-              hour: 0.5,
-              day: 0,
-              month: 0,
-              year: 0,
-            }}
-            stackItems
-            itemHeightRatio={0.78125}
-            lineHeight={64}
-            sidebarWidth={182}
-            className="timeline-custom-day"
-            maxZoom={4 * 60 * 60 * 1000}
-            canResize={false}
-            onTimeChange={handleTimeChange}
-            onItemMove={handleItemMove}
-            onItemResize={handleItemResize}
-            verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
-            canChangeGroup
-            canMove
-            onItemDoubleClick={handleItemDoubleClick}
-            keys={timelineKeys}
-            moveResizeValidator={handleMoveResizeValidator as any}
-            buffer={8}
-            itemTouchSendsClick={false}
-          >
-            <TimelineHeaders className="timeline-custom-day-header">
-              <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
-              <DateHeader unit="hour" height={72} labelFormat={TIME_FORMAT} intervalRenderer={renderIntervalRenderer} />
-            </TimelineHeaders>
-          </Timeline>
-        )}
+      {groups.length > 0 && items.length > 0 && (
+        <Timeline
+          ref={timelineComponentRef}
+          groups={groups}
+          items={items}
+          defaultTimeStart={moment(dayjs(time).toDate())}
+          defaultTimeEnd={moment(dayjs(time).toDate()).add(4, 'hour')}
+          timeSteps={{
+            second: 0,
+            minute: 0,
+            hour: 0.5,
+            day: 0,
+            month: 0,
+            year: 0,
+          }}
+          stackItems
+          itemHeightRatio={0.78125}
+          lineHeight={64}
+          sidebarWidth={182}
+          className="timeline-custom-day"
+          maxZoom={4 * 60 * 60 * 1000}
+          canResize={false}
+          onTimeChange={handleTimeChange}
+          onItemMove={handleItemMove}
+          onItemResize={handleItemResize}
+          verticalLineClassNamesForTime={renderVerticalLineClassNamesForTime}
+          canChangeGroup
+          canMove
+          onItemDoubleClick={handleItemDoubleClick}
+          keys={timelineKeys}
+          moveResizeValidator={handleMoveResizeValidator as any}
+          buffer={8}
+          itemTouchSendsClick={false}
+        >
+          <TimelineHeaders className="timeline-custom-day-header">
+            <SidebarHeader>{renderSidebarHeaderChildren}</SidebarHeader>
+            <DateHeader unit="hour" height={72} labelFormat={TIME_FORMAT} intervalRenderer={renderIntervalRenderer} />
+          </TimelineHeaders>
+        </Timeline>
+      )}
     </>
   );
 };

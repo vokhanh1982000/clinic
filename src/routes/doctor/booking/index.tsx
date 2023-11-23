@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Form, Row } from 'antd';
+import { Card, Col, Form, Row, Spin } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, useEffect } from 'react';
 import { useIntl } from 'react-intl';
@@ -35,7 +35,12 @@ const ListBooking = () => {
     });
   }, []);
 
-  const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
+  const {
+    data: listBookingWeek,
+    refetch: onRefetchBookingWeek,
+    isLoading: isLoadingBookingWeek,
+    isFetching: isFetchingBookingWeek,
+  } = useQuery({
     queryKey: ['doctorClinicBookingWeek', time, mode, keyword],
     queryFn: () =>
       doctorClinicBookingApi.doctorClinicBookingControllerGetBookingByWeek(
@@ -45,7 +50,11 @@ const ListBooking = () => {
     enabled: !!time && mode === TimelineMode.WEEK,
   });
 
-  const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
+  const {
+    data: listBookingMonth,
+    refetch: onRefetchBookingMonth,
+    isLoading: isLoadingBookingMonth,
+  } = useQuery({
     queryKey: ['doctorClinicBookingMonth', time, mode, keyword],
     queryFn: () =>
       doctorClinicBookingApi.doctorClinicBookingControllerGetBookingByMonth(
@@ -55,7 +64,11 @@ const ListBooking = () => {
     enabled: !!time,
   });
 
-  const { data: listHolidayMonth, refetch: onRefetchHolidayMonth } = useQuery({
+  const {
+    data: listHolidayMonth,
+    refetch: onRefetchHolidayMonth,
+    isLoading: isLoadingHolidayMonth,
+  } = useQuery({
     queryKey: ['doctorClinicHolidayMonth', time, mode],
     queryFn: () =>
       holidayScheduleApi.holidayScheduleControllerGetMonth(
@@ -80,16 +93,19 @@ const ListBooking = () => {
 
     switch (mode) {
       case TimelineMode.WEEK:
-        currentScreen = (
-          <TimelineWeek
-            form={form}
-            listBookingWeek={listBookingWeek?.data || []}
-            listBookingMonth={listBookingMonth?.data || []}
-            user={user}
-            onRefetchWeek={handleRefetchWeek}
-            listHolidayMonth={listHolidayMonth?.data || []}
-          />
-        );
+        currentScreen =
+          !isFetchingBookingWeek && !isLoadingBookingWeek && !isLoadingHolidayMonth && !isLoadingBookingMonth ? (
+            <TimelineWeek
+              form={form}
+              listBookingWeek={listBookingWeek?.data || []}
+              listBookingMonth={listBookingMonth?.data || []}
+              user={user}
+              onRefetchWeek={handleRefetchWeek}
+              listHolidayMonth={listHolidayMonth?.data || []}
+            />
+          ) : (
+            <Spin />
+          );
         break;
       case TimelineMode.MONTH:
         currentScreen = (
