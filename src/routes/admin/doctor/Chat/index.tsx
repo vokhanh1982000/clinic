@@ -36,7 +36,7 @@ const DoctorChat = () => {
   });
 
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(6);
+  const [size, setSize] = useState<number>(10);
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [msgPage, setMsgPage] = useState<number>(1);
