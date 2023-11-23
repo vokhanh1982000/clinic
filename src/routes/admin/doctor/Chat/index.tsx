@@ -129,22 +129,31 @@ const DoctorChat = () => {
     }
   }, [customerData]);
 
-  const deleteDoctorSupport = useMutation(
-    (id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id),
-    {
-      onSuccess: ({ data }) => {
-        queryClient.invalidateQueries(['consultings']);
-        CustomHandleSuccess(ActionUser.DELETE, intl);
-        navigate(ADMIN_ROUTE_NAME.DOCTOR_MANAGEMENT);
-      },
-      onError: (error: any) => {
-        CustomHandleError(error.response.data, intl);
-      },
-    }
-  );
+  // const deleteDoctorSupport = useMutation(
+  //   (id: string) => doctorSupportApi.doctorSupportControllerDeleteDoctorSupport(id),
+  //   {
+  //     onSuccess: ({ data }) => {
+  //       CustomHandleSuccess(ActionUser.DELETE, intl);
+  //       navigate(ADMIN_ROUTE_NAME.DOCTOR_MANAGEMENT);
+  //     },
+  //     onError: (error: any) => {
+  //       CustomHandleError(error.response.data, intl);
+  //     },
+  //   }
+  // );
+
+  const lockAccount = useMutation((id: string) => adminConsultingApi.adminConsultingControllerLockAccount(id), {
+    onSuccess: ({ data }) => {
+      CustomHandleSuccess(ActionUser.LOCK, intl);
+      navigate(-1);
+    },
+    onError: (error: any) => {
+      CustomHandleError(error.response.data, intl);
+    },
+  });
 
   const submitDelete = () => {
-    if (!!doctor.id) deleteDoctorSupport.mutate(doctor.id);
+    if (!!doctor.userId) lockAccount.mutate(doctor.userId);
   };
 
   const debouncedUpdateInputValue = debounce((value) => {
