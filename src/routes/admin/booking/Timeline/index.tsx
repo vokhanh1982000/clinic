@@ -13,9 +13,12 @@ import TimelineMonth from '../../../../components/TimelineMonth';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
 import { ADMIN_CLINIC_ROUTE_PATH, ADMIN_ROUTE_PATH } from '../../../../constants/route';
-import { useAppDispatch, useAppSelector } from '../../../../store';
+import { RootState, useAppDispatch, useAppSelector } from '../../../../store';
 import { updateClinic } from '../../../../store/clinicSlice';
 import { DATE_TIME_FORMAT } from '../../../../util/constant';
+import { useSelector } from 'react-redux';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { PERMISSIONS } from '../../../../constants/enum';
 
 const ClinicTimeline = () => {
   const intl = useIntl();
@@ -35,6 +38,14 @@ const ClinicTimeline = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const { authUser } = useSelector((state: RootState) => state.auth);
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
+  });
+
   useEffect(() => {
     const params = Object.fromEntries([...(searchParams as any)]);
 
@@ -43,6 +54,17 @@ const ClinicTimeline = () => {
       [n('mode')]: TimelineMode.DATE,
     });
   }, []);
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadBooking, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateBooking, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const { data: clinic } = useQuery({
     queryKey: ['topbarClinic', id],
@@ -113,6 +135,7 @@ const ClinicTimeline = () => {
             listDoctorClinics={listDoctorClinics?.data}
             filter={filter}
             onChangeFilter={handleChangeFilter}
+            permission={permisstion}
           />
         );
         break;

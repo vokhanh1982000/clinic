@@ -40,7 +40,7 @@ const DoctorChat = () => {
   const [sort, setSort] = useState<string>('');
   const [fullTextSearch, setFullTextSearch] = useState<string>('');
   const [msgPage, setMsgPage] = useState<number>(1);
-  const [msgSize, setMsgSize] = useState<number>(10);
+  const [msgSize, setMsgSize] = useState<number>(20);
   // const [sort, setSort] = useState<string>('');
   const [msgFullTextSearch, setMsgFullTextSearch] = useState<string>('');
   const [consultingStatus, setConsultingStatus] = useState<ConsultingStatusEnum | undefined>(undefined);

@@ -40,5 +40,6 @@
   "role.permisstion.WorkSchedule": "Lịch làm việc",
   "role.permisstion.HolidaySchedule": "Lịch nghỉ",
   "role.permisstion.Prescription": "Quản lý đơn thuốc",
-  "role.permisstion.Consulting": "Tư vấn"
+  "role.permisstion.Consulting": "Tư vấn",
+  "role.permisstion.Report": "Quản lý vi phạm"
 }

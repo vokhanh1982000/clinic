@@ -1,0 +1,23 @@
+{
+  "report.filter.search": "Tìm kiếm",
+  "report.filter.status": "Trạng thái",
+  "report.filter.problem": "Loại vi phạm",
+  "report.table.order": "Mã",
+  "report.table.doctorSupport": "Người báo cáo",
+  "report.table.customer": "Người vi phạm",
+  "report.table.createdOnDate": "Thời gian",
+  "report.table.problem": "Loại vi phạm",
+  "report.table.otherContent": "Nội dung",
+  "report.table.action": "Thao tác",
+  "report.problem.TROUBLE": "Quấy rối",
+  "report.problem.IMPERSONATION": "Giả mạo người khác",
+  "report.problem.INVALID_CONTENT": "Chia sẻ nội dung không phù hợp",
+  "report.problem.OFFENSIVE_LANGUAGE": "Ngôn từ gây xâm phạm",
+  "report.problem.CHEAT": "Lừa đảo",
+  "report.problem.ORTHER": "Khác",
+  "report.status.PENDING": "Chờ xử lý",
+  "report.status.REFUSE": "Đã từ chối",
+  "report.status.ACCEPT": "Đã xử lý",
+  "record.modal.accept.title": "Phê duyệt yêu cầu đồng nghĩa với việc khóa người dùng",
+  "record.modal.accept.noti": "{customerName} đã bị khóa tài khoản"
+}

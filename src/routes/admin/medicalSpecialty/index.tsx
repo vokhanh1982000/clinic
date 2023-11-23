@@ -224,7 +224,7 @@ const ListMedicalSpecialty = () => {
             render={(_, record: any) => (
               <div className="action-category">
                 <div
-                  className={permisstion.update ? '' : 'disable'}
+                  className={permisstion.read ? '' : 'disable'}
                   onClick={() => {
                     if (permisstion.update) {
                       form.setFieldsValue({

@@ -606,7 +606,6 @@ import Timeline, {
   TodayMarker,
   CursorMarker,
 } from 'react-calendar-timeline'
-
 ;<Timeline>
   <TimelineMarkers>
     <TodayMarker />
@@ -993,7 +992,6 @@ import Timeline, {
   SidebarHeader,
   DateHeader,
 } from 'react-calendar-timeline'
-
 ;<Timeline>
   <TimelineHeaders>
     <SidebarHeader>
@@ -1128,7 +1126,6 @@ import Timeline, {
   SidebarHeader,
   DateHeader,
 } from 'react-calendar-timeline'
-
 ;<Timeline>
   <TimelineHeaders>
     <SidebarHeader>

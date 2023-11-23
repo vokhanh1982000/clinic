@@ -12,8 +12,11 @@ import TimelineMonth from '../../../../components/TimelineMonth';
 import TimelineWeek from '../../../../components/TimelineWeek';
 import IconSVG from '../../../../components/icons/icons';
 import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
-import { useAppSelector } from '../../../../store';
+import { RootState, useAppSelector } from '../../../../store';
 import { DATE_TIME_FORMAT } from '../../../../util/constant';
+import { useSelector } from 'react-redux';
+import CheckPermission, { Permission } from '../../../../util/check-permission';
+import { PERMISSIONS } from '../../../../constants/enum';
 
 const DoctorSchedule = () => {
   const intl = useIntl();
@@ -32,12 +35,31 @@ const DoctorSchedule = () => {
 
   const [isImageError, setIsImageError] = useState<boolean>(false);
 
+  const { authUser } = useSelector((state: RootState) => state.auth);
+  const [permisstion, setPermisstion] = useState<Permission>({
+    read: false,
+    create: false,
+    delete: false,
+    update: false,
+  });
+
   useEffect(() => {
     form.setFieldsValue({
       [n('time')]: dayjs(),
       [n('mode')]: TimelineMode.WEEK,
     });
   }, []);
+
+  useEffect(() => {
+    if (authUser?.user?.roles) {
+      setPermisstion({
+        read: Boolean(CheckPermission(PERMISSIONS.ReadBooking, authUser)),
+        create: Boolean(CheckPermission(PERMISSIONS.CreateBooking, authUser)),
+        delete: Boolean(CheckPermission(PERMISSIONS.DeleteBooking, authUser)),
+        update: Boolean(CheckPermission(PERMISSIONS.UpdateBooking, authUser)),
+      });
+    }
+  }, [authUser]);
 
   const { data: listBookingWeek, refetch: onRefetchBookingWeek } = useQuery({
     queryKey: ['adminScheduleBookingWeek', time, mode],
@@ -102,6 +124,7 @@ const DoctorSchedule = () => {
             listHolidayMonth={listHolidayMonth?.data || []}
             user={user}
             onRefetchWeek={handleRefetchWeek}
+            permission={permisstion}
           />
         );
         break;

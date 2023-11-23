@@ -12,9 +12,10 @@ interface ActionProp {
   onCancel?: () => void;
   status?: BookingStatusEnum;
   isPrescribed?: boolean;
+  disableSubmit?: boolean;
 }
 const Action = (props: ActionProp) => {
-  const { form, role, type, onCancel, status, isPrescribed }: ActionProp = props;
+  const { form, role, type, onCancel, status, isPrescribed, disableSubmit }: ActionProp = props;
   const intl: IntlShape = useIntl();
 
   const className = (): string => {
@@ -27,19 +28,20 @@ const Action = (props: ActionProp) => {
     return 'custom-checkbox-disabled';
   };
   const isDisabled = () => {
-    if ((role === 'adminClinic' || role === 'admin') && type === 'create') {
-      return false;
-    }
     if (
-      (role === 'doctor' || role === 'admin') &&
-      type === 'update' &&
-      status === BookingStatusEnum.Completed &&
-      !isPrescribed
+      ((role === 'adminClinic' || role === 'admin') && type === 'create') ||
+      ((role === 'doctor' || role === 'admin') &&
+        type === 'update' &&
+        status === BookingStatusEnum.Completed &&
+        !isPrescribed)
     ) {
-      return false;
+      return !disableSubmit ? false : disableSubmit;
     }
-    return !(type === 'update' && (status === BookingStatusEnum.Pending || status === BookingStatusEnum.Approved));
+    return !disableSubmit
+      ? !(type === 'update' && (status === BookingStatusEnum.Pending || status === BookingStatusEnum.Approved))
+      : disableSubmit;
   };
+
   return (
     <div className={'action'}>
       <div className={'rows'}>
@@ -68,13 +70,13 @@ const Action = (props: ActionProp) => {
           <CustomButton
             className="button-cancel"
             onClick={onCancel}
-            disabled={!(type === 'update' && status === BookingStatusEnum.Pending)}
+            disabled={!disableSubmit ? !(type === 'update' && status === BookingStatusEnum.Pending) : disableSubmit}
           >
             {intl.formatMessage({ id: 'booking.button.admin-cancel-booking' })}
           </CustomButton>
         )}
         {role === 'admin' && type === 'create' && (
-          <CustomButton className="button-cancel" onClick={onCancel} disabled={isDisabled()}>
+          <CustomButton className="button-cancel" onClick={onCancel}>
             {intl.formatMessage({ id: 'booking.button.admin-cancel' })}
           </CustomButton>
         )}

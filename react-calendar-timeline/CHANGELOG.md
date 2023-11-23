@@ -124,7 +124,6 @@ import Timeline, {
   SidebarHeader,
   DateHeader,
 } from 'react-calendar-timeline'
-
 ;<Timeline>
   <TimelineHeaders>
     <SidebarHeader>

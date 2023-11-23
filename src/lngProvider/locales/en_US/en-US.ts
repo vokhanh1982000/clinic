@@ -25,6 +25,8 @@ import language from './language.json';
 import booking from './booking.json';
 import chat from './chat.json';
 
+import report from './report.json';
+import prescriptionTeamplate from './prescription-teamplate.json';
 const EnLang = {
   messages: {
     ...common,
@@ -52,6 +54,8 @@ const EnLang = {
     ...language,
     ...booking,
     ...chat,
+    ...prescriptionTeamplate,
+    ...report,
   },
   antd: antdEN,
   locale: 'en-US',

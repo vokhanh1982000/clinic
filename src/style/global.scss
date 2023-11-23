@@ -440,6 +440,18 @@ select[multiple] {
   color: #ffffff !important;
 }
 
+.color-702A14 {
+  color: #702a14 !important;
+}
+
+.color-333333 {
+  color: #333333 !important;
+}
+
+.color-4C4C4C {
+  color: #4c4c4c !important;
+}
+
 .background-color-primary {
   background-color: #ee5824 !important;
 }
@@ -484,6 +496,18 @@ select[multiple] {
   .max-height-#{$i} {
     max-height: #{$i}px !important;
   }
+
+  .border-radius-#{$i} {
+    border-radius: #{$i}px !important;
+  }
+
+  .line-height-#{$i} {
+    line-height: #{$i}px !important;
+  }
+}
+
+.width-full {
+  width: 100% !important;
 }
 
 .custom-popup-picker {

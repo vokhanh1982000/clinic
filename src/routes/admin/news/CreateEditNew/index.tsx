@@ -375,7 +375,11 @@ const CreateNew = () => {
               </div>
             ) : (
               <div className="more-action">
-                <CustomButton className="button-create" onClick={onFinish} disabled={loadingImg || loadingImgOnEditor}>
+                <CustomButton
+                  className="button-create"
+                  onClick={onFinish}
+                  disabled={loadingImg || loadingImgOnEditor || !permisstion.create}
+                >
                   {intl.formatMessage({
                     id: 'new.create.button.create',
                   })}

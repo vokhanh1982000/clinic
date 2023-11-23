@@ -89,4 +89,8 @@ export enum PERMISSIONS {
   ReadLanguage = 'ReadLanguage',
   UpdateLanguage = 'UpdateLanguage',
   DeleteLanguage = 'DeleteLanguage',
+  CreateReport = 'CreateReport',
+  ReadReport = 'ReadReport',
+  UpdateReport = 'UpdateReport',
+  DeleteReport = 'DeleteReport',
 }

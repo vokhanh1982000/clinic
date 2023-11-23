@@ -37,5 +37,7 @@
   "menu.detailClinic": "Chi Tiết Phòng Khám",
   "menu.prescriptonManagent": "Quản lý Đơn Thuốc Mẫu",
   "menu.prescriptonManagent.create": "Tạo Đơn Thuốc Mẫu",
-  "menu.prescriptonManagent.detail": "Chi Tiết Đơn Thuốc Mẫu"
+  "menu.prescriptonManagent.detail": "Chi Tiết Đơn Thuốc Mẫu",
+  "menu.report": "Danh Sách Vi Phạm",
+  "menu.patient": "Danh sách Bệnh Nhân"
 }
