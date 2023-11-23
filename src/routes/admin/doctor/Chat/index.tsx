@@ -124,7 +124,7 @@ const DoctorChat = () => {
   // }
 
   useEffect(() => {
-    if (inView) {
+    if (inView && consulting?.data.total && customerData.length > 0 && customerData.length < consulting?.data.total) {
       loadMoreUser();
     }
   }, [customerData]);
