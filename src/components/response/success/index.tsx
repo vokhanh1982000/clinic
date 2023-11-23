@@ -9,5 +9,7 @@ export function CustomHandleSuccess(type: ActionUser, intl: IntlShape) {
     message.success(intl.formatMessage({ id: `common.updateSuccess` }));
   } else if (type === ActionUser.DELETE) {
     message.success(intl.formatMessage({ id: `common.deleteeSuccess` }));
+  } else if (type === ActionUser.LOCK) {
+    message.success(intl.formatMessage({ id: `common.lockSuccess` }));
   }
 }

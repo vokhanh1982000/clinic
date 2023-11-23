@@ -2,6 +2,7 @@
   "common.createSuccess": "Tạo mới thành công",
   "common.updateSuccess": "Cập nhật thành công",
   "common.deleteeSuccess": "Xóa thành công",
+  "common.lockSuccess": "Tài khoản người dùng đã bị khóa",
   "common.deleteConfirm": "Bạn có chắc chắn muốn xóa ?",
   "common.yes": "Có",
   "common.no": "Không",
