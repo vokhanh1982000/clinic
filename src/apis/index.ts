@@ -24,6 +24,7 @@ import {
   AdminBookingApi,
   PrescriptionSampleApi,
   PrescriptionSampleMedicineApi,
+  AdminConsultingApi,
   ReportApi,
 } from './client-axios';
 
@@ -72,6 +73,8 @@ const samplePrescriptionMediceApi: PrescriptionSampleMedicineApi = new Prescript
   undefined,
   axiosInstance
 );
+const adminConsultingApi: AdminConsultingApi = new AdminConsultingApi(config, undefined, axiosInstance);
+
 export {
   authApi,
   customerApi,
@@ -95,5 +98,6 @@ export {
   holidayScheduleApi,
   samplePrescriptionApi,
   samplePrescriptionMediceApi,
+  adminConsultingApi,
   reportApi,
 };

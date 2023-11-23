@@ -25,6 +25,7 @@ import language from './language.json';
 import booking from './booking.json';
 import report from './report.json';
 import prescriptionTeamplate from './prescription-teamplate.json';
+import chat from './chat.json';
 const viLang = {
   messages: {
     ...common,
@@ -52,6 +53,7 @@ const viLang = {
     ...language,
     ...booking,
     ...prescriptionTeamplate,
+    ...chat,
     ...report,
   },
   antd: antdVI,

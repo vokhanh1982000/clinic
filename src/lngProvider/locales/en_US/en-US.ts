@@ -23,6 +23,8 @@ import message from './message.json';
 import error from './error.json';
 import language from './language.json';
 import booking from './booking.json';
+import chat from './chat.json';
+
 import report from './report.json';
 import prescriptionTeamplate from './prescription-teamplate.json';
 const EnLang = {
@@ -51,6 +53,7 @@ const EnLang = {
     ...error,
     ...language,
     ...booking,
+    ...chat,
     ...prescriptionTeamplate,
     ...report,
   },

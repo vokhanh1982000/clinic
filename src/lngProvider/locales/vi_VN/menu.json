@@ -5,6 +5,7 @@
   "menu.clinicManagement": "Quản lý Phòng Khám",
   "menu.doctorManagement": "Quản lý Bác Sĩ",
   "menu.doctorSupportManagement": "Quản lý Bác Sĩ Tư Vấn",
+  "menu.doctorSupportHistory": "Lịch Sử Tư Vấn",
   "menu.userManagement": "Quản lý Bệnh Nhân",
   "menu.medicalSpecialtyManagement": "Quản lý Chuyên Khoa",
   "menu.languageManagement": "Quản lý Ngôn ngữ",
