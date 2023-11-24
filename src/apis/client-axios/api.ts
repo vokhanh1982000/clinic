@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * PROJECT_NAME
+ * iHealth
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -138,6 +138,12 @@ export interface AdminClinicCreateBookingDto {
      * @type {string}
      * @memberof AdminClinicCreateBookingDto
      */
+    'categoryId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicCreateBookingDto
+     */
     'clinicId': string;
 }
 
@@ -210,6 +216,12 @@ export interface AdminClinicUpdateBookingDto {
      * @memberof AdminClinicUpdateBookingDto
      */
     'appointmentNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminClinicUpdateBookingDto
+     */
+    'categoryId'?: string;
     /**
      * 
      * @type {string}
@@ -311,6 +323,12 @@ export interface AdminCreateBookingDto {
      * @memberof AdminCreateBookingDto
      */
     'prescription'?: CreatePrescriptionDto;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminCreateBookingDto
+     */
+    'categoryId': string;
 }
 
 export const AdminCreateBookingDtoStatusEnum = {
@@ -388,6 +406,12 @@ export interface AdminUpdateBookingDto {
      * @memberof AdminUpdateBookingDto
      */
     'appointmentNote'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUpdateBookingDto
+     */
+    'categoryId'?: string;
     /**
      * 
      * @type {string}
@@ -2547,6 +2571,37 @@ export type CreateDoctorSupportGenderEnum = typeof CreateDoctorSupportGenderEnum
 /**
  * 
  * @export
+ * @interface CreateDto
+ */
+export interface CreateDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateDto
+     */
+    'note'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateDto
+     */
+    'uses'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateDto
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {Array<CreatePrescriptionSampleMedicineDto>}
+     * @memberof CreateDto
+     */
+    'prescriptionSampleMedicine'?: Array<CreatePrescriptionSampleMedicineDto>;
+}
+/**
+ * 
+ * @export
  * @interface CreateFeedbackDto
  */
 export interface CreateFeedbackDto {
@@ -2826,12 +2881,6 @@ export interface CreatePrescriptionSampleMedicineDto {
      * @memberof CreatePrescriptionSampleMedicineDto
      */
     'guide'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreatePrescriptionSampleMedicineDto
-     */
-    'note'?: string;
 }
 /**
  * 
@@ -6610,6 +6659,37 @@ export type UpdateDoctorSupportGenderEnum = typeof UpdateDoctorSupportGenderEnum
 /**
  * 
  * @export
+ * @interface UpdateDto
+ */
+export interface UpdateDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateDto
+     */
+    'note'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateDto
+     */
+    'uses'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateDto
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {Array<CreatePrescriptionSampleMedicineDto>}
+     * @memberof UpdateDto
+     */
+    'prescriptionSampleMedicine'?: Array<CreatePrescriptionSampleMedicineDto>;
+}
+/**
+ * 
+ * @export
  * @interface UpdateHolidayScheduleDto
  */
 export interface UpdateHolidayScheduleDto {
@@ -6924,12 +7004,6 @@ export interface UpdatePrescriptionSampleMedicineDto {
      * @memberof UpdatePrescriptionSampleMedicineDto
      */
     'guide'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdatePrescriptionSampleMedicineDto
-     */
-    'note'?: string;
     /**
      * 
      * @type {string}
@@ -18530,6 +18604,213 @@ export class DoctorClinicBookingApi extends BaseAPI {
 
 
 /**
+ * DoctorPrescriptionApi - axios parameter creator
+ * @export
+ */
+export const DoctorPrescriptionApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorPrescriptionControllerGetOne: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('doctorPrescriptionControllerGetOne', 'id', id)
+            const localVarPath = `/doctor-prescription/get-prescription-by-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {'booking' | 'consulting'} [type] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorPrescriptionControllerGetPaginateAll: async (page: number, size?: number, sort?: string, fullTextSearch?: string, type?: 'booking' | 'consulting', options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('doctorPrescriptionControllerGetPaginateAll', 'page', page)
+            const localVarPath = `/doctor-prescription/get-paginate-all-prescription`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (fullTextSearch !== undefined) {
+                localVarQueryParameter['fullTextSearch'] = fullTextSearch;
+            }
+
+            if (type !== undefined) {
+                localVarQueryParameter['type'] = type;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DoctorPrescriptionApi - functional programming interface
+ * @export
+ */
+export const DoctorPrescriptionApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DoctorPrescriptionApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorPrescriptionControllerGetOne(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Prescription>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorPrescriptionControllerGetOne(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {'booking' | 'consulting'} [type] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorPrescriptionControllerGetPaginateAll(page: number, size?: number, sort?: string, fullTextSearch?: string, type?: 'booking' | 'consulting', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerPrescriptionControllerGetPaginateAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorPrescriptionControllerGetPaginateAll(page, size, sort, fullTextSearch, type, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DoctorPrescriptionApi - factory interface
+ * @export
+ */
+export const DoctorPrescriptionApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DoctorPrescriptionApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorPrescriptionControllerGetOne(id: string, options?: any): AxiosPromise<Prescription> {
+            return localVarFp.doctorPrescriptionControllerGetOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} page 
+         * @param {number} [size] 
+         * @param {string} [sort] 
+         * @param {string} [fullTextSearch] 
+         * @param {'booking' | 'consulting'} [type] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorPrescriptionControllerGetPaginateAll(page: number, size?: number, sort?: string, fullTextSearch?: string, type?: 'booking' | 'consulting', options?: any): AxiosPromise<CustomerPrescriptionControllerGetPaginateAll200Response> {
+            return localVarFp.doctorPrescriptionControllerGetPaginateAll(page, size, sort, fullTextSearch, type, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DoctorPrescriptionApi - object-oriented interface
+ * @export
+ * @class DoctorPrescriptionApi
+ * @extends {BaseAPI}
+ */
+export class DoctorPrescriptionApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorPrescriptionApi
+     */
+    public doctorPrescriptionControllerGetOne(id: string, options?: AxiosRequestConfig) {
+        return DoctorPrescriptionApiFp(this.configuration).doctorPrescriptionControllerGetOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} page 
+     * @param {number} [size] 
+     * @param {string} [sort] 
+     * @param {string} [fullTextSearch] 
+     * @param {'booking' | 'consulting'} [type] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorPrescriptionApi
+     */
+    public doctorPrescriptionControllerGetPaginateAll(page: number, size?: number, sort?: string, fullTextSearch?: string, type?: 'booking' | 'consulting', options?: AxiosRequestConfig) {
+        return DoctorPrescriptionApiFp(this.configuration).doctorPrescriptionControllerGetPaginateAll(page, size, sort, fullTextSearch, type, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * DoctorSupportApi - axios parameter creator
  * @export
  */
@@ -19090,6 +19371,49 @@ export const DoctorSupportConsultingApiAxiosParamCreator = function (configurati
         /**
          * 
          * @param {string} id 
+         * @param {CreatePrescriptionDto} createPrescriptionDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorSupportConsultingControllerCreatePrescription: async (id: string, createPrescriptionDto: CreatePrescriptionDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerCreatePrescription', 'id', id)
+            // verify required parameter 'createPrescriptionDto' is not null or undefined
+            assertParamExists('doctorSupportConsultingControllerCreatePrescription', 'createPrescriptionDto', createPrescriptionDto)
+            const localVarPath = `/doctor-support-consulting/make-prescription-by-consulting-id/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPrescriptionDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {UpdateConsultingDto} updateConsultingDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -19385,6 +19709,17 @@ export const DoctorSupportConsultingApiFp = function(configuration?: Configurati
         /**
          * 
          * @param {string} id 
+         * @param {CreatePrescriptionDto} createPrescriptionDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async doctorSupportConsultingControllerCreatePrescription(id: string, createPrescriptionDto: CreatePrescriptionDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Prescription>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.doctorSupportConsultingControllerCreatePrescription(id, createPrescriptionDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {UpdateConsultingDto} updateConsultingDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -19473,6 +19808,16 @@ export const DoctorSupportConsultingApiFactory = function (configuration?: Confi
         /**
          * 
          * @param {string} id 
+         * @param {CreatePrescriptionDto} createPrescriptionDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        doctorSupportConsultingControllerCreatePrescription(id: string, createPrescriptionDto: CreatePrescriptionDto, options?: any): AxiosPromise<Prescription> {
+            return localVarFp.doctorSupportConsultingControllerCreatePrescription(id, createPrescriptionDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {UpdateConsultingDto} updateConsultingDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -19552,6 +19897,18 @@ export class DoctorSupportConsultingApi extends BaseAPI {
      */
     public doctorSupportConsultingControllerCreate(createConsultingDto: CreateConsultingDto, options?: AxiosRequestConfig) {
         return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerCreate(createConsultingDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {CreatePrescriptionDto} createPrescriptionDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DoctorSupportConsultingApi
+     */
+    public doctorSupportConsultingControllerCreatePrescription(id: string, createPrescriptionDto: CreatePrescriptionDto, options?: AxiosRequestConfig) {
+        return DoctorSupportConsultingApiFp(this.configuration).doctorSupportConsultingControllerCreatePrescription(id, createPrescriptionDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -22629,6 +22986,45 @@ export const PrescriptionSampleApiAxiosParamCreator = function (configuration?: 
         },
         /**
          * 
+         * @param {CreateDto} createDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        prescriptionSampleControllerCreate_1: async (createDto: CreateDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createDto' is not null or undefined
+            assertParamExists('prescriptionSampleControllerCreate_1', 'createDto', createDto)
+            const localVarPath = `/prescription-sample/create-prescription-sample-for-doctor-support`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -22795,6 +23191,49 @@ export const PrescriptionSampleApiAxiosParamCreator = function (configuration?: 
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateDto} updateDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        prescriptionSampleControllerUpdate_2: async (id: string, updateDto: UpdateDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('prescriptionSampleControllerUpdate_2', 'id', id)
+            // verify required parameter 'updateDto' is not null or undefined
+            assertParamExists('prescriptionSampleControllerUpdate_2', 'updateDto', updateDto)
+            const localVarPath = `/prescription-sample/update-prescription-sample-for-doctor-support/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -22813,6 +23252,16 @@ export const PrescriptionSampleApiFp = function(configuration?: Configuration) {
          */
         async prescriptionSampleControllerCreate(createPrescriptionSampleDto: CreatePrescriptionSampleDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.prescriptionSampleControllerCreate(createPrescriptionSampleDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {CreateDto} createDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async prescriptionSampleControllerCreate_1(createDto: CreateDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.prescriptionSampleControllerCreate_1(createDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -22858,6 +23307,17 @@ export const PrescriptionSampleApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.prescriptionSampleControllerUpdate(updatePrescriptionSampleDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateDto} updateDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async prescriptionSampleControllerUpdate_2(id: string, updateDto: UpdateDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.prescriptionSampleControllerUpdate_2(id, updateDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -22876,6 +23336,15 @@ export const PrescriptionSampleApiFactory = function (configuration?: Configurat
          */
         prescriptionSampleControllerCreate(createPrescriptionSampleDto: CreatePrescriptionSampleDto, options?: any): AxiosPromise<void> {
             return localVarFp.prescriptionSampleControllerCreate(createPrescriptionSampleDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CreateDto} createDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        prescriptionSampleControllerCreate_1(createDto: CreateDto, options?: any): AxiosPromise<object> {
+            return localVarFp.prescriptionSampleControllerCreate_1(createDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -22916,6 +23385,16 @@ export const PrescriptionSampleApiFactory = function (configuration?: Configurat
         prescriptionSampleControllerUpdate(updatePrescriptionSampleDto: UpdatePrescriptionSampleDto, options?: any): AxiosPromise<void> {
             return localVarFp.prescriptionSampleControllerUpdate(updatePrescriptionSampleDto, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateDto} updateDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        prescriptionSampleControllerUpdate_2(id: string, updateDto: UpdateDto, options?: any): AxiosPromise<object> {
+            return localVarFp.prescriptionSampleControllerUpdate_2(id, updateDto, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -22935,6 +23414,17 @@ export class PrescriptionSampleApi extends BaseAPI {
      */
     public prescriptionSampleControllerCreate(createPrescriptionSampleDto: CreatePrescriptionSampleDto, options?: AxiosRequestConfig) {
         return PrescriptionSampleApiFp(this.configuration).prescriptionSampleControllerCreate(createPrescriptionSampleDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CreateDto} createDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PrescriptionSampleApi
+     */
+    public prescriptionSampleControllerCreate_1(createDto: CreateDto, options?: AxiosRequestConfig) {
+        return PrescriptionSampleApiFp(this.configuration).prescriptionSampleControllerCreate_1(createDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -22982,6 +23472,18 @@ export class PrescriptionSampleApi extends BaseAPI {
      */
     public prescriptionSampleControllerUpdate(updatePrescriptionSampleDto: UpdatePrescriptionSampleDto, options?: AxiosRequestConfig) {
         return PrescriptionSampleApiFp(this.configuration).prescriptionSampleControllerUpdate(updatePrescriptionSampleDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {UpdateDto} updateDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PrescriptionSampleApi
+     */
+    public prescriptionSampleControllerUpdate_2(id: string, updateDto: UpdateDto, options?: AxiosRequestConfig) {
+        return PrescriptionSampleApiFp(this.configuration).prescriptionSampleControllerUpdate_2(id, updateDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

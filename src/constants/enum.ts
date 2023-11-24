@@ -95,3 +95,11 @@ export enum PERMISSIONS {
   UpdateReport = 'UpdateReport',
   DeleteReport = 'DeleteReport',
 }
+
+export enum UserType {
+  ADMIN = 'administrator',
+  CUSTOMER = 'customer',
+  ADMINCLINIC = 'administrator_clinic',
+  DOCTORCLINIC = 'doctor_clinic',
+  DOCTORSUPPORT = 'doctor_support',
+}
