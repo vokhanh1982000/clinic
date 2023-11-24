@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { categoryApi, doctorClinicApi } from '../../../../apis';
-import { CreateDoctorClinicDto, UpdateDoctorClinicDto } from '../../../../apis/client-axios';
+import { AdministratorClinic, CreateDoctorClinicDto, UpdateDoctorClinicDto } from '../../../../apis/client-axios';
 import FormWrap from '../../../../components/FormWrap';
 import CustomButton from '../../../../components/buttons/CustomButton';
 import IconSVG from '../../../../components/icons/icons';
@@ -20,6 +20,7 @@ import { FORMAT_DATE } from '../../../../constants/common';
 import { ActionUser, DoctorType } from '../../../../constants/enum';
 import { ADMIN_CLINIC_ROUTE_PATH } from '../../../../constants/route';
 import { Permission } from '../../../../util/check-permission';
+import { useAppSelector } from '../../../../store';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -32,6 +33,7 @@ const CreateDoctor = () => {
   const [provinceId, setProvinceId] = useState<string>();
   const [districtId, setDistrictId] = useState<string>();
   const [avatar, setAvatar] = useState<string>();
+  const user = useAppSelector((state) => state.auth).authUser as AdministratorClinic;
   const [permisstion, setPermisstion] = useState<Permission>({
     read: true,
     create: true,
@@ -167,7 +169,7 @@ const CreateDoctor = () => {
           setAvatar={setAvatar}
           setProvinceId={setProvinceId}
           setDistrictId={setDistrictId}
-          category={category?.data.content}
+          category={user && user.clinic ? user.clinic.categories : []}
           n={n}
           doctorType={DoctorType.DOCTOR}
         />

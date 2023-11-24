@@ -181,7 +181,7 @@ const CreateOrUpDateBooking = () => {
     form.setFieldsValue({
       ...data,
       appointmentStartTime: dayjs(data?.appointmentStartTime),
-      categoryName: data?.category ? data.category.name : null,
+      categoryId: data?.category ? data.category.id : null,
     });
     setDoctorClinic(data?.doctorClinic);
     setCustomer(data?.customer);

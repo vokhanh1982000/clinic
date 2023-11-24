@@ -90,3 +90,11 @@ export enum PERMISSIONS {
   UpdateLanguage = 'UpdateLanguage',
   DeleteLanguage = 'DeleteLanguage',
 }
+
+export enum UserType {
+  ADMIN = 'administrator',
+  CUSTOMER = 'customer',
+  ADMINCLINIC = 'administrator_clinic',
+  DOCTORCLINIC = 'doctor_clinic',
+  DOCTORSUPPORT = 'doctor_support',
+}

@@ -7,8 +7,15 @@ import { Option } from 'antd/es/mentions';
 import dayjs from 'dayjs';
 import IconSVG from '../icons/icons';
 import CustomSelectTime from '../select/CustomSelectTime';
-import { BookingStatusEnum } from '../../apis/client-axios';
+import { AdministratorClinic, BookingStatusEnum } from '../../apis/client-axios';
 import CustomInput from '../input/CustomInput';
+import { useQuery } from '@tanstack/react-query';
+import { categoryApi } from '../../apis';
+import CustomSelect from '../select/CustomSelect';
+import { DefaultOptionType } from 'antd/es/select';
+import { ValidateLibrary } from '../../validate';
+import { useAppSelector } from '../../store';
+import { UserType } from '../../constants/enum';
 
 export type BookingTime = {
   time: string;
@@ -28,12 +35,18 @@ interface ScheduleInfoProp {
 const ScheduleInfo = (props: ScheduleInfoProp) => {
   const { role, type, pmTime, amTime, date, setDate, status }: ScheduleInfoProp = props;
   const intl: IntlShape = useIntl();
+  const user = useAppSelector((state) => state.auth).authUser;
   const className = () => {
     if ((role === 'admin' || role === 'adminClinic') && type === 'create') return '';
     if ((role === 'admin' || role === 'adminClinic') && type === 'update' && status === BookingStatusEnum.Pending)
       return '';
     return 'disable';
   };
+
+  const { data: category, isLoading } = useQuery({
+    queryKey: ['categoryList'],
+    queryFn: () => categoryApi.categoryControllerGetAllCategory(),
+  });
 
   const handleSetTime = (item: BookingTime) => {
     if (setDate) {
@@ -160,9 +173,22 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
             label={intl.formatMessage({
               id: 'booking.create.categories',
             })}
-            name={'categoryName'}
+            name={'categoryId'}
+            rules={ValidateLibrary(intl).specialist}
           >
-            <CustomInput disabled />
+            <CustomSelect
+              className="select-multiple"
+              placeholder={intl.formatMessage({ id: 'booking.create.categories' })}
+              showSearch={false}
+              allowClear
+              options={(user && user.user && user.user.type === UserType.ADMINCLINIC
+                ? (user as AdministratorClinic).clinic?.categories || []
+                : category?.data
+              )?.flatMap((item) => {
+                return { value: item.id, label: item.name } as DefaultOptionType;
+              })}
+              disabled={status && status !== BookingStatusEnum.Pending}
+            />
           </Form.Item>
         </div>
         <div className={'schedule-info__content__rows'}>
