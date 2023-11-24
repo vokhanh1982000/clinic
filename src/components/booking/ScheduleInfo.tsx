@@ -187,7 +187,7 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
               )?.flatMap((item) => {
                 return { value: item.id, label: item.name } as DefaultOptionType;
               })}
-              disabled={status && status !== BookingStatusEnum.Pending}
+              disabled={className() === 'disable' ? true : status && status !== BookingStatusEnum.Pending}
             />
           </Form.Item>
         </div>
