@@ -22,7 +22,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.roleManagement.sideBar' }),
       ADMIN_ROUTE_PATH.ROLE_MANAGEMENT,
-      <img src="/assets/icons/admin/roleManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/roleManagementIconInactive.svg" alt="roleManagementIconInactive" />,
       undefined,
       undefined,
       [PERMISSIONS.ReadRole, PERMISSIONS.CreateRole, PERMISSIONS.UpdateRole, PERMISSIONS.DeleteRole]
@@ -30,7 +30,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.adminManagement' }),
       ADMIN_ROUTE_PATH.ADMIN_MANAGEMENT,
-      <img src="/assets/icons/admin/adminManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/adminManagementIconInactive.svg" alt="adminManagementIconInactive" />,
       undefined,
       undefined,
       [
@@ -43,7 +43,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.clinicManagement' }),
       ADMIN_ROUTE_PATH.CLINIC_MANAGEMENT,
-      <img src="/assets/icons/admin/clinicManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/clinicManagementIconInactive.svg" alt="clinicManagementIconInactive" />,
       undefined,
       undefined,
       [PERMISSIONS.ReadClinic, PERMISSIONS.CreateClinic, PERMISSIONS.UpdateClinic, PERMISSIONS.DeleteClinic]
@@ -51,7 +51,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.doctorSupportManagement' }),
       ADMIN_ROUTE_PATH.DOCTOR_MANAGEMENT,
-      <img src="/assets/icons/admin/doctorManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/doctorManagementIconInactive.svg" alt="doctorManagementIconInactive" />,
       undefined,
       undefined,
       [
@@ -64,7 +64,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.userManagement' }),
       ADMIN_ROUTE_PATH.USER_MANAGEMENT,
-      <img src="/assets/icons/admin/userManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/userManagementIconInactive.svg" alt="userManagementIconInactive" />,
       undefined,
       undefined,
       [PERMISSIONS.ReadCustomer, PERMISSIONS.CreateCustomer, PERMISSIONS.UpdateCustomer, PERMISSIONS.DeleteCustomer]
@@ -72,7 +72,10 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.medicalSpecialtyManagement' }),
       ADMIN_ROUTE_PATH.MEDICAL_SPECIALTY_MANAGEMENT,
-      <img src="/assets/icons/admin/medicalSpecialtyManagementIconInactive.svg" />,
+      <img
+        src="/assets/icons/admin/medicalSpecialtyManagementIconInactive.svg"
+        alt="medicalSpecialtyManagementIconInactive"
+      />,
       undefined,
       undefined,
       [PERMISSIONS.ReadCaregory, PERMISSIONS.CreateCaregory, PERMISSIONS.UpdateCaregory, PERMISSIONS.DeleteCaregory]
@@ -80,7 +83,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.bookingManagement' }),
       ADMIN_ROUTE_PATH.BOOKING_MANAGEMENT,
-      <img src="/assets/icons/admin/bookingManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/bookingManagementIconInactive.svg" alt="bookingManagementIconInactive" />,
       undefined,
       undefined,
       [PERMISSIONS.ReadBooking, PERMISSIONS.CreateBooking, PERMISSIONS.UpdateBooking, PERMISSIONS.DeleteBooking]
@@ -88,7 +91,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.newsManagement' }),
       ADMIN_ROUTE_PATH.NEWS_MANAGEMENT,
-      <img src="/assets/icons/admin/newsManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/newsManagementIconInactive.svg" alt="newsManagementIconInactive" />,
       undefined,
       undefined,
       [PERMISSIONS.ReadNew, PERMISSIONS.CreateNew, PERMISSIONS.UpdateNew, PERMISSIONS.DeleteNew]
@@ -96,7 +99,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.statisticsManagement' }),
       ADMIN_ROUTE_PATH.STATISTIC,
-      <img src="/assets/icons/admin/statisticsManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/statisticsManagementIconInactive.svg" alt="statisticsManagementIconInactive" />,
       undefined,
       undefined,
       [PERMISSIONS.Authenticated]
@@ -104,7 +107,7 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.medicineManagement' }),
       ADMIN_ROUTE_PATH.MEDICINE_MANAGEMENT,
-      <img src="/assets/icons/admin/medicineManagementIconInactive.svg" />,
+      <img src="/assets/icons/admin/medicineManagementIconInactive.svg" alt="medicineManagementIconInactive" />,
       undefined,
       undefined,
       [PERMISSIONS.ReadMedicine, PERMISSIONS.CreateMedicine, PERMISSIONS.UpdateMedicine, PERMISSIONS.DeleteMedicine]
@@ -112,10 +115,18 @@ const Admin = () => {
     getItem(
       intl.formatMessage({ id: 'menu.languageManagement' }),
       ADMIN_ROUTE_PATH.LANGUAGE_MANAGEMENT,
-      <img src="/assets/icons/admin/languageManagement.svg" />,
+      <img src="/assets/icons/admin/languageManagement.svg" alt="languageManagement" />,
       undefined,
       undefined,
       [PERMISSIONS.ReadLanguage, PERMISSIONS.CreateLanguage, PERMISSIONS.UpdateLanguage, PERMISSIONS.DeleteLanguage]
+    ),
+    getItem(
+      intl.formatMessage({ id: 'menu.report' }),
+      ADMIN_ROUTE_PATH.REPORT_MANAGEMENT,
+      <img src="/assets/icons/admin/reportManagement.svg" alt="reportManagement" />,
+      undefined,
+      undefined,
+      [PERMISSIONS.ReadReport, PERMISSIONS.CreateReport, PERMISSIONS.UpdateReport, PERMISSIONS.DeleteReport]
     ),
   ];
 
@@ -130,7 +141,7 @@ const Admin = () => {
     if (data) {
       dispatch(updateMe(data.data));
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   useEffect(() => {
     handleChangeIconMenu();
@@ -141,7 +152,12 @@ const Admin = () => {
       if (location.pathname.includes(`${item.key}`)) {
         return {
           ...item,
-          icon: <img src={`/assets/icons/admin/${getMenuActiveIconName(item.key, 'Admin')}.svg`} />,
+          icon: (
+            <img
+              src={`/assets/icons/admin/${getMenuActiveIconName(item.key, 'Admin')}.svg`}
+              alt={getMenuActiveIconName(item.key, 'Admin')}
+            />
+          ),
         };
       }
       return item;

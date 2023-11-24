@@ -2,6 +2,7 @@ export enum ActionUser {
   CREATE = 'create',
   EDIT = 'edit',
   DELETE = 'delete',
+  LOCK = 'lock',
 }
 
 export enum DoctorType {
@@ -89,6 +90,10 @@ export enum PERMISSIONS {
   ReadLanguage = 'ReadLanguage',
   UpdateLanguage = 'UpdateLanguage',
   DeleteLanguage = 'DeleteLanguage',
+  CreateReport = 'CreateReport',
+  ReadReport = 'ReadReport',
+  UpdateReport = 'UpdateReport',
+  DeleteReport = 'DeleteReport',
 }
 
 export enum UserType {

@@ -18,6 +18,9 @@ import CheckPermission, { Permission } from '../../../../util/check-permission';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 import { CustomHandleSuccess } from '../../../../components/response/success';
+import CustomButton from '../../../../components/buttons/CustomButton';
+import IconSVG from '../../../../components/icons/icons';
+import { ADMIN_ROUTE_PATH } from '../../../../constants/route';
 
 const CreateDoctor = () => {
   const intl = useIntl();
@@ -139,6 +142,7 @@ const CreateDoctor = () => {
     }
   };
 
+  console.log(doctorSupport);
   return (
     <Card id="create-doctor-management">
       <div className="create-doctor-title">
@@ -149,6 +153,20 @@ const CreateDoctor = () => {
           : intl.formatMessage({
               id: 'doctor-support.clinic.create.title',
             })}
+
+        {id && (
+          <CustomButton
+            // disabled={!permission.create}
+            className="button-add"
+            icon={<IconSVG type="chat" />}
+            onClick={() => {
+              navigate(ADMIN_ROUTE_PATH.HISTORY_CONSULTING + `/${doctorSupport?.data.userId}`);
+              // console.log(ADMIN_ROUTE_PATH.HISTORY_CONSULTING)
+            }}
+          >
+            Lịch sử tư vấn
+          </CustomButton>
+        )}
       </div>
       <FormWrap form={form} onFinish={onFinish} layout="vertical" className="form-create-doctor">
         <DoctorInfo

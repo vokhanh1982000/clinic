@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Form, Row } from 'antd';
+import { Card, Col, Form, Row, Spin } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -37,7 +37,12 @@ const ListBooking = () => {
     });
   }, []);
 
-  const { data: listBookingDay, refetch: onRefetchBookingDay } = useQuery({
+  const {
+    data: listBookingDay,
+    refetch: onRefetchBookingDay,
+    isFetching: isFetchingBookingDay,
+    isLoading: isLoadingBookingDay,
+  } = useQuery({
     queryKey: ['adminClinicBookingDay', time, mode, keyword],
     queryFn: () =>
       adminClinicBookingApi.adminClinicBookingControllerGetBookingByDay(dayjs(time).format(DATE_TIME_FORMAT), keyword),
@@ -45,7 +50,7 @@ const ListBooking = () => {
   });
 
   const { data: listDoctorClinics, refetch: onRefetchDoctorClinic } = useQuery({
-    queryKey: ['adminClinicGetDoctorClinic', filter],
+    queryKey: ['adminClinicGetDoctorClinic', filter, user.clinicId],
     queryFn: () =>
       doctorClinicApi.doctorClinicControllerGetAll(
         filter.page,
@@ -55,7 +60,7 @@ const ListBooking = () => {
         undefined,
         user.clinicId
       ),
-    enabled: !!filter && mode === TimelineMode.DATE && !!user,
+    enabled: !!filter && mode === TimelineMode.DATE && !!user.clinicId,
   });
 
   const { data: listBookingMonth, refetch: onRefetchBookingMonth } = useQuery({
@@ -97,17 +102,20 @@ const ListBooking = () => {
 
     switch (mode) {
       case TimelineMode.DATE:
-        currentScreen = (
-          <TimelineDay
-            form={form}
-            listBookingDay={listBookingDay?.data || []}
-            onRefetchDay={handleRefetchDay}
-            user={user}
-            listDoctorClinics={listDoctorClinics?.data}
-            filter={filter}
-            onChangeFilter={handleChangeFilter}
-          />
-        );
+        currentScreen =
+          !isFetchingBookingDay && !isLoadingBookingDay ? (
+            <TimelineDay
+              form={form}
+              listBookingDay={listBookingDay?.data || []}
+              onRefetchDay={handleRefetchDay}
+              user={user}
+              listDoctorClinics={listDoctorClinics?.data}
+              filter={filter}
+              onChangeFilter={handleChangeFilter}
+            />
+          ) : (
+            <Spin />
+          );
         break;
       case TimelineMode.MONTH:
         currentScreen = (

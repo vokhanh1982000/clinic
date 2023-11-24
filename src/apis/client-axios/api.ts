@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * iHealth
+ * PROJECT_NAME
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -2571,37 +2571,6 @@ export type CreateDoctorSupportGenderEnum = typeof CreateDoctorSupportGenderEnum
 /**
  * 
  * @export
- * @interface CreateDto
- */
-export interface CreateDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateDto
-     */
-    'note'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateDto
-     */
-    'uses'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateDto
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {Array<CreatePrescriptionSampleMedicineDto>}
-     * @memberof CreateDto
-     */
-    'prescriptionSampleMedicine'?: Array<CreatePrescriptionSampleMedicineDto>;
-}
-/**
- * 
- * @export
  * @interface CreateFeedbackDto
  */
 export interface CreateFeedbackDto {
@@ -2882,6 +2851,49 @@ export interface CreatePrescriptionSampleMedicineDto {
      */
     'guide'?: string;
 }
+/**
+ * 
+ * @export
+ * @interface CreateReportDto
+ */
+export interface CreateReportDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportDto
+     */
+    'problem': CreateReportDtoProblemEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportDto
+     */
+    'otherContent': string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CreateReportDto
+     */
+    'imageIds': Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportDto
+     */
+    'customerId': string;
+}
+
+export const CreateReportDtoProblemEnum = {
+    Trouble: 'TROUBLE',
+    Impersonation: 'IMPERSONATION',
+    InvalidContent: 'INVALID_CONTENT',
+    OffensiveLanguage: 'OFFENSIVE_LANGUAGE',
+    Cheat: 'CHEAT',
+    Orther: 'ORTHER'
+} as const;
+
+export type CreateReportDtoProblemEnum = typeof CreateReportDtoProblemEnum[keyof typeof CreateReportDtoProblemEnum];
+
 /**
  * 
  * @export

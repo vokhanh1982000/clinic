@@ -1,0 +1,47 @@
+.report {
+  &-action {
+    &.ant-select {
+      & .ant-select-selector {
+        background-color: #f7b731;
+        border-color: #f7b731 !important;
+
+        & .ant-select-selection-item {
+          & > span {
+            color: #ffffff !important;
+          }
+        }
+      }
+    }
+  }
+
+  &-modal {
+    & .ant-modal-content {
+      border-radius: 16px;
+      padding: 32px 42px;
+
+      & > .ant-modal-header {
+        width: 378px;
+        margin: 0 auto 24px;
+
+        & span {
+          line-height: 36px;
+        }
+      }
+
+      & > .ant-modal-body {
+        & .ant-image-img {
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    &-button {
+      &-cancel {
+        border: 0 !important;
+        outline: none !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+}
