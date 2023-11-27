@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * iHealth
+ * PROJECT_NAME
  * Api for development - v1.0
  *
  * The version of the OpenAPI document: 1.0
@@ -24019,6 +24019,43 @@ export const ReportApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reportControllerGetReportById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('reportControllerGetReportById', 'id', id)
+            const localVarPath = `/report/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {UpdateReportStatusDto} updateReportStatusDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -24099,6 +24136,16 @@ export const ReportApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async reportControllerGetReportById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedReport>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.reportControllerGetReportById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {UpdateReportStatusDto} updateReportStatusDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -24141,6 +24188,15 @@ export const ReportApiFactory = function (configuration?: Configuration, basePat
          */
         reportControllerGetPaginatedReport(page: number, size?: number, sort?: string, fullTextSearch?: string, fromDate?: string, toDate?: string, status?: Array<'PENDING' | 'REFUSE' | 'ACCEPT'>, problem?: Array<'TROUBLE' | 'IMPERSONATION' | 'INVALID_CONTENT' | 'OFFENSIVE_LANGUAGE' | 'CHEAT' | 'ORTHER'>, options?: any): AxiosPromise<ReportControllerGetPaginatedReport200Response> {
             return localVarFp.reportControllerGetPaginatedReport(page, size, sort, fullTextSearch, fromDate, toDate, status, problem, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reportControllerGetReportById(id: string, options?: any): AxiosPromise<PaginatedReport> {
+            return localVarFp.reportControllerGetReportById(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -24189,6 +24245,17 @@ export class ReportApi extends BaseAPI {
      */
     public reportControllerGetPaginatedReport(page: number, size?: number, sort?: string, fullTextSearch?: string, fromDate?: string, toDate?: string, status?: Array<'PENDING' | 'REFUSE' | 'ACCEPT'>, problem?: Array<'TROUBLE' | 'IMPERSONATION' | 'INVALID_CONTENT' | 'OFFENSIVE_LANGUAGE' | 'CHEAT' | 'ORTHER'>, options?: AxiosRequestConfig) {
         return ReportApiFp(this.configuration).reportControllerGetPaginatedReport(page, size, sort, fullTextSearch, fromDate, toDate, status, problem, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportApi
+     */
+    public reportControllerGetReportById(id: string, options?: AxiosRequestConfig) {
+        return ReportApiFp(this.configuration).reportControllerGetReportById(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

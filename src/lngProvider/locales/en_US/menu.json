@@ -32,5 +32,6 @@
   "menu.detailClinic": "Detail Clinic",
   "menu.schedule.doctor": "Doctor Schedule",
   "menu.report": "List Report",
+  "menu.detailReport": "Detail Report",
   "menu.patient": "List Patient"
 }
