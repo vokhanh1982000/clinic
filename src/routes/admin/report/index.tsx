@@ -3,7 +3,7 @@ import { Card, Col, Form, Image, Input, Modal, Row, Select, message } from 'antd
 import type { ColumnsType } from 'antd/es/table';
 import { debounce } from 'lodash';
 import moment from 'moment';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState, MouseEvent } from 'react';
 import { useIntl } from 'react-intl';
 import { reportApi } from '../../../apis';
 import {
@@ -21,6 +21,9 @@ import IconSVG from '../../../components/icons/icons';
 import CustomInput from '../../../components/input/CustomInput';
 import CustomSelect from '../../../components/select/CustomSelect';
 import { TABLE_DATE_TIME_FORMAT } from '../../../util/constant';
+import { useNavigate } from 'react-router-dom';
+import { ADMIN_ROUTE_NAME } from '../../../constants/route';
+import ReportModal, { OpenDeleteModal } from '../../../components/modals/ReportModal';
 
 interface IFormData {
   keyword?: string;
@@ -28,16 +31,10 @@ interface IFormData {
   problem?: ReportProblemEnum[];
 }
 
-interface OpenDeleteModal {
-  visible: boolean;
-  customer: Customer;
-  id: string;
-}
-
 const n = (key: keyof IFormData) => key;
 const nTable = (key: keyof PaginatedReport) => key;
 
-const STATUSES = [
+export const STATUSES = [
   {
     value: ReportStatusEnum.Pending,
     messageId: `report.status.${ReportStatusEnum.Pending}`,
@@ -55,7 +52,7 @@ const STATUSES = [
   },
 ];
 
-const PROBLEMS = [
+export const PROBLEMS = [
   {
     value: ReportProblemEnum.Trouble,
     messageId: `report.problem.${ReportProblemEnum.Trouble}`,
@@ -93,6 +90,8 @@ const ReportManagement = () => {
   const [filter, setFilter] = useState<IFilter>({ page: 1, size: 10 });
   const [openDeleteModal, setOpenDeleteModal] = useState<OpenDeleteModal>();
 
+  const navigate = useNavigate();
+
   const { data: listReport, refetch: onRefetchListReport } = useQuery({
     queryKey: ['reportPaginated', filter, status, keyword, problem],
     queryFn: () =>
@@ -123,7 +122,7 @@ const ReportManagement = () => {
           const findReport = listReport?.data.content?.find((report) => report.id === variables.id);
 
           message.error(
-            intl.formatMessage({ id: 'record.modal.accept.noti' }, { customerName: findReport?.customer?.fullName })
+            intl.formatMessage({ id: 'report.modal.accept.noti' }, { customerName: findReport?.customer?.fullName })
           );
         }
       },
@@ -349,73 +348,25 @@ const ReportManagement = () => {
             columns={columns}
             data={listReport?.data.content || []}
             total={listReport?.data.total}
+            onRow={(record: PaginatedReport) => {
+              return {
+                onClick: (event: MouseEvent<any>) => {
+                  if ((event.target as any)?.className?.includes('ant-table')) {
+                    navigate(`${ADMIN_ROUTE_NAME.DETAIL}/${record.id}`);
+                  }
+                },
+              };
+            }}
           />
         </Col>
       </Row>
 
       {openDeleteModal && (
-        <Modal
-          centered
-          destroyOnClose
-          open={!!openDeleteModal?.visible}
-          footer={null}
-          width={608}
-          title={
-            <span className="font-size-24 font-family-primary font-weight-600 d-inline-block text-center">
-              {intl.formatMessage({ id: 'record.modal.accept.title' })}
-            </span>
-          }
-          rootClassName="report-modal"
-          closable={false}
-        >
-          <Row gutter={[0, 32]} align="middle" justify="center">
-            <Col span={24}>
-              <Row gutter={12} align="middle" justify="center">
-                <Col>
-                  <Image
-                    src={`${process.env.REACT_APP_URL_IMG_S3}${openDeleteModal.customer?.avatar?.preview}`}
-                    preview={false}
-                    alt={openDeleteModal.customer?.fullName}
-                    width={72}
-                    height={72}
-                  />
-                </Col>
-                <Col span={12}>
-                  <Row>
-                    <Col span={24} className="color-702A14 font-size-18 font-weight-700 font-family-primary">
-                      {openDeleteModal.customer?.fullName}
-                    </Col>
-                    <Col span={24} className="font-size-16 font-family-primary color-4C4C4C">
-                      {openDeleteModal.customer?.emailAddress}
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Col>
-
-            <Col span={24}>
-              <Row gutter={8}>
-                <Col span={24}>
-                  <CustomButton className="background-color-primary width-full height-48" onClick={handleSubmit}>
-                    <span className="font-size-16 color-ffffff font-family-primary">
-                      {intl.formatMessage({ id: 'common.accept' })}
-                    </span>
-                  </CustomButton>
-                </Col>
-                <Col span={24}>
-                  <CustomButton
-                    className="width-full height-48 report-modal-button-cancel"
-                    onClick={() => setOpenDeleteModal(undefined)}
-                  >
-                    <span className="font-size-16 font-family-primary color-333333">
-                      {intl.formatMessage({ id: 'common.cancel' })}
-                    </span>
-                  </CustomButton>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Modal>
+        <ReportModal
+          openDeleteModal={openDeleteModal}
+          onCloseModal={() => setOpenDeleteModal(undefined)}
+          onSubmit={handleSubmit}
+        />
       )}
     </Card>
   );
