@@ -7,7 +7,7 @@ import { Option } from 'antd/es/mentions';
 import dayjs from 'dayjs';
 import IconSVG from '../icons/icons';
 import CustomSelectTime from '../select/CustomSelectTime';
-import { AdministratorClinic, BookingStatusEnum } from '../../apis/client-axios';
+import { AdministratorClinic, BookingStatusEnum, Category, Clinic } from '../../apis/client-axios';
 import CustomInput from '../input/CustomInput';
 import { useQuery } from '@tanstack/react-query';
 import { categoryApi } from '../../apis';
@@ -31,9 +31,10 @@ interface ScheduleInfoProp {
   date?: dayjs.Dayjs;
   setDate?: Dispatch<SetStateAction<dayjs.Dayjs>>;
   status?: BookingStatusEnum;
+  clinic?: Clinic;
 }
 const ScheduleInfo = (props: ScheduleInfoProp) => {
-  const { role, type, pmTime, amTime, date, setDate, status }: ScheduleInfoProp = props;
+  const { role, form, type, pmTime, amTime, date, setDate, status, clinic }: ScheduleInfoProp = props;
   const intl: IntlShape = useIntl();
   const user = useAppSelector((state) => state.auth).authUser;
   const className = () => {
@@ -44,8 +45,9 @@ const ScheduleInfo = (props: ScheduleInfoProp) => {
   };
 
   const { data: category, isLoading } = useQuery({
-    queryKey: ['categoryList'],
-    queryFn: () => categoryApi.categoryControllerGetAllCategory(),
+    queryKey: ['categoryList', clinic!],
+    queryFn: () => (clinic ? categoryApi.categoryControllerGetAllCategoryByClinic(clinic.id) : undefined),
+    enabled: !!clinic,
   });
 
   const handleSetTime = (item: BookingTime) => {

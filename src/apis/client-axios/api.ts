@@ -2711,6 +2711,12 @@ export interface CreateMedicineDto {
      * @type {string}
      * @memberof CreateMedicineDto
      */
+    'ingredient': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateMedicineDto
+     */
     'name': string;
     /**
      * 
@@ -4417,6 +4423,12 @@ export interface LoginResponseDto {
  * @interface Medicine
  */
 export interface Medicine {
+    /**
+     * 
+     * @type {string}
+     * @memberof Medicine
+     */
+    'ingredient': string;
     /**
      * 
      * @type {string}
@@ -6751,6 +6763,12 @@ export interface UpdateLanguageDto {
  * @interface UpdateMedicineDto
  */
 export interface UpdateMedicineDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateMedicineDto
+     */
+    'ingredient'?: string;
     /**
      * 
      * @type {string}
@@ -13720,6 +13738,46 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {string} clinicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        categoryControllerGetAllCategoryByClinic: async (clinicId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'clinicId' is not null or undefined
+            assertParamExists('categoryControllerGetAllCategoryByClinic', 'clinicId', clinicId)
+            const localVarPath = `/category/get-all-category-by-clinic-no-pagination`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (clinicId !== undefined) {
+                localVarQueryParameter['clinicId'] = clinicId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {UpdateCategoryDto} updateCategoryDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -13811,6 +13869,16 @@ export const CategoryApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} clinicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async categoryControllerGetAllCategoryByClinic(clinicId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Category>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.categoryControllerGetAllCategoryByClinic(clinicId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {UpdateCategoryDto} updateCategoryDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -13866,6 +13934,15 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          */
         categoryControllerGetAllCategory(options?: any): AxiosPromise<Array<Category>> {
             return localVarFp.categoryControllerGetAllCategory(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} clinicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        categoryControllerGetAllCategoryByClinic(clinicId: string, options?: any): AxiosPromise<Array<Category>> {
+            return localVarFp.categoryControllerGetAllCategoryByClinic(clinicId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -13930,6 +14007,17 @@ export class CategoryApi extends BaseAPI {
      */
     public categoryControllerGetAllCategory(options?: AxiosRequestConfig) {
         return CategoryApiFp(this.configuration).categoryControllerGetAllCategory(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} clinicId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CategoryApi
+     */
+    public categoryControllerGetAllCategoryByClinic(clinicId: string, options?: AxiosRequestConfig) {
+        return CategoryApiFp(this.configuration).categoryControllerGetAllCategoryByClinic(clinicId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -24019,6 +24107,43 @@ export const ReportApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reportControllerGetReportById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('reportControllerGetReportById', 'id', id)
+            const localVarPath = `/report/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {UpdateReportStatusDto} updateReportStatusDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -24099,6 +24224,16 @@ export const ReportApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async reportControllerGetReportById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedReport>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.reportControllerGetReportById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {UpdateReportStatusDto} updateReportStatusDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -24141,6 +24276,15 @@ export const ReportApiFactory = function (configuration?: Configuration, basePat
          */
         reportControllerGetPaginatedReport(page: number, size?: number, sort?: string, fullTextSearch?: string, fromDate?: string, toDate?: string, status?: Array<'PENDING' | 'REFUSE' | 'ACCEPT'>, problem?: Array<'TROUBLE' | 'IMPERSONATION' | 'INVALID_CONTENT' | 'OFFENSIVE_LANGUAGE' | 'CHEAT' | 'ORTHER'>, options?: any): AxiosPromise<ReportControllerGetPaginatedReport200Response> {
             return localVarFp.reportControllerGetPaginatedReport(page, size, sort, fullTextSearch, fromDate, toDate, status, problem, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reportControllerGetReportById(id: string, options?: any): AxiosPromise<PaginatedReport> {
+            return localVarFp.reportControllerGetReportById(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -24189,6 +24333,17 @@ export class ReportApi extends BaseAPI {
      */
     public reportControllerGetPaginatedReport(page: number, size?: number, sort?: string, fullTextSearch?: string, fromDate?: string, toDate?: string, status?: Array<'PENDING' | 'REFUSE' | 'ACCEPT'>, problem?: Array<'TROUBLE' | 'IMPERSONATION' | 'INVALID_CONTENT' | 'OFFENSIVE_LANGUAGE' | 'CHEAT' | 'ORTHER'>, options?: AxiosRequestConfig) {
         return ReportApiFp(this.configuration).reportControllerGetPaginatedReport(page, size, sort, fullTextSearch, fromDate, toDate, status, problem, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportApi
+     */
+    public reportControllerGetReportById(id: string, options?: AxiosRequestConfig) {
+        return ReportApiFp(this.configuration).reportControllerGetReportById(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

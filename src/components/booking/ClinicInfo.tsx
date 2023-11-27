@@ -87,6 +87,9 @@ const ClinicInfo = (props: ClinicInfoProps) => {
               onChange={(value: string, option: any) => {
                 setDoctorClinic(undefined);
                 setClinic(listClinic?.find((item) => item.id === option?.key));
+                form.setFieldsValue({
+                  categoryId: undefined,
+                });
               }}
               allowClear={false}
               value={clinic?.fullName}

@@ -33,6 +33,7 @@ interface Status {
 
 interface Medicine {
   id: string;
+  ingredient?: string;
   name?: string;
   usage?: string;
   feature?: string;
@@ -201,6 +202,13 @@ const ListMedicine = () => {
           >
             <Column
               title={intl.formatMessage({
+                id: 'medicine.list.table.ingredient',
+              })}
+              dataIndex="ingredient"
+              width={'15%'}
+            />
+            <Column
+              title={intl.formatMessage({
                 id: 'medicine.list.table.name',
               })}
               dataIndex="name"
@@ -211,7 +219,7 @@ const ListMedicine = () => {
                 id: 'medicine.list.table.usage',
               })}
               dataIndex="usage"
-              width={'15%'}
+              width={'25%'}
             />
             <Column
               title={intl.formatMessage({
@@ -255,6 +263,7 @@ const ListMedicine = () => {
                   <div
                     onClick={(): void => {
                       form.setFieldsValue({
+                        ingredient: record.ingredient,
                         feature: record.feature,
                         id: record.id,
                         name: record.name,

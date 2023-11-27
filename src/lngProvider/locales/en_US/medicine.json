@@ -1,5 +1,6 @@
 {
   "medicine.modal.create.title": "Create New Medicine",
+  "medicine.modal.create.ingredient": "Ingredient",
   "medicine.modal.create.name": "Medicine",
   "medicine.modal.create.quantity": "Quantity",
   "medicine.modal.create.usage": "Usage",
@@ -21,6 +22,7 @@
   "medicine.list.dropdown.unit": "Unit",
   "medicine.list.dropdown.status": "Status",
   "medicine.list.search": "Search medicine",
+  "medicine.list.table.ingredient": "Ingredient",
   "medicine.list.table.name": "Medicine",
   "medicine.list.table.usage": "Usage",
   "medicine.list.table.feature": "Feature",

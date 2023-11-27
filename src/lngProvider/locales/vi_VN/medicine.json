@@ -1,5 +1,6 @@
 {
   "medicine.modal.create.title": "Tạo Thuốc Mới",
+  "medicine.modal.create.ingredient": "Hoạt chất",
   "medicine.modal.create.name": "Thuốc",
   "medicine.modal.create.quantity": "Số lượng",
   "medicine.modal.create.usage": "Công dụng",
@@ -21,6 +22,7 @@
   "medicine.list.dropdown.unit": "Đơn vị",
   "medicine.list.dropdown.status": "Trạng thái",
   "medicine.list.search": "Tìm kiếm thuốc",
+  "medicine.list.table.ingredient": "Hoạt chất",
   "medicine.list.table.name": "Thuốc",
   "medicine.list.table.usage": "Công dụng",
   "medicine.list.table.feature": "Đặc tính",
