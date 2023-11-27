@@ -7,6 +7,7 @@ import DoctorSchedule from './booking/Schedule';
 import ClinicTimeline from './booking/Timeline';
 import CreateCustomer from './customer/CreateEditCustomer';
 import CreateOrUpdate from './booking/CreateOrUpdate';
+import DetailReportManagement from './report/detail';
 
 const Admin = React.lazy(() => import('./index'));
 const ListCustomer = React.lazy(() => import('./customer/ListCustomer'));
@@ -92,7 +93,13 @@ export const AdminRoutes = () => (
         path={ADMIN_ROUTE_NAME.LANGUAGE_MANAGEMENT}
         element={<SuspenseWrapper component={<LanguageManagement />} />}
       />
-      <Route path={ADMIN_ROUTE_NAME.REPORT_MANAGEMENT} element={<SuspenseWrapper component={<ReportManagement />} />} />
+      <Route path={ADMIN_ROUTE_NAME.REPORT_MANAGEMENT}>
+        <Route path="" element={<SuspenseWrapper component={<ReportManagement />} />} />
+        <Route
+          path={`${ADMIN_ROUTE_NAME.DETAIL}/:id`}
+          element={<SuspenseWrapper component={<DetailReportManagement />} />}
+        />
+      </Route>
       <Route path={ADMIN_ROUTE_NAME.ADMIN_PROFILE} element={<SuspenseWrapper component={<AdminProfile />} />} />
       <Route
         path={ADMIN_ROUTE_NAME.CHANGE_PASSWORD}
