@@ -385,6 +385,7 @@ const CreateOrUpDateBooking = () => {
               pmTime={pmTime}
               date={date}
               setDate={setDate}
+              clinic={clinic}
             />
           </div>
           <div className={'action-area'}>

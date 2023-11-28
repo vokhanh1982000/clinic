@@ -73,6 +73,18 @@ export const MedicineModal = (props: MedicineModalProps) => {
           </div>
           <div className="modal-medicine__content__rows">
             <Form.Item
+              name="ingredient"
+              className="ingredient"
+              label={intl.formatMessage({
+                id: 'medicine.modal.create.ingredient',
+              })}
+              // rules={ValidateLibrary(intl).ingredientMedicine}
+            >
+              <CustomInput maxLength={255} />
+            </Form.Item>
+          </div>
+          <div className="modal-medicine__content__rows">
+            <Form.Item
               name="name"
               className="name"
               label={intl.formatMessage({
